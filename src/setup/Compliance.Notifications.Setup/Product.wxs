@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define CompanyName="github.com.trondr" ?>
+<?define ProductName="Compliance.Notifications" ?>
+<?define ProductExeBaseName="Compliance.Notifications" ?>
+<?define ProductExeReleaseFolder="..\..\app\Compliance.Notifications\bin\release" ?>
+<?define PackageDescription="Compliance-Notifications" ?>
+<?define ProductHelpLink="https://github.com/trondr/Compliance.Notifications"?>
+
+<?define ProductUpgradeCode="{D632FB9F-24F3-48E5-942F-040467D350EA}" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product 
+    Id="*" 
+    Name="$(var.ProductName)"
+    Language="!(loc.LanguageCode)"
+    Version="!(bind.FileVersion.ProductExe)" 
+    Manufacturer="$(var.CompanyName)" 
+    UpgradeCode="$(var.ProductUpgradeCode)">
+		<Package 
+      Id="*"
+      InstallerVersion="200"
+      InstallPrivileges="elevated"
+      Compressed="yes" 
+      InstallScope="perMachine"
+			Platform="x86"
+      Description="$(var.PackageDescription)"
+      Languages="!(loc.LanguageCode)"
+      Manufacturer="$(var.CompanyName)"
+      SummaryCodepage="1252"
+      />
+
+    <Icon Id="Product_Icon" SourceFile="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe"/>
+
+    <Property Id="ARPPRODUCTICON"  Value="Product_Icon"/>
+    <Property Id="ARPHELPLINK" Value="$(var.ProductHelpLink)" />
+    <Property Id="ARPCOMMENTS">$(var.PackageDescription)</Property>
+    <Property Id="ARPCONTACT">$(var.CompanyName)</Property>
+
+    <Condition Message ="!(loc.DotNetFrameWorkConditionMessage)"> MsiNetAssemblySupport >= "4.8.03752" </Condition>
+
+    <Upgrade Id="$(var.ProductUpgradeCode)">
+      <UpgradeVersion Property="SELFFOUND" OnlyDetect="yes"  Minimum="!(bind.FileVersion.ProductExe)" IncludeMinimum='yes'  Maximum="!(bind.FileVersion.ProductExe)" IncludeMaximum='yes' />
+      <UpgradeVersion Property="NEWERFOUND" OnlyDetect="yes" Minimum="!(bind.FileVersion.ProductExe)" IncludeMinimum="no" />
+      <UpgradeVersion Property="OLDERFOUND" OnlyDetect="no"  Minimum="1.0.0.0" IncludeMinimum="yes" Maximum="!(bind.FileVersion.ProductExe)" IncludeMaximum="no" />
+    </Upgrade>
+    <CustomAction Id="NoDowngrade" Error="A later version of $(var.ProductName) is already installed." />
+    <CustomAction Id="NoSelf" Error="Same version of $(var.ProductName) is already installed." />
+
+    <InstallExecuteSequence>
+      <Custom Action="NoDowngrade" After="FindRelatedProducts"><![CDATA[NEWERFOUND]]></Custom>
+      <Custom Action="NoSelf" After="FindRelatedProducts"><![CDATA[SELFFOUND]]></Custom>
+      <RemoveExistingProducts After="InstallInitialize"/>
+      <LaunchConditions After="AppSearch"/>
+    </InstallExecuteSequence>
+
+    <Media Id="1" Cabinet="$(var.ProductName)" EmbedCab="yes" CompressionLevel="high"/>
+
+		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
+			<ComponentGroupRef Id="ProductExeComponentGroup" />
+		</Feature>
+
+    <WixVariable Id="WixUIBannerBmp" Value="WixUIBanner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="WiXUiDialog.bmp"/>
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf"/>
+    <UIRef Id="WixUI_Mondo"/>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="CompanyFolder" Name="$(var.CompanyName)">
+          <Directory Id="TargetBaseFolder" Name="$(var.ProductName)">
+            <Directory Id="TargetFolder" Name="!(bind.FileVersion.ProductExe)" ></Directory>
+          </Directory>
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductExeComponentGroup" Directory="TargetFolder">
+      <Component Id="ProductExeComponent">
+        <File Id="ProductExe" Name="$(var.ProductExeBaseName).exe" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe" KeyPath="yes" />
+        <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Value="[#ProductExe]" Type="string" Action="write" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Name="path" Value="[TargetFolder]" Type="string" Action="write" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
