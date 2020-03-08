@@ -7,6 +7,7 @@ nuget Fake.Testing.Common
 nuget Fake.DotNet.NuGet
 nuget Fake.IO.Zip
 nuget NUnit.Console
+nuget trondr.Fake.CustomTasks
 nuget Fake.Core.Target //"
 #load "./.fake/build.fsx/intellisense.fsx"
 
@@ -16,7 +17,7 @@ open Fake.DotNet
 open Fake.Core
 open Fake.Testing
 open Fake.DotNet.Testing
-
+open trondr.Fake.CustomTasks.SignTool
 
 //Properties
 let appName = "Compliance.Notifications"
@@ -27,6 +28,7 @@ let buildSetupFolder = buildFolder + "setup"
 let buildSetupFolderEnUs = buildSetupFolder + "/en-us"
 let artifactFolder = System.IO.Path.GetFullPath("./artifact/")
 let artifactAppFolder = artifactFolder + "app"
+let codeSigningSha1Thumbprint = Fake.Core.Environment.environVarOrNone "CODE_SIGNING_SHA1_THUMBPRINT"
 
 let assemblyVersion =
     let majorVersion = "1"
@@ -118,6 +120,64 @@ Target.create "Test" (fun _ ->
         {p with ToolPath = nunitConsoleRunner;Where = "cat==UnitTests";TraceLevel=NUnit3.NUnit3TraceLevel.Verbose})
 )
 
+//
+// How to create a self signed certificated for development purposes.
+//
+// Example Powershell script (change the dns domain name):
+//
+(*
+    $myDnsName = "Development.and.Test.$($env:UserName)"
+    $PasswordString = ([char[]]([char]33..[char]95) + ([char[]]([char]97..[char]126)) + 0..9 | sort {Get-Random})[0..20] -join ''
+    $password = ConvertTo-SecureString -String $PasswordString -Force -AsPlainText
+    $cert = New-SelfSignedCertificate -certstorelocation cert:\currentuser\my -dnsname $myDnsName -Type CodeSigningCert
+    $certExport = Export-PfxCertificate -Cert $cert -FilePath "c:\temp\$myDnsName.pfx" -Password $password
+    $cert | Format-List
+    Write-Host "Password: $PasswordString"
+    Write-Host "Thumbprint: $($cert.Thumbprint)"
+    Write-Host "Pfxfile: $($certExport.FullName)"
+    Write-Host "Save the password, thumbprint and pfx file for later use." -ForegroundColor Green
+*)
+
+//
+//  How to setup signing. Requires that a certificate has been phurcased. For development purposes use a self-signed certificate (see procedure above).
+//
+// https://stackoverflow.com/questions/17710357/how-do-i-securely-store-a-pfx-password-to-use-in-msbuild
+// 1. Log in as the build user
+// 2. Run certmgr.msc
+// 3. Right-click Certificates - Current User / Personal / Certificates, and select All Tasks / Import...
+// 4. Select your .pfx file, enter the password, and click Next and Finish
+// 5. Double-click on the imported certificate
+// 6. In the Details page, the thumbprint algorithm should be sha1
+// 7. Copy the thumbprint, it looks something like 12 34 56 78 90 ab cd ef 12 34 56 78 90 ab cd ef 12 34 56 78
+// 8. signtool /sha1 1234567890abcdef1234567890abcdef12345678 /t http://timestamp.verisign.com/scripts/timestamp.dll /d "My Signature description" "<path to file to be signed>"
+
+
+Target.create "Sign" (fun _ ->
+    Trace.trace "Signing assemblies and msi..."
+    //2020-03-08: Fake.Tools.SignTool is still in alpha version and causes some unresolved dependencies when trying to reference it
+    //2020-03-08: So here we need to call SignTool.exe manually
+    match codeSigningSha1Thumbprint with
+    |None ->
+        Trace.traceError "Certificate Sha1 thumbprint environent variable (CODE_SIGNING_SHA1_THUMBPRINT) has not been specified." 
+        Trace.traceError "Artifacts will not be signed." 
+    |Some sha1Thumbprint ->
+        let timeStampServers = ["http://timestamp.verisign.com/scripts/timestamp.dll"]
+        let signingResult = 
+            let filesToBeSigned = 
+                !! ("build/**/*.exe")
+                ++ ("build/**/*.dll")
+                ++ ("build/**/*.msi")
+                ++ ("build/**/*.ps1")
+                |>Seq.toArray
+            filesToBeSigned
+            |> trondr.Fake.CustomTasks.SignTool.runSignTool sha1Thumbprint (Some "Compliance.Notification") timeStampServers
+        match signingResult with
+        |SignResult.Success -> Trace.trace "Successfull finished signing."
+        |SignResult.Failed msg -> Trace.traceError (sprintf "Signing failed. %s" msg)
+        |SignResult.TimeServerError msg -> Trace.traceError (sprintf "Signing failed due to issue with time stamp server. %s" msg)
+        |SignResult.Uknown -> Trace.traceError "Signing failed due unknown reason."
+)
+
 Target.create "Publish" (fun _ ->
     Trace.trace "Publishing app..."
     let assemblyVersion = getVersion (System.IO.Path.Combine(buildAppFolder,appName + ".exe"))
@@ -142,7 +202,7 @@ Target.create "Publish" (fun _ ->
 )
 
 Target.create "Default" (fun _ ->
-    Trace.trace "Hello world from FAKE"
+    Trace.trace (appName + "." + assemblyVersion)
 )
 
 //Dependencies
@@ -154,6 +214,7 @@ open Fake.Core.TargetOperators
     ==> "BuildTest"
     ==> "BuildSetup"
     ==> "Test"
+    ==> "Sign"
     ==> "Publish"
     ==> "Default"
 
