@@ -8,6 +8,7 @@ nuget Fake.DotNet.NuGet
 nuget Fake.IO.Zip
 nuget NUnit.Console
 nuget trondr.Fake.CustomTasks
+nuget Fake.Tools.Git
 nuget Fake.Core.Target //"
 #load "./.fake/build.fsx/intellisense.fsx"
 
@@ -169,8 +170,9 @@ Target.create "Sign" (fun _ ->
                 ++ ("build/**/*.msi")
                 ++ ("build/**/*.ps1")
                 |>Seq.toArray
+            let description = Some (appName + " " + Fake.Tools.Git.Information.getCurrentHash())
             filesToBeSigned
-            |> trondr.Fake.CustomTasks.SignTool.runSignTool sha1Thumbprint (Some "Compliance.Notification") timeStampServers
+            |> trondr.Fake.CustomTasks.SignTool.runSignTool sha1Thumbprint description timeStampServers
         match signingResult with
         |SignResult.Success -> Trace.trace "Successfull finished signing."
         |SignResult.Failed msg -> Trace.traceError (sprintf "Signing failed. %s" msg)
