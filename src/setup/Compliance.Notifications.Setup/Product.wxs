@@ -57,7 +57,7 @@
 
 		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
 			<ComponentGroupRef Id="ProductExeComponentGroup" />
-		</Feature>
+    </Feature>
 
     <WixVariable Id="WixUIBannerBmp" Value="WixUIBanner.bmp"/>
     <WixVariable Id="WixUIDialogBmp" Value="WiXUiDialog.bmp"/>
@@ -74,17 +74,44 @@
           </Directory>
         </Directory>
 			</Directory>
+      <Directory Id="ProgramMenuFolder">
+      </Directory>
 		</Directory>
 	</Fragment>
 
+  <Fragment>
+    <DirectoryRef Id="ProgramMenuFolder">
+      <Component Id="ApplicationShortcut" Guid="*">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.ProductName)" Description="$(var.ProductName)" Target="[TargetFolder]$(var.ProductExeBaseName).exe" WorkingDirectory="TargetFolder">
+          <!--AUMID-->
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="github.com.trondr.Compliance.Notifications"/>
+          <!--COM CLSID, specifying which CLSID to activate when toast clicked-->
+          <ShortcutProperty Key="System.AppUserModel.ToastActivatorCLSID" Value="{2DE9CA80-6322-4AE2-8FB5-3435F6976711}"/>
+        </Shortcut>
+
+        <RemoveFile Id="RemoveApplicationShortcut" Directory="ProgramMenuFolder" Name="Desktop Toasts" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.CompanyName)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
 	<Fragment>
 		<ComponentGroup Id="ProductExeComponentGroup" Directory="TargetFolder">
-      <Component Id="ProductExeComponent">
+      <Component Id="ProductExeComponent" Guid="*">
         <File Id="ProductExe" Name="$(var.ProductExeBaseName).exe" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe" KeyPath="yes" />
+        <File Id="ProductPdb" Name="$(var.ProductExeBaseName).pdb" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).pdb" KeyPath="no" />
         <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Value="[#ProductExe]" Type="string" Action="write" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Name="path" Value="[TargetFolder]" Type="string" Action="write" />
 			</Component>
+      <Component Id="MicrosoftToolkitUwpNotifications" Guid="*">
+        <File Id="MicrosoftToolkitUwpNotificationsDll" Name="Microsoft.Toolkit.Uwp.Notifications.dll" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.dll" KeyPath="yes" />
+        <File Id="MicrosoftToolkitUwpNotificationsPdb" Name="Microsoft.Toolkit.Uwp.Notifications.pdb" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.pdb" KeyPath="no" />
+      </Component>
+      <Component Id="SystemValueTuple" Guid="*">
+        <File Id="SystemValueTupleDll" Name="System.ValueTuple.dll" Source="$(var.ProductExeReleaseFolder)\System.ValueTuple.dll" KeyPath="yes" />
+      </Component>
+      <ComponentRef Id="ApplicationShortcut"/>
 		</ComponentGroup>
 	</Fragment>
 </Wix>
