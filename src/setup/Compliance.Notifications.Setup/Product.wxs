@@ -2,7 +2,7 @@
 <?define CompanyName="github.com.trondr" ?>
 <?define ProductName="Compliance.Notifications" ?>
 <?define ProductExeBaseName="Compliance.Notifications" ?>
-<?define ProductExeReleaseFolder="..\..\app\Compliance.Notifications\bin\release" ?>
+<?define ProductExeReleaseFolder="..\..\..\build\app" ?>
 <?define PackageDescription="Compliance-Notifications" ?>
 <?define ProductHelpLink="https://github.com/trondr/Compliance.Notifications"?>
 
