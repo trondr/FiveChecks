@@ -52,3 +52,5 @@ choco feature disable -n allowGlobalConfirmation
 2. Start Visual Studio Installer (from start menu)
   * Select Indiviual Components  
   * Install: MSBuild  
+3. Download and install Wix Toolset Visual Studio 2019 Extension
+  * https://marketplace.visualstudio.com/items?itemName=WixToolset.WixToolsetVisualStudio2019Extension
