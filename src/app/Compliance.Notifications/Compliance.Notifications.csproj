@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\NotepadMessenger.cs" />
+    <Compile Include="Commands\CommandDefinitions.cs" />
     <Compile Include="Common\ApplicationInfo.cs" />
     <Compile Include="Common\F.cs" />
     <Compile Include="Common\Logging.cs" />
