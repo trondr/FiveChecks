@@ -27,7 +27,7 @@ namespace Compliance.Notifications.Helper
 {
     public static class DesktopNotificationManagerCompat
     {
-        public const string ToastActivatedLaunchArg = "-ToastActivated";
+        public const string ToastActivatedLaunchArg = "ToastActivated";
 
         private static bool _registeredAumidAndComServer;
         private static string _aumid;

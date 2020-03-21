@@ -61,6 +61,195 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String111 {
+            get {
+                return ResourceManager.GetString("_String111", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String112 {
+            get {
+                return ResourceManager.GetString("_String112", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String113 {
+            get {
+                return ResourceManager.GetString("_String113", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String114 {
+            get {
+                return ResourceManager.GetString("_String114", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String115 {
+            get {
+                return ResourceManager.GetString("_String115", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String116 {
+            get {
+                return ResourceManager.GetString("_String116", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String117 {
+            get {
+                return ResourceManager.GetString("_String117", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String118 {
+            get {
+                return ResourceManager.GetString("_String118", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String119 {
+            get {
+                return ResourceManager.GetString("_String119", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String12 {
+            get {
+                return ResourceManager.GetString("_String12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String120 {
+            get {
+                return ResourceManager.GetString("_String120", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String121 {
+            get {
+                return ResourceManager.GetString("_String121", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String122 {
+            get {
+                return ResourceManager.GetString("_String122", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String123 {
+            get {
+                return ResourceManager.GetString("_String123", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String13 {
+            get {
+                return ResourceManager.GetString("_String13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String14 {
+            get {
+                return ResourceManager.GetString("_String14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String15 {
+            get {
+                return ResourceManager.GetString("_String15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String16 {
+            get {
+                return ResourceManager.GetString("_String16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String17 {
+            get {
+                return ResourceManager.GetString("_String17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String18 {
+            get {
+                return ResourceManager.GetString("_String18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _String.
+        /// </summary>
+        internal static string _String19 {
+            get {
+                return ResourceManager.GetString("_String19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must call RegisterActivator first..
         /// </summary>
         internal static string ActivatorRegistrationError {
@@ -79,11 +268,47 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disk space is critically low. This have consequence for system stability, program installations and update of Windows..
+        /// </summary>
+        internal static string DiskSpaceIsLow_Description {
+            get {
+                return ResourceManager.GetString("DiskSpaceIsLow_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disk space is low!.
+        /// </summary>
+        internal static string DiskSpaceIsLow_Title {
+            get {
+                return ResourceManager.GetString("DiskSpaceIsLow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must provide an AUMID..
         /// </summary>
         internal static string MissingAumidError {
             get {
                 return ResourceManager.GetString("MissingAumidError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please cleanup at least {0} GB..
+        /// </summary>
+        internal static string Please_Cleanup_DiskSpace_Text_F0 {
+            get {
+                return ResourceManager.GetString("Please_Cleanup_DiskSpace_Text_F0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value cannot be null or whitespace..
+        /// </summary>
+        internal static string ValueCannotBeNullOrWhiteSpace {
+            get {
+                return ResourceManager.GetString("ValueCannotBeNullOrWhiteSpace", resourceCulture);
             }
         }
         

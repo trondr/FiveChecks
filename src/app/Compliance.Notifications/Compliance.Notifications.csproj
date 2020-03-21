@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CheckDiskSpace\ActionSnoozeDismissToastContentInfo.cs" />
     <Compile Include="Commands\CheckDiskSpace\CheckDiskSpaceCommand.cs" />
     <Compile Include="Commands\NotepadMessenger.cs" />
     <Compile Include="Commands\CommandDefinitions.cs" />

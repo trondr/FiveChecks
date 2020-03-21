@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Compliance.Notifications.Commands.CheckDiskSpace;
 using LanguageExt;
 using Microsoft.Toolkit.Uwp.Notifications;
 using DesktopNotificationManagerCompat = Compliance.Notifications.Helper.DesktopNotificationManagerCompat;
@@ -10,33 +11,33 @@ namespace Compliance.Notifications.ToastTemplates
 {
     public static class ActionSnoozeDismissToastContent
     {
-        public static async Task<ToastContent> CreateToastContent(BindableString title, string image,
-            string companyName, BindableString content, BindableString content2, string action)
+        public static async Task<ToastContent> CreateToastContent(ActionSnoozeDismissToastContentInfo contentInfo)
         {
+            if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
             // Construct the visuals of the toast (using Notifications library)
             ToastContent toastContent = new ToastContent()
             {
 
                 // Arguments when the user taps body of toast
-                Launch = action,
+                Launch = contentInfo.Action,
 
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
                     {
-                        Attribution = new ToastGenericAttributionText() { Text = companyName },
+                        Attribution = new ToastGenericAttributionText() { Text = contentInfo.CompanyName },
                         Children =
                                 {
                                     new AdaptiveText()
                                     {
-                                        Text = title
+                                        Text = contentInfo.Title
                                     },
 
                                     new AdaptiveImage()
                                     {
                                         // Non-Desktop Bridge apps cannot use HTTP images, so
                                         // we download and reference the image locally
-                                        Source = await DownloadImage(new Uri(image)).ConfigureAwait(false)
+                                        Source = await DownloadImage(contentInfo.ImageUri).ConfigureAwait(false)
                                     },
 
                                     new AdaptiveGroup()
@@ -49,7 +50,7 @@ namespace Compliance.Notifications.ToastTemplates
                                                     {
                                                         new AdaptiveText()
                                                         {
-                                                            Text = content,
+                                                            Text = contentInfo.ContentSection1,
                                                             HintWrap = true
                                                         }
                                                     }
@@ -67,7 +68,7 @@ namespace Compliance.Notifications.ToastTemplates
                                                 {
                                                     new AdaptiveText()
                                                     {
-                                                        Text = content2,
+                                                        Text = contentInfo.ContentSection2,
                                                         HintWrap = true
                                                     }
                                                 }
@@ -79,7 +80,7 @@ namespace Compliance.Notifications.ToastTemplates
 
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = await DownloadImage(new Uri("https://unsplash.it/64?image=1005")).ConfigureAwait(false),
+                            Source = await DownloadImage(contentInfo.AppLogoImageUri).ConfigureAwait(false),
                             HintCrop = ToastGenericAppLogoCrop.Circle
                         }
                     }
@@ -91,10 +92,10 @@ namespace Compliance.Notifications.ToastTemplates
                         {
                             new ToastSelectionBox("snoozeTime")
                             {
-                                DefaultSelectionBoxItemId = "15",
+                                DefaultSelectionBoxItemId = "1",
                                 Items =
                                 {
-                                    new ToastSelectionBoxItem("15","15 minutes"),
+                                    new ToastSelectionBoxItem("1","1 minute"),
                                     new ToastSelectionBoxItem("30","30 minutes"),
                                     new ToastSelectionBoxItem("60","1 hour"),
                                     new ToastSelectionBoxItem("240","4 hours"),

@@ -19,7 +19,7 @@ namespace Compliance.Notifications.Common
         /// <returns></returns>
         internal static ILog GetLogger(string name)
         {
-            var logFileName = LoggingConfiguration.GetLogFileName().Match(f => f.AppendToFileName(name),exception => throw exception);
+            var logFileName = LoggingConfiguration.GetLogFileName().Match(f => f.AppendNameToFileName(name),exception => throw exception);
             var logFile = LoggingConfiguration.GetLogDirectoryPath().Match(d => Path.Combine(d, logFileName), exception => throw exception);
             log4net.GlobalContext.Properties["LogFile"] = logFile;
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));

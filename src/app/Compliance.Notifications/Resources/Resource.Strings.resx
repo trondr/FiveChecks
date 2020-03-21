@@ -129,4 +129,79 @@
   <data name="YouActivatedTheToast" xml:space="preserve">
     <value>You activated the toast</value>
   </data>
+  <data name="ValueCannotBeNullOrWhiteSpace" xml:space="preserve">
+    <value>Value cannot be null or whitespace.</value>
+  </data>
+  <data name="DiskSpaceIsLow_Title" xml:space="preserve">
+    <value>Disk space is low!</value>
+  </data>
+  <data name="DiskSpaceIsLow_Description" xml:space="preserve">
+    <value>Disk space is critically low. This have consequence for system stability, program installations and update of Windows.</value>
+  </data>
+  <data name="Please_Cleanup_DiskSpace_Text_F0" xml:space="preserve">
+    <value>Please cleanup at least {0} GB.</value>
+  </data>
+  <data name="_String111" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String112" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String113" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String114" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String115" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String116" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String117" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String118" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String119" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String12" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String120" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String121" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String122" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String123" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String13" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String14" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String15" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String16" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String17" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String18" xml:space="preserve">
+    <value>_String</value>
+  </data>
+  <data name="_String19" xml:space="preserve">
+    <value>_String</value>
+  </data>
 </root>

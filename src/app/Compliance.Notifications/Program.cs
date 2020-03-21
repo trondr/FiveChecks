@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
 using LanguageExt;
-using LanguageExt.Common;
 using NCmdLiner;
 using ApplicationInfo = Compliance.Notifications.Common.ApplicationInfo;
 
@@ -29,6 +28,7 @@ namespace Compliance.Notifications
             Logging.DefaultLogger.Info($"Start: {ApplicationInfo.ApplicationName}.{ApplicationInfo.ApplicationVersion}. Command line: {Environment.CommandLine}");
             var exitCode = await TryRun(args).Match(Succ: i => i, Fail: exception => Logging.ErrorHandler(exception, 1)).ConfigureAwait(false);
             Logging.DefaultLogger.Info($"Stop: {ApplicationInfo.ApplicationName}.{ApplicationInfo.ApplicationVersion}. Exit code: {exitCode}");
+            await Task.Delay(5000).ConfigureAwait(false);
             return exitCode;
         }
     }
