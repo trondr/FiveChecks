@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CheckDiskSpace\CheckDiskSpaceCommand.cs" />
     <Compile Include="Commands\NotepadMessenger.cs" />
     <Compile Include="Commands\CommandDefinitions.cs" />
     <Compile Include="Common\ApplicationInfo.cs" />
@@ -113,5 +114,6 @@
     <EmbeddedResource Include="Credits\02. Log4Net Credit.xml" />
     <EmbeddedResource Include="Credits\03. NUnit Credit.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
