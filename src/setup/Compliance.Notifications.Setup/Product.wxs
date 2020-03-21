@@ -100,10 +100,17 @@
       <Component Id="ProductExeComponent" Guid="*">
         <File Id="ProductExe" Name="$(var.ProductExeBaseName).exe" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe" KeyPath="yes" />
         <File Id="ProductPdb" Name="$(var.ProductExeBaseName).pdb" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).pdb" KeyPath="no" />
+        <File Id="ProductExeConfig" Name="$(var.ProductExeBaseName).exe.config" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe.config" KeyPath="no" />
         <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Value="[#ProductExe]" Type="string" Action="write" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Name="path" Value="[TargetFolder]" Type="string" Action="write" />
 			</Component>
+      <Component Id="LanguageExt_Core" Guid="*">
+        <File Id="LanguageExt_Core_Dll" Name="LanguageExt.Core.dll" Source="$(var.ProductExeReleaseFolder)\LanguageExt.Core.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="log4Net" Guid="*">
+        <File Id="log4Net_Dll" Name="log4Net.dll" Source="$(var.ProductExeReleaseFolder)\log4Net.dll" KeyPath="yes"/>
+      </Component>
       <Component Id="MicrosoftToolkitUwpNotifications" Guid="*">
         <File Id="MicrosoftToolkitUwpNotificationsDll" Name="Microsoft.Toolkit.Uwp.Notifications.dll" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.dll" KeyPath="yes" />
         <File Id="MicrosoftToolkitUwpNotificationsPdb" Name="Microsoft.Toolkit.Uwp.Notifications.pdb" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.pdb" KeyPath="no" />
@@ -111,27 +118,24 @@
       <Component Id="NCmdLiner" Guid="*">
         <File Id="NCmdLinerDll" Name="NCmdLiner.dll" Source="$(var.ProductExeReleaseFolder)\NCmdLiner.dll" KeyPath="yes" />
       </Component>
-      <Component Id="LanguageExt_Core" Guid="*">
-        <File Id="LanguageExt_Core_Dll" Name="LanguageExt.Core.dll" Source="$(var.ProductExeReleaseFolder)\LanguageExt.Core.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="System_Memory" Guid="*">
-        <File Id="System_Memory_Dll" Name="System.Memory.dll" Source="$(var.ProductExeReleaseFolder)\System.Memory.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="System_ValueTuple" Guid="*">
-        <File Id="System_ValueTuple_Dll" Name="System.ValueTuple.dll" Source="$(var.ProductExeReleaseFolder)\System.ValueTuple.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="System_Numerics_Vectors" Guid="*">
-        <File Id="System_Numerics_Vectors_Dll" Name="System.Numerics.Vectors.dll" Source="$(var.ProductExeReleaseFolder)\System.Numerics.Vectors.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="System_Buffers" Guid="*">
-        <File Id="System_Buffers_Dll" Name="System.Buffers.dll" Source="$(var.ProductExeReleaseFolder)\System.Buffers.dll" KeyPath="yes"/>
-      </Component>
       <Component Id="QueryString_NETCore" Guid="*">
         <File Id="QueryString.NETCore_Dll" Name="QueryString.NETCore.dll" Source="$(var.ProductExeReleaseFolder)\QueryString.NETCore.dll" KeyPath="yes"/>
         <File Id="QueryString.NETCore_Pdb" Name="QueryString.NETCore.pdb" Source="$(var.ProductExeReleaseFolder)\QueryString.NETCore.pdb" KeyPath="no"/>
       </Component>
-      <Component Id="log4Net" Guid="*">
-        <File Id="log4Net_Dll" Name="log4Net.dll" Source="$(var.ProductExeReleaseFolder)\log4Net.dll" KeyPath="yes"/>
+      <Component Id="System_Buffers" Guid="*">
+        <File Id="System_Buffers_Dll" Name="System.Buffers.dll" Source="$(var.ProductExeReleaseFolder)\System.Buffers.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_Memory" Guid="*">
+        <File Id="System_Memory_Dll" Name="System.Memory.dll" Source="$(var.ProductExeReleaseFolder)\System.Memory.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_Numerics_Vectors" Guid="*">
+        <File Id="System_Numerics_Vectors_Dll" Name="System.Numerics.Vectors.dll" Source="$(var.ProductExeReleaseFolder)\System.Numerics.Vectors.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_Runtime_CompilerServices_Unsafe" Guid="*">
+        <File Id="System_Runtime_CompilerServices_Unsafe_Dll" Name="System.Runtime.CompilerServices.Unsafe.dll" Source="$(var.ProductExeReleaseFolder)\System.Runtime.CompilerServices.Unsafe.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_ValueTuple" Guid="*">
+        <File Id="System_ValueTuple_Dll" Name="System.ValueTuple.dll" Source="$(var.ProductExeReleaseFolder)\System.ValueTuple.dll" KeyPath="yes"/>
       </Component>
       <ComponentRef Id="ApplicationShortcut"/>
 		</ComponentGroup>
