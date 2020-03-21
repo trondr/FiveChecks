@@ -7,11 +7,9 @@ namespace Compliance.Notifications.Common
 {
     public static class Logging
     {
-        private static readonly ILog _defaultLogger;
-
-        public static ILog DefaultLogger => _defaultLogger ?? GetLogger("Default");
-
-
+        
+        public static ILog DefaultLogger => GetLogger("Default");
+        
         /// <summary>
         /// Getting named logger
         /// </summary>
@@ -19,8 +17,8 @@ namespace Compliance.Notifications.Common
         /// <returns></returns>
         public static ILog GetLogger(string name)
         {
-            var logFileName = LoggingConfiguration.LogFileName.AppendToFileName(name);
-            var logFile = Path.Combine(LoggingConfiguration.LogDirectoryPath, logFileName);
+            var logFileName = LoggingConfiguration.GetLogFileName().Match(f => f.AppendToFileName(name),exception => throw exception);
+            var logFile = LoggingConfiguration.GetLogDirectoryPath().Match(d => Path.Combine(d, logFileName), exception => throw exception);
             log4net.GlobalContext.Properties["LogFile"] = logFile;
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));
             return LogManager.GetLogger(typeof(Program).Namespace);
