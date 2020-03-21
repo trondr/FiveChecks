@@ -51,8 +51,11 @@
     <Compile Include="Common\F.cs" />
     <Compile Include="Common\Logging.cs" />
     <Compile Include="Common\LoggingConfiguration.cs" />
+    <Compile Include="Common\NativeMethods.cs" />
+    <Compile Include="Helper\INotificationActivationCallback.cs" />
     <Compile Include="Helper\MyNotificationActivator.cs" />
     <Compile Include="Helper\DesktopNotificationManagerCompat.cs" />
+    <Compile Include="Helper\NotificationUserInputData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Strings.Designer.cs">

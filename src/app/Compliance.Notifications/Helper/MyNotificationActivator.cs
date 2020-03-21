@@ -1,6 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Windows.UI.Popups;
+﻿using System.Runtime.InteropServices;
+using Compliance.Notifications.Common;
+using Compliance.Notifications.Resources;
 
 namespace Compliance.Notifications.Helper
 {
@@ -10,10 +10,9 @@ namespace Compliance.Notifications.Helper
     [Guid("2DE9CA80-6322-4AE2-8FB5-3435F6976711"), ComVisible(true)]
     public class MyNotificationActivator : NotificationActivator
     {
-        public override void OnActivated(string invokedArgs, NotificationUserInput userInput, string appUserModelId)
+        public override void OnActivated(string invokedArgs, NotificationUserInputCollection userInputCollection, string appUserModelId)
         { 
-           Console.WriteLine("You activated the toast.");
-           Console.ReadLine();
+           Logging.DefaultLogger.Info(Resource_Strings.YouActivatedTheToast);
         }
     }
 }

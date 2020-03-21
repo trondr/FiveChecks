@@ -21,12 +21,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
+using Compliance.Notifications.Resources;
 
 namespace Compliance.Notifications.Helper
 {
-    public class DesktopNotificationManagerCompat
+    public static class DesktopNotificationManagerCompat
     {
-        public const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
+        public const string ToastActivatedLaunchArg = "-ToastActivated";
 
         private static bool _registeredAumidAndComServer;
         private static string _aumid;
@@ -43,7 +44,7 @@ namespace Compliance.Notifications.Helper
         {
             if (string.IsNullOrWhiteSpace(aumid))
             {
-                throw new ArgumentException("You must provide an AUMID.", nameof(aumid));
+                throw new ArgumentException(Resource_Strings.MissingAumidError, nameof(aumid));
             }
 
             // If running as Desktop Bridge
@@ -59,22 +60,22 @@ namespace Compliance.Notifications.Helper
 
             _aumid = aumid;
 
-            String exePath = Process.GetCurrentProcess().MainModule.FileName;
+            var exePath = Process.GetCurrentProcess().MainModule?.FileName;
             RegisterComServer<T>(exePath);
-
             _registeredAumidAndComServer = true;
         }
 
-        private static void RegisterComServer<T>(String exePath)
+        private static void RegisterComServer<T>(string exePath)
             where T : NotificationActivator
         {
+            if (exePath == null) throw new ArgumentNullException(nameof(exePath));
             // We register the EXE to start up when the notification is activated
-            string regString = String.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}\\LocalServer32", typeof(T).GUID);
+            var regString = $"SOFTWARE\\Classes\\CLSID\\{{{typeof(T).GUID}}}\\LocalServer32";
             var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(regString);
 
             // Include a flag so we know this was a toast activation and should wait for COM to process
             // We also wrap EXE path in quotes for extra security
-            key.SetValue(null, '"' + exePath + '"' + " " + TOAST_ACTIVATED_LAUNCH_ARG);
+            key?.SetValue(null, '"' + exePath + '"' + " " + ToastActivatedLaunchArg);
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace Compliance.Notifications.Helper
         }
 
         /// <summary>
-        /// Creates a toast notifier. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer(string)"/> if you're a classic Win32 app), or this will throw an exception.
+        /// Creates a toast notifier. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer{T}"/> if you're a classic Win32 app), or this will throw an exception.
         /// </summary>
         /// <returns></returns>
         public static ToastNotifier CreateToastNotifier()
@@ -116,7 +117,7 @@ namespace Compliance.Notifications.Helper
         }
 
         /// <summary>
-        /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer(string)"/> if you're a classic Win32 app), or this will throw an exception.
+        /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer{T}"/> if you're a classic Win32 app), or this will throw an exception.
         /// </summary>
         public static DesktopNotificationHistoryCompat History
         {
@@ -143,7 +144,7 @@ namespace Compliance.Notifications.Helper
                 else
                 {
                     // Otherwise, incorrect usage
-                    throw new Exception("You must call RegisterAumidAndComServer first.");
+                    throw new Exception(Resource_Strings.AumidAndComRegistrationError);
                 }
             }
 
@@ -151,25 +152,22 @@ namespace Compliance.Notifications.Helper
             if (!_registeredActivator)
             {
                 // Incorrect usage
-                throw new Exception("You must call RegisterActivator first.");
+                throw new Exception(Resource_Strings.ActivatorRegistrationError);
             }
         }
 
         /// <summary>
         /// Gets a boolean representing whether http images can be used within toasts. This is true if running under Desktop Bridge.
         /// </summary>
-        public static bool CanUseHttpImages { get { return DesktopBridgeHelpers.IsRunningAsUwp(); } }
+        public static bool CanUseHttpImages => DesktopBridgeHelpers.IsRunningAsUwp();
 
         /// <summary>
         /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/edit/master/DesktopBridge.Helpers/Helpers.cs
         /// </summary>
-        private class DesktopBridgeHelpers
+        private static class DesktopBridgeHelpers
         {
-            const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-            static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
-
+            const long AppModelErrorNoPackage = 15700L;
+            
             private static bool? _isRunningAsUwp;
             public static bool IsRunningAsUwp()
             {
@@ -181,14 +179,10 @@ namespace Compliance.Notifications.Helper
                     }
                     else
                     {
-                        int length = 0;
-                        StringBuilder sb = new StringBuilder(0);
-                        int result = GetCurrentPackageFullName(ref length, sb);
-
-                        sb = new StringBuilder(length);
-                        result = GetCurrentPackageFullName(ref length, sb);
-
-                        _isRunningAsUwp = result != APPMODEL_ERROR_NO_PACKAGE;
+                        var length = 0;
+                        var sb = new StringBuilder(length);
+                        var result = Common.NativeMethods.GetCurrentPackageFullName(ref length, sb);
+                        _isRunningAsUwp = result != AppModelErrorNoPackage;
                     }
                 }
 
@@ -199,9 +193,9 @@ namespace Compliance.Notifications.Helper
             {
                 get
                 {
-                    int versionMajor = Environment.OSVersion.Version.Major;
-                    int versionMinor = Environment.OSVersion.Version.Minor;
-                    double version = versionMajor + (double)versionMinor / 10;
+                    var versionMajor = Environment.OSVersion.Version.Major;
+                    var versionMinor = Environment.OSVersion.Version.Minor;
+                    var version = versionMajor + (double)versionMinor / 10;
                     return version <= 6.1;
                 }
             }
@@ -213,8 +207,8 @@ namespace Compliance.Notifications.Helper
     /// </summary>
     public sealed class DesktopNotificationHistoryCompat
     {
-        private string _aumid;
-        private ToastNotificationHistory _history;
+        private readonly string _aumid;
+        private readonly ToastNotificationHistory _history;
 
         /// <summary>
         /// Do not call this. Instead, call <see cref="DesktopNotificationManagerCompat.History"/> to obtain an instance.
@@ -303,59 +297,35 @@ namespace Compliance.Notifications.Helper
     /// <summary>
     /// Apps must implement this activator to handle notification activation.
     /// </summary>
-    public abstract class NotificationActivator : NotificationActivator.INotificationActivationCallback
+    public abstract class NotificationActivator : INotificationActivationCallback
     {
-        public void Activate(string appUserModelId, string invokedArgs, NOTIFICATION_USER_INPUT_DATA[] data, uint dataCount)
+        public void Activate(string appUserModelId, string invokedArgs, NotificationUserInputData[] data, uint dataCount)
         {
-            OnActivated(invokedArgs, new NotificationUserInput(data), appUserModelId);
+            OnActivated(invokedArgs, new NotificationUserInputCollection(data), appUserModelId);
         }
 
         /// <summary>
         /// This method will be called when the user clicks on a foreground or background activation on a toast. Parent app must implement this method.
         /// </summary>
         /// <param name="arguments">The arguments from the original notification. This is either the launch argument if the user clicked the body of your toast, or the arguments from a button on your toast.</param>
-        /// <param name="userInput">Text and selection values that the user entered in your toast.</param>
+        /// <param name="userInputCollection">Text and selection values that the user entered in your toast.</param>
         /// <param name="appUserModelId">Your AUMID.</param>
-        public abstract void OnActivated(string arguments, NotificationUserInput userInput, string appUserModelId);
+        public abstract void OnActivated(string arguments, NotificationUserInputCollection userInputCollection, string appUserModelId);
 
         // These are the new APIs for Windows 10
         #region NewAPIs
-        [StructLayout(LayoutKind.Sequential), Serializable]
-        public struct NOTIFICATION_USER_INPUT_DATA
-        {
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Key;
-
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Value;
-        }
-
-        [ComImport,
-        Guid("53E31837-6600-4A81-9395-75CFFE746F94"), ComVisible(true),
-        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface INotificationActivationCallback
-        {
-            void Activate(
-                [In, MarshalAs(UnmanagedType.LPWStr)]
-            string appUserModelId,
-                [In, MarshalAs(UnmanagedType.LPWStr)]
-            string invokedArgs,
-                [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
-            NOTIFICATION_USER_INPUT_DATA[] data,
-                [In, MarshalAs(UnmanagedType.U4)]
-            uint dataCount);
-        }
+       
         #endregion
     }
 
     /// <summary>
     /// Text and selection values that the user entered on your notification. The Key is the ID of the input, and the Value is what the user entered.
     /// </summary>
-    public class NotificationUserInput : IReadOnlyDictionary<string, string>
+    public class NotificationUserInputCollection : IReadOnlyDictionary<string, string>
     {
-        private NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
+        private readonly NotificationUserInputData[] _data;
 
-        internal NotificationUserInput(NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
+        internal NotificationUserInputCollection(NotificationUserInputData[] data)
         {
             _data = data;
         }

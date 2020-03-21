@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Compliance_Notifications.Tests
+namespace Compliance.Notifications.Tests
 {
     [TestFixture]
     public class Class1

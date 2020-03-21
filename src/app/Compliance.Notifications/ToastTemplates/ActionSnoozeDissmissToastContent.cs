@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.QueryStringDotNET;
+using LanguageExt;
 using Microsoft.Toolkit.Uwp.Notifications;
 using DesktopNotificationManagerCompat = Compliance.Notifications.Helper.DesktopNotificationManagerCompat;
 
@@ -36,7 +36,7 @@ namespace Compliance.Notifications.ToastTemplates
                                     {
                                         // Non-Desktop Bridge apps cannot use HTTP images, so
                                         // we download and reference the image locally
-                                        Source = await DownloadImageToDisk(image)
+                                        Source = await DownloadImage(new Uri(image)).ConfigureAwait(false)
                                     },
 
                                     new AdaptiveGroup()
@@ -79,7 +79,7 @@ namespace Compliance.Notifications.ToastTemplates
 
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = await DownloadImageToDisk("https://unsplash.it/64?image=1005"),
+                            Source = await DownloadImage(new Uri("https://unsplash.it/64?image=1005")).ConfigureAwait(false),
                             HintCrop = ToastGenericAppLogoCrop.Circle
                         }
                     }
@@ -117,7 +117,7 @@ namespace Compliance.Notifications.ToastTemplates
         }
 
         //Source: https://github.com/WindowsNotifications/desktop-toasts
-        private static async Task<string> DownloadImageToDisk(string httpImage)
+        private static async Task<Option<Uri>> DownloadImageToDisk(Uri httpImage)
         {
             // Toasts can live for up to 3 days, so we cache images for up to 3 days.
             // Note that this is a very simple cache that doesn't account for space usage, so
@@ -140,17 +140,17 @@ namespace Compliance.Notifications.ToastTemplates
                 }
 
 
-                var dayDirectory = directory.CreateSubdirectory(DateTime.UtcNow.Day.ToString());
+                var dayDirectory = directory.CreateSubdirectory($"{DateTime.UtcNow.Day}");
                 string imagePath = dayDirectory.FullName + "\\" + (uint)httpImage.GetHashCode();
 
                 if (File.Exists(imagePath))
                 {
-                    return imagePath;
+                    return new Uri("file://" + imagePath);
                 }
 
                 using (var c = new HttpClient())
                 {
-                    using (var stream = await c.GetStreamAsync(httpImage))
+                    using (var stream = await c.GetStreamAsync(httpImage).ConfigureAwait(false))
                     {
                         using (var fileStream = File.OpenWrite(imagePath))
                         {
@@ -158,9 +158,15 @@ namespace Compliance.Notifications.ToastTemplates
                         }
                     }
                 }
-                return imagePath;
+                return new Uri("file://" + imagePath);
             }
-            catch { return ""; }
+            catch(HttpRequestException) { return Option<Uri>.None; }
+        }
+
+        private static async Task<string> DownloadImage(Uri httpImage)
+        {
+            var image = await DownloadImageToDisk(httpImage).ConfigureAwait(false);
+            return image.Match(uri => uri.LocalPath, () => "");
         }
     }
 }

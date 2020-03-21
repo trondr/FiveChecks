@@ -45,7 +45,7 @@ namespace Compliance.Notifications.Common
             {
                 if (string.IsNullOrEmpty(_applicationName))
                 {
-                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(ExeFilePath);
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(GetExeFilePath());
                     if (fileNameWithoutExtension != null)
                         _applicationName =
                             fileNameWithoutExtension.Replace(".Gui", "").Replace(".Console", "").Replace('.', ' ');
@@ -64,8 +64,7 @@ namespace Compliance.Notifications.Common
             {
                 if (string.IsNullOrEmpty(_applicationVersion))
                 {
-                    var informationalVersionAttribute = AppAssembly.GetCustomAttributeEx(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                    if (informationalVersionAttribute != null)
+                    if (AppAssembly.GetCustomAttributeEx(typeof(AssemblyInformationalVersionAttribute)) is AssemblyInformationalVersionAttribute informationalVersionAttribute)
                     {
                         _applicationVersion = informationalVersionAttribute.InformationalVersion;
                     }
@@ -78,43 +77,25 @@ namespace Compliance.Notifications.Common
             }
         }
 
-        private static string _exeFileName;
-        /// <summary>
-        /// Get exe file path
-        /// </summary>
-        public static string ExeFileName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_exeFileName))
-                {
-                    _exeFileName = Path.GetFileName(ExeFilePath);
-                }
-                return _exeFileName;
-            }
-        }
-
         private static string _exeFilePath;
 
         /// <summary>
         /// Get exe file path
         /// </summary>
-        public static string ExeFilePath
+        public static string GetExeFilePath()
         {
-            get
+            if (string.IsNullOrEmpty(_exeFilePath))
             {
-                if (string.IsNullOrEmpty(_exeFilePath))
+                _exeFilePath = AppAssembly.Location;
+                if (!File.Exists(_exeFilePath))
                 {
-                    _exeFilePath = AppAssembly.Location;
-                    if (!File.Exists(_exeFilePath))
-                    {
-                        throw new FileNotFoundException("Could not find exe file path: " + _exeFilePath);
-                    }
+                    throw new FileNotFoundException("Could not find exe file path: " + _exeFilePath);
                 }
-                return _exeFilePath;
             }
+            return _exeFilePath;
         }
 
+        // ReSharper disable once UnusedMember.Global
         public static string ApplicationCopyright
         {
             get
@@ -138,6 +119,7 @@ namespace Compliance.Notifications.Common
         }
         private static string _applicationCopyright;
 
+        // ReSharper disable once UnusedMember.Global
         public static string ApplicationDescription
         {
             get
