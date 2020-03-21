@@ -69,6 +69,7 @@ Target.create "BuildApp" (fun _ ->
             AssemblyInfo.ComVisible false
             AssemblyInfo.Guid "8B2765D7-A756-45AA-B7BD-4FB98F9F51F4"
             AssemblyInfo.InternalsVisibleTo (appName + ".Tests")
+            AssemblyInfo.StringAttribute("NeutralResourcesLanguage", "en-US", "System.Resources")
         ]
 
     !! "src/app/**/*.csproj"
