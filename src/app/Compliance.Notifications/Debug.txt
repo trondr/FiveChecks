@@ -1,0 +1,4 @@
+﻿Help
+License
+Credits
+ShowNotification /args=['arg1']

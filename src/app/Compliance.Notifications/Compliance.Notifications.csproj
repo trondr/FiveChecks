@@ -75,6 +75,11 @@
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>2.9.8</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>6.0.0</Version>
     </PackageReference>
@@ -82,14 +87,15 @@
       <Version>10.0.18362.2005</Version>
     </PackageReference>
     <PackageReference Include="NCmdLiner">
-      <Version>2.0.18110.340</Version>
+      <Version>3.0.20081</Version>
     </PackageReference>
     <PackageReference Include="QueryString.NET">
       <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <EmbeddedResource Include="Credits\04. Language-Ext Credit.xml" />
+    <Content Include="Debug.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="License\00. Compliance.Notification License.xml" />
@@ -105,7 +111,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Credits\01. NCmdLiner Credit.xml" />
     <EmbeddedResource Include="Credits\02. Log4Net Credit.xml" />
-    <EmbeddedResource Include="Credits\03. Nunit Credit.xml" />
+    <EmbeddedResource Include="Credits\03. NUnit Credit.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
