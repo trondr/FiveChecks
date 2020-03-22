@@ -27,5 +27,19 @@ namespace Compliance.Notifications.Commands
             await Task.Delay(1000).ConfigureAwait(false);
             return new Result<int>(0);
         }
+
+        [Command(Summary = "Measure system compliance items.",Description = "Measure system compliance items (disk space,  pending reboot, system uptime, power up time, etc.) and write result to event log and to file system. System compliance measurements must be run in system context or with administrative privileges. Can be implemented as a scheduled task that the user has permission to execute.")]
+        public static async Task<Result<int>> MeasureSystemComplianceItems()
+        {
+            Logging.DefaultLogger.Warn("MeasureSystemComplianceItems: NOT IMPLEMENTED");
+            return new Result<int>(0);
+        }
+
+        [Command(Summary = "Measure user compliance items.", Description = "Measure user compliance items (data stored on desktop, etc.) and write result to event log and to file system. User compliance measurements must be run in user context.")]
+        public static async Task<Result<int>> MeasureUserComplianceItems()
+        {
+            Logging.DefaultLogger.Warn("MeasureUserComplianceItems: NOT IMPLEMENTED");
+            return new Result<int>(0);
+        }
     }
 }
