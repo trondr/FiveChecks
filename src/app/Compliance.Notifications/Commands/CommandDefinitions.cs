@@ -12,7 +12,7 @@ namespace Compliance.Notifications.Commands
         // ReSharper disable once UnusedMember.Global
         public static async Task<Result<int>> CheckDiskSpace(
             [RequiredCommandParameter(Description = "Free disk space requirement in GB",AlternativeName = "fr", ExampleValue = 40)]
-            int requiredFreeDiskSpace,
+            decimal requiredFreeDiskSpace,
             [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc",ExampleValue = true,DefaultValue = false)]
             bool subtractSccmCache
             )
