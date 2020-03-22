@@ -89,6 +89,19 @@ namespace Compliance.Notifications.Common
                 return new Result<Unit>(Unit.Default);
             }
         };
-
+        
+        public static async Task<Result<T>> LoadComplianceItemResult<T>(Some<string> fileName)
+        {
+            return await TryLoad<T>(fileName)().ConfigureAwait(false);
+        }
+        private static TryAsync<T> TryLoad<T>(Some<string> fileName) => async () =>
+        {
+            using (var sr = new StreamReader(fileName))
+            {
+                var json = await sr.ReadToEndAsync().ConfigureAwait(false);
+                var item = JsonConvert.DeserializeObject<T>(json);
+                return new Result<T>(item);
+            }
+        };
     }
 }

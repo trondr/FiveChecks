@@ -77,7 +77,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
-        public async Task SaveComplianceItemResultTest()
+        public async Task SaveAndLoadComplianceItemResultTest()
         {
             var testData = new TestData("A Name","A description");
             Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.dat";
@@ -91,6 +91,19 @@ namespace Compliance.Notifications.Common.Tests
                 Assert.Fail();
                 return Unit.Default;
             });
+            var loadedTestData = await F.LoadComplianceItemResult<TestData>(fileName);
+            var ignore = loadedTestData.Match<TestData>(
+                data =>
+                        {
+                            Assert.AreEqual("A Name", data.Name);
+                            Assert.AreEqual("A description", data.Description);
+                            return data;
+                        }, 
+                exception =>
+                        {
+                            Assert.Fail(exception.Message);
+                            throw exception;
+                        });
         }
     }
 }
