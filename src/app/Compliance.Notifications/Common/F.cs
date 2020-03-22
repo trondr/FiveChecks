@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
+using Windows.System;
 using Windows.UI.Notifications;
 using Compliance.Notifications.Commands.CheckDiskSpace;
+using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Data;
 using Compliance.Notifications.Helper;
 using Compliance.Notifications.Resources;
 using Compliance.Notifications.ToastTemplates;
@@ -29,13 +34,42 @@ namespace Compliance.Notifications.Common
                     );
         }
 
-        public static Result<decimal> GetFreeDiskSpaceInGigaBytes(string folder)
+        public static Result<UDecimal> GetFreeDiskSpaceInGigaBytes(string folder)
         {
             if (folder == null) throw new ArgumentNullException(nameof(folder));
             var folderPath = folder.AppendDirectorySeparatorChar();
             return NativeMethods.GetDiskFreeSpaceEx(folderPath, out _, out _, out var lpTotalNumberOfFreeBytes) ? 
-                new Result<decimal>(lpTotalNumberOfFreeBytes/1024.0M/1024.0M/1024.0M) : 
-                new Result<decimal>(new Exception($"Failed to check free disk space: '{folderPath}'"));
+                new Result<UDecimal>(lpTotalNumberOfFreeBytes/1024.0M/1024.0M/1024.0M) : 
+                new Result<UDecimal>(new Exception($"Failed to check free disk space: '{folderPath}'"));
+        }
+
+        public static async Task<Result<DiskSpaceInfo>> GetDiskSpaceInfo()
+        {
+            var totalFreeDiskSpace = GetFreeDiskSpaceInGigaBytes(@"c:\");
+            Logging.DefaultLogger.Warn("GetDiskSpaceInfo: NOT IMPLEMENTED");
+            var sccmCacheFolderSize = await GetFolderSize(@"c:\temp").ConfigureAwait(false);
+            return totalFreeDiskSpace.Match(tfd =>
+            {
+                return sccmCacheFolderSize.Match(
+                    sccmCacheSize => new Result<DiskSpaceInfo>(new DiskSpaceInfo
+                    {
+                            TotalFreeDiskSpace = tfd,
+                            SccmCacheSize = sccmCacheSize
+                        }), 
+                    exception => new Result<DiskSpaceInfo>(exception));
+            }, exception => new Result<DiskSpaceInfo>(exception));
+        }
+
+        public static async Task<Result<UDecimal>> GetFolderSize(Some<string> folder)
+        {
+            Logging.DefaultLogger.Warn("GetFolderSize: Need better error handling when Access Denied.");
+            return await Task.Run(() =>
+            {
+                var folderSize = 
+                    Pri.LongPath.Directory.EnumerateFiles(folder, "*.*", SearchOption.AllDirectories)
+                        .Sum(s => new FileInfo(s).Length);
+                return new Result<UDecimal>(new UDecimal(folderSize/1024.0M/1024.0M/1024.0M));
+            }).ConfigureAwait(false);
         }
 
         public static string AppendDirectorySeparatorChar(this string folder)
@@ -89,7 +123,7 @@ namespace Compliance.Notifications.Common
             return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
         }
 
-        public static async Task<Result<T>> LoadUserComplianceItemResult<T>(Some<T> complianceItem)
+        public static async Task<Result<T>> LoadUserComplianceItemResult<T>()
         {
             var fileName = GetUserComplianceItemResultFileName<T>();
             return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
@@ -108,7 +142,7 @@ namespace Compliance.Notifications.Common
             return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
         }
 
-        public static async Task<Result<T>> LoadSystemComplianceItemResult<T>(Some<T> complianceItem)
+        public static async Task<Result<T>> LoadSystemComplianceItemResult<T>()
         {
             var fileName = GetSystemComplianceItemResultFileName<T>();
             return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
@@ -141,5 +175,53 @@ namespace Compliance.Notifications.Common
                 return new Result<T>(item);
             }
         };
+
+        public static Result<IEnumerable<T>> ToResult<T>(this IEnumerable<Result<T>> results)
+        {
+            var e = new Exception(string.Empty);
+            var resultArray = results.ToArray();
+            var exceptions =
+                resultArray
+                    .Where(result => !result.IsSuccess)
+                    .Select(result => result.Match(arg => e, exception => exception))
+                    .ToArray();
+            var values =
+                resultArray
+                    .Where(result => result.IsSuccess)
+                    .Select(result => result.Match(v => v, exception => throw exception))
+                    .ToArray();
+
+            return exceptions.Length == 0
+                ? new Result<IEnumerable<T>>(values)
+                : new Result<IEnumerable<T>>(new AggregateException(exceptions));
+        }
+
+        public static async Task<Result<Unit>> ExecuteComplianceMeasurements(this List<MeasureCompliance> measurements)
+        {
+            var tasks = measurements.Select(async compliance => await compliance.Invoke().ConfigureAwait(false)).ToList();
+            var processTasks = tasks.ToList();
+            while (processTasks.Count > 0)
+            {
+                var firstFinishedTask = await Task.WhenAny(processTasks.ToArray()).ConfigureAwait(false);
+                processTasks.Remove(firstFinishedTask);
+                await firstFinishedTask.ConfigureAwait(false);
+            }
+            var results = tasks.Select(task => task.Result);
+            return results.ToResult().Match(units => new Result<Unit>(Unit.Default), exception => new Result<Unit>(exception));
+        }
+
+        public static string ToExceptionMessage(this Exception ex)
+        {
+            if (ex == null) throw new ArgumentNullException(nameof(ex));
+            if (ex is AggregateException aggregateException)
+            {
+
+                return aggregateException.Message + Environment.NewLine + string.Join(Environment.NewLine,aggregateException.InnerExceptions.Select(exception => exception.ToExceptionMessage()).ToArray());
+            }
+
+            return ex.InnerException != null
+                    ? ex.Message + Environment.NewLine + ex.InnerException.ToExceptionMessage()
+                    : ex.Message;
+        }
     }
 }

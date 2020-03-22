@@ -121,6 +121,9 @@
       <Component Id="Newtonsoft_Json" Guid="*">
         <File Id="Newtonsoft_Json_Dll" Name="Newtonsoft.Json.dll" Source="$(var.ProductExeReleaseFolder)\Newtonsoft.Json.dll" KeyPath="yes" />
       </Component>
+      <Component Id="Pri_LongPath_dll" Guid="*">
+        <File Id="Pri_LongPath_dll" Name="Pri.LongPath.dll" Source="$(var.ProductExeReleaseFolder)\Pri.LongPath.dll" KeyPath="yes" />
+      </Component>
       <Component Id="QueryString_NETCore" Guid="*">
         <File Id="QueryString.NETCore_Dll" Name="QueryString.NETCore.dll" Source="$(var.ProductExeReleaseFolder)\QueryString.NETCore.dll" KeyPath="yes"/>
         <File Id="QueryString.NETCore_Pdb" Name="QueryString.NETCore.pdb" Source="$(var.ProductExeReleaseFolder)\QueryString.NETCore.pdb" KeyPath="no"/>
