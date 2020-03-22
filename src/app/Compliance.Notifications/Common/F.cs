@@ -75,6 +75,44 @@ namespace Compliance.Notifications.Common
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
             return new Result<int>(0);
         }
+
+        public static string GetUserComplianceItemResultFileName<T>()
+        {
+            var folder = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
+            Directory.CreateDirectory(folder);
+            return System.IO.Path.Combine(folder, $@"User-{typeof(T).Name}.json");
+        }
+
+        public static async Task<Result<Unit>> SaveUserComplianceItemResult<T>(Some<T> complianceItem)
+        {
+            var fileName = GetUserComplianceItemResultFileName<T>();
+            return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
+        }
+
+        public static async Task<Result<T>> LoadUserComplianceItemResult<T>(Some<T> complianceItem)
+        {
+            var fileName = GetUserComplianceItemResultFileName<T>();
+            return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
+        }
+
+        public static string GetSystemComplianceItemResultFileName<T>()
+        {
+            var folder = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ApplicationInfo.ApplicationName);
+            Directory.CreateDirectory(folder);
+            return System.IO.Path.Combine(folder, $@"System-{typeof(T).Name}.json");
+        }
+
+        public static async Task<Result<Unit>> SaveSystemComplianceItemResult<T>(Some<T> complianceItem)
+        {
+            var fileName = GetSystemComplianceItemResultFileName<T>();
+            return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
+        }
+
+        public static async Task<Result<T>> LoadSystemComplianceItemResult<T>(Some<T> complianceItem)
+        {
+            var fileName = GetSystemComplianceItemResultFileName<T>();
+            return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
+        }
         
         public static async Task<Result<Unit>> SaveComplianceItemResult<T>(Some<T> complianceItem, Some<string> fileName)
         {

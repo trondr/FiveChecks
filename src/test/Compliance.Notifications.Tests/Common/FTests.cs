@@ -80,7 +80,7 @@ namespace Compliance.Notifications.Common.Tests
         public async Task SaveAndLoadComplianceItemResultTest()
         {
             var testData = new TestData("A Name","A description");
-            Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.dat";
+            Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.json";
             var result = await F.SaveComplianceItemResult<TestData>(testData,fileName);
             result.Match<Unit>(unit =>
             {
