@@ -8,7 +8,9 @@ using Compliance.Notifications.Commands.CheckDiskSpace;
 using Compliance.Notifications.Helper;
 using Compliance.Notifications.Resources;
 using Compliance.Notifications.ToastTemplates;
+using LanguageExt;
 using LanguageExt.Common;
+using Newtonsoft.Json;
 
 namespace Compliance.Notifications.Common
 {
@@ -73,5 +75,20 @@ namespace Compliance.Notifications.Common
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
             return new Result<int>(0);
         }
+        
+        public static async Task<Result<Unit>> SaveComplianceItemResult<T>(Some<T> complianceItem, Some<string> fileName)
+        {
+            return await TrySave(complianceItem, fileName)().ConfigureAwait(false);
+        }
+        private static TryAsync<Unit> TrySave<T>(Some<T> complianceItem, Some<string> fileName) => async () =>
+        {
+            using (var sw = new StreamWriter(fileName))
+            {
+                var json = JsonConvert.SerializeObject(complianceItem.Value);
+                await sw.WriteAsync(json).ConfigureAwait(false);
+                return new Result<Unit>(Unit.Default);
+            }
+        };
+
     }
 }

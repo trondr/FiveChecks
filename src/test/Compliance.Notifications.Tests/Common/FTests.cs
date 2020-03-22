@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Compliance.Notifications.Common;
+using System;
+using System.Threading.Tasks;
+using LanguageExt;
+using LanguageExt.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Common.Tests
@@ -44,19 +48,50 @@ namespace Compliance.Notifications.Common.Tests
                 Assert.IsTrue(size > 0M);
                 Assert.IsTrue(size < 10000M);
                 return size;
-            },exception =>
-            {
-                Assert.Fail(exception.ToString());
-                return 0;
-            });
+            }, exception =>
+             {
+                 Assert.Fail(exception.ToString());
+                 return 0;
+             });
         }
 
         [Test()]
-        [TestCase(@"test.txt","somename1", @"test.somename1.txt")]
+        [TestCase(@"test.txt", "somename1", @"test.somename1.txt")]
         public void AppendToFileNameTest(string fileName, string name, string expected)
         {
             var actual = F.AppendNameToFileName(fileName, name);
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        public class TestData : Record<TestData>
+        {
+            public TestData(Some<string> name, Some<string> description)
+            {
+                Description = description;
+                Name = name;
+            }
+
+            public string Name { get; }
+
+            public string Description { get; }
+        }
+
+        [Test]
+        public void SaveComplianceItemResultTest()
+        {
+            var testData = new TestData("A Name","A description");
+            Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.dat";
+            var result = F.SaveComplianceItemResult<TestData>(testData,fileName);
+            result.Wait();
+            result.Result.Match<Unit>(unit =>
+            {
+                Assert.IsTrue(true);
+                return Unit.Default;
+            }, exception =>
+            {
+                Assert.Fail();
+                return Unit.Default;
+            });
         }
     }
 }
