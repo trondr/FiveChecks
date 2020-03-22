@@ -77,13 +77,12 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
-        public void SaveComplianceItemResultTest()
+        public async Task SaveComplianceItemResultTest()
         {
             var testData = new TestData("A Name","A description");
             Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.dat";
-            var result = F.SaveComplianceItemResult<TestData>(testData,fileName);
-            result.Wait();
-            result.Result.Match<Unit>(unit =>
+            var result = await F.SaveComplianceItemResult<TestData>(testData,fileName);
+            result.Match<Unit>(unit =>
             {
                 Assert.IsTrue(true);
                 return Unit.Default;
