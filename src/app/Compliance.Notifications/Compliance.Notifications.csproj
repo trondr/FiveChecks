@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Commands\CheckDiskSpace\ActionSnoozeDismissToastContentInfo.cs" />
     <Compile Include="Commands\CheckDiskSpace\CheckDiskSpaceCommand.cs" />
+    <Compile Include="Commands\CheckDiskSpace\DiskSpaceInfo.cs" />
     <Compile Include="Commands\NotepadMessenger.cs" />
     <Compile Include="Commands\CommandDefinitions.cs" />
     <Compile Include="Common\ApplicationInfo.cs" />
@@ -54,6 +55,8 @@
     <Compile Include="Common\Logging.cs" />
     <Compile Include="Common\LoggingConfiguration.cs" />
     <Compile Include="Common\NativeMethods.cs" />
+    <Compile Include="Data\UDecimal.cs" />
+    <Compile Include="Data\UDouble.cs" />
     <Compile Include="Helper\INotificationActivationCallback.cs" />
     <Compile Include="Helper\MyNotificationActivator.cs" />
     <Compile Include="Helper\DesktopNotificationManagerCompat.cs" />

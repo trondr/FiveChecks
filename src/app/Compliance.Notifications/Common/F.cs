@@ -46,7 +46,7 @@ namespace Compliance.Notifications.Common
                 folder;
         }
 
-        public static DiskSpaceInfo LoadDiskSpaceResult(decimal requiredFreeDiskSpace, bool subtractSccmCache)
+        public static DiskSpaceInfo LoadDiskSpaceResult()
         {
             Logging.DefaultLogger.Warn("LoadDiskSpaceResult: NOT IMPLEMENTED");
             return new DiskSpaceInfo(){TotalFreeDiskSpace = 10, SccmCacheSize = 20};

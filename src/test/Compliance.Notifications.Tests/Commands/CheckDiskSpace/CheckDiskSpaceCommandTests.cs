@@ -35,7 +35,7 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
                     CheckDiskSpaceCommand.CheckDiskSpaceF(
                         requiredFreeDiskSpace, 
                         subtractSccmCache,
-                        (i, b) =>
+                        () =>
                         {
                             actualLoadDiskSpaceCallCount++;
                             return new DiskSpaceInfo {TotalFreeDiskSpace = totalFreeDiskSpace, SccmCacheSize = sccmCacheSize};

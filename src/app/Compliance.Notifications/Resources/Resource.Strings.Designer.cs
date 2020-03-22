@@ -63,15 +63,6 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _String.
         /// </summary>
-        internal static string _String111 {
-            get {
-                return ResourceManager.GetString("_String111", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
         internal static string _String112 {
             get {
                 return ResourceManager.GetString("_String112", resourceCulture);
@@ -309,6 +300,15 @@ namespace Compliance.Notifications.Resources {
         internal static string ValueCannotBeNullOrWhiteSpace {
             get {
                 return ResourceManager.GetString("ValueCannotBeNullOrWhiteSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value needs to be positive..
+        /// </summary>
+        internal static string ValueNeedsToBePositive {
+            get {
+                return ResourceManager.GetString("ValueNeedsToBePositive", resourceCulture);
             }
         }
         
