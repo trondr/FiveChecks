@@ -109,10 +109,14 @@ namespace Compliance.Notifications.Common
                 folder;
         }
 
-        public static DiskSpaceInfo LoadDiskSpaceResult()
+        public static async Task<DiskSpaceInfo> LoadDiskSpaceResult()
         {
-            Logging.DefaultLogger.Warn("LoadDiskSpaceResult: NOT IMPLEMENTED");
-            return new DiskSpaceInfo(){TotalFreeDiskSpace = 10, SccmCacheSize = 20};
+            var diskSpaceInfoResult = await LoadSystemComplianceItemResult<DiskSpaceInfo>().ConfigureAwait(false);
+            return diskSpaceInfoResult.Match(diskSpaceInfo => diskSpaceInfo, exception =>
+            {
+                Logging.DefaultLogger.Error($"Failed to load disk space info. {exception.ToExceptionMessage()}");
+                return DiskSpaceInfo.Default;
+            });
         }
 
         private static readonly Random Rnd = new Random();

@@ -16,9 +16,9 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace
         /// <param name="loadDiskSpaceResult">Load disk space result function</param>
         /// <param name="showDiskSpaceToastNotification"></param>
         /// <returns></returns>
-        internal static async Task<Result<int>> CheckDiskSpaceF(UDecimal requiredFreeDiskSpace, bool subtractSccmCache, Func<DiskSpaceInfo> loadDiskSpaceResult, Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification)
+        internal static async Task<Result<int>> CheckDiskSpaceF(UDecimal requiredFreeDiskSpace, bool subtractSccmCache, Func<Task<DiskSpaceInfo>> loadDiskSpaceResult, Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification)
         {
-            var diskSpaceInfo = loadDiskSpaceResult();
+            var diskSpaceInfo = await loadDiskSpaceResult().ConfigureAwait(false);
             var requiredCleanupAmount = requiredFreeDiskSpace - (diskSpaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? diskSpaceInfo.SccmCacheSize : 0));
             var isNotCompliant = requiredCleanupAmount > 0;
             if (isNotCompliant)
