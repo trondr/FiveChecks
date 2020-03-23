@@ -71,8 +71,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\strings.se.Designer.cs">
-      <DependentUpon>strings.se.resx</DependentUpon>
+    <Compile Include="Resources\strings.sv-se.Designer.cs">
+      <DependentUpon>strings.sv-se.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -136,9 +136,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings.fi.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\strings.se.resx">
+    <EmbeddedResource Include="Resources\strings.sv-se.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.se.Designer.cs</LastGenOutput>
+      <LastGenOutput>strings.sv-se.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\strings.no.resx">
       <Generator>ResXFileCodeGenerator</Generator>
