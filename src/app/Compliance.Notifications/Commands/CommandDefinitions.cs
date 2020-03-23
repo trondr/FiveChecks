@@ -19,9 +19,15 @@ namespace Compliance.Notifications.Commands
             [RequiredCommandParameter(Description = "Free disk space requirement in GB",AlternativeName = "fr", ExampleValue = 40)]
             decimal requiredFreeDiskSpace,
             [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc",ExampleValue = true,DefaultValue = false)]
-            bool subtractSccmCache
+            bool subtractSccmCache,
+            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
+            string userInterfaceCulture
             )
         {
+            if (!string.IsNullOrEmpty(userInterfaceCulture))
+            {
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
+            }
             return await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
         }
         
