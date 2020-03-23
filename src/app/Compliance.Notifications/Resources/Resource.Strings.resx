@@ -139,7 +139,7 @@
     <value>Disk space is critically low. This have consequence for system stability, program installations and update of Windows.</value>
   </data>
   <data name="Please_Cleanup_DiskSpace_Text_F0" xml:space="preserve">
-    <value>Please cleanup at least {0} GB.</value>
+    <value>Please cleanup at least {0:0.00} GB.</value>
   </data>
   <data name="ValueNeedsToBePositive" xml:space="preserve">
     <value>Value needs to be positive.</value>

@@ -286,7 +286,7 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please cleanup at least {0} GB..
+        ///   Looks up a localized string similar to Please cleanup at least {0:0.00} GB..
         /// </summary>
         internal static string Please_Cleanup_DiskSpace_Text_F0 {
             get {
