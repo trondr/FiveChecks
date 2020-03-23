@@ -181,7 +181,7 @@ namespace Compliance.Notifications.Common
         
         public static async Task<Result<Unit>> SaveComplianceItemResult<T>(Some<T> complianceItem, Some<string> fileName)
         {
-            return await TrySave(complianceItem, fileName)().ConfigureAwait(false);
+            return await TrySave(complianceItem, fileName).Try().ConfigureAwait(false);
         }
         private static TryAsync<Unit> TrySave<T>(Some<T> complianceItem, Some<string> fileName) => async () =>
         {
@@ -195,7 +195,7 @@ namespace Compliance.Notifications.Common
         
         public static async Task<Result<T>> LoadComplianceItemResult<T>(Some<string> fileName)
         {
-            return await TryLoad<T>(fileName)().ConfigureAwait(false);
+            return await TryLoad<T>(fileName).Try().ConfigureAwait(false);
         }
         private static TryAsync<T> TryLoad<T>(Some<string> fileName) => async () =>
         {
