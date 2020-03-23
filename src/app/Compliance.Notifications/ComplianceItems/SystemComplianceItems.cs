@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using LanguageExt;
 using LanguageExt.Common;
-using System.Linq;
 using System.Collections.Generic;
 using Compliance.Notifications.Commands.CheckDiskSpace;
 
@@ -20,7 +18,6 @@ namespace Compliance.Notifications.ComplianceItems
             var res = diskSpaceInfo.Match(dsi => F.SaveSystemComplianceItemResult<DiskSpaceInfo>(dsi), exception => Task.FromResult(new Result<Unit>(exception)));
             return await res;
         };
-
         public static List<MeasureCompliance> Measurements = new List<MeasureCompliance> { DiskSpaceMeasurement };
     }
 

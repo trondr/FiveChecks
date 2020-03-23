@@ -66,8 +66,6 @@ namespace Compliance.Notifications.Common
             }, exception => new Result<DiskSpaceInfo>(exception));
         }
 
-        private static Try<UDecimal> TryGetFileSize(Some<string> fileName) => () => new Result<UDecimal>(new FileInfo(fileName).Length);
-
         public static Try<FileInfo[]> TryGetFiles(Some<DirectoryInfo> directoryInfo,Some<string> searchPattern) => () =>
             directoryInfo.Value.EnumerateFiles(searchPattern.Value).ToArray();
         
