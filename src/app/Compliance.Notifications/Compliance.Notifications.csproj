@@ -57,6 +57,8 @@
     <Compile Include="Common\NativeMethods.cs" />
     <Compile Include="ComplianceItems\SystemComplianceItems.cs" />
     <Compile Include="Data\UDecimal.cs" />
+    <Compile Include="Data\UDoubleJsonConverter.cs" />
+    <Compile Include="Data\UDecimalJsonConverter.cs" />
     <Compile Include="Data\UDouble.cs" />
     <Compile Include="Helper\INotificationActivationCallback.cs" />
     <Compile Include="Helper\MyNotificationActivator.cs" />

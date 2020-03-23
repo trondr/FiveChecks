@@ -78,7 +78,6 @@ namespace Compliance.Notifications.Common.Tests
 
             public string Description { get; }
 
-            [JsonConverter(typeof(UDecimalJsonConverter))]
             public UDecimal SomeNumber { get; }
         }
 

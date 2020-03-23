@@ -156,7 +156,7 @@ namespace Compliance.Notifications.Common
         {
             using (var sw = new StreamWriter(fileName))
             {
-                var json = JsonConvert.SerializeObject(complianceItem.Value);
+                var json = JsonConvert.SerializeObject(complianceItem.Value, new UDecimalJsonConverter());
                 await sw.WriteAsync(json).ConfigureAwait(false);
                 return new Result<Unit>(Unit.Default);
             }
@@ -171,7 +171,7 @@ namespace Compliance.Notifications.Common
             using (var sr = new StreamReader(fileName))
             {
                 var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-                var item = JsonConvert.DeserializeObject<T>(json);
+                var item = JsonConvert.DeserializeObject<T>(json,new UDecimalJsonConverter());
                 return new Result<T>(item);
             }
         };
