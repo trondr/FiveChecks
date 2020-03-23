@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Compliance.Notifications.Common;
+using System;
+using System.IO;
 using System.Threading.Tasks;
+using Compliance.Notifications.Commands.CheckDiskSpace;
 using Compliance.Notifications.Data;
 using LanguageExt;
 using NUnit.Framework;
-using Pri.LongPath;
+using DirectoryInfo = Pri.LongPath.DirectoryInfo;
+using FileInfo = Pri.LongPath.FileInfo;
 
 namespace Compliance.Notifications.Common.Tests
 {
@@ -139,6 +143,22 @@ namespace Compliance.Notifications.Common.Tests
                 return 0M;
             });
             Assert.IsTrue(actualSize > 0);
+        }
+        [Test()]
+        public async Task LoadSystemComplianceItemResultTest_Success()
+        {
+            var expected = new DiskSpaceInfo { SccmCacheSize = 12, TotalFreeDiskSpace = 123 };
+            var savedResult = await F.SaveSystemComplianceItemResult<DiskSpaceInfo>(expected).ConfigureAwait(false);
+            var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test()]
+        public async Task LoadSystemComplianceItemResultTest_FileNotExist()
+        {
+            var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
+            var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
+            Assert.AreEqual(DiskSpaceInfo.Default, actual);
         }
     }
 }
