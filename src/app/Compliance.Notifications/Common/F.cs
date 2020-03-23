@@ -173,6 +173,19 @@ namespace Compliance.Notifications.Common
             return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
         }
 
+        public static Try<Unit> DeleteFile(Some<string> fileName) => () =>
+        {
+            if (System.IO.File.Exists(fileName))
+                File.Delete(fileName);
+            return Unit.Default;
+        };
+
+        public static Result<Unit> ClearSystemComplianceItemResult<T>()
+        {
+            var fileName = GetSystemComplianceItemResultFileName<T>();
+            return  DeleteFile(fileName).Try();
+        }
+
         public static async Task<Result<T>> LoadSystemComplianceItemResult<T>()
         {
             var fileName = GetSystemComplianceItemResultFileName<T>();
