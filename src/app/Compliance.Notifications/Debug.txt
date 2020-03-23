@@ -1,4 +1,4 @@
 ﻿Help
 License
 Credits
-ShowNotification /args=['arg1']
+CheckDiskSpace /requiredFreeDiskSpace=40 /subtractSccmCache=True

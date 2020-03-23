@@ -37,7 +37,7 @@ namespace Compliance.Notifications.Data
         public UDouble(double value)
         {
             if (double.IsNegativeInfinity(value)|| value < 0)
-                throw new ArgumentException(Resource_Strings.ValueNeedsToBePositive);
+                throw new ArgumentException(strings.ValueNeedsToBePositive);
             _value = value;
         }
 

@@ -23,7 +23,7 @@ namespace Compliance.Notifications.Data
         public UDecimal(decimal value)
         {
             if (value < 0)
-                throw new ArgumentException(Resource_Strings.ValueNeedsToBePositive);
+                throw new ArgumentException(strings.ValueNeedsToBePositive);
             _value = value;
         }
 

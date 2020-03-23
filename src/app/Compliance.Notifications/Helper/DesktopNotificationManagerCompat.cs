@@ -44,7 +44,7 @@ namespace Compliance.Notifications.Helper
         {
             if (string.IsNullOrWhiteSpace(aumid))
             {
-                throw new ArgumentException(Resource_Strings.MissingAumidError, nameof(aumid));
+                throw new ArgumentException(strings.MissingAumidError, nameof(aumid));
             }
 
             // If running as Desktop Bridge
@@ -144,7 +144,7 @@ namespace Compliance.Notifications.Helper
                 else
                 {
                     // Otherwise, incorrect usage
-                    throw new Exception(Resource_Strings.AumidAndComRegistrationError);
+                    throw new Exception(strings.AumidAndComRegistrationError);
                 }
             }
 
@@ -152,7 +152,7 @@ namespace Compliance.Notifications.Helper
             if (!_registeredActivator)
             {
                 // Incorrect usage
-                throw new Exception(Resource_Strings.ActivatorRegistrationError);
+                throw new Exception(strings.ActivatorRegistrationError);
             }
         }
 

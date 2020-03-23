@@ -23,7 +23,7 @@ using Path = Pri.LongPath.Path;
 namespace Compliance.Notifications.Common
 {
     /// <summary>
-    /// 
+    /// Common functions
     /// </summary>
     public static class F
     {
@@ -97,7 +97,7 @@ namespace Compliance.Notifications.Common
         public static string AppendDirectorySeparatorChar(this string folder)
         {
             if (string.IsNullOrWhiteSpace(folder))
-                throw new ArgumentException(Resource_Strings.ValueCannotBeNullOrWhiteSpace, nameof(folder));
+                throw new ArgumentException(strings.ValueCannotBeNullOrWhiteSpace, nameof(folder));
 
             return !folder.EndsWith($"{Path.DirectorySeparatorChar}", StringComparison.InvariantCulture) ?
                 $"{folder}{Path.DirectorySeparatorChar}" :
@@ -119,11 +119,11 @@ namespace Compliance.Notifications.Common
         {
             DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
             DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
-            var title = Resource_Strings.DiskSpaceIsLow_Title;
+            var title = strings.DiskSpaceIsLow_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
             var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = Resource_Strings.DiskSpaceIsLow_Description;
-            var content2 = string.Format(CultureInfo.InvariantCulture, Resource_Strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
+            var content = strings.DiskSpaceIsLow_Description;
+            var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
             var action = "ms-settings:storagesense";
             var toastContentInfo = new ActionSnoozeDismissToastContentInfo(title, companyName, content, content2, action, imageUri, appLogoImageUri);
             var toastContent = await ActionSnoozeDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);

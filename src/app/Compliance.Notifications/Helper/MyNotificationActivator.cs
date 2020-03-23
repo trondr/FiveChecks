@@ -12,7 +12,7 @@ namespace Compliance.Notifications.Helper
     {
         public override void OnActivated(string invokedArgs, NotificationUserInputCollection userInputCollection, string appUserModelId)
         { 
-           Logging.DefaultLogger.Info(Resource_Strings.YouActivatedTheToast);
+           Logging.DefaultLogger.Info(strings.YouActivatedTheToast);
         }
     }
 }
