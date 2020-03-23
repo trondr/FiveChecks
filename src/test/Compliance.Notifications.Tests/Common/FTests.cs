@@ -1,11 +1,9 @@
-﻿using Compliance.Notifications.Common;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Data;
 using LanguageExt;
-using LanguageExt.Common;
-using Newtonsoft.Json;
 using NUnit.Framework;
+using Pri.LongPath;
 
 namespace Compliance.Notifications.Common.Tests
 {
@@ -84,9 +82,9 @@ namespace Compliance.Notifications.Common.Tests
         [Test]
         public async Task SaveAndLoadComplianceItemResultTest()
         {
-            var testData = new TestData("A Name","A description",81.3452m);
+            var testData = new TestData("A Name", "A description", 81.3452m);
             Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.json";
-            var result = await F.SaveComplianceItemResult<TestData>(testData,fileName);
+            var result = await F.SaveComplianceItemResult<TestData>(testData, fileName);
             result.Match<Unit>(unit =>
             {
                 Assert.IsTrue(true);
@@ -104,12 +102,43 @@ namespace Compliance.Notifications.Common.Tests
                             Assert.AreEqual("A description", data.Description);
                             Assert.AreEqual(new UDecimal(81.3452m), data.SomeNumber);
                             return data;
-                        }, 
+                        },
                 exception =>
                         {
                             Assert.Fail(exception.Message);
                             throw exception;
                         });
+        }
+
+        [Test()]
+        public void TryGetFilesTest()
+        {
+            var actual = F.TryGetFiles(new DirectoryInfo(@"c:\temp\UserTemp\msdtadmin"), "*.*");
+            var files = actual.Try().Match<FileInfo[]>(infos =>
+                {
+                    Assert.IsTrue(false, "Not expected.");
+                    return infos;
+                }, exception =>
+                {
+                    Assert.True(true);
+                    return new FileInfo[] { };
+                });
+        }
+
+        [Test()]
+        public async Task GetFolderSizeTest()
+        {
+            var actual = await F.GetFolderSize(@"c:\temp");
+            var actualSize = actual.Match<UDecimal>(size =>
+            {
+                Assert.IsTrue(true);
+                return size;
+            }, exception =>
+            {
+                Assert.False(true,"Not expected to fail");
+                return 0M;
+            });
+            Assert.IsTrue(actualSize > 0);
         }
     }
 }

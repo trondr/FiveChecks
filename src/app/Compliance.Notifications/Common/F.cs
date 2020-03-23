@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.System;
@@ -15,7 +16,12 @@ using Compliance.Notifications.Resources;
 using Compliance.Notifications.ToastTemplates;
 using LanguageExt;
 using LanguageExt.Common;
+using static LanguageExt.Prelude;
 using Newtonsoft.Json;
+using Directory = Pri.LongPath.Directory;
+using DirectoryInfo = Pri.LongPath.DirectoryInfo;
+using FileInfo = Pri.LongPath.FileInfo;
+using Path = Pri.LongPath.Path;
 
 namespace Compliance.Notifications.Common
 {
@@ -46,8 +52,8 @@ namespace Compliance.Notifications.Common
         public static async Task<Result<DiskSpaceInfo>> GetDiskSpaceInfo()
         {
             var totalFreeDiskSpace = GetFreeDiskSpaceInGigaBytes(@"c:\");
-            Logging.DefaultLogger.Warn("GetDiskSpaceInfo: NOT IMPLEMENTED");
-            var sccmCacheFolderSize = await GetFolderSize(@"c:\temp").ConfigureAwait(false);
+            Logging.DefaultLogger.Warn("TODO: Calculate path to Sccm Cache");
+            var sccmCacheFolderSize = await GetFolderSize(@"c:\windows\ccmcache").ConfigureAwait(false);
             return totalFreeDiskSpace.Match(tfd =>
             {
                 return sccmCacheFolderSize.Match(
@@ -60,16 +66,37 @@ namespace Compliance.Notifications.Common
             }, exception => new Result<DiskSpaceInfo>(exception));
         }
 
+        private static Try<UDecimal> TryGetFileSize(Some<string> fileName) => () => new Result<UDecimal>(new FileInfo(fileName).Length);
+
+        public static Try<FileInfo[]> TryGetFiles(Some<DirectoryInfo> directoryInfo,Some<string> searchPattern) => () =>
+            directoryInfo.Value.EnumerateFiles(searchPattern.Value).ToArray();
+        
+        public static Try<DirectoryInfo[]> TryGetDirectories(Some<DirectoryInfo> directoryInfo, Some<string> searchPattern) => () =>
+            directoryInfo.Value.GetDirectories(searchPattern.Value);
+        
+        public static IEnumerable<FileInfo> GetFilesSafe(this DirectoryInfo directory, Some<string> searchPattern, SearchOption searchOption)
+        {
+            var files = TryGetFiles(directory, searchPattern).Try().Match(fs => fs, exception => System.Array.Empty<FileInfo>());
+            var subDirectories = TryGetDirectories(directory, searchPattern).Try().Match(fs => fs, exception => System.Array.Empty<DirectoryInfo>());
+            var subFiles = 
+                searchOption == SearchOption.AllDirectories ? 
+                subDirectories.SelectMany(info => GetFilesSafe(info, searchPattern, searchOption)).ToArray() : 
+                Enumerable.Empty<FileInfo>();
+            return files.Concat(subFiles);
+        }
+        
+        public static Try<UDecimal> TryGetFolderSize(Some<string> folder) => () =>
+        {
+            var folderSize =
+                    new DirectoryInfo(folder).GetFilesSafe("*.*", SearchOption.AllDirectories)
+                    .Sum(f => f.Length);
+            var folderSizeInGb = new UDecimal(folderSize / 1024.0M / 1024.0M / 1024.0M);
+            return new Result<UDecimal>(folderSizeInGb);
+        };
+
         public static async Task<Result<UDecimal>> GetFolderSize(Some<string> folder)
         {
-            Logging.DefaultLogger.Warn("GetFolderSize: Need better error handling when Access Denied.");
-            return await Task.Run(() =>
-            {
-                var folderSize = 
-                    Pri.LongPath.Directory.EnumerateFiles(folder, "*.*", SearchOption.AllDirectories)
-                        .Sum(s => new FileInfo(s).Length);
-                return new Result<UDecimal>(new UDecimal(folderSize/1024.0M/1024.0M/1024.0M));
-            }).ConfigureAwait(false);
+            return await Task.Run(() => TryGetFolderSize(folder).Try()).ConfigureAwait(false);
         }
 
         public static string AppendDirectorySeparatorChar(this string folder)
