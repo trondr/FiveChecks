@@ -1,8 +1,10 @@
 ﻿using Compliance.Notifications.Common;
 using System;
 using System.Threading.Tasks;
+using Compliance.Notifications.Data;
 using LanguageExt;
 using LanguageExt.Common;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Common.Tests
@@ -65,21 +67,25 @@ namespace Compliance.Notifications.Common.Tests
 
         public class TestData : Record<TestData>
         {
-            public TestData(Some<string> name, Some<string> description)
+            public TestData(Some<string> name, Some<string> description, UDecimal someNumber)
             {
                 Description = description;
+                SomeNumber = someNumber;
                 Name = name;
             }
 
             public string Name { get; }
 
             public string Description { get; }
+
+            [JsonConverter(typeof(UDecimalJsonConverter))]
+            public UDecimal SomeNumber { get; }
         }
 
         [Test]
         public async Task SaveAndLoadComplianceItemResultTest()
         {
-            var testData = new TestData("A Name","A description");
+            var testData = new TestData("A Name","A description",81.3452m);
             Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.json";
             var result = await F.SaveComplianceItemResult<TestData>(testData,fileName);
             result.Match<Unit>(unit =>
@@ -97,6 +103,7 @@ namespace Compliance.Notifications.Common.Tests
                         {
                             Assert.AreEqual("A Name", data.Name);
                             Assert.AreEqual("A description", data.Description);
+                            Assert.AreEqual(new UDecimal(81.3452m), data.SomeNumber);
                             return data;
                         }, 
                 exception =>

@@ -85,7 +85,7 @@ namespace Compliance.Notifications.Data
 
         public override string ToString()
         {
-            return _value.ToString(CultureInfo.CurrentCulture);
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
 #pragma warning restore CA2225 // Operator overloads have named alternates
 #pragma warning restore CA2211 // Non-constant fields should not be visible
