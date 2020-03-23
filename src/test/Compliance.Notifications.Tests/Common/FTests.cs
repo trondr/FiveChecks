@@ -139,11 +139,12 @@ namespace Compliance.Notifications.Common.Tests
                 return size;
             }, exception =>
             {
-                Assert.False(true,"Not expected to fail");
+                Assert.False(true, "Not expected to fail");
                 return 0M;
             });
             Assert.IsTrue(actualSize > 0);
         }
+
         [Test()]
         public async Task LoadSystemComplianceItemResultTest_Success()
         {
@@ -159,6 +160,19 @@ namespace Compliance.Notifications.Common.Tests
             var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
             var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(DiskSpaceInfo.Default, actual);
+        }
+
+        [Test()]
+        public void ToExceptionMessageTest_AggregateException()
+        {
+            var mainMessage = "Many exceptions throw.";
+            var message1 = "File not found.";
+            var message2 = "Invalid argument";
+            var testException = new AggregateException(mainMessage, new Exception[]{new FileNotFoundException(message1),new ArgumentException(message2)});
+            var nl = Environment.NewLine;
+            var expected = $"{mainMessage}{nl}{message1}{nl}{message2}";
+            var actual = testException.ToExceptionMessage();
+            Assert.AreEqual(actual,expected);
         }
     }
 }
