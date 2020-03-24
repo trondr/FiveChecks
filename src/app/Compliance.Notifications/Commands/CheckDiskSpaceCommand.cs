@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
-using Compliance.Notifications.Data;
+using Compliance.Notifications.ComplianceItems.SystemDiskSpace;
 using LanguageExt.Common;
 
-namespace Compliance.Notifications.Commands.CheckDiskSpace
+namespace Compliance.Notifications.Commands
 {
     public static class CheckDiskSpaceCommand
     {

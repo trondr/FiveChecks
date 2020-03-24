@@ -23,7 +23,7 @@ using System.Text;
 using Windows.UI.Notifications;
 using Compliance.Notifications.Resources;
 
-namespace Compliance.Notifications.Helper
+namespace Compliance.Notifications.Common
 {
     public static class DesktopNotificationManagerCompat
     {

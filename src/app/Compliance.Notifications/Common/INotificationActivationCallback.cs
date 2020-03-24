@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Compliance.Notifications.Helper
+namespace Compliance.Notifications.Common
 {
     [ComImport, Guid("53E31837-6600-4A81-9395-75CFFE746F94"), ComVisible(true), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface INotificationActivationCallback

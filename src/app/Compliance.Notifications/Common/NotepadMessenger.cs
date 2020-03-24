@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using NCmdLiner;
 
-namespace Compliance.Notifications.Commands
+namespace Compliance.Notifications.Common
 {
     /// <summary>
     /// Output Help, License and Credits to file instead of to the console and show it in the default text file editor

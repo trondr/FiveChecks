@@ -3,13 +3,13 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Compliance.Notifications.Commands.CheckDiskSpace;
+using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.ComplianceItems;
 using LanguageExt.Common;
 using NCmdLiner.Attributes;
 
-namespace Compliance.Notifications.Commands
+namespace Compliance.Notifications
 {
     public static class CommandDefinitions
     {

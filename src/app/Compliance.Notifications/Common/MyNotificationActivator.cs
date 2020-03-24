@@ -1,8 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using Compliance.Notifications.Common;
 using Compliance.Notifications.Resources;
 
-namespace Compliance.Notifications.Helper
+namespace Compliance.Notifications.Common
 {
     // The GUID CLSID must be unique to your app. Create a new GUID if copying this code.
     [ClassInterface(ClassInterfaceType.None)]

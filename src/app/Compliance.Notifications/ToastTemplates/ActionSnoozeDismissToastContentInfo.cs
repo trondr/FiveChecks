@@ -1,7 +1,7 @@
 ﻿using System;
 using LanguageExt;
 
-namespace Compliance.Notifications.Commands.CheckDiskSpace
+namespace Compliance.Notifications.ToastTemplates
 {
     public class ActionSnoozeDismissToastContentInfo: Record<ActionSnoozeDismissToastContentInfo>
     {

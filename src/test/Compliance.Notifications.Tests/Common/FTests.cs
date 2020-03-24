@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Compliance.Notifications.Commands.CheckDiskSpace;
-using Compliance.Notifications.Data;
+using Compliance.Notifications.ComplianceItems.SystemDiskSpace;
 using LanguageExt;
 using NUnit.Framework;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;

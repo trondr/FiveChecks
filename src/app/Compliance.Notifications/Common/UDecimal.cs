@@ -2,19 +2,19 @@
 using System.Globalization;
 using Compliance.Notifications.Resources;
 
-namespace Compliance.Notifications.Data
+namespace Compliance.Notifications.Common
 {
     public struct UDecimal : IEquatable<UDecimal>
     {
         
 #pragma warning disable CA2211 // Non-constant fields should not be visible
         /// <summary>
-        /// Represents the smallest possible value of <see cref="Compliance.Notifications.Data.UDecimal"/> (0).
+        /// Represents the smallest possible value of <see cref="UDecimal"/> (0).
         /// </summary>
         public static UDecimal MinValue = 0M;
 
         /// <summary>
-        /// Represents the largest possible value of <see cref="Compliance.Notifications.Data.UDecimal"/> (equivalent to <see cref="decimal.MaxValue"/>).
+        /// Represents the largest possible value of <see cref="UDecimal"/> (equivalent to <see cref="decimal.MaxValue"/>).
         /// </summary>
         public static UDecimal MaxValue = decimal.MaxValue;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
 using LanguageExt;
 using NCmdLiner;

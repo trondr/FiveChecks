@@ -2,10 +2,10 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Compliance.Notifications.Commands.CheckDiskSpace;
+using Compliance.Notifications.Common;
 using LanguageExt;
 using Microsoft.Toolkit.Uwp.Notifications;
-using DesktopNotificationManagerCompat = Compliance.Notifications.Helper.DesktopNotificationManagerCompat;
+using DesktopNotificationManagerCompat = Compliance.Notifications.Common.DesktopNotificationManagerCompat;
 
 namespace Compliance.Notifications.ToastTemplates
 {
@@ -92,10 +92,10 @@ namespace Compliance.Notifications.ToastTemplates
                         {
                             new ToastSelectionBox("snoozeTime")
                             {
-                                DefaultSelectionBoxItemId = "1",
+                                DefaultSelectionBoxItemId = "15",
                                 Items =
                                 {
-                                    new ToastSelectionBoxItem("1","1 minute"),
+                                    new ToastSelectionBoxItem("15","15 minute"),
                                     new ToastSelectionBoxItem("30","30 minutes"),
                                     new ToastSelectionBoxItem("60","1 hour"),
                                     new ToastSelectionBoxItem("240","4 hours"),
