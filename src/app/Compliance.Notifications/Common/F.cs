@@ -249,6 +249,21 @@ namespace Compliance.Notifications.Common
             return results.ToResult().Match(units => new Result<Unit>(Unit.Default), exception => new Result<Unit>(exception));
         }
 
+        public static async Task<Result<Unit>> RunSystemComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
+        {
+            if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
+            if (!SystemComplianceItemIsActive<T>()) return new Result<Unit>();
+            var info = await measureCompliance().ConfigureAwait(false);
+            var res = await info.Match(dsi => F.SaveSystemComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
+            return res;
+        }
+
+        private static bool SystemComplianceItemIsActive<T>()
+        {
+            Logging.DefaultLogger.Warn("TODO: Implement Check if compliance item is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
+            return true;
+        }
+
         public static string ToExceptionMessage(this Exception ex)
         {
             if (ex == null) throw new ArgumentNullException(nameof(ex));

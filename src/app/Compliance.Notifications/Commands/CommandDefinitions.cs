@@ -45,7 +45,7 @@ namespace Compliance.Notifications.Commands
             var result = await SystemComplianceItems.Measurements.ExecuteComplianceMeasurements().ConfigureAwait(false);
             return result.Match(unit => new Result<int>(0), exception =>
             {
-                Logging.DefaultLogger.Error($"Failed to measure system compliance. {exception.ToExceptionMessage()}");
+                Logging.DefaultLogger.Error($"Failed to measure system compliance items. {exception.ToExceptionMessage()}");
                 return new Result<int>(1);
             });
         }

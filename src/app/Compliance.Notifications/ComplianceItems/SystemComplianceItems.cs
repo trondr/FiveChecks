@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using LanguageExt;
 using LanguageExt.Common;
@@ -8,17 +9,16 @@ using Compliance.Notifications.Commands.CheckDiskSpace;
 namespace Compliance.Notifications.ComplianceItems
 {
     public delegate Task<Result<Unit>> MeasureCompliance();
-
+    
     public static class SystemComplianceItems
     {
-        public static MeasureCompliance DiskSpaceMeasurement = async () =>
-        {
-            Logging.DefaultLogger.Warn("DiskSpaceMeasurement: NOT IMPLEMENTED");
-            var diskSpaceInfo = await F.GetDiskSpaceInfo();
-            var res = diskSpaceInfo.Match(dsi => F.SaveSystemComplianceItemResult<DiskSpaceInfo>(dsi), exception => Task.FromResult(new Result<Unit>(exception)));
-            return await res;
-        };
-        public static List<MeasureCompliance> Measurements = new List<MeasureCompliance> { DiskSpaceMeasurement };
+        private static readonly MeasureCompliance DiskSpaceMeasurement = async () => 
+            await F.RunSystemComplianceItem<DiskSpaceInfo>(F.GetDiskSpaceInfo).ConfigureAwait(false);
+
+        /// <summary>
+        /// List of all system compliance items.
+        /// </summary>
+        public static List<MeasureCompliance> Measurements { get; } = new List<MeasureCompliance> {DiskSpaceMeasurement};
     }
 
     public static class UserComplianceItems
