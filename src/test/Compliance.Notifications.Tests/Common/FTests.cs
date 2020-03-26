@@ -1,8 +1,6 @@
-﻿using Compliance.Notifications.Common;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Compliance.Notifications.Commands.CheckDiskSpace;
 using Compliance.Notifications.ComplianceItems.SystemDiskSpace;
 using LanguageExt;
 using NUnit.Framework;
@@ -11,10 +9,11 @@ using FileInfo = Pri.LongPath.FileInfo;
 
 namespace Compliance.Notifications.Common.Tests
 {
-    [TestFixture(Category = TestCategory.UnitTests)]
+    [TestFixture()]
     public class FTests
     {
         [Test]
+        [Category(TestCategory.UnitTests)]
         [Category(TestCategory.UnitTests)]
         [TestCase("c:\\temp", "c:\\temp\\")]
         [TestCase("\\\\temp\\temp", "\\\\temp\\temp\\")]
@@ -25,6 +24,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void AppendDirectorySeparatorCharTest_NullInput_Exception()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -35,6 +35,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void AppendDirectorySeparatorCharTest_EmptyInput_Exception()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -45,6 +46,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void GetFreeDiskSpaceTest()
         {
             F.GetFreeDiskSpaceInGigaBytes("c:\\").Match<decimal>(size =>
@@ -60,6 +62,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         [TestCase(@"test.txt", "somename1", @"test.somename1.txt")]
         public void AppendToFileNameTest(string fileName, string name, string expected)
         {
@@ -84,6 +87,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public async Task SaveAndLoadComplianceItemResultTest()
         {
             var testData = new TestData("A Name", "A description", 81.3452m);
@@ -115,6 +119,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public void TryGetFilesTest()
         {
             var actual = F.TryGetFiles(new DirectoryInfo(@"c:\temp\UserTemp\msdtadmin"), "*.*");
@@ -130,6 +135,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task GetFolderSizeTest()
         {
             var actual = await F.GetFolderSize(@"c:\temp");
@@ -146,6 +152,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task LoadSystemComplianceItemResultTest_Success()
         {
             var expected = new DiskSpaceInfo { SccmCacheSize = 12, TotalFreeDiskSpace = 123 };
@@ -155,6 +162,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task LoadSystemComplianceItemResultTest_FileNotExist()
         {
             var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
@@ -163,16 +171,49 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public void ToExceptionMessageTest_AggregateException()
         {
             var mainMessage = "Many exceptions throw.";
             var message1 = "File not found.";
             var message2 = "Invalid argument";
-            var testException = new AggregateException(mainMessage, new Exception[]{new FileNotFoundException(message1),new ArgumentException(message2)});
+            var testException = new AggregateException(mainMessage, new Exception[] { new FileNotFoundException(message1), new ArgumentException(message2) });
             var nl = Environment.NewLine;
             var expected = $"{mainMessage}{nl}{message1}{nl}{message2}";
             var actual = testException.ToExceptionMessage();
-            Assert.AreEqual(actual,expected);
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
+        [Category(TestCategory.ManualTests)]
+        public async Task InstallTest()
+        {
+            var actual = await F.Install();
+            var exitCode = actual.Match(i =>
+            {
+                Assert.IsTrue(true);
+                return 0;
+            }, exception =>
+            {
+                Assert.Fail(exception.ToExceptionMessage());
+                return 1;
+            });
+        }
+
+        [Test]
+        [Category(TestCategory.ManualTests)]
+        public async Task UnInstallTest()
+        {
+            var actual = await F.UnInstall();
+            var exitCode = actual.Match(i =>
+            {
+                Assert.IsTrue(true);
+                return 0;
+            }, exception =>
+            {
+                Assert.Fail(exception.ToExceptionMessage());
+                return 1;
+            });
         }
     }
 }

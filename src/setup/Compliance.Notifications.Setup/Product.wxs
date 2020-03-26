@@ -46,17 +46,38 @@
     <CustomAction Id="NoDowngrade" Error="A later version of $(var.ProductName) is already installed." />
     <CustomAction Id="NoSelf" Error="Same version of $(var.ProductName) is already installed." />
 
+    <CustomAction Id="InstallProductNameAction"
+                  Directory="TargetFolder"
+                  ExeCommand="&quot;[TargetFolder]$(var.ProductName).exe&quot; Install"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no"
+    />
+
+    <CustomAction Id="UnInstallProductNameAction"
+                  Directory="TargetFolder"
+                  ExeCommand="&quot;[TargetFolder]$(var.ProductName).exe&quot; UnInstall"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no"
+    />
+
     <InstallExecuteSequence>
       <Custom Action="NoDowngrade" After="FindRelatedProducts"><![CDATA[NEWERFOUND]]></Custom>
       <Custom Action="NoSelf" After="FindRelatedProducts"><![CDATA[SELFFOUND]]></Custom>
       <RemoveExistingProducts After="InstallInitialize"/>
       <LaunchConditions After="AppSearch"/>
+      <Custom Action='InstallProductNameAction' After='InstallFiles' />
+      <Custom Action='UnInstallProductNameAction' Before='RemoveFiles' />
     </InstallExecuteSequence>
 
     <Media Id="1" Cabinet="$(var.ProductName)" EmbedCab="yes" CompressionLevel="high"/>
 
 		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
 			<ComponentGroupRef Id="ProductExeComponentGroup" />
+      <ComponentGroupRef Id="NOProductExeComponentGroup"/>
+      <ComponentGroupRef Id="SEProductExeComponentGroup"/>
+      <ComponentGroupRef Id="FIProductExeComponentGroup"/>
     </Feature>
 
     <WixVariable Id="WixUIBannerBmp" Value="WixUIBanner.bmp"/>
@@ -70,7 +91,11 @@
 			<Directory Id="ProgramFilesFolder">
         <Directory Id="CompanyFolder" Name="$(var.CompanyName)">
           <Directory Id="TargetBaseFolder" Name="$(var.ProductName)">
-            <Directory Id="TargetFolder" Name="!(bind.FileVersion.ProductExe)" ></Directory>
+            <Directory Id="TargetFolder" Name="!(bind.FileVersion.ProductExe)" >
+              <Directory Id="noFolder" Name="no"/>
+              <Directory Id="svseFolder" Name="sv-se"/>
+              <Directory Id="fiFolder" Name="fi"/>
+            </Directory>
           </Directory>
         </Directory>
 			</Directory>
@@ -118,6 +143,9 @@
       <Component Id="NCmdLiner" Guid="*">
         <File Id="NCmdLinerDll" Name="NCmdLiner.dll" Source="$(var.ProductExeReleaseFolder)\NCmdLiner.dll" KeyPath="yes" />
       </Component>
+      <Component Id="Microsoft_Win32_TaskScheduler" Guid="*">
+        <File Id="Microsoft_Win32_TaskScheduler_dll" Name="Microsoft.Win32.TaskScheduler.dll" Source="$(var.ProductExeReleaseFolder)\Microsoft.Win32.TaskScheduler.dll" KeyPath="yes" />
+      </Component>
       <Component Id="Newtonsoft_Json" Guid="*">
         <File Id="Newtonsoft_Json_Dll" Name="Newtonsoft.Json.dll" Source="$(var.ProductExeReleaseFolder)\Newtonsoft.Json.dll" KeyPath="yes" />
       </Component>
@@ -145,5 +173,20 @@
       </Component>
       <ComponentRef Id="ApplicationShortcut"/>
 		</ComponentGroup>
-	</Fragment>
+    <ComponentGroup Id="NOProductExeComponentGroup" Directory="noFolder">
+      <Component Id="No_Compliance_Notifications_resources" Guid="*">
+        <File Id="No_Compliance_Notifications_resources_Dll" Name="Compliance.Notifications.resources.dll" Source="$(var.ProductExeReleaseFolder)\no\Compliance.Notifications.resources.dll" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="SEProductExeComponentGroup" Directory="svseFolder">
+      <Component Id="SE_Compliance_Notifications_resources" Guid="*">
+        <File Id="SE_Compliance_Notifications_resources_Dll" Name="Compliance.Notifications.resources.dll" Source="$(var.ProductExeReleaseFolder)\sv-se\Compliance.Notifications.resources.dll" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="FIProductExeComponentGroup" Directory="fiFolder">
+      <Component Id="FI_Compliance_Notifications_resources" Guid="*">
+        <File Id="FI_Compliance_Notifications_resources_Dll" Name="Compliance.Notifications.resources.dll" Source="$(var.ProductExeReleaseFolder)\fi\Compliance.Notifications.resources.dll" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 </Wix>

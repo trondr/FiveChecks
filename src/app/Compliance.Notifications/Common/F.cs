@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -12,11 +14,13 @@ using Compliance.Notifications.Resources;
 using Compliance.Notifications.ToastTemplates;
 using LanguageExt;
 using LanguageExt.Common;
+using Microsoft.Win32.TaskScheduler;
 using Newtonsoft.Json;
 using Directory = Pri.LongPath.Directory;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 using FileInfo = Pri.LongPath.FileInfo;
 using Path = Pri.LongPath.Path;
+using Task = System.Threading.Tasks.Task;
 
 namespace Compliance.Notifications.Common
 {
@@ -275,5 +279,107 @@ namespace Compliance.Notifications.Common
                     ? ex.Message + Environment.NewLine + ex.InnerException.ToExceptionMessage()
                     : ex.Message;
         }
+
+        private static Try<Unit> RegisterSystemScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
+            Some<string> arguments, Some<string> taskDescription) => () =>
+        {
+            using (var ts = TaskService.Instance)
+            {
+                using (var td = ts.NewTask())
+                {
+                    td.RegistrationInfo.Description = taskDescription.Value;
+                    td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                    td.Triggers.Add(ScheduledTasks.HourlyTrigger());
+                    //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
+                    td.RegistrationInfo.SecurityDescriptorSddlForm =
+                        "O:BAG:SYD:AI(A;;FR;;;SY)(A;;0x1200a9;;;BU)(A;ID;0x1f019f;;;BA)(A;ID;0x1f019f;;;SY)(A;ID;FA;;;BA)";
+                    td.Principal.UserId = "SYSTEM";
+                    td.Principal.RunLevel = TaskRunLevel.Highest;
+                    ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+                }
+            }
+            return new Result<Unit>(Unit.Default);
+        };
+
+        private static Try<Unit> RegisterUserScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
+            Some<string> arguments, Some<string> taskDescription, Some<Trigger> trigger) => () =>
+        {
+            using (var ts = TaskService.Instance)
+            {
+                using (var td = ts.NewTask())
+                {
+                    td.RegistrationInfo.Description = taskDescription.Value;
+                    td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                    td.Triggers.Add(trigger.Value);
+                    td.Principal.GroupId = ScheduledTasks.BuiltInUsers();
+                    td.Principal.RunLevel = TaskRunLevel.LUA;
+                    ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+                }
+            }
+            return new Result<Unit>(Unit.Default);
+        };
+
+        public static async Task<Result<int>> Install()
+        {
+            var exeFile = Assembly.GetExecutingAssembly().Location;
+            
+            var checkTaskResult = RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, new FileInfo(exeFile),"CheckDiskSpace /subtractSccmCache=True /requiredFreeDiskSpace=40", ScheduledTasks.ComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
+                .Try()
+                .Match(result => new Result<int>(0),exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceCheckTaskName}", exception)));
+            
+            var systemTaskResult = RegisterSystemScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName, new FileInfo(exeFile), "MeasureSystemComplianceItems", ScheduledTasks.ComplianceSystemMeasurementsTaskDescription)
+                .Try()
+                .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceSystemMeasurementsTaskName}", exception)));
+
+            var userTaskResult = RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, new FileInfo(exeFile), "MeasureUserComplianceItems", ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
+                .Try()
+                .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
+
+            return new List<Result<int>> { checkTaskResult, systemTaskResult, userTaskResult }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+        }
+
+        private static Try<Result<Unit>> UnRegisterScheduledTask(Some<string> taskName) => () =>
+        {
+            var task = new Option<Microsoft.Win32.TaskScheduler.Task>(
+                TaskService.Instance.AllTasks.Where(t => t.Name == taskName));
+            return task.Match(t =>
+            {
+                TaskService.Instance.RootFolder.DeleteTask(t.Name, false);
+                return new Result<Unit>(Unit.Default);
+            }, () => new Result<Unit>(Unit.Default));
+        };
+
+        public static async Task<Result<int>> UnInstall()
+        {
+            var res1 = UnRegisterScheduledTask(ScheduledTasks.ComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res2 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            return new List<Result<int>> {res1,res2,res3}.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+
+        }
+    }
+
+    public static class ScheduledTasks
+    {
+        public const string ComplianceCheckTaskName = "Compliance Notification Check";
+        public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
+
+        public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
+        public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";
+
+        public const string ComplianceUserMeasurementsTaskName = "Compliance User Measurement";
+        public const string ComplianceUserMeasurementsTaskDescription = "Measurement user compliance hourly";
+
+        public static Func<Trigger> UnlockTrigger => () => new SessionStateChangeTrigger(TaskSessionStateChangeType.SessionUnlock);
+
+        public static Func<Trigger> HourlyTrigger => () => new DailyTrigger {Repetition = new RepetitionPattern(new TimeSpan(0, 1, 0, 0, 0), new TimeSpan(1, 0, 0, 0))};
+
+        public static Func<String> BuiltInUsers => () =>
+        {
+            var sid = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
+            var account = (NTAccount)sid.Translate(typeof(NTAccount));
+            return account.Value;
+        };
+
     }
 }

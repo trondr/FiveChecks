@@ -13,6 +13,22 @@ namespace Compliance.Notifications
 {
     public static class CommandDefinitions
     {
+        [Command(Summary = "Install compliance notification utility.",
+            Description = "Install compliance notification utility into the task scheduler.")]
+        public static async Task<Result<int>> Install()
+        {
+            return await F.Install().ConfigureAwait(false);
+        }
+
+
+        [Command(Summary = "Uninstall compliance notification utility.",
+            Description = "Uninstall compliance notification utility from the task scheduler.")]
+        public static async Task<Result<int>> UnInstall()
+        {
+            return await F.UnInstall().ConfigureAwait(false);
+        }
+
+
         [Command(Summary = "Check disk space compliance.", Description = "Check disk space. Disk space is compliant if: ((CurrentTotalFreeDiskSpace - requiredFreeDiskSpace) > 0. If 'subtractSccmCache' is set to true disk space will be compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0")]
         // ReSharper disable once UnusedMember.Global
         public static async Task<Result<int>> CheckDiskSpace(
