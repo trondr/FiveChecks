@@ -131,7 +131,7 @@ namespace Compliance.Notifications.Common
             var content = strings.DiskSpaceIsLow_Description;
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
             var action = "ms-settings:storagesense";
-            var greeting = (await F.GetGivenName().ConfigureAwait(false)).Match(givenName => $"{F.GetGreeting(DateTime.Now)}, {givenName}",() => F.GetGreeting(DateTime.Now));
+            var greeting = (await F.GetGivenName().ConfigureAwait(false)).Match(givenName => $"{F.GetGreeting(DateTime.Now)} {givenName}",() => F.GetGreeting(DateTime.Now));
             var toastContentInfo = new ActionDismissToastContentInfo(greeting, title, companyName, content, content2, action, imageUri, appLogoImageUri,strings.Cleanup_ActionButtonContent,strings.NotNowActionButtonContent,"dismiss");
             var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
             var doc = new XmlDocument();
@@ -423,7 +423,7 @@ namespace Compliance.Notifications.Common
             using (var pc = new PrincipalContext(ContextType.Domain))
             {
                 var up = UserPrincipal.FindByIdentity(pc, currentWindowsPrincipal.Identity.Name);
-                return up != null ? up.GivenName + " " + up.Surname : Option<string>.None;
+                return up != null ? up.GivenName : Option<string>.None;
             }
         };
 

@@ -136,7 +136,7 @@
     <value>Det er lite disk plass!</value>
   </data>
   <data name="DiskSpaceIsLow_Description" xml:space="preserve">
-    <value>Det beynner å bli lite disk plass. Dette kan ha konsekvenser for system stabilitet, installasjon av programmer og oppdatering av Windows.</value>
+    <value>Lite disk plass kan få konsekvenser for systemstabilitet, installasjon av programmer og oppdatering av Windows.</value>
   </data>
   <data name="Please_Cleanup_DiskSpace_Text_F0" xml:space="preserve">
     <value>Vennligst rydd minst {0:0.00} GB.</value>
