@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -359,6 +360,59 @@ namespace Compliance.Notifications.Common
             return new List<Result<int>> {res1,res2,res3}.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
 
         }
+
+        //Source: https://github.com/WindowsNotifications/desktop-toasts
+        public static async Task<Option<Uri>> DownloadImageToDisk(Some<Uri> httpImage)
+        {
+            // Toasts can live for up to 3 days, so we cache images for up to 3 days.
+            // Note that this is a very simple cache that doesn't account for space usage, so
+            // this could easily consume a lot of space within the span of 3 days.
+
+            try
+            {
+                if (DesktopNotificationManagerCompat.CanUseHttpImages)
+                {
+                    return httpImage.Value;
+                }
+
+                var directory = Directory.CreateDirectory(Path.GetTempPath() + "github.com.trondr.Compliance.Notifications");
+                foreach (var d in directory.EnumerateDirectories())
+                {
+                    if (d.CreationTimeUtc.Date < DateTime.UtcNow.Date.AddDays(-3))
+                    {
+                        d.Delete(true);
+                    }
+                }
+
+
+                var dayDirectory = directory.CreateSubdirectory($"{DateTime.UtcNow.Day}");
+                string imagePath = dayDirectory.FullName + "\\" + (uint)httpImage.Value.GetHashCode() + ".jpg";
+
+                if (File.Exists(imagePath))
+                {
+                    return new Uri("file://" + imagePath);
+                }
+
+                using (var c = new HttpClient())
+                {
+                    using (var stream = await c.GetStreamAsync(httpImage.Value).ConfigureAwait(false))
+                    {
+                        using (var fileStream = File.OpenWrite(imagePath))
+                        {
+                            stream.CopyTo(fileStream);
+                        }
+                    }
+                }
+                return new Uri("file://" + imagePath);
+            }
+            catch (HttpRequestException) { return Option<Uri>.None; }
+        }
+
+        public static async Task<string> DownloadImage(Some<Uri> httpImage)
+        {
+            var image = await DownloadImageToDisk(httpImage).ConfigureAwait(false);
+            return image.Match(uri => uri.LocalPath, () => "");
+        }
     }
 
     public static class ScheduledTasks
@@ -376,7 +430,7 @@ namespace Compliance.Notifications.Common
 
         public static Func<Trigger> HourlyTrigger => () => new DailyTrigger {Repetition = new RepetitionPattern(new TimeSpan(0, 1, 0, 0, 0), new TimeSpan(1, 0, 0, 0))};
 
-        public static Func<String> BuiltInUsers => () =>
+        public static Func<string> BuiltInUsers => () =>
         {
             var sid = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
             var account = (NTAccount)sid.Translate(typeof(NTAccount));

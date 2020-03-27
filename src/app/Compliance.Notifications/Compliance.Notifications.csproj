@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ToastTemplates\ActionDismissToastContentInfo.cs" />
     <Compile Include="ToastTemplates\ActionSnoozeDismissToastContentInfo.cs" />
     <Compile Include="Commands\CheckDiskSpaceCommand.cs" />
     <Compile Include="ComplianceItems\SystemDiskSpace\DiskSpaceInfo.cs" />
@@ -86,6 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="ToastTemplates\ActionDissmissToastContent.cs" />
     <Compile Include="ToastTemplates\ActionSnoozeDissmissToastContent.cs" />
   </ItemGroup>
   <ItemGroup>
