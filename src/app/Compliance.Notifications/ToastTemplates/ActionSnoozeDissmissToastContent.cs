@@ -15,40 +15,54 @@ namespace Compliance.Notifications.ToastTemplates
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
             // Construct the visuals of the toast (using Notifications library)
-            ToastContent toastContent = new ToastContent()
+            ToastContent toastContent = new ToastContent
             {
 
                 // Arguments when the user taps body of toast
                 Launch = contentInfo.Action,
 
-                Visual = new ToastVisual()
+                Visual = new ToastVisual
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    BindingGeneric = new ToastBindingGeneric
                     {
-                        Attribution = new ToastGenericAttributionText() { Text = contentInfo.CompanyName },
+                        HeroImage = new ToastGenericHeroImage() { Source = await F.DownloadImage(contentInfo.ImageUri).ConfigureAwait(false) },
+                        AppLogoOverride = new ToastGenericAppLogo() 
+                            {
+                                Source = await F.DownloadImage(contentInfo.AppLogoImageUri).ConfigureAwait(false),
+                                HintCrop = ToastGenericAppLogoCrop.Circle
+                            },
+                        Attribution = new ToastGenericAttributionText { Text = contentInfo.CompanyName },
                         Children =
                                 {
-                                    new AdaptiveText()
+                                    new AdaptiveText
                                     {
-                                        Text = contentInfo.Title
+                                        Text = contentInfo.Greeting,
+                                        HintStyle = AdaptiveTextStyle.Title
                                     },
-
-                                    new AdaptiveImage()
-                                    {
-                                        // Non-Desktop Bridge apps cannot use HTTP images, so
-                                        // we download and reference the image locally
-                                        Source = await DownloadImage(contentInfo.ImageUri).ConfigureAwait(false)
-                                    },
-
+                                    
                                     new AdaptiveGroup()
                                     {
                                         Children =
+                                        {
+                                            new AdaptiveSubgroup()
                                             {
-                                                new AdaptiveSubgroup()
+                                                Children =
+                                                {
+                                                    new AdaptiveText(){Text = contentInfo.Title, HintStyle = AdaptiveTextStyle.Title, HintWrap = true },
+                                                }
+                                            }
+                                        }
+                                    },
+
+                                    new AdaptiveGroup
+                                    {
+                                        Children =
+                                            {
+                                                new AdaptiveSubgroup
                                                 {
                                                     Children =
                                                     {
-                                                        new AdaptiveText()
+                                                        new AdaptiveText
                                                         {
                                                             Text = contentInfo.ContentSection1,
                                                             HintWrap = true
@@ -58,15 +72,15 @@ namespace Compliance.Notifications.ToastTemplates
                                             }
                                     },
 
-                                    new AdaptiveGroup()
+                                    new AdaptiveGroup
                                     {
                                         Children =
                                         {
-                                            new AdaptiveSubgroup()
+                                            new AdaptiveSubgroup
                                             {
                                                 Children =
                                                 {
-                                                    new AdaptiveText()
+                                                    new AdaptiveText
                                                     {
                                                         Text = contentInfo.ContentSection2,
                                                         HintWrap = true
@@ -76,17 +90,12 @@ namespace Compliance.Notifications.ToastTemplates
 
                                         }
                                     }
-                                },
+                                }
 
-                        AppLogoOverride = new ToastGenericAppLogo()
-                        {
-                            Source = await DownloadImage(contentInfo.AppLogoImageUri).ConfigureAwait(false),
-                            HintCrop = ToastGenericAppLogoCrop.Circle
-                        }
                     }
                 },
 
-                Actions = new ToastActionsCustom()
+                Actions = new ToastActionsCustom
                 {
                     Inputs =
                         {
@@ -108,9 +117,9 @@ namespace Compliance.Notifications.ToastTemplates
                             {
                                 // Note that there's no reason to specify background activation, since our COM
                                 // activator decides whether to process in background or launch foreground window
-                                new ToastButton("Cleanup", "ms-settings:storagesense"){ActivationType = ToastActivationType.Protocol},
-                                new ToastButton("Snooze", "snooze"){HintActionId = "snoozeTime",ActivationType = ToastActivationType.Background},
-                                new ToastButton("Not Now", "dismiss"){ActivationType = ToastActivationType.Background},
+                                new ToastButton(contentInfo.ActionButtonContent, contentInfo.Action){ActivationType = ToastActivationType.Protocol},
+                                new ToastButton(contentInfo.SnoozeButtonContent, contentInfo.SnoozeAction){HintActionId = "snoozeTime",ActivationType = ToastActivationType.Background},
+                                new ToastButton(contentInfo.NotNowButtonContent, contentInfo.NotNowAction){ActivationType = ToastActivationType.Background},
                             }
                 }
             };

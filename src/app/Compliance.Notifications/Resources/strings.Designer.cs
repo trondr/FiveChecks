@@ -63,33 +63,6 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _String.
         /// </summary>
-        internal static string _String112 {
-            get {
-                return ResourceManager.GetString("_String112", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String113 {
-            get {
-                return ResourceManager.GetString("_String113", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String114 {
-            get {
-                return ResourceManager.GetString("_String114", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
         internal static string _String115 {
             get {
                 return ResourceManager.GetString("_String115", resourceCulture);
@@ -259,6 +232,15 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cleanup.
+        /// </summary>
+        internal static string Cleanup_ActionButtonContent {
+            get {
+                return ResourceManager.GetString("Cleanup_ActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disk space is critically low. This have consequence for system stability, program installations and update of Windows..
         /// </summary>
         internal static string DiskSpaceIsLow_Description {
@@ -286,11 +268,29 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not now.
+        /// </summary>
+        internal static string NotNowActionButtonContent {
+            get {
+                return ResourceManager.GetString("NotNowActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please cleanup at least {0:0.00} GB..
         /// </summary>
         internal static string Please_Cleanup_DiskSpace_Text_F0 {
             get {
                 return ResourceManager.GetString("Please_Cleanup_DiskSpace_Text_F0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snooze.
+        /// </summary>
+        internal static string SnoozeButtonContent {
+            get {
+                return ResourceManager.GetString("SnoozeButtonContent", resourceCulture);
             }
         }
         

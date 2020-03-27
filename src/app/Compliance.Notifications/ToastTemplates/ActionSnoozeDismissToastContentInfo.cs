@@ -1,10 +1,12 @@
 ﻿using System;
 using LanguageExt;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Compliance.Notifications.ToastTemplates
 {
     public class ActionSnoozeDismissToastContentInfo: Record<ActionSnoozeDismissToastContentInfo>
     {
+        public BindableString Greeting { get; }
         public string Title { get; }
         public string CompanyName { get; }
         public string ContentSection1 { get; }
@@ -12,9 +14,15 @@ namespace Compliance.Notifications.ToastTemplates
         public string Action { get; }
         public Uri ImageUri { get; }
         public Uri AppLogoImageUri { get; }
-
-        public ActionSnoozeDismissToastContentInfo(string title, string companyName, string contentSection1, string contentSection2, string action, Uri imageUri, Uri appLogoImageUri)
+        public string ActionButtonContent { get; }
+        public string NotNowButtonContent { get; }
+        public string NotNowAction { get; }
+        public string SnoozeAction { get; }
+        public string SnoozeButtonContent { get; }
+        
+        public ActionSnoozeDismissToastContentInfo(BindableString greeting, string title, string companyName, string contentSection1, string contentSection2, string action, Uri imageUri, Uri appLogoImageUri, string actionButtonContent, string notNowButtonContent, string notNowAction, string snoozeButtonContent, string snoozeAction)
         {
+            Greeting = greeting;
             Title = title;
             CompanyName = companyName;
             ContentSection1 = contentSection1;
@@ -22,6 +30,11 @@ namespace Compliance.Notifications.ToastTemplates
             Action = action;
             ImageUri = imageUri;
             AppLogoImageUri = appLogoImageUri;
+            ActionButtonContent = actionButtonContent;
+            NotNowButtonContent = notNowButtonContent;
+            NotNowAction = notNowAction;
+            SnoozeButtonContent = snoozeButtonContent;
+            SnoozeAction = snoozeAction;
         }
     }
 }

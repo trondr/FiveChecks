@@ -144,14 +144,14 @@
   <data name="ValueNeedsToBePositive" xml:space="preserve">
     <value>Value needs to be positive.</value>
   </data>
-  <data name="_String112" xml:space="preserve">
-    <value>_String</value>
+  <data name="Cleanup_ActionButtonContent" xml:space="preserve">
+    <value>Rydde</value>
   </data>
-  <data name="_String113" xml:space="preserve">
-    <value>_String</value>
+  <data name="NotNowActionButtonContent" xml:space="preserve">
+    <value>Ikke nå</value>
   </data>
-  <data name="_String114" xml:space="preserve">
-    <value>_String</value>
+  <data name="SnoozeButtonContent" xml:space="preserve">
+    <value>Utsett</value>
   </data>
   <data name="_String115" xml:space="preserve">
     <value>_String</value>
