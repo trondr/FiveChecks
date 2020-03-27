@@ -7,7 +7,7 @@ namespace Compliance.Notifications.ToastTemplates
 {
     public static class ActionDismissToastContent
     {
-        public static async Task<ToastContent> CreateToastContent(ActionSnoozeDismissToastContentInfo contentInfo)
+        public static async Task<ToastContent> CreateToastContent(ActionDismissToastContentInfo contentInfo)
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
             // Construct the visuals of the toast (using Notifications library)

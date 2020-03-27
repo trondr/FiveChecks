@@ -130,8 +130,8 @@ namespace Compliance.Notifications.Common
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
             var action = "ms-settings:storagesense";
             var greeting = "Good evening, you there!";
-            var toastContentInfo = new ActionSnoozeDismissToastContentInfo(greeting, title, companyName, content, content2, action, imageUri, appLogoImageUri,strings.Cleanup_ActionButtonContent,strings.NotNowActionButtonContent,"dismiss",strings.SnoozeButtonContent,"snooze");
-            var toastContent = await ActionSnoozeDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+            var toastContentInfo = new ActionDismissToastContentInfo(greeting, title, companyName, content, content2, action, imageUri, appLogoImageUri,strings.Cleanup_ActionButtonContent,strings.NotNowActionButtonContent,"dismiss");
+            var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
             var doc = new XmlDocument();
             var toastXmlContent = toastContent.GetContent();
             Logging.DefaultLogger.Debug(toastXmlContent);
