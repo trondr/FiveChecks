@@ -63,33 +63,6 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _String.
         /// </summary>
-        internal static string _String115 {
-            get {
-                return ResourceManager.GetString("_String115", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String116 {
-            get {
-                return ResourceManager.GetString("_String116", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String117 {
-            get {
-                return ResourceManager.GetString("_String117", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
         internal static string _String118 {
             get {
                 return ResourceManager.GetString("_String118", resourceCulture);
@@ -255,6 +228,33 @@ namespace Compliance.Notifications.Resources {
         internal static string DiskSpaceIsLow_Title {
             get {
                 return ResourceManager.GetString("DiskSpaceIsLow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good afternoon.
+        /// </summary>
+        internal static string GoodAfterNoon {
+            get {
+                return ResourceManager.GetString("GoodAfterNoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good evening.
+        /// </summary>
+        internal static string GoodEvening {
+            get {
+                return ResourceManager.GetString("GoodEvening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good morning.
+        /// </summary>
+        internal static string GoodMorning {
+            get {
+                return ResourceManager.GetString("GoodMorning", resourceCulture);
             }
         }
         

@@ -215,5 +215,35 @@ namespace Compliance.Notifications.Common.Tests
                 return 1;
             });
         }
+
+        [Test]
+        [TestCase(1, "Good morning")]
+        [TestCase(12, "Good afternoon")]
+        [TestCase(16, "Good evening")]
+        [TestCase(21, "Good evening")]
+        [TestCase(23, "Good evening")]
+        public void GetGreetingTest(int hour, string expected)
+        {
+            var actual = F.GetGreeting(new DateTime(2020, 01, 13, hour, 31, 21));
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test()]
+        public async Task GetGivenNameTest()
+        {
+            var actual = await F.GetGivenName();
+            actual.Match(s =>
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(s));
+                return "";
+            },() =>
+            {
+                Assert.Fail("None not expected");
+                return "";
+            });
+
+
+
+        }
     }
 }

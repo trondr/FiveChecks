@@ -153,14 +153,14 @@
   <data name="SnoozeButtonContent" xml:space="preserve">
     <value>Utsett</value>
   </data>
-  <data name="_String115" xml:space="preserve">
-    <value>_String</value>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>God morgen</value>
   </data>
-  <data name="_String116" xml:space="preserve">
-    <value>_String</value>
+  <data name="GoodAfterNoon" xml:space="preserve">
+    <value>God ettermiddag</value>
   </data>
-  <data name="_String117" xml:space="preserve">
-    <value>_String</value>
+  <data name="GoodEvening" xml:space="preserve">
+    <value>God kveld</value>
   </data>
   <data name="_String118" xml:space="preserve">
     <value>_String</value>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -129,7 +131,7 @@ namespace Compliance.Notifications.Common
             var content = strings.DiskSpaceIsLow_Description;
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
             var action = "ms-settings:storagesense";
-            var greeting = "Good evening, you there!";
+            var greeting = (await F.GetGivenName().ConfigureAwait(false)).Match(givenName => $"{F.GetGreeting(DateTime.Now)}, {givenName}",() => F.GetGreeting(DateTime.Now));
             var toastContentInfo = new ActionDismissToastContentInfo(greeting, title, companyName, content, content2, action, imageUri, appLogoImageUri,strings.Cleanup_ActionButtonContent,strings.NotNowActionButtonContent,"dismiss");
             var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
             var doc = new XmlDocument();
@@ -413,29 +415,36 @@ namespace Compliance.Notifications.Common
             var image = await DownloadImageToDisk(httpImage).ConfigureAwait(false);
             return image.Match(uri => uri.LocalPath, () => "");
         }
-    }
 
-    public static class ScheduledTasks
-    {
-        public const string ComplianceCheckTaskName = "Compliance Notification Check";
-        public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
 
-        public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
-        public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";
-
-        public const string ComplianceUserMeasurementsTaskName = "Compliance User Measurement";
-        public const string ComplianceUserMeasurementsTaskDescription = "Measurement user compliance hourly";
-
-        public static Func<Trigger> UnlockTrigger => () => new SessionStateChangeTrigger(TaskSessionStateChangeType.SessionUnlock);
-
-        public static Func<Trigger> HourlyTrigger => () => new DailyTrigger {Repetition = new RepetitionPattern(new TimeSpan(0, 1, 0, 0, 0), new TimeSpan(1, 0, 0, 0))};
-
-        public static Func<string> BuiltInUsers => () =>
+        public static Try<Option<string>> TryGetGivenName() => () =>
         {
-            var sid = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
-            var account = (NTAccount)sid.Translate(typeof(NTAccount));
-            return account.Value;
+            var currentWindowsPrincipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            using (var pc = new PrincipalContext(ContextType.Domain))
+            {
+                var up = UserPrincipal.FindByIdentity(pc, currentWindowsPrincipal.Identity.Name);
+                return up != null ? up.GivenName + " " + up.Surname : Option<string>.None;
+            }
         };
 
+        public static async Task<Option<string>> GetGivenName()
+        {
+            var result = await Task.Run(() => TryGetGivenName().Try()).ConfigureAwait(false);
+            return result.Match(option => option, exception =>
+            {
+                Logging.DefaultLogger.Error($"Failed to get user given name. {exception.ToExceptionMessage()}");
+                return Option<string>.None;
+            });
+        }
+
+        public static string GetGreeting(DateTime now)
+        {
+            var hourOfDay = now.Hour;
+            if (hourOfDay > 0 && hourOfDay < 12)
+                return strings.GoodMorning;
+            if (hourOfDay >= 12 && hourOfDay < 16)
+                return strings.GoodAfterNoon;
+            return strings.GoodEvening;
+        }
     }
 }
