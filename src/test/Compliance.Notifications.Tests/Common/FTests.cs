@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Compliance.Notifications.ComplianceItems;
 using Compliance.Notifications.ComplianceItems.SystemDiskSpace;
 using LanguageExt;
 using NUnit.Framework;
@@ -153,17 +155,17 @@ namespace Compliance.Notifications.Common.Tests
 
         [Test()]
         [Category(TestCategory.UnitTests)]
-        public async Task LoadSystemComplianceItemResultTest_Success()
+        public async Task SaveLoadDiskSpaceResultTest_Success()
         {
             var expected = new DiskSpaceInfo { SccmCacheSize = 12, TotalFreeDiskSpace = 123 };
             var savedResult = await F.SaveSystemComplianceItemResult<DiskSpaceInfo>(expected).ConfigureAwait(false);
             var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(expected, actual);
         }
-
+        
         [Test()]
         [Category(TestCategory.UnitTests)]
-        public async Task LoadSystemComplianceItemResultTest_FileNotExist()
+        public async Task LoadDiskSpaceResultTest_FileNotExist()
         {
             var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
             var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
@@ -179,7 +181,7 @@ namespace Compliance.Notifications.Common.Tests
             var message2 = "Invalid argument";
             var testException = new AggregateException(mainMessage, new Exception[] { new FileNotFoundException(message1), new ArgumentException(message2) });
             var nl = Environment.NewLine;
-            var expected = $"{mainMessage}{nl}{message1}{nl}{message2}";
+            var expected = $"AggregateException: {mainMessage}{nl}FileNotFoundException: {message1}{nl}ArgumentException: {message2}";
             var actual = testException.ToExceptionMessage();
             Assert.AreEqual(actual, expected);
         }
@@ -241,9 +243,6 @@ namespace Compliance.Notifications.Common.Tests
                 Assert.Fail("None not expected");
                 return "";
             });
-
-
-
         }
     }
 }

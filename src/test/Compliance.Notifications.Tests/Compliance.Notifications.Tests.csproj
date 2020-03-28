@@ -45,6 +45,7 @@
     <Compile Include="Commands\CommandDefinitionsTests.cs" />
     <Compile Include="Common\FTests.cs" />
     <Compile Include="Common\TestCategory.cs" />
+    <Compile Include="ComplianceItems\PendingRebootInfoExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

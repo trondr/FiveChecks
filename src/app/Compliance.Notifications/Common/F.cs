@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Management;
+using System.Management.Automation;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Principal;
@@ -18,6 +21,7 @@ using Compliance.Notifications.ToastTemplates;
 using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using Microsoft.Win32.TaskScheduler;
 using Newtonsoft.Json;
 using Directory = Pri.LongPath.Directory;
@@ -188,7 +192,6 @@ namespace Compliance.Notifications.Common
             var fileName = GetSystemComplianceItemResultFileName<T>();
             return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
         }
-        
 
         public static async Task<T> LoadSystemComplianceItemResultOrDefault<T>(T defaultValue)
         {
@@ -204,11 +207,12 @@ namespace Compliance.Notifications.Common
         {
             return await TrySave(complianceItem, fileName).Try().ConfigureAwait(false);
         }
+
         private static TryAsync<Unit> TrySave<T>(Some<T> complianceItem, Some<string> fileName) => async () =>
         {
             using (var sw = new StreamWriter(fileName))
             {
-                var json = JsonConvert.SerializeObject(complianceItem.Value, new UDecimalJsonConverter());
+                var json = JsonConvert.SerializeObject(complianceItem.Value, new UDecimalJsonConverter(), new RebootSourceJsonConverter());
                 await sw.WriteAsync(json).ConfigureAwait(false);
                 return new Result<Unit>(Unit.Default);
             }
@@ -223,7 +227,7 @@ namespace Compliance.Notifications.Common
             using (var sr = new StreamReader(fileName))
             {
                 var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-                var item = JsonConvert.DeserializeObject<T>(json,new UDecimalJsonConverter());
+                var item = JsonConvert.DeserializeObject<T>(json,new UDecimalJsonConverter(),new RebootSourceJsonConverter());
                 return new Result<T>(item);
             }
         };
@@ -282,13 +286,11 @@ namespace Compliance.Notifications.Common
             if (ex == null) throw new ArgumentNullException(nameof(ex));
             if (ex is AggregateException aggregateException)
             {
-
-                return aggregateException.Message + Environment.NewLine + string.Join(Environment.NewLine,aggregateException.InnerExceptions.Select(exception => exception.ToExceptionMessage()).ToArray());
+                return $"{aggregateException.GetType().Name}: {aggregateException.Message}" + Environment.NewLine + string.Join(Environment.NewLine,aggregateException.InnerExceptions.Select(exception => exception.ToExceptionMessage()).ToArray());
             }
-
             return ex.InnerException != null
-                    ? ex.Message + Environment.NewLine + ex.InnerException.ToExceptionMessage()
-                    : ex.Message;
+                    ? $"{ex.GetType().Name}: {ex.Message}" + Environment.NewLine + ex.InnerException.ToExceptionMessage()
+                    : $"{ex.GetType().Name}: {ex.Message}";
         }
 
         private static Try<Unit> RegisterSystemScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
@@ -421,8 +423,7 @@ namespace Compliance.Notifications.Common
             var image = await DownloadImageToDisk(httpImage).ConfigureAwait(false);
             return image.Match(uri => uri.LocalPath, () => "");
         }
-
-
+        
         public static Try<Option<string>> TryGetGivenName() => () =>
         {
             var currentWindowsPrincipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
@@ -451,6 +452,135 @@ namespace Compliance.Notifications.Common
             if (hourOfDay >= 12 && hourOfDay < 16)
                 return strings.GoodAfterNoon;
             return strings.GoodEvening;
+        }
+
+        public static async Task<Result<PendingRebootInfo>> GetPendingRebootInfo()
+        {
+            var pendingRebootInfoResults = new List<Result<PendingRebootInfo>>
+            {
+                await GetCbsRebootPending().ConfigureAwait(false),
+                await GetWuauRebootPending().ConfigureAwait(false),
+                await GetPendingFileRenameRebootPending().ConfigureAwait(false),
+                await GetSccmClientRebootPending().ConfigureAwait(false)
+            };
+            var success = pendingRebootInfoResults.ToSuccess();
+            var pendingRebootInfo = success.Aggregate(PendingRebootInfoExtensions.Update);
+            return new Result<PendingRebootInfo>(pendingRebootInfo);
+        }
+
+        private static async Task<Result<PendingRebootInfo>> GetWuauRebootPending()
+        {
+            var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired";
+            Logging.DefaultLogger.Debug($@"Checking if Windows Update has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
+            var rebootIsPending = RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
+            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Wuau } : new List<RebootSource>();
+            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
+            Logging.DefaultLogger.Info($@"Windows Update pending reboot check result: {pendingRebootInfo.ObjectToString()}");
+            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
+        }
+
+        private static async Task<Result<PendingRebootInfo>> GetCbsRebootPending()
+        {
+            var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending";
+            Logging.DefaultLogger.Debug($@"Checking if Component Based Servicing has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
+            var rebootIsPending = RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
+            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Cbs } : new List<RebootSource>();
+            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
+            Logging.DefaultLogger.Info($@"Component Based Servicing (CBS) pending reboot check result: {pendingRebootInfo.ObjectToString()}");
+            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
+        }
+
+        private static Try<PendingRebootInfo> TryGetSccmClientRebootStatus() => () =>
+        {
+            dynamic rebootStatus =
+                RunPowerShell(new Some<Func<PowerShell, Collection<PSObject>>>(powerShell =>
+                    powerShell
+                        .AddCommand("Invoke-WmiMethod")
+                        .AddParameter("NameSpace", @"root\ccm\ClientSDK")
+                        .AddParameter("Class", "CCM_ClientUtilities")
+                        .AddParameter("Name", "DetermineIfRebootPending")
+                        .Invoke())
+                ).FirstOrDefault();
+            var rebootIsPending = rebootStatus?.RebootPending || rebootStatus?.IsHardRebootPending;
+            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.SccmClient } : new List<RebootSource>();
+            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
+            Logging.DefaultLogger.Info($@"Sccm Client pending reboot check result: {pendingRebootInfo.ObjectToString()}");
+            return new Result<PendingRebootInfo>(pendingRebootInfo);
+        };
+
+        private static async Task<Result<PendingRebootInfo>> GetSccmClientRebootPending()
+        {
+            var pendingRebootInfoResult = 
+                TryGetSccmClientRebootStatus()
+                    .Try()
+                    .Match(
+                        info => new Result<PendingRebootInfo>(info), 
+                        exception =>
+                            {
+                                Logging.DefaultLogger.Warn($"Getting reboot status from Sccm Client did not succeed. {exception.ToExceptionMessage()}");
+                                return new Result<PendingRebootInfo>(exception);
+                            }
+                        );
+            return await Task.FromResult(pendingRebootInfoResult).ConfigureAwait(false);
+        }
+        
+        private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
+        {
+            throw new NotImplementedException("GetPendingFileRenameRebootPending");
+            return await Task.FromResult(new Result<PendingRebootInfo>());
+        }
+
+        /// <summary>
+        /// Check if a registry key exists.
+        /// </summary>
+        /// <param name="baseKey">Example: Registry.LocalMachine</param>
+        /// <param name="subKeyPath"></param>
+        /// <returns></returns>
+        public static bool RegistryKeyExists(Some<RegistryKey> baseKey, string subKeyPath)
+        {
+            using (var key = baseKey.Value.OpenSubKey(subKeyPath))
+            {
+                return key != null;
+            }
+        }
+        
+        public static IEnumerable<T> ToSuccess<T>(this IEnumerable<Result<T>> results)
+        {
+            var resultArray = results.ToArray();
+            //Log any faulted results
+            resultArray.Where(result => result.IsFaulted).Select(result =>result.IfFail(exception =>
+            {
+                Logging.DefaultLogger.Warn($"Failed to produce {typeof(T).Name} result. Error: {exception.GetType().Name}: {exception.ToExceptionMessage()}" );
+            })).ToArr();
+            //Return the successful results
+            return
+                resultArray
+                    .Where(result => result.IsSuccess)
+                    .Select(result => result.Match(v => v, exception => throw exception))
+                    .ToArray();
+        }
+
+        public static Collection<PSObject> RunPowerShell(Some<Func<PowerShell, Collection<PSObject>>> action)
+        {
+            using (var powerShell = PowerShell.Create(RunspaceMode.NewRunspace))
+            {
+                return action.Value(powerShell);
+            }
+        }
+
+        public static string ObjectToString(this object obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            var objectType = obj.GetType();
+            if (objectType == typeof(string))
+            {
+                return $"\"{obj}\"";
+            }
+            if (objectType.IsPrimitive || !objectType.IsClass)
+            {
+                return obj.ToString();
+            }
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }
