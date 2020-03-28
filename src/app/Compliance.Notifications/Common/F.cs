@@ -112,12 +112,7 @@ namespace Compliance.Notifications.Common
 
         public static async Task<DiskSpaceInfo> LoadDiskSpaceResult()
         {
-            var diskSpaceInfoResult = await LoadSystemComplianceItemResult<DiskSpaceInfo>().ConfigureAwait(false);
-            return diskSpaceInfoResult.Match(diskSpaceInfo => diskSpaceInfo, exception =>
-            {
-                Logging.DefaultLogger.Error($"Failed to load disk space info. {exception.ToExceptionMessage()}");
-                return DiskSpaceInfo.Default;
-            });
+            return await LoadSystemComplianceItemResultOrDefault<DiskSpaceInfo>(DiskSpaceInfo.Default).ConfigureAwait(false);
         }
 
         private static readonly Random Rnd = new Random();
@@ -194,6 +189,17 @@ namespace Compliance.Notifications.Common
             return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
         }
         
+
+        public static async Task<T> LoadSystemComplianceItemResultOrDefault<T>(T defaultValue)
+        {
+            var fileName = GetSystemComplianceItemResultFileName<T>();
+            return (await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false)).Match(arg => arg, exception =>
+            {
+                Logging.DefaultLogger.Warn($"Could not load '{typeof(T)}' so returning default value. Load error: {exception.ToExceptionMessage()}");
+                return defaultValue;
+            });
+        }
+
         public static async Task<Result<Unit>> SaveComplianceItemResult<T>(Some<T> complianceItem, Some<string> fileName)
         {
             return await TrySave(complianceItem, fileName).Try().ConfigureAwait(false);
