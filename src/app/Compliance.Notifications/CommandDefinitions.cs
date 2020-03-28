@@ -46,6 +46,19 @@ namespace Compliance.Notifications
             }
             return await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
         }
+
+        [Command(Summary = "Check pending reboot compliance.", Description = "Check pending reboot compliance.")]
+        public static async Task<Result<int>> CheckPendingReboot(
+            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
+            string userInterfaceCulture
+            )
+        {
+            if (!string.IsNullOrEmpty(userInterfaceCulture))
+            {
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
+            }
+            return await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+        }
         
         [Command(Summary = "Handle activated toasts.", Description = "Handle activated toasts.")]
         public static async Task<Result<int>> ToastActivated()

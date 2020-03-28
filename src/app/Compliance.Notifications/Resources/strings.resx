@@ -144,7 +144,7 @@
   <data name="ValueNeedsToBePositive" xml:space="preserve">
     <value>Value needs to be positive.</value>
   </data>
-  <data name="Cleanup_ActionButtonContent" xml:space="preserve">
+  <data name="DiskSpaceIsLow_ActionButton_Content" xml:space="preserve">
     <value>Cleanup</value>
   </data>
   <data name="NotNowActionButtonContent" xml:space="preserve">
@@ -162,17 +162,17 @@
   <data name="GoodEvening" xml:space="preserve">
     <value>Good evening</value>
   </data>
-  <data name="_String118" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Content1" xml:space="preserve">
+    <value>For security and stability reasons, we kindly ask you to restart your computer as soon as possible.</value>
   </data>
-  <data name="_String119" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Content2" xml:space="preserve">
+    <value>Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!</value>
   </data>
-  <data name="_String12" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_ActionButtonContent" xml:space="preserve">
+    <value>Restart</value>
   </data>
-  <data name="_String120" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Title" xml:space="preserve">
+    <value>This computer needs a restart!</value>
   </data>
   <data name="_String121" xml:space="preserve">
     <value>_String</value>

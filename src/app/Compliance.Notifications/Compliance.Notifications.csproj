@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CheckPendingRebootCommand.cs" />
     <Compile Include="Common\ScheduledTasks.cs" />
     <Compile Include="ComplianceItems\PendingRebootInfo.cs" />
     <Compile Include="ToastTemplates\ActionDismissToastContentInfo.cs" />

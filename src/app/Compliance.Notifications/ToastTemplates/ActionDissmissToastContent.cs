@@ -97,7 +97,7 @@ namespace Compliance.Notifications.ToastTemplates
                             {
                                 // Note that there's no reason to specify background activation, since our COM
                                 // activator decides whether to process in background or launch foreground window
-                                new ToastButton(contentInfo.ActionButtonContent, contentInfo.Action){ActivationType = ToastActivationType.Protocol},
+                                new ToastButton(contentInfo.ActionButtonContent, contentInfo.Action){ActivationType = contentInfo.ActionActivationType},
                                 new ToastButton(contentInfo.NotNowButtonContent, contentInfo.NotNowAction){ActivationType = ToastActivationType.Background},
                             }
                 }

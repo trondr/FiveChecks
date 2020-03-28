@@ -63,42 +63,6 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _String.
         /// </summary>
-        internal static string _String118 {
-            get {
-                return ResourceManager.GetString("_String118", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String119 {
-            get {
-                return ResourceManager.GetString("_String119", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String12 {
-            get {
-                return ResourceManager.GetString("_String12", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String120 {
-            get {
-                return ResourceManager.GetString("_String120", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
         internal static string _String121 {
             get {
                 return ResourceManager.GetString("_String121", resourceCulture);
@@ -207,9 +171,9 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Cleanup.
         /// </summary>
-        internal static string Cleanup_ActionButtonContent {
+        internal static string DiskSpaceIsLow_ActionButton_Content {
             get {
-                return ResourceManager.GetString("Cleanup_ActionButtonContent", resourceCulture);
+                return ResourceManager.GetString("DiskSpaceIsLow_ActionButton_Content", resourceCulture);
             }
         }
         
@@ -273,6 +237,42 @@ namespace Compliance.Notifications.Resources {
         internal static string NotNowActionButtonContent {
             get {
                 return ResourceManager.GetString("NotNowActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart.
+        /// </summary>
+        internal static string PendingRebootNotification_ActionButtonContent {
+            get {
+                return ResourceManager.GetString("PendingRebootNotification_ActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For security and stability reasons, we kindly ask you to restart your computer as soon as possible..
+        /// </summary>
+        internal static string PendingRebootNotification_Content1 {
+            get {
+                return ResourceManager.GetString("PendingRebootNotification_Content1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!.
+        /// </summary>
+        internal static string PendingRebootNotification_Content2 {
+            get {
+                return ResourceManager.GetString("PendingRebootNotification_Content2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This computer needs a restart!.
+        /// </summary>
+        internal static string PendingRebootNotification_Title {
+            get {
+                return ResourceManager.GetString("PendingRebootNotification_Title", resourceCulture);
             }
         }
         

@@ -144,7 +144,7 @@
   <data name="ValueNeedsToBePositive" xml:space="preserve">
     <value>Value needs to be positive.</value>
   </data>
-  <data name="Cleanup_ActionButtonContent" xml:space="preserve">
+  <data name="DiskSpaceIsLow_ActionButton_Content" xml:space="preserve">
     <value>Rydde</value>
   </data>
   <data name="NotNowActionButtonContent" xml:space="preserve">
@@ -162,17 +162,17 @@
   <data name="GoodEvening" xml:space="preserve">
     <value>God kveld</value>
   </data>
-  <data name="_String118" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Content1" xml:space="preserve">
+    <value>Av sikkerhets- og stabilitetsårsaker, ber vi deg deg foreta en omstart så snart som mulig.</value>
   </data>
-  <data name="_String119" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Content2" xml:space="preserve">
+    <value>Gjevnlig omstart av datamaskinen øker sikkerheten og stabiliteten til Windows. På forhånd takk!</value>
   </data>
-  <data name="_String12" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_ActionButtonContent" xml:space="preserve">
+    <value>Omstart</value>
   </data>
-  <data name="_String120" xml:space="preserve">
-    <value>_String</value>
+  <data name="PendingRebootNotification_Title" xml:space="preserve">
+    <value>Denne datamaskinen trenger en omstart!</value>
   </data>
   <data name="_String121" xml:space="preserve">
     <value>_String</value>

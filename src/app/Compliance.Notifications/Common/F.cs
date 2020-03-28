@@ -118,20 +118,17 @@ namespace Compliance.Notifications.Common
             return await LoadSystemComplianceItemResultOrDefault<DiskSpaceInfo>(DiskSpaceInfo.Default).ConfigureAwait(false);
         }
 
-        private static readonly Random Rnd = new Random();
-        public static async Task<Result<int>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount, string companyName)
+        public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
         {
+            return await LoadSystemComplianceItemResultOrDefault<PendingRebootInfo>(PendingRebootInfo.Default).ConfigureAwait(false);
+        }
+
+        public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent)
+        {
+            if (buildToastContent == null) throw new ArgumentNullException(nameof(buildToastContent));
             DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
             DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
-            var title = strings.DiskSpaceIsLow_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = strings.DiskSpaceIsLow_Description;
-            var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0, requiredCleanupAmount);
-            var action = "ms-settings:storagesense";
-            var greeting = (await F.GetGivenName().ConfigureAwait(false)).Match(givenName => $"{F.GetGreeting(DateTime.Now)} {givenName}",() => F.GetGreeting(DateTime.Now));
-            var toastContentInfo = new ActionDismissToastContentInfo(greeting, title, companyName, content, content2, action, imageUri, appLogoImageUri,strings.Cleanup_ActionButtonContent,strings.NotNowActionButtonContent,"dismiss");
-            var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+            var toastContent = await buildToastContent().ConfigureAwait(false);
             var doc = new XmlDocument();
             var toastXmlContent = toastContent.GetContent();
             Logging.DefaultLogger.Debug(toastXmlContent);
@@ -139,6 +136,65 @@ namespace Compliance.Notifications.Common
             var toast = new ToastNotification(doc);
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
             return new Result<int>(0);
+        }
+
+        private static readonly Random Rnd = new Random();
+        public static async Task<Result<int>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount, string companyName)
+        {
+            return await ShowToastNotification(async () =>
+            {
+                var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName).ConfigureAwait(false);
+                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+                return toastContent;
+            }).ConfigureAwait(false);
+        }
+
+        private static async Task<string> GetGreeting()
+        {
+            var givenNameResult = await F.GetGivenName().ConfigureAwait(false);
+            return givenNameResult.Match(
+                    givenName => $"{F.GetGreeting(DateTime.Now)} {givenName}",
+                    () => F.GetGreeting(DateTime.Now)
+                );
+        }
+        
+        private static async Task<ActionDismissToastContentInfo> GetCheckDiskSpaceToastContentInfo(decimal requiredCleanupAmount, string companyName)
+        {
+            var title = strings.DiskSpaceIsLow_Title;
+            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
+            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
+            var content = strings.DiskSpaceIsLow_Description;
+            var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0,
+                requiredCleanupAmount);
+            var action = "ms-settings:storagesense";
+            var actionActivationType = ToastActivationType.Protocol;
+            var greeting = await GetGreeting().ConfigureAwait(false);
+            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss");
+        }
+
+        public static async Task<Result<int>> ShowPendingRebootToastNotification(string companyName)
+        {
+            return await ShowToastNotification(async () =>
+            {
+                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(companyName).ConfigureAwait(false);
+                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+                return toastContent;
+            }).ConfigureAwait(false);
+        }
+
+        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(string companyName)
+        {
+            var title = strings.PendingRebootNotification_Title;
+            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
+            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
+            var content = strings.PendingRebootNotification_Content1;
+            var content2 = strings.PendingRebootNotification_Content2;
+            var action = "action=restart";
+            var actionActivationType = ToastActivationType.Background;
+            var greeting = await GetGreeting().ConfigureAwait(false);
+            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
         }
 
         public static string GetUserComplianceItemResultFileName<T>()
