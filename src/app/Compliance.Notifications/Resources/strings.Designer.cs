@@ -214,7 +214,7 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This may have consequence for system stability, program installations and update of Windows..
+        ///   Looks up a localized string similar to Low disk space may have consequence for system stability, program installations and update of Windows..
         /// </summary>
         internal static string DiskSpaceIsLow_Description {
             get {
