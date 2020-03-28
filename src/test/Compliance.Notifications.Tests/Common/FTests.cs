@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Compliance.Notifications.ComplianceItems;
-using Compliance.Notifications.ComplianceItems.SystemDiskSpace;
 using LanguageExt;
 using NUnit.Framework;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;

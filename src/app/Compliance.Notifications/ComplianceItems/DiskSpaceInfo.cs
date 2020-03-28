@@ -1,7 +1,7 @@
 ﻿using Compliance.Notifications.Common;
 using LanguageExt;
 
-namespace Compliance.Notifications.ComplianceItems.SystemDiskSpace
+namespace Compliance.Notifications.ComplianceItems
 {
     public class DiskSpaceInfo: Record<DiskSpaceInfo>
     {
