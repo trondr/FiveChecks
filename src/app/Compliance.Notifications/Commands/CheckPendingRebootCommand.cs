@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
-using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Model;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Commands

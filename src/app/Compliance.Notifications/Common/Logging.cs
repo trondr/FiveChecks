@@ -23,7 +23,7 @@ namespace Compliance.Notifications.Common
             var logFile = LoggingConfiguration.GetLogDirectoryPath().Match(d => Path.Combine(d, logFileName), exception => throw exception);
             log4net.GlobalContext.Properties["LogFile"] = logFile;
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));
-            return LogManager.GetLogger(typeof(Program).Namespace);
+            return LogManager.GetLogger(typeof(App).Namespace);
         }
 
         internal static void WriteErrorToEventLog(string message)

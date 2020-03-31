@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using LanguageExt;
 using LanguageExt.Common;
-using System.Collections.Generic;
 
-namespace Compliance.Notifications.ComplianceItems
+namespace Compliance.Notifications.Model
 {
     public delegate Task<Result<Unit>> MeasureCompliance();
     

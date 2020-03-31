@@ -4,6 +4,12 @@
       <FixtureTestSelector>
         <FixtureName>Compliance.Notifications.Tests.Class1</FixtureName>
       </FixtureTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.UnInstallTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.InstallTest</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
+using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Compliance.Notifications.ToastTemplates
@@ -11,19 +12,25 @@ namespace Compliance.Notifications.ToastTemplates
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
             // Construct the visuals of the toast (using Notifications library)
+            var action = contentInfo.ActionActivationType == ToastActivationType.Protocol
+                ? contentInfo.Action
+                : new QueryString {{"action", contentInfo.Action}}.ToString();
+                
             var toastContent = new ToastContent
             {
 
                 // Arguments when the user taps body of toast
-                Launch = contentInfo.Action,
-
+                Launch = action,
                 Visual = new ToastVisual
                 {
                     BindingGeneric = new ToastBindingGeneric
                     {
-                        HeroImage = new ToastGenericHeroImage() { Source = await F.DownloadImage(contentInfo.ImageUri).ConfigureAwait(false) },
-                        AppLogoOverride = new ToastGenericAppLogo() 
-                            {
+                        HeroImage = new ToastGenericHeroImage
+                        {
+                            Source = await F.DownloadImage(contentInfo.ImageUri).ConfigureAwait(false)
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo
+                        {
                                 Source = await F.DownloadImage(contentInfo.AppLogoImageUri).ConfigureAwait(false),
                                 HintCrop = ToastGenericAppLogoCrop.Circle
                             },
@@ -36,15 +43,19 @@ namespace Compliance.Notifications.ToastTemplates
                                         HintStyle = AdaptiveTextStyle.Title
                                     },
                                     
-                                    new AdaptiveGroup()
+                                    new AdaptiveGroup
                                     {
                                         Children =
                                         {
-                                            new AdaptiveSubgroup()
+                                            new AdaptiveSubgroup
                                             {
                                                 Children =
                                                 {
-                                                    new AdaptiveText(){Text = contentInfo.Title, HintStyle = AdaptiveTextStyle.Title, HintWrap = true },
+                                                    new AdaptiveText
+                                                    {
+                                                        Text = contentInfo.Title, HintStyle = AdaptiveTextStyle.Title, 
+                                                        HintWrap = true
+                                                    },
                                                 }
                                             }
                                         }
@@ -97,7 +108,7 @@ namespace Compliance.Notifications.ToastTemplates
                             {
                                 // Note that there's no reason to specify background activation, since our COM
                                 // activator decides whether to process in background or launch foreground window
-                                new ToastButton(contentInfo.ActionButtonContent, contentInfo.Action){ActivationType = contentInfo.ActionActivationType},
+                                new ToastButton(contentInfo.ActionButtonContent, action){ActivationType = contentInfo.ActionActivationType},
                                 new ToastButton(contentInfo.NotNowButtonContent, contentInfo.NotNowAction){ActivationType = ToastActivationType.Background},
                             }
                 }

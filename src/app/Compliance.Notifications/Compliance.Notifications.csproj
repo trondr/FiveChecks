@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D496840F-DCDB-4FB1-8677-AA41F3EA8B28}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C58962EB-583F-4436-B63A-F918D099C567}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Compliance.Notifications</RootNamespace>
     <AssemblyName>Compliance.Notifications</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -33,52 +35,39 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CheckPendingRebootCommand.cs" />
-    <Compile Include="Common\ScheduledTasks.cs" />
-    <Compile Include="ComplianceItems\PendingRebootInfo.cs" />
-    <Compile Include="ToastTemplates\ActionDismissToastContentInfo.cs" />
-    <Compile Include="ToastTemplates\ActionSnoozeDismissToastContentInfo.cs" />
-    <Compile Include="Commands\CheckDiskSpaceCommand.cs" />
-    <Compile Include="ComplianceItems\DiskSpaceInfo.cs" />
-    <Compile Include="Common\NotepadMessenger.cs" />
-    <Compile Include="CommandDefinitions.cs" />
-    <Compile Include="Common\ApplicationInfo.cs" />
-    <Compile Include="Common\F.cs" />
-    <Compile Include="Common\Logging.cs" />
-    <Compile Include="Common\LoggingConfiguration.cs" />
-    <Compile Include="Common\NativeMethods.cs" />
-    <Compile Include="ComplianceItems\SystemComplianceItems.cs" />
-    <Compile Include="Common\UDecimal.cs" />
-    <Compile Include="Common\UDoubleJsonConverter.cs" />
-    <Compile Include="Common\UDecimalJsonConverter.cs" />
-    <Compile Include="Common\UDouble.cs" />
-    <Compile Include="Common\INotificationActivationCallback.cs" />
-    <Compile Include="Common\MyNotificationActivator.cs" />
-    <Compile Include="Common\DesktopNotificationManagerCompat.cs" />
-    <Compile Include="Common\NotificationUserInputData.cs" />
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Model\ExitApplicationMessage.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\strings.fi.Designer.cs">
-      <DependentUpon>strings.fi.resx</DependentUpon>
+    <Compile Include="Resources\strings.Designer.cs">
+      <DependentUpon>strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\strings.sv-se.Designer.cs">
-      <DependentUpon>strings.sv-se.resx</DependentUpon>
+    <Compile Include="Resources\strings.fi.Designer.cs">
+      <DependentUpon>strings.fi.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -87,13 +76,87 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\strings.Designer.cs">
+    <Compile Include="Resources\strings.sv-se.Designer.cs">
+      <DependentUpon>strings.sv-se.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="ToastTemplates\ActionDismissToastContentInfo.cs" />
     <Compile Include="ToastTemplates\ActionDissmissToastContent.cs" />
+    <Compile Include="ToastTemplates\ActionSnoozeDismissToastContentInfo.cs" />
     <Compile Include="ToastTemplates\ActionSnoozeDissmissToastContent.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommandDefinitions.cs" />
+    <Compile Include="Commands\CheckDiskSpaceCommand.cs" />
+    <Compile Include="Commands\CheckPendingRebootCommand.cs" />
+    <Compile Include="Common\ApplicationInfo.cs" />
+    <Compile Include="Common\DesktopNotificationManagerCompat.cs" />
+    <Compile Include="Common\F.cs" />
+    <Compile Include="Common\INotificationActivationCallback.cs" />
+    <Compile Include="Common\Logging.cs" />
+    <Compile Include="Common\LoggingConfiguration.cs" />
+    <Compile Include="Common\MyNotificationActivator.cs" />
+    <Compile Include="Common\NativeMethods.cs" />
+    <Compile Include="Common\NotepadMessenger.cs" />
+    <Compile Include="Common\NotificationUserInputData.cs" />
+    <Compile Include="Common\ScheduledTasks.cs" />
+    <Compile Include="Common\UDecimal.cs" />
+    <Compile Include="Common\UDecimalJsonConverter.cs" />
+    <Compile Include="Common\UDouble.cs" />
+    <Compile Include="Common\UDoubleJsonConverter.cs" />
+    <Compile Include="Model\DiskSpaceInfo.cs" />
+    <Compile Include="Model\PendingRebootInfo.cs" />
+    <Compile Include="Model\SystemComplianceItems.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\strings.fi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.fi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\strings.no.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.no.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\strings.sv-se.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.sv-se.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -115,6 +178,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
       <Version>10.0.18362.2005</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLightLibs">
+      <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="NCmdLiner">
       <Version>3.0.20081</Version>
@@ -139,37 +205,34 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Credits\04. Language-Ext Credit.xml" />
-    <Content Include="Debug.txt" />
+    <Resource Include="Credits\01. NCmdLiner Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="License\00. Compliance.Notification License.xml" />
-    <EmbeddedResource Include="License\01. NCmLiner License.xml" />
-    <EmbeddedResource Include="License\02. Log4Net License.xml" />
-    <EmbeddedResource Include="License\03. LangaugeExt License.xml" />
-    <EmbeddedResource Include="License\04. NUnit License.xml" />
-    <EmbeddedResource Include="Resources\strings.fi.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.fi.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\strings.sv-se.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.sv-se.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\strings.no.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.no.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Resource Include="Credits\02. Log4Net Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Credits\01. NCmdLiner Credit.xml" />
-    <EmbeddedResource Include="Credits\02. Log4Net Credit.xml" />
-    <EmbeddedResource Include="Credits\03. NUnit Credit.xml" />
+    <Resource Include="Credits\03. NUnit Credit.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Credits\04. Language-Ext Credit.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License\00. Compliance.Notification License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License\01. NCmLiner License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License\02. Log4Net License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License\03. LangaugeExt License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License\04. NUnit License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Debug.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

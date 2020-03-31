@@ -2,3 +2,4 @@
 License
 Credits
 CheckDiskSpace /requiredFreeDiskSpace="100" /subtractSccmCache="True" /userInterfaceCulture="nb-NO"
+CheckPendingReboot  /userInterfaceCulture="nb-NO"

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
+﻿using System.Globalization;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
-using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Model;
 using LanguageExt.Common;
 using NCmdLiner.Attributes;
 
@@ -44,7 +42,12 @@ namespace Compliance.Notifications
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
             }
-            return await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
+            var exitCodeResult = new Result<int>(1);
+            App.RunApplicationOnStart(async (sender, args) =>
+            {
+                exitCodeResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
+            });
+            return await Task.FromResult(exitCodeResult).ConfigureAwait(false);
         }
 
         [Command(Summary = "Check pending reboot compliance.", Description = "Check pending reboot compliance.")]
@@ -57,13 +60,19 @@ namespace Compliance.Notifications
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
             }
-            return await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+            var exitCodeResult = new Result<int>(1);
+            App.RunApplicationOnStart(async (sender, args) =>
+            {
+                exitCodeResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+            });
+            return await Task.FromResult(exitCodeResult).ConfigureAwait(false);
         }
         
         [Command(Summary = "Handle activated toasts.", Description = "Handle activated toasts.")]
         public static async Task<Result<int>> ToastActivated()
         {
-            Logging.DefaultLogger.Warn("ToastActivated : Not implemented!");
+            var eventArgs = AppInstance.GetActivatedEventArgs();
+            Logging.DefaultLogger.Warn($"ToastActivated : Not implemented! Event args: {eventArgs.ObjectToString()}");
             await Task.Delay(1000).ConfigureAwait(false);
             return new Result<int>(0);
         }

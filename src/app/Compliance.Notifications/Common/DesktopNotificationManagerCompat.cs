@@ -340,12 +340,13 @@ namespace Compliance.Notifications.Common
 
         public bool ContainsKey(string key)
         {
-            return _data.Any(i => i.Key == key);
+            return _data?.Any(i => i.Key == key) ?? false;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
-            return _data.Select(i => new KeyValuePair<string, string>(i.Key, i.Value)).GetEnumerator();
+
+            return _data != null ? _data.Select(i => new KeyValuePair<string, string>(i.Key, i.Value)).GetEnumerator(): Enumerable.Empty<KeyValuePair<string, string>>().GetEnumerator();
         }
 
         public bool TryGetValue(string key, out string value)

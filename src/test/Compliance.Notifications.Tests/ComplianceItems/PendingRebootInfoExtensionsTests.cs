@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Remoting;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
-using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Model;
 using LanguageExt;
 using NUnit.Framework;
 

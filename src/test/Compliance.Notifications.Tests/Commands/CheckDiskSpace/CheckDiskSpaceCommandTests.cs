@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common.Tests;
-using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Model;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests

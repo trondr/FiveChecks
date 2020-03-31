@@ -1,11 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
-using LanguageExt;
 using Microsoft.Toolkit.Uwp.Notifications;
-using DesktopNotificationManagerCompat = Compliance.Notifications.Common.DesktopNotificationManagerCompat;
 
 namespace Compliance.Notifications.ToastTemplates
 {

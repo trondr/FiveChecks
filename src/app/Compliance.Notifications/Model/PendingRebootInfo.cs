@@ -4,13 +4,13 @@ using System.Linq;
 using LanguageExt;
 using Newtonsoft.Json;
 
-namespace Compliance.Notifications.ComplianceItems
+namespace Compliance.Notifications.Model
 {
     public class PendingRebootInfo : Record<PendingRebootInfo>
     {
         public bool RebootIsPending { get; set; }
 
-        public List<RebootSource> Source { get; set; } = new List<RebootSource>();
+        public List<RebootSource> Source { get; internal set; } = new List<RebootSource>();
 
         public static PendingRebootInfo Default => new PendingRebootInfo() { RebootIsPending = false};
     }
@@ -68,6 +68,7 @@ namespace Compliance.Notifications.ComplianceItems
     {
         public override void WriteJson(JsonWriter writer, RebootSource value, JsonSerializer serializer)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
             writer?.WriteValue(value.Value);
         }
 

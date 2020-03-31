@@ -5,16 +5,14 @@ using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Management.Automation;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-using Compliance.Notifications.ComplianceItems;
+using Compliance.Notifications.Model;
 using Compliance.Notifications.Resources;
 using Compliance.Notifications.ToastTemplates;
 using LanguageExt;
@@ -190,7 +188,7 @@ namespace Compliance.Notifications.Common
             var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = strings.PendingRebootNotification_Content1;
             var content2 = strings.PendingRebootNotification_Content2;
-            var action = "action=restart";
+            var action = "restart";
             var actionActivationType = ToastActivationType.Background;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
@@ -403,7 +401,8 @@ namespace Compliance.Notifications.Common
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
 
-            return new List<Result<int>> { checkTaskResult, systemTaskResult, userTaskResult }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            var installResult = new List<Result<int>> { checkTaskResult, systemTaskResult, userTaskResult }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            return await Task.FromResult(installResult).ConfigureAwait(false);
         }
 
         private static Try<Result<Unit>> UnRegisterScheduledTask(Some<string> taskName) => () =>
@@ -422,8 +421,8 @@ namespace Compliance.Notifications.Common
             var res1 = UnRegisterScheduledTask(ScheduledTasks.ComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
             var res2 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
             var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            return new List<Result<int>> {res1,res2,res3}.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
-
+            var unInstallResult =  new List<Result<int>> {res1,res2,res3}.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            return await Task.FromResult(unInstallResult).ConfigureAwait(false);
         }
 
         //Source: https://github.com/WindowsNotifications/desktop-toasts
@@ -582,7 +581,7 @@ namespace Compliance.Notifications.Common
         private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
         {
             throw new NotImplementedException("GetPendingFileRenameRebootPending");
-            return await Task.FromResult(new Result<PendingRebootInfo>());
+            //return await Task.FromResult(new Result<PendingRebootInfo>()).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -623,19 +622,19 @@ namespace Compliance.Notifications.Common
             }
         }
 
-        public static string ObjectToString(this object obj)
+        public static string ObjectToString(this object data)
         {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
-            var objectType = obj.GetType();
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            var objectType = data.GetType();
             if (objectType == typeof(string))
             {
-                return $"\"{obj}\"";
+                return $"\"{data}\"";
             }
             if (objectType.IsPrimitive || !objectType.IsClass)
             {
-                return obj.ToString();
+                return data.ToString();
             }
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(data);
         }
     }
 }

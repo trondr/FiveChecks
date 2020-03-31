@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using Compliance.Notifications.Model;
 using Compliance.Notifications.Resources;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Compliance.Notifications.Common
 {
@@ -11,7 +13,10 @@ namespace Compliance.Notifications.Common
     {
         public override void OnActivated(string invokedArgs, NotificationUserInputCollection userInputCollection, string appUserModelId)
         { 
-           Logging.DefaultLogger.Info(strings.YouActivatedTheToast);
+           Logging.DefaultLogger.Info($"{strings.YouActivatedTheToast}:{invokedArgs}:{appUserModelId}:{userInputCollection?.ObjectToString()}");
+           var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+           Logging.DefaultLogger.Info($"Process Name: {currentProcess.ProcessName}, {currentProcess.Id}");
+           Messenger.Default.Send(new ExitApplicationMessage());
         }
     }
 }
