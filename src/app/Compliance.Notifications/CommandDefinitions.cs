@@ -83,59 +83,7 @@ namespace Compliance.Notifications
         public static async Task<Result<int>> MeasureUserComplianceItems()
         {
             Logging.DefaultLogger.Warn("MeasureUserComplianceItems: NOT IMPLEMENTED");
-            var num1 = toInt1("10");
-            Logging.DefaultLogger.Info($"{num1}");
-            var num2 = toInt2("20");
-            Logging.DefaultLogger.Info($"{num2}");
-
-            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsClass).Where(type => typeof(StringToInt).IsAssignableFrom(type)).ToArray();
-            var instances = System.Reflection.Assembly.GetExecutingAssembly().DefinedTypes.SelectMany(typeInfo => typeInfo.DeclaredMembers.Where(memberInfo => typeof(StringToInt).IsAssignableFrom(memberInfo.ReflectedType))).ToArray();
-            var methods = System.Reflection.Assembly.GetExecutingAssembly().DefinedTypes.Where(info => { return info.DeclaredMembers.Any(memberInfo => memberInfo.Name == "toInt1"); }).ToArray();
-            var methods2 = System.Reflection.Assembly.GetExecutingAssembly().DefinedTypes
-                .SelectMany(info => info.DeclaredMembers.Where(memberInfo => (memberInfo.MemberType == MemberTypes.Field) && (memberInfo.GetUnderlyingType() == typeof(StringToInt))))
-                .ToArray();
-            var fields = methods2.Select(info => info as FieldInfo).Select(info =>
-                {
-                    var field = typeof(StringToInt).GetField(info.Name, BindingFlags.Public | BindingFlags.Static);
-                    var fieldValue = field.GetValue(null);
-                    var method = fieldValue.GetType().GetMethod("Invoke");
-                    method.Invoke(field, parameters: Array.Empty<object>());
-                    return field;
-                } );
-
             return await Task.FromResult(0).ConfigureAwait(false);
-        }
-
-        public static Type GetUnderlyingType(this MemberInfo member)
-        {
-            switch (member.MemberType)
-            {
-                case MemberTypes.Event:
-                    return ((EventInfo)member).EventHandlerType;
-                case MemberTypes.Field:
-                    return ((FieldInfo)member).FieldType;
-                case MemberTypes.Method:
-                    return ((MethodInfo)member).ReturnType;
-                case MemberTypes.Property:
-                    return ((PropertyInfo)member).PropertyType;
-                default:
-                    throw new ArgumentException
-                    (
-                        "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
-                    );
-            }
-        }
-
-        public delegate int StringToInt(string number);
-
-        private static StringToInt toInt1 = ToInt;
-        private static StringToInt toInt2 = ToInt;
-
-        private static int ToInt(string number)
-        {
-            Logging.DefaultLogger.Info("TEST: Convert number to int");
-            return Convert.ToInt32(number, CultureInfo.InvariantCulture);
-
         }
     }
 }
