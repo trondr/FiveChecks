@@ -15,11 +15,9 @@ namespace Compliance.Notifications.Common
         {
             get
             {
-                if (_sw == null)
-                {
-                    File.Move(_tempFileName, _tempTextFileName);
-                    _sw = new StreamWriter(_tempTextFileName);
-                }
+                if (_sw != null) return _sw;
+                File.Move(_tempFileName, _tempTextFileName);
+                _sw = new StreamWriter(_tempTextFileName);
                 return _sw;
             }
         }
@@ -83,7 +81,7 @@ namespace Compliance.Notifications.Common
             {
                 using (var sr = new StreamReader(_tempTextFileName))
                 {
-                    System.Console.WriteLine(sr.ReadToEnd());
+                    Console.WriteLine(sr.ReadToEnd());
                 }
             }
             Cleanup();

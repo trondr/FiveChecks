@@ -11,10 +11,10 @@ namespace Compliance.Notifications.Model
     public static class SystemComplianceItems
     {
         private static readonly MeasureCompliance DiskSpaceMeasurement = async () => 
-            await F.RunSystemComplianceItem<DiskSpaceInfo>(F.GetDiskSpaceInfo).ConfigureAwait(false);
+            await F.RunSystemComplianceItem(F.GetDiskSpaceInfo).ConfigureAwait(false);
 
         private static readonly MeasureCompliance PendingRebootMeasurement = async () =>
-            await F.RunSystemComplianceItem<PendingRebootInfo>(F.GetPendingRebootInfo).ConfigureAwait(false);
+            await F.RunSystemComplianceItem(F.GetPendingRebootInfo).ConfigureAwait(false);
 
         /// <summary>
         /// List of all system compliance items.

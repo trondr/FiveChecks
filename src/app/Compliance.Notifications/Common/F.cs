@@ -78,8 +78,8 @@ namespace Compliance.Notifications.Common
         
         public static IEnumerable<FileInfo> GetFilesSafe(this DirectoryInfo directory, Some<string> searchPattern, SearchOption searchOption)
         {
-            var files = TryGetFiles(directory, searchPattern).Try().Match(fs => fs, exception => System.Array.Empty<FileInfo>());
-            var subDirectories = TryGetDirectories(directory, searchPattern).Try().Match(fs => fs, exception => System.Array.Empty<DirectoryInfo>());
+            var files = TryGetFiles(directory, searchPattern).Try().Match(fs => fs, exception => Array.Empty<FileInfo>());
+            var subDirectories = TryGetDirectories(directory, searchPattern).Try().Match(fs => fs, exception => Array.Empty<DirectoryInfo>());
             var subFiles = 
                 searchOption == SearchOption.AllDirectories ? 
                 subDirectories.SelectMany(info => GetFilesSafe(info, searchPattern, searchOption)).ToArray() : 
@@ -113,12 +113,12 @@ namespace Compliance.Notifications.Common
 
         public static async Task<DiskSpaceInfo> LoadDiskSpaceResult()
         {
-            return await LoadSystemComplianceItemResultOrDefault<DiskSpaceInfo>(DiskSpaceInfo.Default).ConfigureAwait(false);
+            return await LoadSystemComplianceItemResultOrDefault(DiskSpaceInfo.Default).ConfigureAwait(false);
         }
 
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
         {
-            return await LoadSystemComplianceItemResultOrDefault<PendingRebootInfo>(PendingRebootInfo.Default).ConfigureAwait(false);
+            return await LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
         }
 
         public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent)
@@ -197,7 +197,7 @@ namespace Compliance.Notifications.Common
 
         public static string GetUserComplianceItemResultFileName<T>()
         {
-            var folder = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
+            var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
             Directory.CreateDirectory(folder);
             return System.IO.Path.Combine(folder, $@"User-{typeof(T).Name}.json");
         }
@@ -205,7 +205,7 @@ namespace Compliance.Notifications.Common
         public static async Task<Result<Unit>> SaveUserComplianceItemResult<T>(Some<T> complianceItem)
         {
             var fileName = GetUserComplianceItemResultFileName<T>();
-            return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
+            return await SaveComplianceItemResult(complianceItem, fileName).ConfigureAwait(false);
         }
 
         public static async Task<Result<T>> LoadUserComplianceItemResult<T>()
@@ -216,7 +216,7 @@ namespace Compliance.Notifications.Common
 
         public static string GetSystemComplianceItemResultFileName<T>()
         {
-            var folder = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ApplicationInfo.ApplicationName);
+            var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ApplicationInfo.ApplicationName);
             Directory.CreateDirectory(folder);
             return System.IO.Path.Combine(folder, $@"System-{typeof(T).Name}.json");
         }
@@ -224,12 +224,12 @@ namespace Compliance.Notifications.Common
         public static async Task<Result<Unit>> SaveSystemComplianceItemResult<T>(Some<T> complianceItem)
         {
             var fileName = GetSystemComplianceItemResultFileName<T>();
-            return await SaveComplianceItemResult<T>(complianceItem, fileName).ConfigureAwait(false);
+            return await SaveComplianceItemResult(complianceItem, fileName).ConfigureAwait(false);
         }
 
         public static Try<Unit> DeleteFile(Some<string> fileName) => () =>
         {
-            if (System.IO.File.Exists(fileName))
+            if (File.Exists(fileName))
                 File.Delete(fileName);
             return Unit.Default;
         };

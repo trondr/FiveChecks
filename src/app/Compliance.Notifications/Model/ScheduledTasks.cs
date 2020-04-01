@@ -2,7 +2,7 @@
 using System.Security.Principal;
 using Microsoft.Win32.TaskScheduler;
 
-namespace Compliance.Notifications.Common
+namespace Compliance.Notifications.Model
 {
     public static class ScheduledTasks
     {

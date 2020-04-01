@@ -181,7 +181,7 @@ namespace Compliance.Notifications.Common
                     {
                         var length = 0;
                         var sb = new StringBuilder(length);
-                        var result = Common.NativeMethods.GetCurrentPackageFullName(ref length, sb);
+                        var result = NativeMethods.GetCurrentPackageFullName(ref length, sb);
                         _isRunningAsUwp = result != AppModelErrorNoPackage;
                     }
                 }

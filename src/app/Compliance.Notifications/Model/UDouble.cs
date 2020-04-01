@@ -2,7 +2,7 @@
 using System.Globalization;
 using Compliance.Notifications.Resources;
 
-namespace Compliance.Notifications.Common
+namespace Compliance.Notifications.Model
 {
     public struct UDouble : IEquatable<UDouble>
     {

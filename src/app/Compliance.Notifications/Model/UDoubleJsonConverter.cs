@@ -2,13 +2,13 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Compliance.Notifications.Common
+namespace Compliance.Notifications.Model
 {
     public class UDoubleJsonConverter: JsonConverter<UDouble>
     {
         public override void WriteJson(JsonWriter writer, UDouble value, JsonSerializer serializer)
         {
-            writer?.WriteValue((double)value);
+            writer?.WriteValue(value);
         }
 
         public override UDouble ReadJson(JsonReader reader, Type objectType, UDouble existingValue, bool hasExistingValue, JsonSerializer serializer)

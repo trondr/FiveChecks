@@ -1,5 +1,4 @@
-﻿using Compliance.Notifications.Common;
-using LanguageExt;
+﻿using LanguageExt;
 
 namespace Compliance.Notifications.Model
 {
@@ -7,6 +6,6 @@ namespace Compliance.Notifications.Model
     {
         public UDecimal SccmCacheSize { get; set; }
         public UDecimal TotalFreeDiskSpace { get; set; }
-        public static DiskSpaceInfo Default => new DiskSpaceInfo() { SccmCacheSize = 0M, TotalFreeDiskSpace = 9999M};
+        public static DiskSpaceInfo Default => new DiskSpaceInfo { SccmCacheSize = 0M, TotalFreeDiskSpace = 9999M};
     }
 }

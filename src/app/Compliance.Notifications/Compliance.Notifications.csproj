@@ -60,6 +60,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Model\ExitApplicationMessage.cs" />
+    <Compile Include="Model\RebootSource.cs" />
+    <Compile Include="Model\RebootSourceJsonConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">
       <DependentUpon>strings.resx</DependentUpon>
@@ -106,11 +108,11 @@
     <Compile Include="Common\NativeMethods.cs" />
     <Compile Include="Common\NotepadMessenger.cs" />
     <Compile Include="Common\NotificationUserInputData.cs" />
-    <Compile Include="Common\ScheduledTasks.cs" />
-    <Compile Include="Common\UDecimal.cs" />
-    <Compile Include="Common\UDecimalJsonConverter.cs" />
-    <Compile Include="Common\UDouble.cs" />
-    <Compile Include="Common\UDoubleJsonConverter.cs" />
+    <Compile Include="Model\ScheduledTasks.cs" />
+    <Compile Include="Model\UDecimal.cs" />
+    <Compile Include="Model\UDecimalJsonConverter.cs" />
+    <Compile Include="Model\UDouble.cs" />
+    <Compile Include="Model\UDoubleJsonConverter.cs" />
     <Compile Include="Model\DiskSpaceInfo.cs" />
     <Compile Include="Model\PendingRebootInfo.cs" />
     <Compile Include="Model\SystemComplianceItems.cs" />

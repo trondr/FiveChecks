@@ -2,7 +2,7 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Compliance.Notifications.Common
+namespace Compliance.Notifications.Model
 {
     public class UDecimalJsonConverter: JsonConverter<UDecimal>
     {
