@@ -30,7 +30,6 @@ namespace Compliance.Notifications.Commands
             var result = await removeDiskSpaceToastNotification().ConfigureAwait(false);
             Messenger.Default.Send(new ExitApplicationMessage());
             return result;
-
         }
         
         /// <summary>
@@ -41,7 +40,7 @@ namespace Compliance.Notifications.Commands
         /// <returns></returns>
         public static async Task<Result<int>> CheckDiskSpace(UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
-            return await CheckDiskSpaceCommand.CheckDiskSpaceF(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, nameof(CheckDiskSpaceCommand), nameof(CheckDiskSpaceCommand)),() => F.RemoveToastNotification(nameof(CheckDiskSpaceCommand))).ConfigureAwait(false);
+            return await CheckDiskSpaceCommand.CheckDiskSpaceF(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, nameof(CheckDiskSpaceCommand), nameof(CheckDiskSpaceCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckDiskSpaceCommand))).ConfigureAwait(false);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Compliance.Notifications.Common;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Compliance.Notifications.Model;
@@ -160,7 +161,7 @@ namespace Compliance.Notifications.Common.Tests
             var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(expected, actual);
         }
-        
+
         [Test()]
         [Category(TestCategory.UnitTests)]
         public async Task LoadDiskSpaceResultTest_FileNotExist()
@@ -236,11 +237,20 @@ namespace Compliance.Notifications.Common.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(s));
                 return "";
-            },() =>
-            {
-                Assert.Fail("None not expected");
-                return "";
-            });
+            }, () =>
+             {
+                 Assert.Fail("None not expected");
+                 return "";
+             });
+        }
+
+        [Test]
+        [TestCase("C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe CheckDiskSpace /requiredDiskSpace=\"100\"", "Compliance.Notifications", "Compliance.Notifications.exe CheckDiskSpace")]
+        [TestCase("\"C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe\" CheckDiskSpace /requiredDiskSpace=\"100\"", "Compliance.Notifications", "Compliance.Notifications.exe CheckDiskSpace")]
+        public void StripPathFromCommandLineTest(string input,string processName, string expected)
+        {
+            var actual = F.StripPathAndArgumentsFromCommandLine(processName,input);
+            Assert.AreEqual(expected,actual);
         }
     }
 }

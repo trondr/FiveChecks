@@ -23,7 +23,7 @@ namespace Compliance.Notifications.Commands
 
         public static async Task<Result<int>> CheckPendingReboot()
         {
-            return await CheckPendingRebootF(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, nameof(CheckPendingRebootCommand), nameof(CheckPendingRebootCommand)),() => F.RemoveToastNotification(nameof(CheckPendingRebootCommand))).ConfigureAwait(false);
+            return await CheckPendingRebootF(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, nameof(CheckPendingRebootCommand), nameof(CheckPendingRebootCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckPendingRebootCommand))).ConfigureAwait(false);
         }
     }
 }

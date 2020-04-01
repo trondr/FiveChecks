@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
@@ -26,6 +27,7 @@ using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 using FileInfo = Pri.LongPath.FileInfo;
 using Path = Pri.LongPath.Path;
 using Task = System.Threading.Tasks.Task;
+using System.Management;
 
 namespace Compliance.Notifications.Common
 {
@@ -665,16 +667,51 @@ namespace Compliance.Notifications.Common
             return JsonConvert.SerializeObject(data);
         }
 
-        public static async Task<Result<int>> RemoveToastNotification(string groupName)
+        public static void CloseOtherProcessWithSameCommandLine(this Process process)
         {
-            return await Task.Run(() =>
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            var processId = process.Id;
+            var processCommandLine = process.GetCommandLineWithoutPathAndArguments();
+            Logging.DefaultLogger.Info($"Closing other processes with command line {processCommandLine}");
+            var processesToClose = 
+                Process.GetProcessesByName("Compliance.Notifications")
+                .Where(p0 => p0.Id != processId)
+                .Where(p1 => p1.GetCommandLineWithoutPathAndArguments() == processCommandLine)
+                .Select(p2 =>
+                {
+                    Logging.DefaultLogger.Info($"Closing {p2.ProcessName} ({p2.Id})");
+                    p2.CloseMainWindow();
+                    p2.Kill();
+                    return p2;
+                })
+                .ToArray();
+        }
+
+        private static bool HasSameCommandLine(string getCommandLineWithoutPath, string processCommandLine)
+        {
+            return getCommandLineWithoutPath == processCommandLine;
+        }
+
+        public static string GetCommandLine(this Process process)
+        {
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            using (var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
+            using (var objects = searcher.Get())
             {
-                DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
-                DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
-                Logging.DefaultLogger.Info($"Removing notification group '{groupName}'");
-                DesktopNotificationManagerCompat.History.RemoveGroup(groupName);
-                return new Result<int>(0);
-            }).ConfigureAwait(false);
+                return objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+            }
+        }
+
+        public static string GetCommandLineWithoutPathAndArguments(this Process process)
+        {
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            return StripPathAndArgumentsFromCommandLine(process.ProcessName, process.GetCommandLine());
+        }
+
+        public static string StripPathAndArgumentsFromCommandLine(string processName, string commandLine)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(commandLine, "^.+(" + processName + "\\.exe).*?\\s+" + "(.+?)\\s.+$");
+            return $"{match.Groups[1].Value} {match.Groups[2].Value}";
         }
     }
 }

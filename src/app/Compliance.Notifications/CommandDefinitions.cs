@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Compliance.Notifications.Commands;
@@ -42,6 +43,7 @@ namespace Compliance.Notifications
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
             }
+            Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
             var exitCodeResult = new Result<int>(1);
             App.RunApplicationOnStart(async (sender, args) =>
             {
@@ -60,6 +62,7 @@ namespace Compliance.Notifications
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
             }
+            Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
             var exitCodeResult = new Result<int>(1);
             App.RunApplicationOnStart(async (sender, args) =>
             {
