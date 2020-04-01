@@ -580,8 +580,28 @@ namespace Compliance.Notifications.Common
         
         private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
         {
-            throw new NotImplementedException("GetPendingFileRenameRebootPending");
-            //return await Task.FromResult(new Result<PendingRebootInfo>()).ConfigureAwait(false);
+            var rebootPendingRegistryKeyPath = @"SYSTEM\CurrentControlSet\Control\Session Manager";
+            var rebootPendingRegistryValueName = "PendingFileRenameOperations";
+            var rebootIsPending = MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
+                rebootPendingRegistryValueName);
+            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRename } : new List<RebootSource>();
+            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
+            Logging.DefaultLogger.Info($@"Pending file rename operation pending reboot check result: {pendingRebootInfo.ObjectToString()}");
+            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
+        }
+
+        private static bool MultiStringRegistryValueExistsAndHasStrings(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
+        {
+            using (var key = baseKey.Value.OpenSubKey(subKeyPath.Value))
+            {
+                var value = key?.GetValue(valueName);
+                if (value == null) return false;
+                if (value is string[] stringArray)
+                {
+                    return stringArray.Length > 0;
+                }
+            }
+            return false;
         }
 
         /// <summary>
