@@ -392,19 +392,23 @@ namespace Compliance.Notifications.Common
         {
             var exeFile = Assembly.GetExecutingAssembly().Location;
             
-            var checkTaskResult = RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, new FileInfo(exeFile),"CheckDiskSpace /subtractSccmCache=True /requiredFreeDiskSpace=40", ScheduledTasks.ComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
+            var res1 = RegisterUserScheduledTask(ScheduledTasks.DiskSpaceComplianceCheckTaskName, new FileInfo(exeFile),"CheckDiskSpace /subtractSccmCache=True /requiredFreeDiskSpace=40", ScheduledTasks.DiskSpaceComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
                 .Try()
-                .Match(result => new Result<int>(0),exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceCheckTaskName}", exception)));
-            
-            var systemTaskResult = RegisterSystemScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName, new FileInfo(exeFile), "MeasureSystemComplianceItems", ScheduledTasks.ComplianceSystemMeasurementsTaskDescription)
+                .Match(result => new Result<int>(0),exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.DiskSpaceComplianceCheckTaskName}", exception)));
+
+            var res2 = RegisterUserScheduledTask(ScheduledTasks.PendingRebootComplianceCheckTaskName, new FileInfo(exeFile), "CheckPendingReboot", ScheduledTasks.PendingRebootComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
+                .Try()
+                .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.PendingRebootComplianceCheckTaskName}", exception)));
+
+            var res3 = RegisterSystemScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName, new FileInfo(exeFile), "MeasureSystemComplianceItems", ScheduledTasks.ComplianceSystemMeasurementsTaskDescription)
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceSystemMeasurementsTaskName}", exception)));
 
-            var userTaskResult = RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, new FileInfo(exeFile), "MeasureUserComplianceItems", ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
+            var res4 = RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, new FileInfo(exeFile), "MeasureUserComplianceItems", ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
 
-            var installResult = new List<Result<int>> { checkTaskResult, systemTaskResult, userTaskResult }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            var installResult = new List<Result<int>> { res1,res2, res3, res4 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
             return await Task.FromResult(installResult).ConfigureAwait(false);
         }
 
@@ -421,10 +425,11 @@ namespace Compliance.Notifications.Common
 
         public static async Task<Result<int>> UnInstall()
         {
-            var res1 = UnRegisterScheduledTask(ScheduledTasks.ComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var res2 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var unInstallResult =  new List<Result<int>> {res1,res2,res3}.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            var res1 = UnRegisterScheduledTask(ScheduledTasks.DiskSpaceComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res2 = UnRegisterScheduledTask(ScheduledTasks.PendingRebootComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res4 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var unInstallResult = new List<Result<int>> { res1, res2, res3, res4 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
             return await Task.FromResult(unInstallResult).ConfigureAwait(false);
         }
 

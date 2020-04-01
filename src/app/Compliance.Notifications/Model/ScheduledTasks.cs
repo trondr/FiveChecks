@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Security.Principal;
+using LanguageExt;
 using Microsoft.Win32.TaskScheduler;
 
 namespace Compliance.Notifications.Model
 {
     public static class ScheduledTasks
     {
-        public const string ComplianceCheckTaskName = "Compliance Notification Check";
-        public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
+        public const string DiskSpaceComplianceCheckTaskName = "Compliance Notification Check - DiskSpace";
+        public const string DiskSpaceComplianceCheckTaskDescription = "DiskSpace Compliance Notification Check at workstation unlock";
+
+        public const string PendingRebootComplianceCheckTaskName = "Compliance Notification Check - Pending Reboot";
+        public const string PendingRebootComplianceCheckTaskDescription = "Pending Reboot Compliance Notification Check at workstation unlock";
 
         public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
         public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";
@@ -26,5 +30,6 @@ namespace Compliance.Notifications.Model
             return account.Value;
         };
 
+        
     }
 }
