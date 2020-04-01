@@ -16,7 +16,8 @@ namespace Compliance.Notifications.Common
            Logging.DefaultLogger.Info($"{strings.YouActivatedTheToast}:{invokedArgs}:{appUserModelId}:{userInputCollection?.ObjectToString()}");
            var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
            Logging.DefaultLogger.Info($"Process Name: {currentProcess.ProcessName}, {currentProcess.Id}");
-           Messenger.Default.Send(new ExitApplicationMessage());
+           Logging.DefaultLogger.Warn($"TODO: Implement handling of toast activations.");
+            Messenger.Default.Send(new ExitApplicationMessage());
         }
     }
 }
