@@ -74,8 +74,7 @@ namespace Compliance.Notifications
         [Command(Summary = "Handle activated toasts.", Description = "Handle activated toasts.")]
         public static async Task<Result<int>> ToastActivated()
         {
-            var eventArgs = AppInstance.GetActivatedEventArgs();
-            Logging.DefaultLogger.Warn($"ToastActivated : Not implemented! Event args: {eventArgs.ObjectToString()}");
+            Logging.DefaultLogger.Warn($"ToastActivated : Not implemented!");
             await Task.Delay(1000).ConfigureAwait(false);
             return new Result<int>(0);
         }
