@@ -133,6 +133,22 @@
       <Component Id="LanguageExt_Core" Guid="*">
         <File Id="LanguageExt_Core_Dll" Name="LanguageExt.Core.dll" Source="$(var.ProductExeReleaseFolder)\LanguageExt.Core.dll" KeyPath="yes"/>
       </Component>
+      
+      <Component Id="CommonServiceLocator" Guid="*">
+        <File Id="CommonServiceLocatorDll" Name="CommonServiceLocator.dll" Source="$(var.ProductExeReleaseFolder)\CommonServiceLocator.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="GalaSoft_MvvmLight" Guid="*">
+        <File Id="GalaSoft_MvvmLight_Dll" Name="GalaSoft.MvvmLight.dll" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.dll" KeyPath="yes"/>
+        <File Id="GalaSoft_MvvmLight_pdb" Name="GalaSoft.MvvmLight.pdb" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.pdb" KeyPath="no"/>
+      </Component>
+      <Component Id="GalaSoft_MvvmLight_Extras" Guid="*">
+        <File Id="GalaSoft_MvvmLight_Extras_Dll" Name="GalaSoft.MvvmLight.Extras.dll" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Extras.dll" KeyPath="yes"/>
+        <File Id="GalaSoft_MvvmLight_Extras_Pdb" Name="GalaSoft.MvvmLight.Extras.pdb" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Extras.pdb" KeyPath="no"/>
+      </Component>
+      <Component Id="GalaSoft_MvvmLight_Platform" Guid="*">
+        <File Id="GalaSoft_MvvmLight_Platform_Dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Platform.dll" KeyPath="yes"/>
+        <File Id="GalaSoft_MvvmLight_Platform_Pdb" Name="GalaSoft.MvvmLight.Platform.pdb" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Platform.pdb" KeyPath="no"/>
+      </Component>
       <Component Id="log4Net" Guid="*">
         <File Id="log4Net_Dll" Name="log4Net.dll" Source="$(var.ProductExeReleaseFolder)\log4Net.dll" KeyPath="yes"/>
       </Component>
@@ -140,11 +156,11 @@
         <File Id="MicrosoftToolkitUwpNotificationsDll" Name="Microsoft.Toolkit.Uwp.Notifications.dll" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.dll" KeyPath="yes" />
         <File Id="MicrosoftToolkitUwpNotificationsPdb" Name="Microsoft.Toolkit.Uwp.Notifications.pdb" Source="$(var.ProductExeReleaseFolder)\Microsoft.Toolkit.Uwp.Notifications.pdb" KeyPath="no" />
       </Component>
-      <Component Id="NCmdLiner" Guid="*">
-        <File Id="NCmdLinerDll" Name="NCmdLiner.dll" Source="$(var.ProductExeReleaseFolder)\NCmdLiner.dll" KeyPath="yes" />
-      </Component>
       <Component Id="Microsoft_Win32_TaskScheduler" Guid="*">
         <File Id="Microsoft_Win32_TaskScheduler_dll" Name="Microsoft.Win32.TaskScheduler.dll" Source="$(var.ProductExeReleaseFolder)\Microsoft.Win32.TaskScheduler.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="NCmdLiner" Guid="*">
+        <File Id="NCmdLinerDll" Name="NCmdLiner.dll" Source="$(var.ProductExeReleaseFolder)\NCmdLiner.dll" KeyPath="yes" />
       </Component>
       <Component Id="Newtonsoft_Json" Guid="*">
         <File Id="Newtonsoft_Json_Dll" Name="Newtonsoft.Json.dll" Source="$(var.ProductExeReleaseFolder)\Newtonsoft.Json.dll" KeyPath="yes" />
@@ -159,6 +175,9 @@
       <Component Id="System_Buffers" Guid="*">
         <File Id="System_Buffers_Dll" Name="System.Buffers.dll" Source="$(var.ProductExeReleaseFolder)\System.Buffers.dll" KeyPath="yes"/>
       </Component>
+      <Component Id="System_Management_Automation" Guid="*">
+        <File Id="System_Management_Automation_Dll" Name="System.Management.Automation.dll" Source="$(var.ProductExeReleaseFolder)\System.Management.Automation.dll" KeyPath="yes"/>
+      </Component>
       <Component Id="System_Memory" Guid="*">
         <File Id="System_Memory_Dll" Name="System.Memory.dll" Source="$(var.ProductExeReleaseFolder)\System.Memory.dll" KeyPath="yes"/>
       </Component>
@@ -170,6 +189,9 @@
       </Component>
       <Component Id="System_ValueTuple" Guid="*">
         <File Id="System_ValueTuple_Dll" Name="System.ValueTuple.dll" Source="$(var.ProductExeReleaseFolder)\System.ValueTuple.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_Windows_Interactivity" Guid="*">
+        <File Id="System_Windows_Interactivity" Name="System.Windows.Interactivity.dll" Source="$(var.ProductExeReleaseFolder)\System.Windows.Interactivity.dll" KeyPath="yes" />
       </Component>
       <ComponentRef Id="ApplicationShortcut"/>
 		</ComponentGroup>
