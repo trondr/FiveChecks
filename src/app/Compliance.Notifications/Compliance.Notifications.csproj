@@ -209,34 +209,40 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Credits\01. NCmdLiner Credit.xml" />
+    <EmbeddedResource Include="Credits\01. NCmdLiner Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Credits\02. Log4Net Credit.xml" />
+    <EmbeddedResource Include="Credits\02. Log4Net Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Credits\03. NUnit Credit.xml" />
+    <EmbeddedResource Include="Credits\04. NUnit Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Credits\04. Language-Ext Credit.xml" />
+    <EmbeddedResource Include="Credits\03. Language-Ext Credit.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License\00. Compliance.Notification License.xml" />
+    <EmbeddedResource Include="License\00. Compliance.Notification License.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License\01. NCmLiner License.xml" />
+    <EmbeddedResource Include="License\01. NCmLiner License.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License\02. Log4Net License.xml" />
+    <EmbeddedResource Include="License\02. Log4Net License.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License\03. LangaugeExt License.xml" />
+    <EmbeddedResource Include="License\03. LangaugeExt License.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License\04. NUnit License.xml" />
+    <EmbeddedResource Include="License\04. NUnit License.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Debug.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="License\05. MvvmLightLibs License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Credits\05. MvvmLightLibs Credit.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
