@@ -121,7 +121,8 @@ namespace Compliance.Notifications.Common
             return await LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
         }
 
-        public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent)
+        public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,
+            string tag, string groupName)
         {
             if (buildToastContent == null) throw new ArgumentNullException(nameof(buildToastContent));
             DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
@@ -131,20 +132,21 @@ namespace Compliance.Notifications.Common
             var toastXmlContent = toastContent.GetContent();
             Logging.DefaultLogger.Debug(toastXmlContent);
             doc.LoadXml(toastContent.GetContent());
-            var toast = new ToastNotification(doc);
+            var toast = new ToastNotification(doc){Tag = tag, Group = groupName};
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
             return new Result<int>(0);
         }
 
         private static readonly Random Rnd = new Random();
-        public static async Task<Result<int>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount, string companyName)
+        public static async Task<Result<int>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount,
+            string companyName, string tag, string groupName)
         {
             return await ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
-            }).ConfigureAwait(false);
+            }, tag, groupName).ConfigureAwait(false);
         }
 
         private static async Task<string> GetGreeting()
@@ -171,14 +173,15 @@ namespace Compliance.Notifications.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss");
         }
 
-        public static async Task<Result<int>> ShowPendingRebootToastNotification(string companyName)
+        public static async Task<Result<int>> ShowPendingRebootToastNotification(string companyName, string tag,
+            string groupName)
         {
             return await ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckPendingRebootToastContentInfo(companyName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
-            }).ConfigureAwait(false);
+            }, tag, groupName).ConfigureAwait(false);
         }
 
         private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(string companyName)
@@ -655,6 +658,18 @@ namespace Compliance.Notifications.Common
                 return data.ToString();
             }
             return JsonConvert.SerializeObject(data);
+        }
+
+        public static async Task<Result<int>> RemoveToastNotification(string groupName)
+        {
+            return await Task.Run(() =>
+            {
+                DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
+                DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
+                Logging.DefaultLogger.Info($"Removing notification group '{groupName}'");
+                DesktopNotificationManagerCompat.History.RemoveGroup(groupName);
+                return new Result<int>(0);
+            }).ConfigureAwait(false);
         }
     }
 }

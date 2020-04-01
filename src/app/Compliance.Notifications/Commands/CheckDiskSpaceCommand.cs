@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Model;
+using GalaSoft.MvvmLight.Messaging;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Commands
@@ -15,8 +16,9 @@ namespace Compliance.Notifications.Commands
         /// <param name="subtractSccmCache">When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0</param>
         /// <param name="loadDiskSpaceResult">Load disk space result function</param>
         /// <param name="showDiskSpaceToastNotification"></param>
+        /// <param name="removeDiskSpaceToastNotification"></param>
         /// <returns></returns>
-        internal static async Task<Result<int>> CheckDiskSpaceF(UDecimal requiredFreeDiskSpace, bool subtractSccmCache, Func<Task<DiskSpaceInfo>> loadDiskSpaceResult, Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification)
+        internal static async Task<Result<int>> CheckDiskSpaceF(UDecimal requiredFreeDiskSpace, bool subtractSccmCache, Func<Task<DiskSpaceInfo>> loadDiskSpaceResult, Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification, Func<Task<Result<int>>> removeDiskSpaceToastNotification)
         {
             var diskSpaceInfo = await loadDiskSpaceResult().ConfigureAwait(false);
             var requiredCleanupAmount = requiredFreeDiskSpace - (diskSpaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? diskSpaceInfo.SccmCacheSize : 0));
@@ -25,7 +27,10 @@ namespace Compliance.Notifications.Commands
             {
                 return await showDiskSpaceToastNotification(requiredCleanupAmount, "My Company AS").ConfigureAwait(false);
             }
-            return new Result<int>(0);
+            var result = await removeDiskSpaceToastNotification().ConfigureAwait(false);
+            Messenger.Default.Send(new ExitApplicationMessage());
+            return result;
+
         }
         
         /// <summary>
@@ -36,7 +41,7 @@ namespace Compliance.Notifications.Commands
         /// <returns></returns>
         public static async Task<Result<int>> CheckDiskSpace(UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
-            return await CheckDiskSpaceCommand.CheckDiskSpaceF(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, F.ShowDiskSpaceToastNotification).ConfigureAwait(false);
+            return await CheckDiskSpaceCommand.CheckDiskSpaceF(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, nameof(CheckDiskSpaceCommand), nameof(CheckDiskSpaceCommand)),() => F.RemoveToastNotification(nameof(CheckDiskSpaceCommand))).ConfigureAwait(false);
         }
     }
 }
