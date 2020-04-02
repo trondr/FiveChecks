@@ -710,6 +710,7 @@ namespace Compliance.Notifications.Common
 
         public static string StripPathAndArgumentsFromCommandLine(string processName, string commandLine)
         {
+            if (string.IsNullOrWhiteSpace(commandLine)) return string.Empty;
             var match = System.Text.RegularExpressions.Regex.Match(commandLine, "^.+(" + processName + "\\.exe).*?\\s+" + "(.+?)\\s.+$");
             return $"{match.Groups[1].Value} {match.Groups[2].Value}";
         }
