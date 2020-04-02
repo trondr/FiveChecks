@@ -127,8 +127,8 @@
 		<ComponentGroup Id="ProductExeComponentGroup" Directory="TargetFolder">
       <Component Id="ProductExeComponent" Guid="*">
         <File Id="ProductExe" Name="$(var.ProductExeBaseName).exe" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe" KeyPath="yes" >
-          <netfx:NativeImage Id="Ngen_ProductExe64" Platform="64bit" Priority="0" AppBaseDirectory="TargetFolder"/>
-          <netfx:NativeImage Id="Ngen_ProductExe32" Platform="32bit" Priority="0" AppBaseDirectory="TargetFolder"/>
+          <netfx:NativeImage Id="Ngen_ProductExe64" Platform="64bit" Priority="3" AppBaseDirectory="TargetFolder"/>
+          <netfx:NativeImage Id="Ngen_ProductExe32" Platform="32bit" Priority="3" AppBaseDirectory="TargetFolder"/>
         </File>
         <File Id="ProductPdb" Name="$(var.ProductExeBaseName).pdb" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).pdb" KeyPath="no" />
         <File Id="ProductExeConfig" Name="$(var.ProductExeBaseName).exe.config" Source="$(var.ProductExeReleaseFolder)\$(var.ProductExeBaseName).exe.config" KeyPath="no" />
