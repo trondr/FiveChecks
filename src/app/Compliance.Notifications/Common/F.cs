@@ -169,7 +169,7 @@ namespace Compliance.Notifications.Common
             var content = strings.DiskSpaceIsLow_Description;
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0,
                 requiredCleanupAmount);
-            var action = "ms-settings:storagesense";
+            var action = ToastActions.DiskCleanup;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
@@ -194,7 +194,7 @@ namespace Compliance.Notifications.Common
             var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = strings.PendingRebootNotification_Content1;
             var content2 = strings.PendingRebootNotification_Content2;
-            var action = "restart";
+            var action = ToastActions.Restart;
             var actionActivationType = ToastActivationType.Background;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
@@ -759,6 +759,23 @@ namespace Compliance.Notifications.Common
             {
                 return regKey?.GetValue(valueName.Value,null) != null;
             }
+        }
+        
+        public static Result<T> TryFunc<T>(Func<Result<T>> func)
+        {
+            Try<T> TryRestart() => () => func();
+            return TryRestart().Try();
+        }
+
+        public static Result<Unit> DiskCleanup()
+        {
+            Process.Start(new ProcessStartInfo { FileName = "ms-settings:storagesense", UseShellExecute = true });
+            return Unit.Default;
+        }
+
+        public static Result<Unit> DiskAutoCleanup()
+        {
+            throw new NotImplementedException();
         }
     }
 }

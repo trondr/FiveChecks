@@ -1,7 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Compliance.Notifications.Model;
 using Compliance.Notifications.Resources;
 using GalaSoft.MvvmLight.Messaging;
+using LanguageExt;
 using Microsoft.QueryStringDotNET;
 
 namespace Compliance.Notifications.Common
@@ -14,35 +16,19 @@ namespace Compliance.Notifications.Common
     {
         public override void OnActivated(string arguments, NotificationUserInputCollection userInputCollection, string appUserModelId)
         { 
-           Logging.DefaultLogger.Info($"{strings.YouActivatedTheToast}:{arguments}:{appUserModelId}:{userInputCollection?.ObjectToString()}");
-           var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-           Logging.DefaultLogger.Info($"Process Name: {currentProcess.ProcessName}, {currentProcess.Id}");
+           Logging.DefaultLogger.Info($"Toast notification was activated with arguments: '{arguments}'. Source app:{appUserModelId}");
+           ToastActions.ParseToastActionArguments(arguments).Match(func =>
+           {
+               func().Match(unit => Unit.Default, exception =>
+               {
+                   Logging.DefaultLogger.Error($"Failed to execute action registered to action arguments: '{arguments}'. {exception.ToExceptionMessage()}");
+                   return Unit.Default;
+               });
+           }, () =>
+           {
+               Logging.DefaultLogger.Warn($"No action registered to action arguments: '{arguments}'.");
+           });
            Messenger.Default.Send(new ExitApplicationMessage());
-            if (string.IsNullOrWhiteSpace(arguments))
-            {
-                Logging.DefaultLogger.Info("Toast was activated without arguments. Do nothing.");
-                return;
-            }
-            var args = QueryString.Parse(arguments);
-            if (args.Contains("action"))
-            {
-                var action = args["action"];
-                switch (action)
-                {
-                    case "restart":
-                        Logging.DefaultLogger.Warn("TODO: Open Windows 10 Shutdown dialog with restart as option.");
-                        F.OpenRestartDialog();
-                        break;
-                    default:
-                        Logging.DefaultLogger.Info("Unknown action. Do nothing.");
-                        break;
-                }
-            }
-            else
-            {
-                Logging.DefaultLogger.Warn("Toast was activated without 'action' argument.");
-            }
-
         }
     }
 }

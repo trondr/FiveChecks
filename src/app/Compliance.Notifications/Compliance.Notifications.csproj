@@ -66,6 +66,7 @@
     <Compile Include="Model\ExitApplicationMessage.cs" />
     <Compile Include="Model\RebootSource.cs" />
     <Compile Include="Model\RebootSourceJsonConverter.cs" />
+    <Compile Include="Model\ToastActions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">
       <DependentUpon>strings.resx</DependentUpon>
