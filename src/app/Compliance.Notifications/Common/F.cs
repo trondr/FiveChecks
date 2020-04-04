@@ -28,6 +28,7 @@ using FileInfo = Pri.LongPath.FileInfo;
 using Path = Pri.LongPath.Path;
 using Task = System.Threading.Tasks.Task;
 using System.Management;
+using System.Text;
 
 namespace Compliance.Notifications.Common
 {
@@ -713,6 +714,31 @@ namespace Compliance.Notifications.Common
             if (string.IsNullOrWhiteSpace(commandLine)) return string.Empty;
             var match = System.Text.RegularExpressions.Regex.Match(commandLine, "^.+(" + processName + "\\.exe).*?\\s+" + "(.+?)\\s.+$");
             return $"{match.Groups[1].Value} {match.Groups[2].Value}";
+        }
+
+        public static Unit OpenRestartDialog()
+        {
+            var temporaryRegistryValue = TemporaryRegistryValue.NewTemporaryRegistryValue(Registry.CurrentUser,
+                @"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_PowerButtonAction",
+                RegistryValueKind.DWord, 4);
+            return temporaryRegistryValue.Match(value =>
+            {
+                using (value)
+                {
+                    var shutdownVsb = new StringBuilder();
+                    shutdownVsb.AppendLine("dim oShell");
+                    shutdownVsb.AppendLine("set oShell = CreateObject(\"Shell.Application\")");
+                    shutdownVsb.AppendLine("oShell.ShutdownWindows");
+                    shutdownVsb.AppendLine("set oShell = nothing");
+                    F.RunVbScript(shutdownVsb.ToString());
+                    Task.Delay(1000).Wait();//Wait a little before removing temporary registry value
+                }
+                return Unit.Default;
+            }, exception =>
+            {
+                Logging.DefaultLogger.Error($"Failed to change Start_PowerButtonAction. {exception.ToExceptionMessage()}");
+                return Unit.Default;
+            });
         }
 
         public static void RunVbScript(string vbScript)

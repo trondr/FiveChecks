@@ -245,12 +245,20 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         [TestCase("C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe CheckDiskSpace /requiredDiskSpace=\"100\"", "Compliance.Notifications", "Compliance.Notifications.exe CheckDiskSpace")]
         [TestCase("\"C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe\" CheckDiskSpace /requiredDiskSpace=\"100\"", "Compliance.Notifications", "Compliance.Notifications.exe CheckDiskSpace")]
-        public void StripPathFromCommandLineTest(string input,string processName, string expected)
+        public void StripPathFromCommandLineTest(string input, string processName, string expected)
         {
-            var actual = F.StripPathAndArgumentsFromCommandLine(processName,input);
-            Assert.AreEqual(expected,actual);
+            var actual = F.StripPathAndArgumentsFromCommandLine(processName, input);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test()]
+        [Category(TestCategory.ManualTests)]
+        public void OpenRestartDialogTest()
+        {
+            F.OpenRestartDialog();
         }
     }
 }
