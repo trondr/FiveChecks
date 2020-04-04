@@ -36,13 +36,16 @@ namespace Compliance.Notifications.Common.Tests
         public void NewTemporaryRegistryValueTest_RegistryKey_Success()
         {
             var testSubKeyPath = "Compliance.Notifications.Tests";
+            Registry.CurrentUser.DeleteSubKey(testSubKeyPath, false);
             using (Registry.CurrentUser.CreateSubKey(testSubKeyPath)){}
+
             Some<string> valueName = "SomeValueName";
             var actual = TemporaryRegistryValue.NewTemporaryRegistryValue(Registry.CurrentUser, testSubKeyPath, valueName, RegistryValueKind.DWord, 0);
             var val = actual.Match(
                 value =>
                 {
                     Assert.IsTrue(actual.IsSuccess,"Expected success");
+                    Assert.IsTrue(F.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName),"Temporary value does not exist.");
                     value.Dispose();
                     Assert.IsFalse(F.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName.Value),"Temporary value was not deleted.");
                     return Option<object>.None;
