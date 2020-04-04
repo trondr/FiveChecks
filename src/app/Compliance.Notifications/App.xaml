@@ -4,7 +4,7 @@
              Startup="App_OnStartup"
              Exit="App_OnExit"
              Activated="App_OnActivated"
-             >
+>
     <Application.Resources>
          
     </Application.Resources>

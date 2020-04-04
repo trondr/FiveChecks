@@ -218,6 +218,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         [TestCase(1, "Good morning")]
         [TestCase(12, "Good afternoon")]
         [TestCase(16, "Good evening")]
@@ -230,6 +231,7 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task GetGivenNameTest()
         {
             var actual = await F.GetGivenName();

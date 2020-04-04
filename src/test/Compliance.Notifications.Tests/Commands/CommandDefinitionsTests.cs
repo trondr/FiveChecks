@@ -1,10 +1,6 @@
 ﻿using NUnit.Framework;
-using Compliance.Notifications.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Compliance.Notifications.Common.Tests;
 
 namespace Compliance.Notifications.Commands.Tests
 {
@@ -12,6 +8,7 @@ namespace Compliance.Notifications.Commands.Tests
     public class CommandDefinitionsTests
     {
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task MeasureUserComplianceItemsTest()
         {
             var actualResult = await CommandDefinitions.MeasureUserComplianceItems();
@@ -23,6 +20,7 @@ namespace Compliance.Notifications.Commands.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public async Task MeasureSystemComplianceItemsTest()
         {
             var actualResult = await CommandDefinitions.MeasureSystemComplianceItems();

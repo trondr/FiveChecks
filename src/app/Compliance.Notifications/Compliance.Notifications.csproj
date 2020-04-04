@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Common\TemporaryFile.cs" />
+    <Compile Include="Common\TemporaryRegistryValue.cs" />
     <Compile Include="Common\ToastHelper.cs" />
     <Compile Include="Model\ExitApplicationMessage.cs" />
     <Compile Include="Model\RebootSource.cs" />
