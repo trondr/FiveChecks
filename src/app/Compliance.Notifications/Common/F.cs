@@ -714,5 +714,17 @@ namespace Compliance.Notifications.Common
             var match = System.Text.RegularExpressions.Regex.Match(commandLine, "^.+(" + processName + "\\.exe).*?\\s+" + "(.+?)\\s.+$");
             return $"{match.Groups[1].Value} {match.Groups[2].Value}";
         }
+
+        public static void RunVbScript(string vbScript)
+        {
+            using (var vbScriptFile = new TemporaryFile(".vbs"))
+            {
+                using (var sw = new StreamWriter(vbScriptFile.File.FullName))
+                {
+                    sw.Write(vbScript);
+                }
+                Process.Start(new ProcessStartInfo{FileName = "wscript.exe", Arguments = $"\"{vbScriptFile.File.FullName}\"", UseShellExecute = true})?.WaitForExit();
+            }
+        }
     }
 }
