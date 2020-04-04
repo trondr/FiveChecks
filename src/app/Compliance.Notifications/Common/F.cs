@@ -195,7 +195,7 @@ namespace Compliance.Notifications.Common
             var content = strings.PendingRebootNotification_Content1;
             var content2 = strings.PendingRebootNotification_Content2;
             var action = ToastActions.Restart;
-            var actionActivationType = ToastActivationType.Background;
+            var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
