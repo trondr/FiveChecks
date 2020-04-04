@@ -170,7 +170,7 @@ namespace Compliance.Notifications.Common
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0,
                 requiredCleanupAmount);
             var action = "ms-settings:storagesense";
-            var actionActivationType = ToastActivationType.Protocol;
+            var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss");
@@ -750,6 +750,14 @@ namespace Compliance.Notifications.Common
                     sw.Write(vbScript);
                 }
                 Process.Start(new ProcessStartInfo{FileName = "wscript.exe", Arguments = $"\"{vbScriptFile.File.FullName}\"", UseShellExecute = true})?.WaitForExit();
+            }
+        }
+
+        public static bool? RegistryValueExists(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
+        {
+            using (var regKey = baseKey.Value.OpenSubKey(subKeyPath.Value))
+            {
+                return regKey?.GetValue(valueName.Value,null) != null;
             }
         }
     }
