@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Security.Principal;
+using Compliance.Notifications.Common;
+using LanguageExt;
+using LanguageExt.Common;
 using Microsoft.Win32.TaskScheduler;
+using Pri.LongPath;
+using System.Linq;
 
 namespace Compliance.Notifications.Model
 {
@@ -32,6 +37,81 @@ namespace Compliance.Notifications.Model
             return account.Value;
         };
 
-        
+
+        public static Try<Unit> RegisterSystemScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
+    Some<string> arguments, Some<string> taskDescription) => () =>
+    {
+        using (var ts = TaskService.Instance)
+        {
+            using (var td = ts.NewTask())
+            {
+                td.RegistrationInfo.Description = taskDescription.Value;
+                td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                td.Triggers.Add(ScheduledTasks.HourlyTrigger());
+                        //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
+                        td.RegistrationInfo.SecurityDescriptorSddlForm =
+                            "O:BAG:SYD:AI(A;;FR;;;SY)(A;;0x1200a9;;;BU)(A;ID;0x1f019f;;;BA)(A;ID;0x1f019f;;;SY)(A;ID;FA;;;BA)";
+                td.Principal.UserId = "SYSTEM";
+                td.Principal.RunLevel = TaskRunLevel.Highest;
+                ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+            }
+        }
+        return new Result<Unit>(Unit.Default);
+    };
+
+
+        public static Result<Unit> RegisterSystemManualTask(Some<string> taskName, Some<FileInfo> exeFile, Some<string> arguments, Some<string> taskDescription)
+        {
+            return F.TryFunc(() =>
+            {
+                using (var ts = TaskService.Instance)
+                {
+                    using (var td = ts.NewTask())
+                    {
+                        td.RegistrationInfo.Description = taskDescription.Value;
+                        td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                        //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
+                        td.RegistrationInfo.SecurityDescriptorSddlForm =
+                            "O:BAG:SYD:AI(A;;FR;;;SY)(A;;0x1200a9;;;BU)(A;ID;0x1f019f;;;BA)(A;ID;0x1f019f;;;SY)(A;ID;FA;;;BA)";
+                        td.Principal.UserId = "SYSTEM";
+                        td.Principal.RunLevel = TaskRunLevel.Highest;
+                        ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+                    }
+                }
+                return new Result<Unit>(Unit.Default);
+            });
+        }
+
+
+        public static Try<Unit> RegisterUserScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
+            Some<string> arguments, Some<string> taskDescription, Some<Trigger> trigger) => () =>
+            {
+                using (var ts = TaskService.Instance)
+                {
+                    using (var td = ts.NewTask())
+                    {
+                        td.RegistrationInfo.Description = taskDescription.Value;
+                        td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                        td.Triggers.Add(trigger.Value);
+                        td.Principal.GroupId = ScheduledTasks.BuiltInUsers();
+                        td.Principal.RunLevel = TaskRunLevel.LUA;
+                        ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+                    }
+                }
+                return new Result<Unit>(Unit.Default);
+            };
+
+        public static Result<Unit> UnRegisterScheduledTask(Some<string> taskName)
+        {
+            return F.TryFunc(() =>
+            {
+                var task = new Option<Microsoft.Win32.TaskScheduler.Task>(TaskService.Instance.AllTasks.Where(t => t.Name == taskName));
+                return task.Match(t =>
+                {
+                    TaskService.Instance.RootFolder.DeleteTask(t.Name, false);
+                    return new Result<Unit>(Unit.Default);
+                }, () => new Result<Unit>(Unit.Default));
+            });
+        }
     }
 }
