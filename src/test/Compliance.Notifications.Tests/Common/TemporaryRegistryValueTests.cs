@@ -45,9 +45,9 @@ namespace Compliance.Notifications.Common.Tests
                 value =>
                 {
                     Assert.IsTrue(actual.IsSuccess,"Expected success");
-                    Assert.IsTrue(F.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName),"Temporary value does not exist.");
+                    Assert.IsTrue(RegistryOperations.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName),"Temporary value does not exist.");
                     value.Dispose();
-                    Assert.IsFalse(F.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName.Value),"Temporary value was not deleted.");
+                    Assert.IsFalse(RegistryOperations.RegistryValueExists(Registry.CurrentUser,testSubKeyPath,valueName.Value),"Temporary value was not deleted.");
                     return Option<object>.None;
                 },
                 exception =>

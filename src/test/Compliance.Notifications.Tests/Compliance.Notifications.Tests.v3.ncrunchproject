@@ -5,11 +5,77 @@
         <FixtureName>Compliance.Notifications.Tests.Class1</FixtureName>
       </FixtureTestSelector>
       <NamedTestSelector>
-        <TestName>Compliance.Notifications.Common.Tests.FTests.UnInstallTest</TestName>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.ToExceptionMessageTest_AggregateException</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.LoadDiskSpaceResultTest_FileNotExist</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.SaveLoadDiskSpaceResultTest_Success</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetFolderSizeTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.SaveAndLoadComplianceItemResultTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.AppendDirectorySeparatorCharTest("\\\\temp\\temp","\\\\temp\\temp\\")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.AppendDirectorySeparatorCharTest("c:\\temp","c:\\temp\\")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.AppendDirectorySeparatorCharTest_NullInput_Exception</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.AppendDirectorySeparatorCharTest_EmptyInput_Exception</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetFreeDiskSpaceTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.AppendToFileNameTest("test.txt","somename1","test.somename1.txt")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.TryGetFilesTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGreetingTest(23,"Good evening")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGreetingTest(21,"Good evening")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGreetingTest(16,"Good evening")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGreetingTest(12,"Good afternoon")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGreetingTest(1,"Good morning")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.GetGivenNameTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.StripPathFromCommandLineTest("C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe CheckDiskSpace /requiredDiskSpace=\"100\"","Compliance.Notifications","Compliance.Notifications.exe CheckDiskSpace")</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.StripPathFromCommandLineTest("\"C:\\Program Files (x86)\\github.com.trondr\\Compliance.Notifications\\1.0.20092.46\\Compliance.Notifications.exe\" CheckDiskSpace /requiredDiskSpace=\"100\"","Compliance.Notifications","Compliance.Notifications.exe CheckDiskSpace")</TestName>
       </NamedTestSelector>
       <NamedTestSelector>
         <TestName>Compliance.Notifications.Common.Tests.FTests.InstallTest</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.UnInstallTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Common.Tests.FTests.OpenRestartDialogTest</TestName>
+      </NamedTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Model.DiskCleanupTests</FixtureName>
+      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

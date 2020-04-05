@@ -373,6 +373,30 @@ namespace Compliance.Notifications.Common
             return new Result<Unit>(Unit.Default);
         };
 
+
+        private static Result<Unit> RegisterSystemManualTask(Some<string> taskName, Some<FileInfo> exeFile, Some<string> arguments, Some<string> taskDescription)
+        {
+            return TryFunc(() =>
+            {
+                using (var ts = TaskService.Instance)
+                {
+                    using (var td = ts.NewTask())
+                    {
+                        td.RegistrationInfo.Description = taskDescription.Value;
+                        td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                        //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
+                        td.RegistrationInfo.SecurityDescriptorSddlForm =
+                            "O:BAG:SYD:AI(A;;FR;;;SY)(A;;0x1200a9;;;BU)(A;ID;0x1f019f;;;BA)(A;ID;0x1f019f;;;SY)(A;ID;FA;;;BA)";
+                        td.Principal.UserId = "SYSTEM";
+                        td.Principal.RunLevel = TaskRunLevel.Highest;
+                        ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);
+                    }
+                }
+                return new Result<Unit>(Unit.Default);
+            });
+        }
+
+
         private static Try<Unit> RegisterUserScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
             Some<string> arguments, Some<string> taskDescription, Some<Trigger> trigger) => () =>
         {
@@ -411,28 +435,34 @@ namespace Compliance.Notifications.Common
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
 
-            var installResult = new List<Result<int>> { res1,res2, res3, res4 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            var res5 = RegisterSystemManualTask(ScheduledTasks.FullSystemDiskCleanupTaskName, new FileInfo(exeFile), "RunFullSystemDiskCleanup", ScheduledTasks.FullSystemDiskCleanupDescription)
+                .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.FullSystemDiskCleanupTaskName}", exception)));
+
+            var installResult = new List<Result<int>> { res1,res2, res3, res4, res5 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
             return await Task.FromResult(installResult).ConfigureAwait(false);
         }
-
-        private static Try<Result<Unit>> UnRegisterScheduledTask(Some<string> taskName) => () =>
+        
+        private static Result<Unit> UnRegisterScheduledTask(Some<string> taskName)
         {
-            var task = new Option<Microsoft.Win32.TaskScheduler.Task>(
-                TaskService.Instance.AllTasks.Where(t => t.Name == taskName));
-            return task.Match(t =>
+            return F.TryFunc(() =>
             {
-                TaskService.Instance.RootFolder.DeleteTask(t.Name, false);
-                return new Result<Unit>(Unit.Default);
-            }, () => new Result<Unit>(Unit.Default));
-        };
+                var task = new Option<Microsoft.Win32.TaskScheduler.Task>(TaskService.Instance.AllTasks.Where(t => t.Name == taskName));
+                return task.Match(t =>
+                {
+                    TaskService.Instance.RootFolder.DeleteTask(t.Name, false);
+                    return new Result<Unit>(Unit.Default);
+                }, () => new Result<Unit>(Unit.Default));
+            });
+        }
 
         public static async Task<Result<int>> UnInstall()
         {
-            var res1 = UnRegisterScheduledTask(ScheduledTasks.DiskSpaceComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var res2 = UnRegisterScheduledTask(ScheduledTasks.PendingRebootComplianceCheckTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var res4 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Try().Match(result => new Result<int>(0), exception => new Result<int>(exception));
-            var unInstallResult = new List<Result<int>> { res1, res2, res3, res4 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
+            var res1 = UnRegisterScheduledTask(ScheduledTasks.DiskSpaceComplianceCheckTaskName).Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res2 = UnRegisterScheduledTask(ScheduledTasks.PendingRebootComplianceCheckTaskName).Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res3 = UnRegisterScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName).Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res4 = UnRegisterScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName).Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var res5 = UnRegisterScheduledTask(ScheduledTasks.FullSystemDiskCleanupTaskName).Match(result => new Result<int>(0), exception => new Result<int>(exception));
+            var unInstallResult = new List<Result<int>> { res1, res2, res3, res4, res5 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));
             return await Task.FromResult(unInstallResult).ConfigureAwait(false);
         }
 
@@ -537,7 +567,7 @@ namespace Compliance.Notifications.Common
         {
             var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired";
             Logging.DefaultLogger.Debug($@"Checking if Windows Update has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
-            var rebootIsPending = RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
+            var rebootIsPending = RegistryOperations.RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Wuau } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
             Logging.DefaultLogger.Info($@"Windows Update pending reboot check result: {pendingRebootInfo.ObjectToString()}");
@@ -548,7 +578,7 @@ namespace Compliance.Notifications.Common
         {
             var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending";
             Logging.DefaultLogger.Debug($@"Checking if Component Based Servicing has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
-            var rebootIsPending = RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
+            var rebootIsPending = RegistryOperations.RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Cbs } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
             Logging.DefaultLogger.Info($@"Component Based Servicing (CBS) pending reboot check result: {pendingRebootInfo.ObjectToString()}");
@@ -593,7 +623,7 @@ namespace Compliance.Notifications.Common
         {
             var rebootPendingRegistryKeyPath = @"SYSTEM\CurrentControlSet\Control\Session Manager";
             var rebootPendingRegistryValueName = "PendingFileRenameOperations";
-            var rebootIsPending = MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
+            var rebootIsPending = RegistryOperations.MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
                 rebootPendingRegistryValueName);
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRename } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
@@ -601,34 +631,6 @@ namespace Compliance.Notifications.Common
             return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
         }
 
-        private static bool MultiStringRegistryValueExistsAndHasStrings(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
-        {
-            using (var key = baseKey.Value.OpenSubKey(subKeyPath.Value))
-            {
-                var value = key?.GetValue(valueName);
-                if (value == null) return false;
-                if (value is string[] stringArray)
-                {
-                    return stringArray.Length > 0;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Check if a registry key exists.
-        /// </summary>
-        /// <param name="baseKey">Example: Registry.LocalMachine</param>
-        /// <param name="subKeyPath"></param>
-        /// <returns></returns>
-        public static bool RegistryKeyExists(Some<RegistryKey> baseKey, string subKeyPath)
-        {
-            using (var key = baseKey.Value.OpenSubKey(subKeyPath))
-            {
-                return key != null;
-            }
-        }
-        
         public static IEnumerable<T> ToSuccess<T>(this IEnumerable<Result<T>> results)
         {
             var resultArray = results.ToArray();
@@ -752,20 +754,69 @@ namespace Compliance.Notifications.Common
                 Process.Start(new ProcessStartInfo{FileName = "wscript.exe", Arguments = $"\"{vbScriptFile.File.FullName}\"", UseShellExecute = true})?.WaitForExit();
             }
         }
-
-        public static bool? RegistryValueExists(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
-        {
-            using (var regKey = baseKey.Value.OpenSubKey(subKeyPath.Value))
-            {
-                return regKey?.GetValue(valueName.Value,null) != null;
-            }
-        }
         
         public static Result<T> TryFunc<T>(Func<Result<T>> func)
         {
-            Try<T> TryRestart() => () => func();
-            return TryRestart().Try();
+            Try<T> TryFun() => () => func();
+            return TryFun().Try();
         }
+
+        public static async Task<Result<T>> AsyncTryFunc<T>(Func<Task<Result<T>>> func)
+        {
+            TryAsync<T> TryRestart() => () => func();
+            return await TryRestart().Try().ConfigureAwait(false);
+        }
+
+        public static Result<T> TryFinally<T>(Func<Result<T>> tryFunc, System.Action finallyAction)
+        {
+            try
+            {
+                return TryFunc(tryFunc);
+            }
+            finally
+            {
+                finallyAction();
+            }
+        }
+
+        public static async Task<Result<T>> AsyncTryFinally<T>(Func<Task<Result<T>>> tryFunc, System.Action finallyAction)
+        {
+            try
+            {
+                return await AsyncTryFunc(tryFunc).ConfigureAwait(false);
+            }
+            finally
+            {
+                finallyAction();
+            }
+        }
+
+        public static async Task<Result<T>> AsyncPrepareTryFinally<T>(Func<Result<T>> prepareFunc, Func<Task<Result<T>>> tryFunc, Func<Result<T>> finallyAction)
+        {
+            if (prepareFunc == null) throw new ArgumentNullException(nameof(prepareFunc));
+            try
+            {
+                Exception preparationException = null;
+                var runTry = prepareFunc().Match(arg => true, exception =>
+                {
+                    preparationException = exception;
+                    return false;
+                });
+                if (runTry)
+                {
+                    return await AsyncTryFunc(tryFunc).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await Task.FromResult(new Result<T>(preparationException)).ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                finallyAction();
+            }
+        }
+
 
         public static Result<Unit> DiskCleanup()
         {
@@ -777,5 +828,7 @@ namespace Compliance.Notifications.Common
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

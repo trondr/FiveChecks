@@ -48,6 +48,7 @@
     <Compile Include="Common\TemporaryRegistryValueTests.cs" />
     <Compile Include="Common\TestCategory.cs" />
     <Compile Include="ComplianceItems\PendingRebootInfoExtensionsTests.cs" />
+    <Compile Include="Model\DiskCleanupTests.cs" />
     <Compile Include="Model\ToastActionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

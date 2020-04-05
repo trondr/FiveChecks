@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Principal;
-using LanguageExt;
 using Microsoft.Win32.TaskScheduler;
 
 namespace Compliance.Notifications.Model
@@ -18,6 +17,9 @@ namespace Compliance.Notifications.Model
 
         public const string ComplianceUserMeasurementsTaskName = "Compliance User Measurement";
         public const string ComplianceUserMeasurementsTaskDescription = "Measurement user compliance hourly";
+
+        public const string FullSystemDiskCleanupTaskName = "Compliance Full System Disk Cleanup";
+        public const string FullSystemDiskCleanupDescription = "Compliance Full System Disk Cleanup";
 
         public static Func<Trigger> UnlockTrigger => () => new SessionStateChangeTrigger(TaskSessionStateChangeType.SessionUnlock);
 

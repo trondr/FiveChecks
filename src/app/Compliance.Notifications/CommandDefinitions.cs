@@ -96,5 +96,16 @@ namespace Compliance.Notifications
             Logging.DefaultLogger.Warn("MeasureUserComplianceItems: NOT IMPLEMENTED");
             return await Task.FromResult(0).ConfigureAwait(false);
         }
+
+        [Command(Summary = "Run full system disk cleanup.",Description = "Run full system disk cleanup using CleanMgr.exe. After cleanup it will no longer be possible to uninstall any previously installed Windows updates.")]
+        public static async Task<Result<int>> RunFullSystemDiskCleanup()
+        {
+            var result = await DiskCleanup.RunFullDiskCleanup().ConfigureAwait(false);
+            return result.Match(unit => new Result<int>(0), exception =>
+            {
+                Logging.DefaultLogger.Error($"Failed to run full system disk cleanup. {exception.ToExceptionMessage()}");
+                return new Result<int>(1);
+            });
+        }
     }
 }
