@@ -11,11 +11,9 @@ namespace Compliance.Notifications.Model
 {
     public static class ScheduledTasks
     {
-        public const string DiskSpaceComplianceCheckTaskName = "Compliance Notification Check - DiskSpace";
-        public const string DiskSpaceComplianceCheckTaskDescription = "DiskSpace Compliance Notification Check at workstation unlock";
-
-        public const string PendingRebootComplianceCheckTaskName = "Compliance Notification Check - Pending Reboot";
-        public const string PendingRebootComplianceCheckTaskDescription = "Pending Reboot Compliance Notification Check at workstation unlock";
+        public const string ComplianceCheckTaskName = "Compliance Notification Check";
+        public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
+        public const string ComplianceCheckArguments = "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /userInterfaceCulture=\"nb-NO\"";
 
         public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
         public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";

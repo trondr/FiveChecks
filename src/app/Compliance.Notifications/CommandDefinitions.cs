@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Compliance.Notifications.Commands;
@@ -106,6 +109,38 @@ namespace Compliance.Notifications
                 Logging.DefaultLogger.Error($"Failed to run full system disk cleanup. {exception.ToExceptionMessage()}");
                 return new Result<int>(1);
             });
+        }
+
+        [Command(Summary = "Run all compliance checks.", Description = "Run all compliance checks.")]
+        public static async Task<Result<int>> CheckCompliance(
+            [RequiredCommandParameter(Description = "Free disk space requirement in GB",AlternativeName = "fr", ExampleValue = 40)]
+            decimal requiredFreeDiskSpace,
+            [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc",ExampleValue = true,DefaultValue = false)]
+            bool subtractSccmCache,
+            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",ExampleValue = false, DefaultValue = false)]
+            bool disableDiskSpaceCheck,
+            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "ddprc",ExampleValue = false, DefaultValue = false)]
+            bool disablePendingRebootCheck,
+            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
+            string userInterfaceCulture
+            )
+        {
+            if (!string.IsNullOrEmpty(userInterfaceCulture))
+            {
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
+            }
+            Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
+            var diskSpaceResult = new Result<int>(0);
+            var pendingRebootResult = new Result<int>(0);
+            App.RunApplicationOnStart(async (sender, args) =>
+            {
+                if(!disableDiskSpaceCheck)
+                    diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
+                if (!disablePendingRebootCheck)
+                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+            });
+            var result = new List<Result<int>> {diskSpaceResult, pendingRebootResult }.ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
+            return await Task.FromResult(result).ConfigureAwait(false);
         }
     }
 }
