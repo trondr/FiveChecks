@@ -353,21 +353,19 @@ namespace Compliance.Notifications.Common
 
         public static async Task<Result<int>> Install()
         {
-            var exeFile = Assembly.GetExecutingAssembly().Location;
-            
-            var res1 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, new FileInfo(exeFile),ScheduledTasks.ComplianceCheckArguments, ScheduledTasks.ComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
+            var res1 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceCheckTaskArguments, ScheduledTasks.ComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
                 .Try()
                 .Match(result => new Result<int>(0),exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceCheckTaskName}", exception)));
 
-            var res2 = ScheduledTasks.RegisterSystemScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName, new FileInfo(exeFile), "MeasureSystemComplianceItems", ScheduledTasks.ComplianceSystemMeasurementsTaskDescription)
+            var res2 = ScheduledTasks.RegisterSystemScheduledTask(ScheduledTasks.ComplianceSystemMeasurementsTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceSystemMeasurementsTaskArguments, ScheduledTasks.ComplianceSystemMeasurementsTaskDescription)
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceSystemMeasurementsTaskName}", exception)));
 
-            var res3 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, new FileInfo(exeFile), "MeasureUserComplianceItems", ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
+            var res3 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceUserMeasurementsTaskArguments, ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
 
-            var res4 = ScheduledTasks.RegisterSystemManualTask(ScheduledTasks.FullSystemDiskCleanupTaskName, new FileInfo(exeFile), "RunFullSystemDiskCleanup", ScheduledTasks.FullSystemDiskCleanupDescription)
+            var res4 = ScheduledTasks.RegisterSystemManualTask(ScheduledTasks.FullSystemDiskCleanupTaskName, ScheduledTasks.ExeFile, ScheduledTasks.FullSystemDiskCleanupTaskArguments, ScheduledTasks.FullSystemDiskCleanupTaskDescription)
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.FullSystemDiskCleanupTaskName}", exception)));
 
             var installResult = new List<Result<int>> { res1, res2, res3, res4 }.ToResult().Match(exitCodes => new Result<int>(exitCodes.Sum()), exception => new Result<int>(exception));

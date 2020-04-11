@@ -6,6 +6,7 @@ using LanguageExt.Common;
 using Microsoft.Win32.TaskScheduler;
 using Pri.LongPath;
 using System.Linq;
+using System.Reflection;
 
 namespace Compliance.Notifications.Model
 {
@@ -13,16 +14,21 @@ namespace Compliance.Notifications.Model
     {
         public const string ComplianceCheckTaskName = "Compliance Notification Check";
         public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
-        public const string ComplianceCheckArguments = "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /userInterfaceCulture=\"nb-NO\"";
+        public const string ComplianceCheckTaskArguments = "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /userInterfaceCulture=\"nb-NO\"";
 
         public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
         public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";
+        public const string ComplianceSystemMeasurementsTaskArguments = "MeasureSystemComplianceItems";
 
         public const string ComplianceUserMeasurementsTaskName = "Compliance User Measurement";
         public const string ComplianceUserMeasurementsTaskDescription = "Measurement user compliance hourly";
+        public const string ComplianceUserMeasurementsTaskArguments = "MeasureUserComplianceItems";
 
         public const string FullSystemDiskCleanupTaskName = "Compliance Full System Disk Cleanup";
-        public const string FullSystemDiskCleanupDescription = "Compliance Full System Disk Cleanup";
+        public const string FullSystemDiskCleanupTaskDescription = "Compliance Full System Disk Cleanup";
+        public const string FullSystemDiskCleanupTaskArguments = "RunFullSystemDiskCleanup";
+
+        public static FileInfo ExeFile { get; } = new FileInfo(Assembly.GetExecutingAssembly().Location);
 
         public static Func<Trigger> UnlockTrigger => () => new SessionStateChangeTrigger(TaskSessionStateChangeType.SessionUnlock);
 
@@ -44,7 +50,7 @@ namespace Compliance.Notifications.Model
             using (var td = ts.NewTask())
             {
                 td.RegistrationInfo.Description = taskDescription.Value;
-                td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                 td.Triggers.Add(ScheduledTasks.HourlyTrigger());
                         //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
                         td.RegistrationInfo.SecurityDescriptorSddlForm =
@@ -67,7 +73,7 @@ namespace Compliance.Notifications.Model
                     using (var td = ts.NewTask())
                     {
                         td.RegistrationInfo.Description = taskDescription.Value;
-                        td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                        td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                         //Allow users to run scheduled task : (A;;0x1200a9;;;BU)
                         td.RegistrationInfo.SecurityDescriptorSddlForm =
                             "O:BAG:SYD:AI(A;;FR;;;SY)(A;;0x1200a9;;;BU)(A;ID;0x1f019f;;;BA)(A;ID;0x1f019f;;;SY)(A;ID;FA;;;BA)";
@@ -89,7 +95,7 @@ namespace Compliance.Notifications.Model
                     using (var td = ts.NewTask())
                     {
                         td.RegistrationInfo.Description = taskDescription.Value;
-                        td.Actions.Add(new ExecAction(exeFile.Value.FullName, arguments.Value, exeFile.Value.Directory.FullName));
+                        td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                         td.Triggers.Add(trigger.Value);
                         td.Principal.GroupId = ScheduledTasks.BuiltInUsers();
                         td.Principal.RunLevel = TaskRunLevel.LUA;
