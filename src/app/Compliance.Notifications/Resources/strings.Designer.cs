@@ -241,7 +241,7 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart.
+        ///   Looks up a localized string similar to Restart....
         /// </summary>
         internal static string PendingRebootNotification_ActionButtonContent {
             get {
