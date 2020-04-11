@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace Compliance.Notifications.Common
 {
-    public class TemporaryRegistryValue : IDisposable
+    public sealed class TemporaryRegistryValue : IDisposable
     {
         
         private readonly RegistryKey _baseKey;
@@ -103,7 +103,7 @@ namespace Compliance.Notifications.Common
             return TryNewTemporaryRegistryValue().Try();
         }
         
-        internal static Unit ReleaseTemporaryRegistryValueF(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName, Option<object> existingValue, RegistryValueKind existingValueKind, Action<string, object, RegistryValueKind> setValue, Action<string> deleteValue)
+        internal static Unit ReleaseTemporaryRegistryValueF(Some<string> valueName, Option<object> existingValue, RegistryValueKind existingValueKind, Action<string, object, RegistryValueKind> setValue, Action<string> deleteValue)
         {
             return existingValue.Match(
             o =>
@@ -125,7 +125,7 @@ namespace Compliance.Notifications.Common
                 {
                     if (subKey == null)
                         throw new ArgumentException($"Sub key '{baseKey.Value.Name}\\{subKeyPath.Value}' does not exist.");
-                    return ReleaseTemporaryRegistryValueF(baseKey, subKeyPath, valueName, existingValue, existingValueKind,
+                    return ReleaseTemporaryRegistryValueF(valueName, existingValue, existingValueKind,
                         subKey.SetValue, subKey.DeleteValue);
                 }
             };

@@ -183,7 +183,7 @@ namespace Compliance.Notifications.Common.Tests
                 {
                     Assert.IsTrue(testData.ExpectedIsSuccess,"Did not expect success.");
                     Assert.AreEqual(testData.Value,getValue(testData.ValueName,null));
-                    TemporaryRegistryValue.ReleaseTemporaryRegistryValueF(Registry.CurrentUser,testSubKeyPath, testData.ValueName, testData.ExistingValue, testData.ExistingValueKind,setValue,deleteValue);
+                    TemporaryRegistryValue.ReleaseTemporaryRegistryValueF(testData.ValueName, testData.ExistingValue, testData.ExistingValueKind,setValue,deleteValue);
                     Assert.AreEqual(testData.ExpectedDeleteValueCallCount, actualDeleteValueCallCount, "DeleteValue call count.");
                     return Option<object>.None;
                 },

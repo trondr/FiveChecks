@@ -12,12 +12,14 @@ namespace Compliance.Notifications.Model
         public const string Restart = "restart";
         public const string DiskCleanup = "diskcleanup";
         public const string DiskAutoCleanup = "diskautocleanup";
-        public static Dictionary<string,Func<Result<Unit>>> Actions = new Dictionary<string, Func<Result<Unit>>>()
-        {
-            {ToastActions.Restart, () => F.TryFunc<Unit>(() => F.OpenRestartDialog()) },
-            {ToastActions.DiskCleanup, () => F.TryFunc<Unit>(() => F.DiskCleanup()) },
-            {ToastActions.DiskAutoCleanup, () => F.TryFunc<Unit>(() => F.DiskAutoCleanup()) },
-        };
+
+        public static Dictionary<string, Func<Result<Unit>>> Actions { get; } =
+            new Dictionary<string, Func<Result<Unit>>>()
+            {
+                {ToastActions.Restart, () => F.TryFunc<Unit>(() => F.OpenRestartDialog())},
+                {ToastActions.DiskCleanup, () => F.TryFunc<Unit>(() => F.DiskCleanup())},
+                {ToastActions.DiskAutoCleanup, () => F.TryFunc<Unit>(() => F.DiskAutoCleanup())},
+            };
 
         public static Option<Func<Result<Unit>>> ParseToastActionArguments(string arguments)
         {

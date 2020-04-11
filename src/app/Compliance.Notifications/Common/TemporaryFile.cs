@@ -4,7 +4,7 @@ using Pri.LongPath;
 
 namespace Compliance.Notifications.Common
 {
-    public class TemporaryFile : IDisposable
+    public sealed class TemporaryFile : IDisposable
     {
         public FileInfo File { get; }
 
