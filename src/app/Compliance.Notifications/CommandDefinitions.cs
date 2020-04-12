@@ -30,50 +30,6 @@ namespace Compliance.Notifications
             return await F.UnInstall().ConfigureAwait(false);
         }
 
-
-        [Command(Summary = "Check disk space compliance.", Description = "Check disk space. Disk space is compliant if: ((CurrentTotalFreeDiskSpace - requiredFreeDiskSpace) > 0. If 'subtractSccmCache' is set to true disk space will be compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0")]
-        // ReSharper disable once UnusedMember.Global
-        public static async Task<Result<int>> CheckDiskSpace(
-            [RequiredCommandParameter(Description = "Free disk space requirement in GB",AlternativeName = "fr", ExampleValue = 40)]
-            decimal requiredFreeDiskSpace,
-            [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc",ExampleValue = true,DefaultValue = false)]
-            bool subtractSccmCache,
-            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
-            string userInterfaceCulture
-            )
-        {
-            if (!string.IsNullOrEmpty(userInterfaceCulture))
-            {
-                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
-            }
-            Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
-            var exitCodeResult = new Result<int>(1);
-            App.RunApplicationOnStart(async (sender, args) =>
-            {
-                exitCodeResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
-            });
-            return await Task.FromResult(exitCodeResult).ConfigureAwait(false);
-        }
-
-        [Command(Summary = "Check pending reboot compliance.", Description = "Check pending reboot compliance.")]
-        public static async Task<Result<int>> CheckPendingReboot(
-            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
-            string userInterfaceCulture
-            )
-        {
-            if (!string.IsNullOrEmpty(userInterfaceCulture))
-            {
-                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
-            }
-            Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
-            var exitCodeResult = new Result<int>(1);
-            App.RunApplicationOnStart(async (sender, args) =>
-            {
-                exitCodeResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
-            });
-            return await Task.FromResult(exitCodeResult).ConfigureAwait(false);
-        }
-        
         [Command(Summary = "Handle activated toasts.", Description = "Handle activated toasts.")]
         public static async Task<Result<int>> ToastActivated()
         {
