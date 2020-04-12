@@ -51,5 +51,33 @@ namespace Compliance.Notifications.Tests.Model
                 return Option<Unit>.None;
             });
         }
+
+
+        public static object[] TestDataGroupSource =
+        {
+            new object[] {$"Arguments are null. Return None.", new TestData(null,false)},
+            new object[] {$"Arguments are empty string. Return None.", new TestData(string.Empty,false)},
+            new object[] {$"Arguments are some random string. Return None.", new TestData("srt3ij8",false)},
+            new object[] {$"Incorrectly spelled key name. Return None.", new TestData("group1=Restart",false)},
+            new object[] {$"Correctly spelled key name. Return Some.", new TestData("group=restart",true)},
+        };
+
+        [Test, TestCaseSource("TestDataGroupSource")]
+        [Category(TestCategory.UnitTests)]
+        public void ParseToastGropArgumentsTest(string description, object data)
+        {
+            var testData = data as TestData;
+            Assert.NotNull(testData, "Test data is null");
+            var actual = ToastActions.ParseToastGroupArguments(testData.Arguments);
+            actual.Match(func =>
+            {
+                Assert.IsTrue(testData.ExpectedReturnIsSome, "Expected None but was Some function");
+                return Option<Unit>.None;
+            }, () =>
+            {
+                Assert.IsFalse(testData.ExpectedReturnIsSome, "Expected Some function but was None");
+                return Option<Unit>.None;
+            });
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Compliance.Notifications.ToastTemplates
             // Construct the visuals of the toast (using Notifications library)
             var action = contentInfo.ActionActivationType == ToastActivationType.Protocol
                 ? contentInfo.Action
-                : new QueryString {{"action", contentInfo.Action}}.ToString();
+                : new QueryString {{"action", contentInfo.Action},{"group",contentInfo.GroupName}}.ToString();
                 
             var toastContent = new ToastContent
             {

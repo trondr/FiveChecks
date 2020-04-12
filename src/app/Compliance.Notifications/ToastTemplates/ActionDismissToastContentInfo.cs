@@ -12,6 +12,7 @@ namespace Compliance.Notifications.ToastTemplates
         public string ContentSection1 { get; }
         public string ContentSection2 { get; }
         public string Action { get; }
+        public string GroupName { get; }
         public Uri ImageUri { get; }
         public Uri AppLogoImageUri { get; }
         public string ActionButtonContent { get; }
@@ -22,7 +23,7 @@ namespace Compliance.Notifications.ToastTemplates
         public ActionDismissToastContentInfo(BindableString greeting, string title, string companyName,
             string contentSection1, string contentSection2, Uri imageUri, Uri appLogoImageUri, string action,
             ToastActivationType actionActivationType, string actionButtonContent, string notNowButtonContent,
-            string notNowAction)
+            string notNowAction, string groupName)
         {
             Greeting = greeting;
             Title = title;
@@ -35,6 +36,7 @@ namespace Compliance.Notifications.ToastTemplates
             ActionButtonContent = actionButtonContent;
             NotNowButtonContent = notNowButtonContent;
             NotNowAction = notNowAction;
+            GroupName = groupName;
             ActionActivationType = actionActivationType;
         }
     }

@@ -76,6 +76,7 @@
     <Compile Include="Model\RebootSource.cs" />
     <Compile Include="Model\RebootSourceJsonConverter.cs" />
     <Compile Include="Model\ToastActions.cs" />
+    <Compile Include="Model\ToastNotificationMessage.cs" />
     <Compile Include="Model\UserComplianceItems.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">

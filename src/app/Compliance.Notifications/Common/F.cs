@@ -29,6 +29,7 @@ using Task = System.Threading.Tasks.Task;
 using System.Management;
 using System.Text;
 using Compliance.Notifications.Model.PasswordExpiry;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Compliance.Notifications.Common
 {
@@ -149,6 +150,7 @@ namespace Compliance.Notifications.Common
             doc.LoadXml(toastContent.GetContent());
             var toast = new ToastNotification(doc){Tag = tag, Group = groupName};
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
+            Messenger.Default.Send(new ToastNotificationMessage(groupName));
             return new Result<int>(0);
         }
 
@@ -158,7 +160,7 @@ namespace Compliance.Notifications.Common
         {
             return await ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
@@ -173,7 +175,8 @@ namespace Compliance.Notifications.Common
                 );
         }
         
-        private static async Task<ActionDismissToastContentInfo> GetCheckDiskSpaceToastContentInfo(decimal requiredCleanupAmount, string companyName)
+        private static async Task<ActionDismissToastContentInfo> GetCheckDiskSpaceToastContentInfo(
+            decimal requiredCleanupAmount, string companyName, string groupName)
         {
             var title = strings.DiskSpaceIsLow_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
@@ -185,7 +188,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss");
+                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss",groupName);
         }
 
         public static async Task<Result<int>> ShowPendingRebootToastNotification(string companyName, string tag,
@@ -193,13 +196,14 @@ namespace Compliance.Notifications.Common
         {
             return await ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(companyName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(companyName, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(string companyName)
+        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(
+            string companyName, string groupName)
         {
             var title = strings.PendingRebootNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
@@ -210,7 +214,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss", groupName);
         }
 
         public static async Task<Result<int>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
@@ -219,13 +223,14 @@ namespace Compliance.Notifications.Common
         {
             return await ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate,companyName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate,companyName, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(DateTime passwordExpirationDate,string companyName)
+        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(
+            DateTime passwordExpirationDate, string companyName, string groupName)
         {
             var title = strings.PasswordExpiryNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
@@ -236,7 +241,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss", groupName);
         }
 
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)

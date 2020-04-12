@@ -1,8 +1,8 @@
 ﻿namespace Compliance.Notifications.Model
 {
-    public class ExitApplicationMessage
+    public class ToastNotificationMessage
     {
-        public ExitApplicationMessage(string notificationGroup)
+        public ToastNotificationMessage(string notificationGroup)
         {
             NotificationGroup = notificationGroup;
         }

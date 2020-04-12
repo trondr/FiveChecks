@@ -23,7 +23,9 @@ namespace Compliance.Notifications.Commands
 
         public static async Task<Result<int>> CheckPendingReboot()
         {
-            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, nameof(CheckPendingRebootCommand), nameof(CheckPendingRebootCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckPendingRebootCommand)),() => Messenger.Default.Send(new ExitApplicationMessage())).ConfigureAwait(false);
+            var tag = nameof(CheckPendingRebootCommand);
+            var groupName = nameof(CheckPendingRebootCommand);
+            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName),() => Messenger.Default.Send(new ExitApplicationMessage(groupName))).ConfigureAwait(false);
         }
     }
 }

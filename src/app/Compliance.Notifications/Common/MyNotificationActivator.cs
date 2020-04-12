@@ -1,10 +1,7 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Compliance.Notifications.Model;
-using Compliance.Notifications.Resources;
 using GalaSoft.MvvmLight.Messaging;
 using LanguageExt;
-using Microsoft.QueryStringDotNET;
 
 namespace Compliance.Notifications.Common
 {
@@ -28,7 +25,14 @@ namespace Compliance.Notifications.Common
            {
                Logging.DefaultLogger.Warn($"No action registered to action arguments: '{arguments}'.");
            });
-           Messenger.Default.Send(new ExitApplicationMessage());
+           ToastActions.ParseToastGroupArguments(arguments).Match(group =>
+           {
+               Logging.DefaultLogger.Info($"Requesting application exit after activation of {group}");
+               Messenger.Default.Send(new ExitApplicationMessage(group));
+           }, () =>
+           {
+               Logging.DefaultLogger.Warn("Did not send application exit message due to missing toast notification group name in toast activation arguments.");
+           });
         }
     }
 }

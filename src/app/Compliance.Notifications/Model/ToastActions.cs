@@ -44,5 +44,21 @@ namespace Compliance.Notifications.Model
             Logging.DefaultLogger.Info("Unknown action.");
             return Option<Func<Result<Unit>>>.None;
         }
+
+        public static Option<string> ParseToastGroupArguments(string arguments)
+        {
+            if (string.IsNullOrWhiteSpace(arguments))
+            {
+                Logging.DefaultLogger.Info("Toast was activated without arguments.");
+                return Option<string>.None;
+            }
+            var args = QueryString.Parse(arguments);
+            if (!args.Contains("group"))
+            {
+                Logging.DefaultLogger.Warn("Toast was activated without 'group' argument.");
+                return Option<string>.None;
+            }
+            return args["group"];
+        }
     }
 }
