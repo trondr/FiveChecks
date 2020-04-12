@@ -58,7 +58,7 @@ namespace Compliance.Notifications.Model.PasswordExpiry
         {
             var passwordExpiryWarningDays = RegistryOperations.GetRegistryValue(Registry.LocalMachine,
                 @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "PasswordExpiryWarning", 0d);
-            return passwordExpiryWarningDays.Match(o => Convert.ToDouble(o), () => 0d);
+            return passwordExpiryWarningDays.Match(o => Convert.ToDouble(o,CultureInfo.InvariantCulture), () => 0d);
         }
 
         public static UserPasswordInfo GetUserPasswordInfo(Some<string> userId)
@@ -72,7 +72,7 @@ namespace Compliance.Notifications.Model.PasswordExpiry
         {
             if (getUserPasswordInfo == null) throw new ArgumentNullException(nameof(getUserPasswordInfo));
             if (getIsRemoteSession == null) throw new ArgumentNullException(nameof(getIsRemoteSession));
-            return await Task<UserPasswordExpiryStatusInfo>.Run(() =>
+            return await Task.Run(() =>
                 {
                     var userPasswordInfo = getUserPasswordInfo(userId);
                     if (userPasswordInfo.PasswordExpirationDate == DateTime.MaxValue)
