@@ -15,7 +15,9 @@ namespace Compliance.Notifications.ToastTemplates
             var action = contentInfo.ActionActivationType == ToastActivationType.Protocol
                 ? contentInfo.Action
                 : new QueryString {{"action", contentInfo.Action},{"group",contentInfo.GroupName}}.ToString();
-                
+
+            var notNowAction = new QueryString {{"action", contentInfo.NotNowAction}, {"group", contentInfo.GroupName}}.ToString();
+
             var toastContent = new ToastContent
             {
 
@@ -109,7 +111,7 @@ namespace Compliance.Notifications.ToastTemplates
                                 // Note that there's no reason to specify background activation, since our COM
                                 // activator decides whether to process in background or launch foreground window
                                 new ToastButton(contentInfo.ActionButtonContent, action){ActivationType = contentInfo.ActionActivationType},
-                                new ToastButton(contentInfo.NotNowButtonContent, contentInfo.NotNowAction){ActivationType = ToastActivationType.Background},
+                                new ToastButton(contentInfo.NotNowButtonContent, notNowAction){ActivationType = ToastActivationType.Background},
                             }
                 }
             };

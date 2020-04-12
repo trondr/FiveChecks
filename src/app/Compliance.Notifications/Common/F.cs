@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Net.Http;
-using System.Reflection;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
@@ -187,7 +186,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss",groupName);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss,groupName);
         }
 
         public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(string companyName, string tag,
@@ -213,7 +212,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss", groupName);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
         public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
@@ -240,7 +239,7 @@ namespace Compliance.Notifications.Common
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss", groupName);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
@@ -840,6 +839,12 @@ namespace Compliance.Notifications.Common
                 PasswordExpire.ShowWindowsSecurityDialog(PasswordExpire.GetIsRemoteSession());
                 return new Result<Unit>(Unit.Default);
             });
+        }
+
+        public static Result<Unit> DismissNotification()
+        {
+            Logging.DefaultLogger.Info("User dismissed the notification.");
+            return new Result<Unit>(Unit.Default);
         }
     }
 }

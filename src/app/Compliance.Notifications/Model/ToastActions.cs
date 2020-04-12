@@ -13,6 +13,7 @@ namespace Compliance.Notifications.Model
         public const string DiskCleanup = "diskcleanup";
         public const string DiskAutoCleanup = "diskautocleanup";
         public const string ChangePassword = "changepassword";
+        public const string Dismiss = "dismiss";
 
         public static Dictionary<string, Func<Result<Unit>>> Actions { get; } =
             new Dictionary<string, Func<Result<Unit>>>
@@ -21,6 +22,7 @@ namespace Compliance.Notifications.Model
                 {ToastActions.DiskCleanup, () => F.TryFunc<Unit>(() => F.DiskCleanup())},
                 {ToastActions.DiskAutoCleanup, () => F.TryFunc<Unit>(() => F.DiskAutoCleanup())},
                 {ToastActions.ChangePassword, () => F.TryFunc<Unit>(() => F.ChangePassword())},
+                {ToastActions.Dismiss, () => F.TryFunc<Unit>(() => F.DismissNotification())},
             };
 
         public static Option<Func<Result<Unit>>> ParseToastActionArguments(string arguments)
@@ -43,36 +45,6 @@ namespace Compliance.Notifications.Model
             }
             Logging.DefaultLogger.Info("Unknown action.");
             return Option<Func<Result<Unit>>>.None;
-        }
-    }
-
-    public static class ToastGroups
-    {
-        public const string CheckDiskSpace = "CheckDiskSpace";
-        public const string CheckPendingReboot = "CheckPendingReboot";
-        public const string CheckPasswordExpiry = "CheckPasswordExpiryReboot";
-
-        public static List<string> Groups { get; } = new List<string>()
-        {
-            ToastGroups.CheckDiskSpace,
-            ToastGroups.CheckPendingReboot,
-            ToastGroups.CheckPasswordExpiry,
-        };
-
-        public static Option<string> ParseToastGroupArguments(string arguments)
-        {
-            if (string.IsNullOrWhiteSpace(arguments))
-            {
-                Logging.DefaultLogger.Info("Toast was activated without arguments.");
-                return Option<string>.None;
-            }
-            var args = QueryString.Parse(arguments);
-            if (!args.Contains("group"))
-            {
-                Logging.DefaultLogger.Warn("Toast was activated without 'group' argument.");
-                return Option<string>.None;
-            }
-            return args["group"];
         }
     }
 }
