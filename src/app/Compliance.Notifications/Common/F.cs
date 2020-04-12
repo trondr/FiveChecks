@@ -28,6 +28,7 @@ using Path = Pri.LongPath.Path;
 using Task = System.Threading.Tasks.Task;
 using System.Management;
 using System.Text;
+using Compliance.Notifications.Model.PasswordExpiry;
 
 namespace Compliance.Notifications.Common
 {
@@ -70,6 +71,13 @@ namespace Compliance.Notifications.Common
                         }), 
                     exception => new Result<DiskSpaceInfo>(exception));
             }, exception => new Result<DiskSpaceInfo>(exception));
+        }
+
+        public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()
+        {
+            var userPasswordExpiryInfo = await PasswordExpire.GetPasswordExpiryStatus(Environment.UserName).ConfigureAwait(false);
+            var passwordExpiryInfo = new PasswordExpiryInfo(userPasswordExpiryInfo.UserPasswordInfo.PasswordExpirationDate, userPasswordExpiryInfo.PasswordExpiryStatus,userPasswordExpiryInfo.IsRemoteSession);
+            return new Result<PasswordExpiryInfo>(passwordExpiryInfo);
         }
 
         public static Try<FileInfo[]> TryGetFiles(Some<DirectoryInfo> directoryInfo,Some<string> searchPattern) => () =>
@@ -121,6 +129,11 @@ namespace Compliance.Notifications.Common
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
         {
             return await LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
+        }
+
+        public static async Task<PasswordExpiryInfo> LoadPasswordExpiryInfo()
+        {
+            return await LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
         }
 
         public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,
@@ -200,6 +213,51 @@ namespace Compliance.Notifications.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
         }
 
+        public static async Task<Result<int>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
+            string companyName, string tag,
+            string groupName)
+        {
+            return await ShowToastNotification(async () =>
+            {
+                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate,companyName).ConfigureAwait(false);
+                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+                return toastContent;
+            }, tag, groupName).ConfigureAwait(false);
+        }
+
+        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(DateTime passwordExpirationDate,string companyName)
+        {
+            var title = strings.PasswordExpiryNotification_Title;
+            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
+            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
+            var content = string.Format(strings.PasswordExpiryNotification_Content_F1_F2, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm"));
+            var content2 = strings.PasswordExpiryNotification_Content2;
+            var action = ToastActions.ChangePassword;
+            var actionActivationType = ToastActivationType.Foreground;
+            var greeting = await GetGreeting().ConfigureAwait(false);
+            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss");
+        }
+
+        public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
+        {
+            if (getNow == null) throw new ArgumentNullException(nameof(getNow));
+            var now = getNow();
+            var timeSpan = dateTime - now;
+            var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
+            if (timeSpan.TotalDays < 1)
+                return $"{timeSpan.Hours} {strings.Hours}";
+            if (totalHoursRounded == 1)
+                return $"{timeSpan.Days} {strings.Day}";
+            return $"{timeSpan.Days} {strings.Days}";
+        }
+
+        public static string InPeriodFromNow(this DateTime dateTime)
+        {
+            return InPeriodFromNowPure(dateTime, () => DateTime.Now);
+        }
+
+
         public static string GetUserComplianceItemResultFileName<T>()
         {
             var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
@@ -254,6 +312,16 @@ namespace Compliance.Notifications.Common
         public static async Task<T> LoadSystemComplianceItemResultOrDefault<T>(T defaultValue)
         {
             var fileName = GetSystemComplianceItemResultFileName<T>();
+            return (await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false)).Match(arg => arg, exception =>
+            {
+                Logging.DefaultLogger.Warn($"Could not load '{typeof(T)}' so returning default value. Load error: {exception.ToExceptionMessage()}");
+                return defaultValue;
+            });
+        }
+
+        public static async Task<T> LoadUserComplianceItemResultOrDefault<T>(T defaultValue)
+        {
+            var fileName = GetUserComplianceItemResultFileName<T>();
             return (await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false)).Match(arg => arg, exception =>
             {
                 Logging.DefaultLogger.Warn($"Could not load '{typeof(T)}' so returning default value. Load error: {exception.ToExceptionMessage()}");
@@ -333,7 +401,22 @@ namespace Compliance.Notifications.Common
             return res;
         }
 
+        public static async Task<Result<Unit>> RunUserComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
+        {
+            if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
+            if (!UserComplianceItemIsActive<T>()) return new Result<Unit>();
+            var info = await measureCompliance().ConfigureAwait(false);
+            var res = await info.Match(dsi => F.SaveUserComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
+            return res;
+        }
+
         private static bool SystemComplianceItemIsActive<T>()
+        {
+            Logging.DefaultLogger.Warn("TODO: Implement Check if compliance item is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
+            return true;
+        }
+
+        private static bool UserComplianceItemIsActive<T>()
         {
             Logging.DefaultLogger.Warn("TODO: Implement Check if compliance item is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
             return true;
@@ -745,6 +828,14 @@ namespace Compliance.Notifications.Common
             throw new NotImplementedException();
         }
 
-        
+
+        public static Result<Unit> ChangePassword()
+        {
+            return F.TryFunc(() =>
+            {
+                PasswordExpire.ShowWindowsSecurityDialog(PasswordExpire.GetIsRemoteSession());
+                return new Result<Unit>(Unit.Default);
+            });
+        }
     }
 }

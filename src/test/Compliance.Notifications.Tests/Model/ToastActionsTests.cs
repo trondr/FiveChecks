@@ -1,8 +1,6 @@
-﻿using System;
-using Compliance.Notifications.Common.Tests;
+﻿using Compliance.Notifications.Common.Tests;
 using Compliance.Notifications.Model;
 using LanguageExt;
-using LanguageExt.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Model
@@ -33,6 +31,7 @@ namespace Compliance.Notifications.Tests.Model
             new object[] {$"action={ToastActions.Restart}. Return Some.", new TestData($"action={ToastActions.Restart}",true)},
             new object[] {$"action={ToastActions.DiskCleanup}. Return Some.", new TestData($"action={ToastActions.DiskCleanup}",true)},
             new object[] {$"action={ToastActions.DiskAutoCleanup}. Return Some.", new TestData($"action={ToastActions.DiskAutoCleanup}",true)},
+            new object[] {$"action={ToastActions.ChangePassword}. Return Some.", new TestData($"action={ToastActions.ChangePassword}",true)},
         };
 
         [Test, TestCaseSource("TestDataSource")]

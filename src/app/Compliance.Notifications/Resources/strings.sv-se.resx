@@ -174,32 +174,32 @@
   <data name="PendingRebootNotification_Title" xml:space="preserve">
     <value>This computer needs a restart!</value>
   </data>
-  <data name="_String121" xml:space="preserve">
-    <value>_String</value>
+  <data name="PasswordExpiryNotification_Title" xml:space="preserve">
+    <value>Your password expires soon!</value>
   </data>
-  <data name="_String122" xml:space="preserve">
-    <value>_String</value>
+  <data name="PasswordExpiryNotification_Content_F1_F2" xml:space="preserve">
+    <value>Your password expires in {0} on {1}. Please change your password before it expires.</value>
   </data>
-  <data name="_String123" xml:space="preserve">
-    <value>_String</value>
+  <data name="PasswordExpiryNotification_Content2" xml:space="preserve">
+    <value>Remember to configure all your devices (PC, VDI, mobile phone, tablet) to use the new password.</value>
   </data>
-  <data name="_String13" xml:space="preserve">
-    <value>_String</value>
+  <data name="PasswordExpiryNotification_ActionButtonContent" xml:space="preserve">
+    <value>Change password</value>
   </data>
-  <data name="_String14" xml:space="preserve">
-    <value>_String</value>
+  <data name="Hours" xml:space="preserve">
+    <value>hours</value>
   </data>
-  <data name="_String15" xml:space="preserve">
-    <value>_String</value>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
   </data>
-  <data name="_String16" xml:space="preserve">
-    <value>_String</value>
+  <data name="Day" xml:space="preserve">
+    <value>day</value>
   </data>
-  <data name="_String17" xml:space="preserve">
-    <value>_String</value>
+  <data name="PressCtrlAltDeleteToGetToTheWindowsSecurityDialog" xml:space="preserve">
+    <value>Press Ctrl-Alt-Delete to change password.</value>
   </data>
-  <data name="_String18" xml:space="preserve">
-    <value>_String</value>
+  <data name="ChangePasswordMessageBoxCaption" xml:space="preserve">
+    <value>Change password</value>
   </data>
   <data name="_String19" xml:space="preserve">
     <value>_String</value>

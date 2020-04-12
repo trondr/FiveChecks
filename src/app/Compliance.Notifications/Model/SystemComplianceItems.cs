@@ -21,8 +21,4 @@ namespace Compliance.Notifications.Model
         /// </summary>
         public static List<MeasureCompliance> Measurements { get; } = new List<MeasureCompliance> {DiskSpaceMeasurement, PendingRebootMeasurement };
     }
-
-    public static class UserComplianceItems
-    {
-    }
 }

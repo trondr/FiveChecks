@@ -96,8 +96,12 @@ namespace Compliance.Notifications
         [Command(Summary = "Measure user compliance items.", Description = "Measure user compliance items (data stored on desktop, etc.) and write result to event log and to file system. User compliance measurements must be run in user context.")]
         public static async Task<Result<int>> MeasureUserComplianceItems()
         {
-            Logging.DefaultLogger.Warn("MeasureUserComplianceItems: NOT IMPLEMENTED");
-            return await Task.FromResult(0).ConfigureAwait(false);
+            var result = await UserComplianceItems.Measurements.ExecuteComplianceMeasurements().ConfigureAwait(false);
+            return result.Match(unit => new Result<int>(0), exception =>
+            {
+                Logging.DefaultLogger.Error($"Failed to measure user compliance items. {exception.ToExceptionMessage()}");
+                return new Result<int>(1);
+            });
         }
 
         [Command(Summary = "Run full system disk cleanup.",Description = "Run full system disk cleanup using CleanMgr.exe. After cleanup it will no longer be possible to uninstall any previously installed Windows updates.")]
@@ -119,8 +123,10 @@ namespace Compliance.Notifications
             bool subtractSccmCache,
             [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",ExampleValue = false, DefaultValue = false)]
             bool disableDiskSpaceCheck,
-            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "ddprc",ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc",ExampleValue = false, DefaultValue = false)]
             bool disablePendingRebootCheck,
+            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec",ExampleValue = false, DefaultValue = false)]
+            bool disablePasswordExpiryCheck,
             [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
             string userInterfaceCulture
             )
@@ -132,14 +138,17 @@ namespace Compliance.Notifications
             Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
             var diskSpaceResult = new Result<int>(0);
             var pendingRebootResult = new Result<int>(0);
+            var passwordExpiryResult = new Result<int>(0);
             App.RunApplicationOnStart(async (sender, args) =>
             {
                 if(!disableDiskSpaceCheck)
                     diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
                 if (!disablePendingRebootCheck)
                     pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+                if (!disablePasswordExpiryCheck)
+                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
             });
-            var result = new List<Result<int>> {diskSpaceResult, pendingRebootResult }.ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
+            var result = new List<Result<int>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult }.ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
             return await Task.FromResult(result).ConfigureAwait(false);
         }
     }

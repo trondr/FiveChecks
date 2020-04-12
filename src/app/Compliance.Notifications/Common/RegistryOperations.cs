@@ -75,5 +75,13 @@ namespace Compliance.Notifications.Common
             }
             return false;
         }
+
+        public static Option<object> GetRegistryValue(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName, object defaultValue)
+        {
+            using (var regKey = baseKey.Value.OpenSubKey(subKeyPath.Value))
+            {
+                return regKey!=null? regKey.GetValue(valueName.Value, defaultValue) : defaultValue;
+            }
+        }
     }
 }

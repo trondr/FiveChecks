@@ -63,87 +63,6 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _String.
         /// </summary>
-        internal static string _String121 {
-            get {
-                return ResourceManager.GetString("_String121", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String122 {
-            get {
-                return ResourceManager.GetString("_String122", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String123 {
-            get {
-                return ResourceManager.GetString("_String123", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String13 {
-            get {
-                return ResourceManager.GetString("_String13", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String14 {
-            get {
-                return ResourceManager.GetString("_String14", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String15 {
-            get {
-                return ResourceManager.GetString("_String15", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String16 {
-            get {
-                return ResourceManager.GetString("_String16", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String17 {
-            get {
-                return ResourceManager.GetString("_String17", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
-        internal static string _String18 {
-            get {
-                return ResourceManager.GetString("_String18", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _String.
-        /// </summary>
         internal static string _String19 {
             get {
                 return ResourceManager.GetString("_String19", resourceCulture);
@@ -165,6 +84,33 @@ namespace Compliance.Notifications.Resources {
         internal static string AumidAndComRegistrationError {
             get {
                 return ResourceManager.GetString("AumidAndComRegistrationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        internal static string ChangePasswordMessageBoxCaption {
+            get {
+                return ResourceManager.GetString("ChangePasswordMessageBoxCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to day.
+        /// </summary>
+        internal static string Day {
+            get {
+                return ResourceManager.GetString("Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to days.
+        /// </summary>
+        internal static string Days {
+            get {
+                return ResourceManager.GetString("Days", resourceCulture);
             }
         }
         
@@ -223,6 +169,15 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to hours.
+        /// </summary>
+        internal static string Hours {
+            get {
+                return ResourceManager.GetString("Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must provide an AUMID..
         /// </summary>
         internal static string MissingAumidError {
@@ -237,6 +192,42 @@ namespace Compliance.Notifications.Resources {
         internal static string NotNowActionButtonContent {
             get {
                 return ResourceManager.GetString("NotNowActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        internal static string PasswordExpiryNotification_ActionButtonContent {
+            get {
+                return ResourceManager.GetString("PasswordExpiryNotification_ActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password expires in {0} on {1}. Please change your password before it expires..
+        /// </summary>
+        internal static string PasswordExpiryNotification_Content_F1_F2 {
+            get {
+                return ResourceManager.GetString("PasswordExpiryNotification_Content_F1_F2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember to configure all your devices (PC, VDI, mobile phone, tablet) to use the new password..
+        /// </summary>
+        internal static string PasswordExpiryNotification_Content2 {
+            get {
+                return ResourceManager.GetString("PasswordExpiryNotification_Content2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password expires soon!.
+        /// </summary>
+        internal static string PasswordExpiryNotification_Title {
+            get {
+                return ResourceManager.GetString("PasswordExpiryNotification_Title", resourceCulture);
             }
         }
         
@@ -282,6 +273,15 @@ namespace Compliance.Notifications.Resources {
         internal static string Please_Cleanup_DiskSpace_Text_F0 {
             get {
                 return ResourceManager.GetString("Please_Cleanup_DiskSpace_Text_F0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press Ctrl-Alt-Delete to change password..
+        /// </summary>
+        internal static string PressCtrlAltDeleteToGetToTheWindowsSecurityDialog {
+            get {
+                return ResourceManager.GetString("PressCtrlAltDeleteToGetToTheWindowsSecurityDialog", resourceCulture);
             }
         }
         
