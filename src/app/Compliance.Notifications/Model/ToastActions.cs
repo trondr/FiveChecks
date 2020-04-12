@@ -44,6 +44,20 @@ namespace Compliance.Notifications.Model
             Logging.DefaultLogger.Info("Unknown action.");
             return Option<Func<Result<Unit>>>.None;
         }
+    }
+
+    public static class ToastGroups
+    {
+        public const string CheckDiskSpace = "CheckDiskSpace";
+        public const string CheckPendingReboot = "CheckPendingReboot";
+        public const string CheckPasswordExpiry = "CheckPasswordExpiryReboot";
+
+        public static List<string> Groups { get; } = new List<string>()
+        {
+            ToastGroups.CheckDiskSpace,
+            ToastGroups.CheckPendingReboot,
+            ToastGroups.CheckPasswordExpiry,
+        };
 
         public static Option<string> ParseToastGroupArguments(string arguments)
         {

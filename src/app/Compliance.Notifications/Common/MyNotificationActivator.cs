@@ -25,13 +25,13 @@ namespace Compliance.Notifications.Common
            {
                Logging.DefaultLogger.Warn($"No action registered to action arguments: '{arguments}'.");
            });
-           ToastActions.ParseToastGroupArguments(arguments).Match(group =>
+           ToastGroups.ParseToastGroupArguments(arguments).Match(group =>
            {
-               Logging.DefaultLogger.Info($"Requesting application exit after activation of {group}");
-               Messenger.Default.Send(new ExitApplicationMessage(group));
+               Logging.DefaultLogger.Info($"Requesting unregistration of notification group '{group}''");
+               Messenger.Default.Send(new UnRegisterToastNotificationMessage(group));
            }, () =>
            {
-               Logging.DefaultLogger.Warn("Did not send application exit message due to missing toast notification group name in toast activation arguments.");
+               Logging.DefaultLogger.Warn("Did not send unregister request due to missing toast notification group name in toast activation arguments.");
            });
         }
     }

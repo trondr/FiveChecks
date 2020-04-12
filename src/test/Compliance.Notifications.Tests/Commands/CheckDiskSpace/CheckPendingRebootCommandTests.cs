@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
 using Compliance.Notifications.Model;
 using LanguageExt.Common;
@@ -43,7 +44,6 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
             var actualLoadPendingRebootCallCount = 0;
             var actualShowPendingRebootToastNotificationCount = 0;
             var actualRemovePendingRebootToastNotificationCount = 0;
-            var actualSendApplicationExitCount = 0;
             var actual = 
                     CheckPendingRebootCommand.CheckPendingRebootPure(
                         async () =>
@@ -54,21 +54,16 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
                         },
                         (s) => { 
                             actualShowPendingRebootToastNotificationCount++;
-                            return new Task<Result<int>>(() => 0);
+                            return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));
                         }, () =>
                         {
                             actualRemovePendingRebootToastNotificationCount++;
-                            return Task.FromResult(new Result<int>(0));
-                        },
-                        () =>
-                        {
-                            actualSendApplicationExitCount++;
+                            return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide));
                         });
 
             Assert.AreEqual(expectedLoadPendingRebootCallCount, actualLoadPendingRebootCallCount, "LoadPendingRebootResult");
             Assert.AreEqual(expectedShowPendingRebootToastNotificationCount, actualShowPendingRebootToastNotificationCount,"ShowPendingRebootToastNotification");
             Assert.AreEqual(expectedRemovePendingRebootToastNotificationCallCount, actualRemovePendingRebootToastNotificationCount, "RemovePendingRebootToastNotification");
-            Assert.AreEqual(expectedShowPendingRebootToastNotificationCount == 0 ? 1 : 0, actualSendApplicationExitCount, "SendApplicationExit");
         }
     }
 }

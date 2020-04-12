@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Common
 {
     public static class ToastHelper
     {
-        public static async Task<Result<int>> RemoveToastNotification(string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> RemoveToastNotification(string groupName)
         {
             return await Task.Run(() =>
             {
@@ -14,7 +13,7 @@ namespace Compliance.Notifications.Common
                 DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
                 Logging.DefaultLogger.Info($"Removing notification group '{groupName}'");
                 DesktopNotificationManagerCompat.History.RemoveGroup(groupName);
-                return new Result<int>(0);
+                return new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             }).ConfigureAwait(false);
         }
     }

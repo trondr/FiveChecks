@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Model;
+using GalaSoft.MvvmLight.Messaging;
 using LanguageExt.Common;
 using NCmdLiner.Attributes;
 
@@ -92,9 +93,9 @@ namespace Compliance.Notifications
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
             }
             Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
-            var diskSpaceResult = new Result<int>(0);
-            var pendingRebootResult = new Result<int>(0);
-            var passwordExpiryResult = new Result<int>(0);
+            var diskSpaceResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+            var pendingRebootResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+            var passwordExpiryResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
                 if(!disableDiskSpaceCheck)
@@ -104,7 +105,25 @@ namespace Compliance.Notifications
                 if (!disablePasswordExpiryCheck)
                     passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
             });
-            var result = new List<Result<int>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult }.ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
+            var result = 
+                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult }
+                .ToResult()
+                .Match(
+                    list =>
+                    {
+                        if (list.All(visibility => visibility == ToastNotificationVisibility.Hide))
+                        {
+                            Logging.DefaultLogger.Info("All checks are compliant, unregister all notification groups...");
+                            var _ = ToastGroups.Groups.Select(groupName =>
+                                {
+                                    Messenger.Default.Send(new UnRegisterToastNotificationMessage(groupName));
+                                    return groupName;
+                                }
+                            ).ToArray();
+                        }
+                        return new Result<int>(0);
+                    }, 
+                    exception => new Result<int>(exception));
             return await Task.FromResult(result).ConfigureAwait(false);
         }
     }

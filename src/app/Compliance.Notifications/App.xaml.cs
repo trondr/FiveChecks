@@ -12,34 +12,37 @@ namespace Compliance.Notifications
     /// </summary>
     public partial class App : Application
     {
-        private ConcurrentDictionary<string,string> _notificationGroups = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string,string> _notificationGroups = new ConcurrentDictionary<string, string>();
 
         public int ExitCode { get; set; }
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             Logging.DefaultLogger.Info($"Starting application. {Environment.CommandLine}");
-            Messenger.Default.Register<ToastNotificationMessage>(this, message =>
+            Messenger.Default.Register<RegisterToastNotificationMessage>(this, message =>
                 {
+                    Logging.DefaultLogger.Info($"Registering toast notification group '{message.NotificationGroup}'...");
                     if (!_notificationGroups.ContainsKey(message.NotificationGroup))
                     {
                         _notificationGroups.GetOrAdd(message.NotificationGroup, message.NotificationGroup);
                     }
                 });
+            Messenger.Default.Register<UnRegisterToastNotificationMessage>(this, message =>
+            {
+                Logging.DefaultLogger.Info($"Unregister toast notification group '{message.NotificationGroup}'...");
+                DesktopNotificationManagerCompat.History.RemoveGroup(message.NotificationGroup);
+                _notificationGroups.TryRemove(message.NotificationGroup, out var value);
+                if (_notificationGroups.Count == 0)
+                {
+                    Logging.DefaultLogger.Info($"No more toast notification groups registered, request application exit...");
+                    Messenger.Default.Send(new ExitApplicationMessage());
+                }
+            });
             Messenger.Default.Register<ExitApplicationMessage>(this, message =>
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    DesktopNotificationManagerCompat.History.RemoveGroup(message.NotificationGroup);
-                    _notificationGroups.TryRemove(message.NotificationGroup, out var value);
-                    if (_notificationGroups.Count == 0)
-                    {
-                        Logging.DefaultLogger.Info($"Shutting down application...");
-                        Application.Current.Shutdown(this.ExitCode);
-                    }
-                    else
-                    {
-                        Logging.DefaultLogger.Info($"Still unhandled notifications, skip shutdown of application.");
-                    }
+                    Logging.DefaultLogger.Info($"Shutting down application...");
+                    Application.Current.Shutdown(this.ExitCode);
                 });
             });
         }

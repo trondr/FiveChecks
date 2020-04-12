@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Model;
-using GalaSoft.MvvmLight.Messaging;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Commands
 {
     public static class CheckPendingRebootCommand
     {
-        internal static async Task<Result<int>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadPendingRebootInfo, Func<string, Task<Result<int>>> showToastNotification, Func<Task<Result<int>>> removeToastNotification,Action sendApplicationExitMessage)
+        internal static async Task<Result<ToastNotificationVisibility>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadPendingRebootInfo, Func<string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
         {
             var diskSpaceInfo = await loadPendingRebootInfo().ConfigureAwait(false);
             if (diskSpaceInfo.RebootIsPending)
@@ -17,15 +16,14 @@ namespace Compliance.Notifications.Commands
                 return await showToastNotification("My Company AS").ConfigureAwait(false);
             }
             var result = await removeToastNotification().ConfigureAwait(false);
-            sendApplicationExitMessage();
             return result;
         }
 
-        public static async Task<Result<int>> CheckPendingReboot()
+        public static async Task<Result<ToastNotificationVisibility>> CheckPendingReboot()
         {
-            var tag = nameof(CheckPendingRebootCommand);
-            var groupName = nameof(CheckPendingRebootCommand);
-            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName),() => Messenger.Default.Send(new ExitApplicationMessage(groupName))).ConfigureAwait(false);
+            var groupName = ToastGroups.CheckPendingReboot;
+            var tag = ToastGroups.CheckPendingReboot;
+            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
         }
     }
 }

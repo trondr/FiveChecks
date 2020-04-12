@@ -137,8 +137,7 @@ namespace Compliance.Notifications.Common
             return await LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
         }
 
-        public static async Task<Result<int>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,
-            string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,string tag, string groupName)
         {
             if (buildToastContent == null) throw new ArgumentNullException(nameof(buildToastContent));
             DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
@@ -150,12 +149,12 @@ namespace Compliance.Notifications.Common
             doc.LoadXml(toastContent.GetContent());
             var toast = new ToastNotification(doc){Tag = tag, Group = groupName};
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
-            Messenger.Default.Send(new ToastNotificationMessage(groupName));
-            return new Result<int>(0);
+            Messenger.Default.Send(new RegisterToastNotificationMessage(groupName));
+            return new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show);
         }
 
         private static readonly Random Rnd = new Random();
-        public static async Task<Result<int>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount,
+        public static async Task<Result<ToastNotificationVisibility>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount,
             string companyName, string tag, string groupName)
         {
             return await ShowToastNotification(async () =>
@@ -191,7 +190,7 @@ namespace Compliance.Notifications.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, "dismiss",groupName);
         }
 
-        public static async Task<Result<int>> ShowPendingRebootToastNotification(string companyName, string tag,
+        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(string companyName, string tag,
             string groupName)
         {
             return await ShowToastNotification(async () =>
@@ -217,7 +216,7 @@ namespace Compliance.Notifications.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, "dismiss", groupName);
         }
 
-        public static async Task<Result<int>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
+        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
             string companyName, string tag,
             string groupName)
         {

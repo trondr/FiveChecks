@@ -68,7 +68,7 @@ namespace Compliance.Notifications.Tests.Model
         {
             var testData = data as TestData;
             Assert.NotNull(testData, "Test data is null");
-            var actual = ToastActions.ParseToastGroupArguments(testData.Arguments);
+            var actual = ToastGroups.ParseToastGroupArguments(testData.Arguments);
             actual.Match(func =>
             {
                 Assert.IsTrue(testData.ExpectedReturnIsSome, "Expected None but was Some function");

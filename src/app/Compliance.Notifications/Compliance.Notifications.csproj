@@ -66,6 +66,7 @@
     <Compile Include="Common\TemporaryFile.cs" />
     <Compile Include="Common\TemporaryRegistryValue.cs" />
     <Compile Include="Common\ToastHelper.cs" />
+    <Compile Include="Common\ToastNotificationVisibility.cs" />
     <Compile Include="Model\DiskCleanup.cs" />
     <Compile Include="Model\ExitApplicationMessage.cs" />
     <Compile Include="Model\PasswordExpiry\PasswordExpiryInfo.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Model\RebootSource.cs" />
     <Compile Include="Model\RebootSourceJsonConverter.cs" />
     <Compile Include="Model\ToastActions.cs" />
-    <Compile Include="Model\ToastNotificationMessage.cs" />
+    <Compile Include="Model\RegisterToastNotificationMessage.cs" />
     <Compile Include="Model\UserComplianceItems.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">

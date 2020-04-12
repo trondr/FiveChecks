@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Threading.Tasks;
+using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
 using Compliance.Notifications.Model;
 using LanguageExt.Common;
@@ -39,7 +40,6 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
             var actualLoadDiskSpaceCallCount = 0;
             var actualShowDiskSpaceToastNotificationCount = 0;
             var actualRemoveDiskSpaceToastNotificationCount = 0;
-            var actualSendApplicationExitCount = 0;
             var actual = 
                     CheckDiskSpaceCommand.CheckDiskSpacePure(
                         requiredFreeDiskSpace, 
@@ -52,20 +52,16 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
                         },
                         (reqFreeDiskSpace, s) => { 
                             actualShowDiskSpaceToastNotificationCount++;
-                            return Task.FromResult(new Result<int>(0));
+                            return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));
                         }, () =>
                         {
                             actualRemoveDiskSpaceToastNotificationCount++;
-                            return Task.FromResult(new Result<int>(0));
-                        }, () =>
-                        {
-                            actualSendApplicationExitCount++;
+                            return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide));
                         });
 
             Assert.AreEqual(expectedLoadDiskSpaceCallCount, actualLoadDiskSpaceCallCount, "LoadDiskSpaceResult");
             Assert.AreEqual(expectedShowDiskSpaceToastNotificationCount, actualShowDiskSpaceToastNotificationCount,"ShowDiskSpaceToastNotification");
             Assert.AreEqual(expectedRemoveDiskSpaceToastNotificationCallCount, actualRemoveDiskSpaceToastNotificationCount, "RemoveDiskSpaceToastNotification");
-            Assert.AreEqual(expectedShowDiskSpaceToastNotificationCount == 0 ? 1 : 0, actualSendApplicationExitCount,"SendApplicationExit");
         }
     }
 }
