@@ -9,7 +9,7 @@ namespace Compliance.Notifications.Commands
 {
     public static class CheckPendingRebootCommand
     {
-        internal static async Task<Result<int>> CheckPendingRebootF(Func<Task<PendingRebootInfo>> loadPendingRebootInfo, Func<string, Task<Result<int>>> showToastNotification, Func<Task<Result<int>>> removeToastNotification)
+        internal static async Task<Result<int>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadPendingRebootInfo, Func<string, Task<Result<int>>> showToastNotification, Func<Task<Result<int>>> removeToastNotification,Action sendApplicationExitMessage)
         {
             var diskSpaceInfo = await loadPendingRebootInfo().ConfigureAwait(false);
             if (diskSpaceInfo.RebootIsPending)
@@ -17,13 +17,13 @@ namespace Compliance.Notifications.Commands
                 return await showToastNotification("My Company AS").ConfigureAwait(false);
             }
             var result = await removeToastNotification().ConfigureAwait(false);
-            Messenger.Default.Send(new ExitApplicationMessage());
+            sendApplicationExitMessage();
             return result;
         }
 
         public static async Task<Result<int>> CheckPendingReboot()
         {
-            return await CheckPendingRebootF(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, nameof(CheckPendingRebootCommand), nameof(CheckPendingRebootCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckPendingRebootCommand))).ConfigureAwait(false);
+            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, nameof(CheckPendingRebootCommand), nameof(CheckPendingRebootCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckPendingRebootCommand)),() => Messenger.Default.Send(new ExitApplicationMessage())).ConfigureAwait(false);
         }
     }
 }

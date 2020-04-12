@@ -51,7 +51,7 @@ namespace Compliance.Notifications.Common
         /// <param name="getValueKind"></param>
         /// <param name="setValue"></param>
         /// <returns></returns>
-        public static Result<TemporaryRegistryValue> NewTemporaryRegistryValueF(Some<RegistryKey> baseKey, Some<string> subKeyPath,Some<string> valueName, RegistryValueKind valueKind, Some<object> value, Func<string,object,object> getValue,Func<string,RegistryValueKind> getValueKind, Action<string,object,RegistryValueKind> setValue)
+        public static Result<TemporaryRegistryValue> NewTemporaryRegistryValuePure(Some<RegistryKey> baseKey, Some<string> subKeyPath,Some<string> valueName, RegistryValueKind valueKind, Some<object> value, Func<string,object,object> getValue,Func<string,RegistryValueKind> getValueKind, Action<string,object,RegistryValueKind> setValue)
         {
             Try<TemporaryRegistryValue> TryNewTemporaryRegistryValueF() => () =>
             {
@@ -97,13 +97,13 @@ namespace Compliance.Notifications.Common
                 {
                     return subKey == null ?
                         new Result<TemporaryRegistryValue>(new ArgumentException($"Sub key '{baseKey.Value.Name}\\{subKeyPath.Value}' does not exist.")) :
-                        NewTemporaryRegistryValueF(baseKey, subKeyPath, valueName, registryValueKind, value, subKey.GetValue, subKey.GetValueKind, subKey.SetValue);
+                        NewTemporaryRegistryValuePure(baseKey, subKeyPath, valueName, registryValueKind, value, subKey.GetValue, subKey.GetValueKind, subKey.SetValue);
                 }
             };
             return TryNewTemporaryRegistryValue().Try();
         }
         
-        internal static Unit ReleaseTemporaryRegistryValueF(Some<string> valueName, Option<object> existingValue, RegistryValueKind existingValueKind, Action<string, object, RegistryValueKind> setValue, Action<string> deleteValue)
+        internal static Unit ReleaseTemporaryRegistryValuePure(Some<string> valueName, Option<object> existingValue, RegistryValueKind existingValueKind, Action<string, object, RegistryValueKind> setValue, Action<string> deleteValue)
         {
             return existingValue.Match(
             o =>
@@ -125,7 +125,7 @@ namespace Compliance.Notifications.Common
                 {
                     if (subKey == null)
                         throw new ArgumentException($"Sub key '{baseKey.Value.Name}\\{subKeyPath.Value}' does not exist.");
-                    return ReleaseTemporaryRegistryValueF(valueName, existingValue, existingValueKind,
+                    return ReleaseTemporaryRegistryValuePure(valueName, existingValue, existingValueKind,
                         subKey.SetValue, subKey.DeleteValue);
                 }
             };

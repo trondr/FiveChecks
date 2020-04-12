@@ -43,8 +43,9 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
             var actualLoadPendingRebootCallCount = 0;
             var actualShowPendingRebootToastNotificationCount = 0;
             var actualRemovePendingRebootToastNotificationCount = 0;
+            var actualSendApplicationExitCount = 0;
             var actual = 
-                    CheckPendingRebootCommand.CheckPendingRebootF(
+                    CheckPendingRebootCommand.CheckPendingRebootPure(
                         async () =>
                         {
                             actualLoadPendingRebootCallCount++;
@@ -57,12 +58,17 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
                         }, () =>
                         {
                             actualRemovePendingRebootToastNotificationCount++;
-                            return new Task<Result<int>>(() => 0);
+                            return Task.FromResult(new Result<int>(0));
+                        },
+                        () =>
+                        {
+                            actualSendApplicationExitCount++;
                         });
 
             Assert.AreEqual(expectedLoadPendingRebootCallCount, actualLoadPendingRebootCallCount, "LoadPendingRebootResult");
             Assert.AreEqual(expectedShowPendingRebootToastNotificationCount, actualShowPendingRebootToastNotificationCount,"ShowPendingRebootToastNotification");
             Assert.AreEqual(expectedRemovePendingRebootToastNotificationCallCount, actualRemovePendingRebootToastNotificationCount, "RemovePendingRebootToastNotification");
+            Assert.AreEqual(expectedShowPendingRebootToastNotificationCount == 0 ? 1 : 0, actualSendApplicationExitCount, "SendApplicationExit");
         }
     }
 }

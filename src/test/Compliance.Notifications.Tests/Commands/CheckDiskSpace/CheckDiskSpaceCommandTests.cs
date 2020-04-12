@@ -39,8 +39,9 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
             var actualLoadDiskSpaceCallCount = 0;
             var actualShowDiskSpaceToastNotificationCount = 0;
             var actualRemoveDiskSpaceToastNotificationCount = 0;
+            var actualSendApplicationExitCount = 0;
             var actual = 
-                    CheckDiskSpaceCommand.CheckDiskSpaceF(
+                    CheckDiskSpaceCommand.CheckDiskSpacePure(
                         requiredFreeDiskSpace, 
                         subtractSccmCache,
                         async () =>
@@ -51,16 +52,20 @@ namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
                         },
                         (reqFreeDiskSpace, s) => { 
                             actualShowDiskSpaceToastNotificationCount++;
-                            return new Task<Result<int>>(() => 0);
+                            return Task.FromResult(new Result<int>(0));
                         }, () =>
                         {
                             actualRemoveDiskSpaceToastNotificationCount++;
-                            return new Task<Result<int>>(() => 0);
+                            return Task.FromResult(new Result<int>(0));
+                        }, () =>
+                        {
+                            actualSendApplicationExitCount++;
                         });
 
             Assert.AreEqual(expectedLoadDiskSpaceCallCount, actualLoadDiskSpaceCallCount, "LoadDiskSpaceResult");
             Assert.AreEqual(expectedShowDiskSpaceToastNotificationCount, actualShowDiskSpaceToastNotificationCount,"ShowDiskSpaceToastNotification");
             Assert.AreEqual(expectedRemoveDiskSpaceToastNotificationCallCount, actualRemoveDiskSpaceToastNotificationCount, "RemoveDiskSpaceToastNotification");
+            Assert.AreEqual(expectedShowDiskSpaceToastNotificationCount == 0 ? 1 : 0, actualSendApplicationExitCount,"SendApplicationExit");
         }
     }
 }

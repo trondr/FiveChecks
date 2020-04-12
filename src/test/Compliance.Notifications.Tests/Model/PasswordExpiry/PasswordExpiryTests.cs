@@ -50,7 +50,7 @@ namespace Compliance.Notifications.Tests.Model.PasswordExpiry
             bool GetIsRemoteSession() => testData.IsRemoteSession;
             DateTime GetNow() => testData.Now;
             double GetExpiryWarningDays() => testData.ExpiryWarningDays;
-            var actual = await Notifications.Model.PasswordExpiry.PasswordExpire.GetPasswordExpiryStatusF("someUserId", GetUserPasswordInfo, GetIsRemoteSession, GetNow, GetExpiryWarningDays);
+            var actual = await PasswordExpire.GetPasswordExpiryStatusPure("someUserId", GetUserPasswordInfo, GetIsRemoteSession, GetNow, GetExpiryWarningDays);
             Assert.AreEqual(testData.ExpectedUserPasswordExpiryStatusInfo,actual);
         }
     }

@@ -17,8 +17,12 @@ namespace Compliance.Notifications.Commands
         /// <param name="loadDiskSpaceResult">Load disk space result function</param>
         /// <param name="showDiskSpaceToastNotification"></param>
         /// <param name="removeDiskSpaceToastNotification"></param>
+        /// <param name="sendApplicationExitMessage"></param>
         /// <returns></returns>
-        internal static async Task<Result<int>> CheckDiskSpaceF(UDecimal requiredFreeDiskSpace, bool subtractSccmCache, Func<Task<DiskSpaceInfo>> loadDiskSpaceResult, Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification, Func<Task<Result<int>>> removeDiskSpaceToastNotification)
+        internal static async Task<Result<int>> CheckDiskSpacePure(UDecimal requiredFreeDiskSpace,
+            bool subtractSccmCache, Func<Task<DiskSpaceInfo>> loadDiskSpaceResult,
+            Func<decimal, string, Task<Result<int>>> showDiskSpaceToastNotification,
+            Func<Task<Result<int>>> removeDiskSpaceToastNotification, Action sendApplicationExitMessage)
         {
             var diskSpaceInfo = await loadDiskSpaceResult().ConfigureAwait(false);
             var requiredCleanupAmount = requiredFreeDiskSpace - (diskSpaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? diskSpaceInfo.SccmCacheSize : 0));
@@ -28,7 +32,7 @@ namespace Compliance.Notifications.Commands
                 return await showDiskSpaceToastNotification(requiredCleanupAmount, "My Company AS").ConfigureAwait(false);
             }
             var result = await removeDiskSpaceToastNotification().ConfigureAwait(false);
-            Messenger.Default.Send(new ExitApplicationMessage());
+            sendApplicationExitMessage();
             return result;
         }
         
@@ -40,7 +44,7 @@ namespace Compliance.Notifications.Commands
         /// <returns></returns>
         public static async Task<Result<int>> CheckDiskSpace(UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
-            return await CheckDiskSpaceCommand.CheckDiskSpaceF(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, nameof(CheckDiskSpaceCommand), nameof(CheckDiskSpaceCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckDiskSpaceCommand))).ConfigureAwait(false);
+            return await CheckDiskSpaceCommand.CheckDiskSpacePure(requiredFreeDiskSpace, subtractSccmCache, F.LoadDiskSpaceResult, (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, nameof(CheckDiskSpaceCommand), nameof(CheckDiskSpaceCommand)),() => ToastHelper.RemoveToastNotification(nameof(CheckDiskSpaceCommand)), () => Messenger.Default.Send(new ExitApplicationMessage())).ConfigureAwait(false);
         }
     }
 }

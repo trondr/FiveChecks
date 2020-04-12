@@ -174,7 +174,7 @@ namespace Compliance.Notifications.Common.Tests
                     registry.Remove(valueName);
             };
 
-            var actual = TemporaryRegistryValue.NewTemporaryRegistryValueF(Registry.CurrentUser, testSubKeyPath, testData.ValueName, testData.ValueKind, testData.Value, getValue, getValueKind, setValue);
+            var actual = TemporaryRegistryValue.NewTemporaryRegistryValuePure(Registry.CurrentUser, testSubKeyPath, testData.ValueName, testData.ValueKind, testData.Value, getValue, getValueKind, setValue);
             Assert.AreEqual(testData.ExpectedGetValueCallCount, actualGetValueCallCount, "GetValue call count.");
             Assert.AreEqual(testData.ExpectedGetValueKindCallCount, actualGetValueKindCallCount, "GetValueKind call count.");
             Assert.AreEqual(testData.ExpectedSetValueCallCount, actualSetValueCallCount, "SetValue call count.");
@@ -183,7 +183,7 @@ namespace Compliance.Notifications.Common.Tests
                 {
                     Assert.IsTrue(testData.ExpectedIsSuccess,"Did not expect success.");
                     Assert.AreEqual(testData.Value,getValue(testData.ValueName,null));
-                    TemporaryRegistryValue.ReleaseTemporaryRegistryValueF(testData.ValueName, testData.ExistingValue, testData.ExistingValueKind,setValue,deleteValue);
+                    TemporaryRegistryValue.ReleaseTemporaryRegistryValuePure(testData.ValueName, testData.ExistingValue, testData.ExistingValueKind,setValue,deleteValue);
                     Assert.AreEqual(testData.ExpectedDeleteValueCallCount, actualDeleteValueCallCount, "DeleteValue call count.");
                     return Option<object>.None;
                 },

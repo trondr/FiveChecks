@@ -68,7 +68,7 @@ namespace Compliance.Notifications.Model.PasswordExpiry
             return userPasswordInfo;
         }
 
-        public static async Task<UserPasswordExpiryStatusInfo> GetPasswordExpiryStatusF(Some<string> userId, Func<string,UserPasswordInfo> getUserPasswordInfo, Func<bool> getIsRemoteSession,Func<DateTime> getNow, Func<double> getExpiryWarningDays)
+        public static async Task<UserPasswordExpiryStatusInfo> GetPasswordExpiryStatusPure(Some<string> userId, Func<string,UserPasswordInfo> getUserPasswordInfo, Func<bool> getIsRemoteSession,Func<DateTime> getNow, Func<double> getExpiryWarningDays)
         {
             if (getUserPasswordInfo == null) throw new ArgumentNullException(nameof(getUserPasswordInfo));
             if (getIsRemoteSession == null) throw new ArgumentNullException(nameof(getIsRemoteSession));
@@ -91,7 +91,7 @@ namespace Compliance.Notifications.Model.PasswordExpiry
 
         public static async Task<UserPasswordExpiryStatusInfo> GetPasswordExpiryStatus(Some<string> userId)
         {
-            return await GetPasswordExpiryStatusF(userId, _ => GetUserPasswordInfo(userId), () => GetIsRemoteSession(),
+            return await GetPasswordExpiryStatusPure(userId, _ => GetUserPasswordInfo(userId), () => GetIsRemoteSession(),
                 () => DateTime.Now, () => GetExpiryWarningDays()).ConfigureAwait(false);
         }
         
