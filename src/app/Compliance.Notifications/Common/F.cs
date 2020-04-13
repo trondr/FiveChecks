@@ -819,8 +819,7 @@ namespace Compliance.Notifications.Common
                 finallyAction();
             }
         }
-
-
+        
         public static Result<Unit> DiskCleanup()
         {
             Process.Start(new ProcessStartInfo { FileName = "ms-settings:storagesense", UseShellExecute = true });
@@ -831,8 +830,7 @@ namespace Compliance.Notifications.Common
         {
             throw new NotImplementedException();
         }
-
-
+        
         public static Result<Unit> ChangePassword()
         {
             return F.TryFunc(() =>
@@ -848,6 +846,10 @@ namespace Compliance.Notifications.Common
             return new Result<Unit>(Unit.Default);
         }
 
+        /// <summary>
+        /// Get the system uptime
+        /// </summary>
+        /// <returns></returns>
         public static TimeSpan GetSystemUptime()
         {
             var millisecondsSinceLastRestart = (long)NativeMethods.GetTickCount64();
@@ -862,6 +864,12 @@ namespace Compliance.Notifications.Common
         public static DateTime GetLastRestartTime()
         {
             return DateTime.Now.Add(-GetSystemUptime());
+        }
+
+        public static async Task<Result<SystemUptimeInfo>> GetSystemUptimeInfo()
+        {
+            SystemUptimeInfo systemUptimeInfo = new SystemUptimeInfo(){Uptime=F.GetSystemUptime(),LastRestart=F.GetLastRestartTime()};
+            return await Task.FromResult(new Result<SystemUptimeInfo>(systemUptimeInfo)).ConfigureAwait(false);
         }
     }
 }

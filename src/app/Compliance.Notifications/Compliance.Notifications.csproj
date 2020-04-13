@@ -63,6 +63,7 @@
     </Page>
     <Compile Include="Commands\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Common\RegistryOperations.cs" />
+    <Compile Include="Common\SystemUptimeInfo.cs" />
     <Compile Include="Common\TemporaryFile.cs" />
     <Compile Include="Common\TemporaryRegistryValue.cs" />
     <Compile Include="Common\ToastHelper.cs" />
