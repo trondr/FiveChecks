@@ -1,5 +1,4 @@
 ﻿Help
 License
 Credits
-CheckDiskSpace /requiredFreeDiskSpace="100" /subtractSccmCache="True" /userInterfaceCulture="nb-NO"
-CheckPendingReboot  /userInterfaceCulture="nb-NO"
+CheckCompliance /requiredFreeDiskSpace="200" /subtractSccmCache="True" /maxUptimeHours="1" /disableDiskSpaceCheck="False" /disablePendingRebootCheck="False" /disablePasswordExpiryCheck="False" /disableSystemUptimeCheck="False" /userInterfaceCulture="nb-NO"
