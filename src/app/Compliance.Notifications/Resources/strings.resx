@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActivatorRegistrationError" xml:space="preserve">
-    <value>You must call RegisterActivator first.</value>
-  </data>
-  <data name="AumidAndComRegistrationError" xml:space="preserve">
-    <value>You must call RegisterAumidAndComServer first.</value>
-  </data>
-  <data name="MissingAumidError" xml:space="preserve">
-    <value>You must provide an AUMID.</value>
-  </data>
   <data name="YouActivatedTheToast" xml:space="preserve">
     <value>You activated the toast</value>
   </data>

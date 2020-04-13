@@ -44,7 +44,10 @@ namespace Compliance.Notifications.Common
         {
             if (string.IsNullOrWhiteSpace(aumid))
             {
-                throw new ArgumentException(strings.MissingAumidError, nameof(aumid));
+                // ReSharper disable once LocalizableElement
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new ArgumentException("An AUMID must be provided.", nameof(aumid));
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
 
             // If running as Desktop Bridge
@@ -144,7 +147,9 @@ namespace Compliance.Notifications.Common
                 else
                 {
                     // Otherwise, incorrect usage
-                    throw new Exception(strings.AumidAndComRegistrationError);
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                    throw new Exception("You must call RegisterAumidAndComServer first.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                 }
             }
 
@@ -152,7 +157,9 @@ namespace Compliance.Notifications.Common
             if (!_registeredActivator)
             {
                 // Incorrect usage
-                throw new Exception(strings.ActivatorRegistrationError);
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new Exception("You must call RegisterActivator first.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
             }
         }
 

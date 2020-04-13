@@ -70,24 +70,6 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must call RegisterActivator first..
-        /// </summary>
-        internal static string ActivatorRegistrationError {
-            get {
-                return ResourceManager.GetString("ActivatorRegistrationError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must call RegisterAumidAndComServer first..
-        /// </summary>
-        internal static string AumidAndComRegistrationError {
-            get {
-                return ResourceManager.GetString("AumidAndComRegistrationError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         internal static string ChangePasswordMessageBoxCaption {
@@ -174,15 +156,6 @@ namespace Compliance.Notifications.Resources {
         internal static string Hours {
             get {
                 return ResourceManager.GetString("Hours", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must provide an AUMID..
-        /// </summary>
-        internal static string MissingAumidError {
-            get {
-                return ResourceManager.GetString("MissingAumidError", resourceCulture);
             }
         }
         
