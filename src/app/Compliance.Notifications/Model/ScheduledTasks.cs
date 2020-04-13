@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Principal;
 using Compliance.Notifications.Common;
 using LanguageExt;
@@ -31,6 +32,8 @@ namespace Compliance.Notifications.Model
         public static FileInfo ExeFile { get; } = new FileInfo(Assembly.GetExecutingAssembly().Location);
 
         public static Func<Trigger> UnlockTrigger => () => new SessionStateChangeTrigger(TaskSessionStateChangeType.SessionUnlock);
+
+        public static Func<Trigger> LoginTrigger => () => new LogonTrigger();
 
         public static Func<Trigger> HourlyTrigger => () => new DailyTrigger {Repetition = new RepetitionPattern(new TimeSpan(0, 1, 0, 0, 0), new TimeSpan(1, 0, 0, 0))};
 
@@ -88,7 +91,7 @@ namespace Compliance.Notifications.Model
 
 
         public static Try<Unit> RegisterUserScheduledTask(Some<string> taskName, Some<FileInfo> exeFile,
-            Some<string> arguments, Some<string> taskDescription, Some<Trigger> trigger) => () =>
+            Some<string> arguments, Some<string> taskDescription, Some<List<Trigger>> triggers) => () =>
             {
                 using (var ts = TaskService.Instance)
                 {
@@ -96,7 +99,10 @@ namespace Compliance.Notifications.Model
                     {
                         td.RegistrationInfo.Description = taskDescription.Value;
                         td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
-                        td.Triggers.Add(trigger.Value);
+                        foreach (var trigger in triggers.Value)
+                        {
+                            td.Triggers.Add(trigger);
+                        }
                         td.Principal.GroupId = ScheduledTasks.BuiltInUsers();
                         td.Principal.RunLevel = TaskRunLevel.LUA;
                         ts.RootFolder.RegisterTaskDefinition(taskName.Value, td);

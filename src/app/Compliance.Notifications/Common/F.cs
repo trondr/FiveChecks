@@ -30,6 +30,7 @@ using System.Text;
 using Windows.Security.Authentication.OnlineId;
 using Compliance.Notifications.Model.PasswordExpiry;
 using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Win32.TaskScheduler;
 
 namespace Compliance.Notifications.Common
 {
@@ -475,7 +476,7 @@ namespace Compliance.Notifications.Common
 
         public static async Task<Result<int>> Install()
         {
-            var res1 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceCheckTaskArguments, ScheduledTasks.ComplianceCheckTaskDescription, ScheduledTasks.UnlockTrigger())
+            var res1 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceCheckTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceCheckTaskArguments, ScheduledTasks.ComplianceCheckTaskDescription, new List<Trigger> { ScheduledTasks.UnlockTrigger(), ScheduledTasks.LoginTrigger() })
                 .Try()
                 .Match(result => new Result<int>(0),exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceCheckTaskName}", exception)));
 
@@ -483,7 +484,7 @@ namespace Compliance.Notifications.Common
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceSystemMeasurementsTaskName}", exception)));
 
-            var res3 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceUserMeasurementsTaskArguments, ScheduledTasks.ComplianceUserMeasurementsTaskDescription, ScheduledTasks.HourlyTrigger())
+            var res3 = ScheduledTasks.RegisterUserScheduledTask(ScheduledTasks.ComplianceUserMeasurementsTaskName, ScheduledTasks.ExeFile, ScheduledTasks.ComplianceUserMeasurementsTaskArguments, ScheduledTasks.ComplianceUserMeasurementsTaskDescription, new List<Trigger> { ScheduledTasks.HourlyTrigger(),ScheduledTasks.LoginTrigger()})
                 .Try()
                 .Match(result => new Result<int>(0), exception => new Result<int>(new Exception($"Failed to register task: {ScheduledTasks.ComplianceUserMeasurementsTaskName}", exception)));
 
