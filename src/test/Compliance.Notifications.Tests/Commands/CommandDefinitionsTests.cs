@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Compliance.Notifications.Common.Tests;
+using NUnit.Framework;
 
-namespace Compliance.Notifications.Commands.Tests
+namespace Compliance.Notifications.Tests.Commands
 {
     [TestFixture()]
     public class CommandDefinitionsTests

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 using System.Threading.Tasks;
+using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
 using Compliance.Notifications.Model;
 using LanguageExt.Common;
+using NUnit.Framework;
 
-namespace Compliance.Notifications.Commands.CheckDiskSpace.Tests
+namespace Compliance.Notifications.Tests.Commands
 {
     [TestFixture()]
     [Category(TestCategory.UnitTests)]

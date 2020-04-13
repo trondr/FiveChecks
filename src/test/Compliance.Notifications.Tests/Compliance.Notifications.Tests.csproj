@@ -41,8 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CheckDiskSpace\CheckPendingRebootCommandTests.cs" />
-    <Compile Include="Commands\CheckDiskSpace\CheckDiskSpaceCommandTests.cs" />
+    <Compile Include="Commands\CheckPasswordExpiryCommandTests.cs" />
+    <Compile Include="Commands\CheckPendingRebootCommandTests.cs" />
+    <Compile Include="Commands\CheckDiskSpaceCommandTests.cs" />
     <Compile Include="Commands\CommandDefinitionsTests.cs" />
     <Compile Include="Common\FTests.cs" />
     <Compile Include="Common\TemporaryRegistryValueTests.cs" />
@@ -78,5 +79,6 @@
       <Name>Compliance.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
