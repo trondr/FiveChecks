@@ -61,11 +61,56 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _String.
+        ///   Looks up a localized string similar to _string.
         /// </summary>
-        internal static string _String19 {
+        internal static string _String101 {
             get {
-                return ResourceManager.GetString("_String19", resourceCulture);
+                return ResourceManager.GetString("_String101", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String103 {
+            get {
+                return ResourceManager.GetString("_String103", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String105 {
+            get {
+                return ResourceManager.GetString("_String105", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String106 {
+            get {
+                return ResourceManager.GetString("_String106", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String107 {
+            get {
+                return ResourceManager.GetString("_String107", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String108 {
+            get {
+                return ResourceManager.GetString("_String108", resourceCulture);
             }
         }
         
@@ -264,6 +309,42 @@ namespace Compliance.Notifications.Resources {
         internal static string SnoozeButtonContent {
             get {
                 return ResourceManager.GetString("SnoozeButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart....
+        /// </summary>
+        internal static string SystemUptime_Action_Button_Content {
+            get {
+                return ResourceManager.GetString("SystemUptime_Action_Button_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time to restart you computer..
+        /// </summary>
+        internal static string SystemUptime_Title {
+            get {
+                return ResourceManager.GetString("SystemUptime_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your computer has been up for {0}..
+        /// </summary>
+        internal static string SystemUptimeContent_F0 {
+            get {
+                return ResourceManager.GetString("SystemUptimeContent_F0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!.
+        /// </summary>
+        internal static string SystemUptimeContent2 {
+            get {
+                return ResourceManager.GetString("SystemUptimeContent2", resourceCulture);
             }
         }
         

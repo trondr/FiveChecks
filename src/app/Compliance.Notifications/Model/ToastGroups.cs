@@ -10,12 +10,15 @@ namespace Compliance.Notifications.Model
         public const string CheckDiskSpace = "CheckDiskSpace";
         public const string CheckPendingReboot = "CheckPendingReboot";
         public const string CheckPasswordExpiry = "CheckPasswordExpiryReboot";
-        
-        public static List<string> Groups { get; } = new List<string>()
+        public const string CheckSystemUptime = "CheckSystemUptime";
+
+
+        public static List<string> Groups { get; } = new List<string>
         {
             ToastGroups.CheckDiskSpace,
             ToastGroups.CheckPendingReboot,
             ToastGroups.CheckPasswordExpiry,
+            ToastGroups.CheckSystemUptime
         };
 
         public static Option<string> ParseToastGroupArguments(string arguments)

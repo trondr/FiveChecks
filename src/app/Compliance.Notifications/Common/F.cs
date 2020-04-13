@@ -136,6 +136,11 @@ namespace Compliance.Notifications.Common
         {
             return await LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
         }
+        
+        public static async Task<SystemUptimeInfo> LoadSystemUptimeInfo()
+        {
+            return await LoadSystemComplianceItemResultOrDefault(SystemUptimeInfo.Default).ConfigureAwait(false);
+        }
 
         public static async Task<Result<ToastNotificationVisibility>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,string tag, string groupName)
         {
@@ -243,17 +248,38 @@ namespace Compliance.Notifications.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
+
+        public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string companyName, string tag, string groupName, TimeSpan systemUptime)
+        {
+            return await ShowToastNotification(async () =>
+            {
+                var toastContentInfo = await GetCheckSystemUptimeToastContentInfo(companyName, groupName, systemUptime).ConfigureAwait(false);
+                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+                return toastContent;
+            }, tag, groupName).ConfigureAwait(false);
+        }
+
+        private static async Task<ActionDismissToastContentInfo> GetCheckSystemUptimeToastContentInfo(
+            string companyName, string groupName, TimeSpan systemUptime)
+        {
+            var title = strings.SystemUptime_Title;
+            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
+            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
+            var content = string.Format(CultureInfo.InvariantCulture, strings.SystemUptimeContent_F0, systemUptime.ToReadableString());
+            var content2 = strings.SystemUptimeContent2;
+            var action = ToastActions.Restart;
+            var actionActivationType = ToastActivationType.Foreground;
+            var greeting = await GetGreeting().ConfigureAwait(false);
+            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+                imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
+        }
+
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
         {
             if (getNow == null) throw new ArgumentNullException(nameof(getNow));
             var now = getNow();
             var timeSpan = dateTime - now;
-            var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
-            if (timeSpan.TotalDays < 1)
-                return $"{timeSpan.Hours} {strings.Hours}";
-            if (totalHoursRounded == 1)
-                return $"{timeSpan.Days} {strings.Day}";
-            return $"{timeSpan.Days} {strings.Days}";
+            return timeSpan.ToReadableString();
         }
 
         public static string InPeriodFromNow(this DateTime dateTime)
@@ -261,7 +287,16 @@ namespace Compliance.Notifications.Common
             return InPeriodFromNowPure(dateTime, () => DateTime.Now);
         }
 
-
+        public static string ToReadableString(this TimeSpan timeSpan)
+        {
+            var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
+            if (timeSpan.TotalDays < 1)
+                return $"{timeSpan.Hours} {strings.Hours}";
+            if (totalHoursRounded == 1)
+                return $"{timeSpan.Days} {strings.Day}";
+            return $"{timeSpan.Days} {strings.Days}";
+        }
+        
         public static string GetUserComplianceItemResultFileName<T>()
         {
             var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
@@ -871,5 +906,6 @@ namespace Compliance.Notifications.Common
             SystemUptimeInfo systemUptimeInfo = new SystemUptimeInfo(){Uptime=F.GetSystemUptime(),LastRestart=F.GetLastRestartTime()};
             return await Task.FromResult(new Result<SystemUptimeInfo>(systemUptimeInfo)).ConfigureAwait(false);
         }
+       
     }
 }

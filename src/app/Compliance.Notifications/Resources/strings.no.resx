@@ -192,7 +192,34 @@
   <data name="ChangePasswordMessageBoxCaption" xml:space="preserve">
     <value>Skift passord</value>
   </data>
-  <data name="_String19" xml:space="preserve">
-    <value>_String</value>
+  <data name="SystemUptime_Title" xml:space="preserve">
+    <value>Det er på tide å gjøre en omstart.</value>
+  </data>
+  <data name="SystemUptimeContent_F0" xml:space="preserve">
+    <value>Datamaskinen din har ikke vært restartet på {0}.</value>
+  </data>
+  <data name="_String101" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="SystemUptimeContent2" xml:space="preserve">
+    <value>Gjevnlig omstart av datamaskinen øker sikkerheten og stabiliteten til Windows. På forhånd takk!</value>
+  </data>
+  <data name="_String103" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
+    <value>Omstart...</value>
+  </data>
+  <data name="_String105" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String107" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String106" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String108" xml:space="preserve">
+    <value>_string</value>
   </data>
 </root>

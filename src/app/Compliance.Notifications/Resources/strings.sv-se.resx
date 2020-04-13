@@ -192,7 +192,34 @@
   <data name="ChangePasswordMessageBoxCaption" xml:space="preserve">
     <value>Change password</value>
   </data>
-  <data name="_String19" xml:space="preserve">
-    <value>_String</value>
+  <data name="SystemUptime_Title" xml:space="preserve">
+    <value>Time to restart you computer.</value>
+  </data>
+  <data name="SystemUptimeContent_F0" xml:space="preserve">
+    <value>Your computer has been up for {0}.</value>
+  </data>
+  <data name="_String101" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="SystemUptimeContent2" xml:space="preserve">
+    <value>Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!</value>
+  </data>
+  <data name="_String103" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
+    <value>Restart...</value>
+  </data>
+  <data name="_String105" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String106" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String107" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String108" xml:space="preserve">
+    <value>_string</value>
   </data>
 </root>

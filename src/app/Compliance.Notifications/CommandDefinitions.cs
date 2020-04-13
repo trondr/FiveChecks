@@ -74,19 +74,30 @@ namespace Compliance.Notifications
 
         [Command(Summary = "Run all compliance checks.", Description = "Run all compliance checks.")]
         public static async Task<Result<int>> CheckCompliance(
-            [RequiredCommandParameter(Description = "Free disk space requirement in GB",AlternativeName = "fr", ExampleValue = 40)]
+            [RequiredCommandParameter(Description = "Free disk space requirement in GB", AlternativeName = "fr",
+                ExampleValue = 40)]
             decimal requiredFreeDiskSpace,
-            [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc",ExampleValue = true,DefaultValue = false)]
+            [OptionalCommandParameter(
+                Description =
+                    "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.",
+                AlternativeName = "ssc", ExampleValue = true, DefaultValue = false)]
             bool subtractSccmCache,
-            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Maximum system uptime in hours before user gets notified about recommended reboot. Default is 168 hours (7 days).", DefaultValue = 168.0,AlternativeName = "mutd",ExampleValue = 168.0)]
+            double maxUptimeHours,
+            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",
+                ExampleValue = false, DefaultValue = false)]
             bool disableDiskSpaceCheck,
-            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc",ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc",
+                ExampleValue = false, DefaultValue = false)]
             bool disablePendingRebootCheck,
-            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec",ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec",
+                ExampleValue = false, DefaultValue = false)]
             bool disablePasswordExpiryCheck,
-            [OptionalCommandParameter(Description = "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic",ExampleValue = "nb-NO",DefaultValue = "")]
-            string userInterfaceCulture
-            )
+            [OptionalCommandParameter(Description = "Disable system uptime check.", AlternativeName = "dsuc",
+                ExampleValue = false, DefaultValue = false)]
+            bool disableSystemUptimeCheck,
+            [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.",AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
+            string userInterfaceCulture)
         {
             if (!string.IsNullOrEmpty(userInterfaceCulture))
             {
@@ -96,6 +107,7 @@ namespace Compliance.Notifications
             var diskSpaceResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var pendingRebootResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var passwordExpiryResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+            var systemUptimeResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
                 if(!disableDiskSpaceCheck)
@@ -104,9 +116,11 @@ namespace Compliance.Notifications
                     pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
                 if (!disablePasswordExpiryCheck)
                     passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
+                if (!disableSystemUptimeCheck)
+                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(maxUptimeHours).ConfigureAwait(false);
             });
             var result = 
-                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult }
+                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult }
                 .ToResult()
                 .Match(
                     list =>
@@ -127,4 +141,6 @@ namespace Compliance.Notifications
             return await Task.FromResult(result).ConfigureAwait(false);
         }
     }
+
+    
 }

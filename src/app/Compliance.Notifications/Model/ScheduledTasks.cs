@@ -14,7 +14,7 @@ namespace Compliance.Notifications.Model
     {
         public const string ComplianceCheckTaskName = "Compliance Notification Check";
         public const string ComplianceCheckTaskDescription = "Compliance Notification Check at workstation unlock";
-        public const string ComplianceCheckTaskArguments = "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /userInterfaceCulture=\"nb-NO\"";
+        public const string ComplianceCheckTaskArguments = "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /maxUptimeHours=\"168\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /disableSystemUptimeCheck=\"False\" /userInterfaceCulture=\"nb-NO\"";
 
         public const string ComplianceSystemMeasurementsTaskName = "Compliance System Measurement";
         public const string ComplianceSystemMeasurementsTaskDescription = "Measurement system compliance hourly";
