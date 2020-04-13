@@ -177,9 +177,10 @@
   <data name="PasswordExpiryNotification_Title" xml:space="preserve">
     <value>Your password expires soon!</value>
   </data>
-  <data name="PasswordExpiryNotification_Content_F1_F2" xml:space="preserve">
+  <data name="PasswordExpiryNotification_Content_F0_F1" xml:space="preserve">
     <value>Your password expires in {0} on {1}. Please change your password before it expires.</value>
-    <comment>F1 is the period until password expires</comment>
+    <comment>F0 is the period until password expires. F1 is the expiration date.
+</comment>
   </data>
   <data name="PasswordExpiryNotification_Content2" xml:space="preserve">
     <value>Remember to configure all your devices (PC, VDI, mobile phone, tablet) to use the new password.</value>

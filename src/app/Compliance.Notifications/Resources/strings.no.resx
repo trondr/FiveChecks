@@ -177,7 +177,7 @@
   <data name="PasswordExpiryNotification_Title" xml:space="preserve">
     <value>Passordet ditt utløper snart!</value>
   </data>
-  <data name="PasswordExpiryNotification_Content_F1_F2" xml:space="preserve">
+  <data name="PasswordExpiryNotification_Content_F0_F1" xml:space="preserve">
     <value>Passordet ditt utløper om {0} den {1}. Vennligst skift passord før det utløper.</value>
   </data>
   <data name="PasswordExpiryNotification_Content2" xml:space="preserve">

@@ -177,7 +177,7 @@
   <data name="PasswordExpiryNotification_Title" xml:space="preserve">
     <value>Your password expires soon!</value>
   </data>
-  <data name="PasswordExpiryNotification_Content_F1_F2" xml:space="preserve">
+  <data name="PasswordExpiryNotification_Content_F0_F1" xml:space="preserve">
     <value>Your password expires in {0} on {1}. Please change your password before it expires.</value>
   </data>
   <data name="PasswordExpiryNotification_Content2" xml:space="preserve">

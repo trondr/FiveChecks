@@ -233,7 +233,7 @@ namespace Compliance.Notifications.Common
             var title = strings.PasswordExpiryNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
             var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = string.Format(CultureInfo.InvariantCulture, strings.PasswordExpiryNotification_Content_F1_F2, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture));
+            var content = string.Format(CultureInfo.InvariantCulture, strings.PasswordExpiryNotification_Content_F0_F1, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture));
             var content2 = strings.PasswordExpiryNotification_Content2;
             var action = ToastActions.ChangePassword;
             var actionActivationType = ToastActivationType.Foreground;

@@ -207,9 +207,9 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your password expires in {0} on {1}. Please change your password before it expires..
         /// </summary>
-        internal static string PasswordExpiryNotification_Content_F1_F2 {
+        internal static string PasswordExpiryNotification_Content_F0_F1 {
             get {
-                return ResourceManager.GetString("PasswordExpiryNotification_Content_F1_F2", resourceCulture);
+                return ResourceManager.GetString("PasswordExpiryNotification_Content_F0_F1", resourceCulture);
             }
         }
         
