@@ -264,15 +264,24 @@ namespace Compliance.Notifications.Common.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         [TestCase("2020-01-13 16:55:27", "2020-01-13 10:55:27", "6 hours")]
-        [TestCase("2020-01-13 16:55:27", "2020-01-12 16:55:27","1 day")]
+        [TestCase("2020-01-13 16:55:27", "2020-01-12 16:55:27", "1 day")]
         [TestCase("2020-01-13 16:55:27", "2020-01-11 16:55:27", "2 days")]
         public void InPeriodFromNowPureTest(string dateTimeString, string nowDateTimeString, string expected)
         {
             var dateTime = DateTime.Parse(dateTimeString);
             var now = DateTime.Parse(nowDateTimeString);
             var actual = dateTime.InPeriodFromNowPure(() => now);
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test()]
+        [Category(TestCategory.UnitTests)]
+        public void GetLastRestartTimeTest()
+        {
+            var actual = F.GetLastRestartTime();
+            Assert.IsTrue(actual < DateTime.Now,"Restart time is in the future, which does not make sense.");
         }
     }
 }

@@ -14,6 +14,10 @@ namespace Compliance.Notifications.Common
 
         [DllImport("user32.dll")]
         public static extern int GetSystemMetrics(SystemMetric smIndex);
+
+
+        [DllImport("kernel32.dll")]
+        public static extern ulong GetTickCount64();
     }
 
     public enum SystemMetric : int

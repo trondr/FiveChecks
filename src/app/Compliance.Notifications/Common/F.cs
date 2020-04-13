@@ -27,6 +27,7 @@ using Path = Pri.LongPath.Path;
 using Task = System.Threading.Tasks.Task;
 using System.Management;
 using System.Text;
+using Windows.Security.Authentication.OnlineId;
 using Compliance.Notifications.Model.PasswordExpiry;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -845,6 +846,22 @@ namespace Compliance.Notifications.Common
         {
             Logging.DefaultLogger.Info("User dismissed the notification.");
             return new Result<Unit>(Unit.Default);
+        }
+
+        public static TimeSpan GetSystemUptime()
+        {
+            var millisecondsSinceLastRestart = (long)NativeMethods.GetTickCount64();
+            var ticksSinceLastRestart = millisecondsSinceLastRestart * TimeSpan.TicksPerMillisecond;
+            return new TimeSpan(ticksSinceLastRestart);
+        }
+
+        /// <summary>
+        /// Get the time of the last restart.
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime GetLastRestartTime()
+        {
+            return DateTime.Now.Add(-GetSystemUptime());
         }
     }
 }
