@@ -41,6 +41,10 @@
 
     <Condition Message ="!(loc.DotNetFrameWorkConditionMessage)"> MsiNetAssemblySupport >= "4.8.03752" </Condition>
 
+    <Condition Message="!(loc.OperatingSystemConditionMessage)">
+      <![CDATA[Installed OR (VersionNT >= 603)]]>
+    </Condition>
+
     <Upgrade Id="$(var.ProductUpgradeCode)">
       <UpgradeVersion Property="SELFFOUND" OnlyDetect="yes"  Minimum="!(bind.FileVersion.ProductExe)" IncludeMinimum='yes'  Maximum="!(bind.FileVersion.ProductExe)" IncludeMaximum='yes' />
       <UpgradeVersion Property="NEWERFOUND" OnlyDetect="yes" Minimum="!(bind.FileVersion.ProductExe)" IncludeMinimum="no" />
