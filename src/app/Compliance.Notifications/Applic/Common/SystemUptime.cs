@@ -61,5 +61,10 @@ namespace Compliance.Notifications.Applic.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
+        public static async Task<SystemUptimeInfo> LoadSystemUptimeInfo()
+        {
+            return await F.LoadSystemComplianceItemResultOrDefault(SystemUptimeInfo.Default).ConfigureAwait(false);
+        }
+        
     }
 }

@@ -14,7 +14,7 @@ namespace Compliance.Notifications.Applic
             await F.RunSystemComplianceItem(DiskSpace.GetDiskSpaceInfo).ConfigureAwait(false);
 
         private static readonly MeasureCompliance PendingRebootMeasurement = async () =>
-            await F.RunSystemComplianceItem(F.GetPendingRebootInfo).ConfigureAwait(false);
+            await F.RunSystemComplianceItem(PendingReboot.GetPendingRebootInfo).ConfigureAwait(false);
 
         private static readonly MeasureCompliance SystemUptimeMeasurement = async () =>
             await F.RunSystemComplianceItem(SystemUptime.GetSystemUptimeInfo).ConfigureAwait(false);
@@ -23,6 +23,5 @@ namespace Compliance.Notifications.Applic
         /// List of all system compliance items.
         /// </summary>
         public static List<MeasureCompliance> Measurements { get; } = new List<MeasureCompliance> {DiskSpaceMeasurement, PendingRebootMeasurement, SystemUptimeMeasurement };
-        
     }
 }

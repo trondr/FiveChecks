@@ -64,6 +64,7 @@
     <Compile Include="Applic\Commands\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\Commands\CheckSystemUptimeCommand.cs" />
     <Compile Include="Applic\Common\DiskSpace.cs" />
+    <Compile Include="Applic\Common\PendingReboot.cs" />
     <Compile Include="Applic\Common\RegistryOperations.cs" />
     <Compile Include="Applic\Common\Setup.cs" />
     <Compile Include="Applic\Common\SystemUptime.cs" />

@@ -281,7 +281,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.UnitTests)]
         public void GetLastRestartTimeTest()
         {
-            var actual = F.GetLastRestartTime();
+            var actual = SystemUptime.GetLastRestartTime();
             Assert.IsTrue(actual < DateTime.Now,"Restart time is in the future, which does not make sense.");
         }
     }

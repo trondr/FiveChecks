@@ -22,7 +22,7 @@ namespace Compliance.Notifications.Applic.Commands
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
-            return await CheckPendingRebootPure(F.LoadPendingRebootInfo, companyName => F.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            return await CheckPendingRebootPure(PendingReboot.LoadPendingRebootInfo, companyName => PendingReboot.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
         }
     }
 }

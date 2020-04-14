@@ -23,7 +23,7 @@ namespace Compliance.Notifications.Applic.Commands
         {
             var groupName = ToastGroups.CheckPasswordExpiry;
             var tag = ToastGroups.CheckPasswordExpiry;
-            return await CheckPasswordExpiryPure(F.LoadPasswordExpiryInfo, (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, companyName, tag, groupName), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            return await CheckPasswordExpiryPure(PasswordExpire.LoadPasswordExpiryInfo, (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, companyName, tag, groupName), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
         }
     }
 }

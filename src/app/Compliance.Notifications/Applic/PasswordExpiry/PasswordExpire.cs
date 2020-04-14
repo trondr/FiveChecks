@@ -148,5 +148,10 @@ namespace Compliance.Notifications.Applic.PasswordExpiry
             var passwordExpiryInfo = new PasswordExpiryInfo(userPasswordExpiryInfo.UserPasswordInfo.PasswordExpirationDate, userPasswordExpiryInfo.PasswordExpiryStatus, userPasswordExpiryInfo.IsRemoteSession);
             return new Result<PasswordExpiryInfo>(passwordExpiryInfo);
         }
+
+        public static async Task<PasswordExpiryInfo> LoadPasswordExpiryInfo()
+        {
+            return await F.LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
+        }
     }
 }

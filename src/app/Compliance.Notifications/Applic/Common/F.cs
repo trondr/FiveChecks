@@ -34,6 +34,8 @@ namespace Compliance.Notifications.Applic.Common
     /// </summary>
     public static class F
     {
+        public static readonly Random Rnd = new Random();
+
         public static string AppendNameToFileName(this string fileName, string name)
         {
             return string.Concat(
@@ -44,21 +46,6 @@ namespace Compliance.Notifications.Applic.Common
                     );
         }
         
-        public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
-        {
-            return await LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
-        }
-
-        public static async Task<PasswordExpiryInfo> LoadPasswordExpiryInfo()
-        {
-            return await LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
-        }
-        
-        public static async Task<SystemUptimeInfo> LoadSystemUptimeInfo()
-        {
-            return await LoadSystemComplianceItemResultOrDefault(SystemUptimeInfo.Default).ConfigureAwait(false);
-        }
-
         public static async Task<Result<ToastNotificationVisibility>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,string tag, string groupName)
         {
             if (buildToastContent == null) throw new ArgumentNullException(nameof(buildToastContent));
@@ -83,35 +70,7 @@ namespace Compliance.Notifications.Applic.Common
                     () => F.GetGreeting(DateTime.Now)
                 );
         }
-
-        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(string companyName, string tag,
-            string groupName)
-        {
-            return await ShowToastNotification(async () =>
-            {
-                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(companyName, groupName).ConfigureAwait(false);
-                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
-                return toastContent;
-            }, tag, groupName).ConfigureAwait(false);
-        }
-
-        public static readonly Random Rnd = new Random();
-
-        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(
-            string companyName, string groupName)
-        {
-            var title = strings.PendingRebootNotification_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = strings.PendingRebootNotification_Content1;
-            var content2 = strings.PendingRebootNotification_Content2;
-            var action = ToastActions.Restart;
-            var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
-        }
-
+        
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
         {
             if (getNow == null) throw new ArgumentNullException(nameof(getNow));
@@ -394,87 +353,7 @@ namespace Compliance.Notifications.Applic.Common
             return strings.GoodEvening;
         }
 
-        public static async Task<Result<PendingRebootInfo>> GetPendingRebootInfo()
-        {
-            var pendingRebootInfoResults = new List<Result<PendingRebootInfo>>
-            {
-                await GetCbsRebootPending().ConfigureAwait(false),
-                await GetWuauRebootPending().ConfigureAwait(false),
-                await GetPendingFileRenameRebootPending().ConfigureAwait(false),
-                await GetSccmClientRebootPending().ConfigureAwait(false)
-            };
-            var success = pendingRebootInfoResults.ToSuccess();
-            var pendingRebootInfo = success.Aggregate(PendingRebootInfoExtensions.Update);
-            return new Result<PendingRebootInfo>(pendingRebootInfo);
-        }
-
-        private static async Task<Result<PendingRebootInfo>> GetWuauRebootPending()
-        {
-            var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired";
-            Logging.DefaultLogger.Debug($@"Checking if Windows Update has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
-            var rebootIsPending = RegistryOperations.RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
-            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Wuau } : new List<RebootSource>();
-            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
-            Logging.DefaultLogger.Info($@"Windows Update pending reboot check result: {pendingRebootInfo.ObjectToString()}");
-            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
-        }
-
-        private static async Task<Result<PendingRebootInfo>> GetCbsRebootPending()
-        {
-            var rebootPendingRegistryKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending";
-            Logging.DefaultLogger.Debug($@"Checking if Component Based Servicing has a pending reboot (Check if key exists: '{rebootPendingRegistryKeyPath}').");
-            var rebootIsPending = RegistryOperations.RegistryKeyExists(Registry.LocalMachine, rebootPendingRegistryKeyPath);
-            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.Cbs } : new List<RebootSource>();
-            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
-            Logging.DefaultLogger.Info($@"Component Based Servicing (CBS) pending reboot check result: {pendingRebootInfo.ObjectToString()}");
-            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
-        }
-
-        private static Try<PendingRebootInfo> TryGetSccmClientRebootStatus() => () =>
-        {
-            dynamic rebootStatus =
-                RunPowerShell(new Some<Func<PowerShell, Collection<PSObject>>>(powerShell =>
-                    powerShell
-                        .AddCommand("Invoke-WmiMethod")
-                        .AddParameter("NameSpace", @"root\ccm\ClientSDK")
-                        .AddParameter("Class", "CCM_ClientUtilities")
-                        .AddParameter("Name", "DetermineIfRebootPending")
-                        .Invoke())
-                ).FirstOrDefault();
-            var rebootIsPending = rebootStatus?.RebootPending || rebootStatus?.IsHardRebootPending;
-            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.SccmClient } : new List<RebootSource>();
-            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
-            Logging.DefaultLogger.Info($@"Sccm Client pending reboot check result: {pendingRebootInfo.ObjectToString()}");
-            return new Result<PendingRebootInfo>(pendingRebootInfo);
-        };
-
-        private static async Task<Result<PendingRebootInfo>> GetSccmClientRebootPending()
-        {
-            var pendingRebootInfoResult = 
-                TryGetSccmClientRebootStatus()
-                    .Try()
-                    .Match(
-                        info => new Result<PendingRebootInfo>(info), 
-                        exception =>
-                            {
-                                Logging.DefaultLogger.Warn($"Getting reboot status from Sccm Client did not succeed. {exception.ToExceptionMessage()}");
-                                return new Result<PendingRebootInfo>(exception);
-                            }
-                        );
-            return await Task.FromResult(pendingRebootInfoResult).ConfigureAwait(false);
-        }
         
-        private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
-        {
-            var rebootPendingRegistryKeyPath = @"SYSTEM\CurrentControlSet\Control\Session Manager";
-            var rebootPendingRegistryValueName = "PendingFileRenameOperations";
-            var rebootIsPending = RegistryOperations.MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
-                rebootPendingRegistryValueName);
-            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRename } : new List<RebootSource>();
-            var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Source = rebootSource };
-            Logging.DefaultLogger.Info($@"Pending file rename operation pending reboot check result: {pendingRebootInfo.ObjectToString()}");
-            return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
-        }
 
         public static IEnumerable<T> ToSuccess<T>(this IEnumerable<Result<T>> results)
         {
