@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Compliance.Notifications.Commands;
+using Compliance.Notifications.Applic.Commands;
+using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.PasswordExpiry;
 using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
-using Compliance.Notifications.Module.PasswordExpiry;
 using LanguageExt.Common;
 using NUnit.Framework;
 

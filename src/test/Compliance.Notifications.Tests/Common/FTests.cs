@@ -2,7 +2,8 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Compliance.Notifications.Model;
+using Compliance.Notifications.Applic;
+using Compliance.Notifications.Applic.Common;
 using LanguageExt;
 using NUnit.Framework;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
@@ -189,7 +190,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.ManualTests)]
         public async Task InstallTest()
         {
-            var actual = await F.Install();
+            var actual = await Setup.Install();
             var exitCode = actual.Match(i =>
             {
                 Assert.IsTrue(true);
@@ -205,7 +206,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.ManualTests)]
         public async Task UnInstallTest()
         {
-            var actual = await F.UnInstall();
+            var actual = await Setup.UnInstall();
             var exitCode = actual.Match(i =>
             {
                 Assert.IsTrue(true);

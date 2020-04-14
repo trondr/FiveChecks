@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Compliance.Notifications.Common;
+using Compliance.Notifications.Applic.Common;
 using LanguageExt;
 using NCmdLiner;
-using ApplicationInfo = Compliance.Notifications.Common.ApplicationInfo;
+using ApplicationInfo = Compliance.Notifications.Applic.Common.ApplicationInfo;
 
 namespace Compliance.Notifications
 {

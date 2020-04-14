@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Compliance.Notifications.Applic.Common;
 using NUnit.Framework;
 using LanguageExt;
 using Microsoft.Win32;

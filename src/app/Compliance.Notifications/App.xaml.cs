@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Windows;
-using Compliance.Notifications.Common;
-using Compliance.Notifications.Module;
+using Compliance.Notifications.Applic;
+using Compliance.Notifications.Applic.Common;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Compliance.Notifications

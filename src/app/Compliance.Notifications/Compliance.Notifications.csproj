@@ -61,28 +61,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Commands\CheckPasswordExpiryCommand.cs" />
-    <Compile Include="Commands\CheckSystemUptimeCommand.cs" />
-    <Compile Include="Common\RegistryOperations.cs" />
-    <Compile Include="Common\Setup.cs" />
-    <Compile Include="Common\SystemUptimeInfo.cs" />
-    <Compile Include="Common\TemporaryFile.cs" />
-    <Compile Include="Common\TemporaryRegistryValue.cs" />
-    <Compile Include="Common\ToastHelper.cs" />
-    <Compile Include="Common\ToastNotificationVisibility.cs" />
-    <Compile Include="Module\DiskCleanup.cs" />
-    <Compile Include="Module\ExitApplicationMessage.cs" />
-    <Compile Include="Module\PasswordExpiry\PasswordExpiryInfo.cs" />
-    <Compile Include="Module\PasswordExpiry\PasswordExpire.cs" />
-    <Compile Include="Module\PasswordExpiry\PasswordExpiryStatus.cs" />
-    <Compile Include="Module\PasswordExpiry\UserPasswordExpiryStatusInfo.cs" />
-    <Compile Include="Module\PasswordExpiry\UserPasswordInfo.cs" />
-    <Compile Include="Module\RebootSource.cs" />
-    <Compile Include="Module\RebootSourceJsonConverter.cs" />
-    <Compile Include="Module\ToastActions.cs" />
-    <Compile Include="Module\RegisterToastNotificationMessage.cs" />
-    <Compile Include="Module\ToastGroups.cs" />
-    <Compile Include="Module\UserComplianceItems.cs" />
+    <Compile Include="Applic\Commands\CheckPasswordExpiryCommand.cs" />
+    <Compile Include="Applic\Commands\CheckSystemUptimeCommand.cs" />
+    <Compile Include="Applic\Common\RegistryOperations.cs" />
+    <Compile Include="Applic\Common\Setup.cs" />
+    <Compile Include="Applic\Common\SystemUptimeInfo.cs" />
+    <Compile Include="Applic\Common\TemporaryFile.cs" />
+    <Compile Include="Applic\Common\TemporaryRegistryValue.cs" />
+    <Compile Include="Applic\Common\ToastHelper.cs" />
+    <Compile Include="Applic\Common\ToastNotificationVisibility.cs" />
+    <Compile Include="Applic\DiskCleanup.cs" />
+    <Compile Include="Applic\ExitApplicationMessage.cs" />
+    <Compile Include="Applic\PasswordExpiry\PasswordExpiryInfo.cs" />
+    <Compile Include="Applic\PasswordExpiry\PasswordExpire.cs" />
+    <Compile Include="Applic\PasswordExpiry\PasswordExpiryStatus.cs" />
+    <Compile Include="Applic\PasswordExpiry\UserPasswordExpiryStatusInfo.cs" />
+    <Compile Include="Applic\PasswordExpiry\UserPasswordInfo.cs" />
+    <Compile Include="Applic\RebootSource.cs" />
+    <Compile Include="Applic\RebootSourceJsonConverter.cs" />
+    <Compile Include="Applic\ToastActions.cs" />
+    <Compile Include="Applic\RegisterToastNotificationMessage.cs" />
+    <Compile Include="Applic\ToastGroups.cs" />
+    <Compile Include="Applic\UserComplianceItems.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">
       <DependentUpon>strings.resx</DependentUpon>
@@ -104,10 +104,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ToastTemplates\ActionDismissToastContentInfo.cs" />
-    <Compile Include="ToastTemplates\ActionDissmissToastContent.cs" />
-    <Compile Include="ToastTemplates\ActionSnoozeDismissToastContentInfo.cs" />
-    <Compile Include="ToastTemplates\ActionSnoozeDissmissToastContent.cs" />
+    <Compile Include="Applic\ToastTemplates\ActionDismissToastContentInfo.cs" />
+    <Compile Include="Applic\ToastTemplates\ActionDissmissToastContent.cs" />
+    <Compile Include="Applic\ToastTemplates\ActionSnoozeDismissToastContentInfo.cs" />
+    <Compile Include="Applic\ToastTemplates\ActionSnoozeDissmissToastContent.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,26 +117,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandDefinitions.cs" />
-    <Compile Include="Commands\CheckDiskSpaceCommand.cs" />
-    <Compile Include="Commands\CheckPendingRebootCommand.cs" />
-    <Compile Include="Common\ApplicationInfo.cs" />
-    <Compile Include="Common\DesktopNotificationManagerCompat.cs" />
-    <Compile Include="Common\F.cs" />
-    <Compile Include="Common\INotificationActivationCallback.cs" />
-    <Compile Include="Common\Logging.cs" />
-    <Compile Include="Common\LoggingConfiguration.cs" />
-    <Compile Include="Common\MyNotificationActivator.cs" />
-    <Compile Include="Common\NativeMethods.cs" />
-    <Compile Include="Common\NotepadMessenger.cs" />
-    <Compile Include="Common\NotificationUserInputData.cs" />
-    <Compile Include="Module\ScheduledTasks.cs" />
-    <Compile Include="Module\UDecimal.cs" />
-    <Compile Include="Module\UDecimalJsonConverter.cs" />
-    <Compile Include="Module\UDouble.cs" />
-    <Compile Include="Module\UDoubleJsonConverter.cs" />
-    <Compile Include="Module\DiskSpaceInfo.cs" />
-    <Compile Include="Module\PendingRebootInfo.cs" />
-    <Compile Include="Module\SystemComplianceItems.cs" />
+    <Compile Include="Applic\Commands\CheckDiskSpaceCommand.cs" />
+    <Compile Include="Applic\Commands\CheckPendingRebootCommand.cs" />
+    <Compile Include="Applic\Common\ApplicationInfo.cs" />
+    <Compile Include="Applic\Common\DesktopNotificationManagerCompat.cs" />
+    <Compile Include="Applic\Common\F.cs" />
+    <Compile Include="Applic\Common\INotificationActivationCallback.cs" />
+    <Compile Include="Applic\Common\Logging.cs" />
+    <Compile Include="Applic\Common\LoggingConfiguration.cs" />
+    <Compile Include="Applic\Common\MyNotificationActivator.cs" />
+    <Compile Include="Applic\Common\NativeMethods.cs" />
+    <Compile Include="Applic\Common\NotepadMessenger.cs" />
+    <Compile Include="Applic\Common\NotificationUserInputData.cs" />
+    <Compile Include="Applic\ScheduledTasks.cs" />
+    <Compile Include="Applic\UDecimal.cs" />
+    <Compile Include="Applic\UDecimalJsonConverter.cs" />
+    <Compile Include="Applic\UDouble.cs" />
+    <Compile Include="Applic\UDoubleJsonConverter.cs" />
+    <Compile Include="Applic\DiskSpaceInfo.cs" />
+    <Compile Include="Applic\PendingRebootInfo.cs" />
+    <Compile Include="Applic\SystemComplianceItems.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
