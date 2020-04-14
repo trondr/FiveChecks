@@ -31,7 +31,7 @@ namespace Compliance.Notifications.Common.Tests
         {
             Assert.Throws<ArgumentException>(() =>
                 {
-                    var actual = F.AppendDirectorySeparatorChar(null);
+                    var actual = DiskSpace.AppendDirectorySeparatorChar(null);
                 }
             );
         }
@@ -51,7 +51,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.UnitTests)]
         public void GetFreeDiskSpaceTest()
         {
-            F.GetFreeDiskSpaceInGigaBytes("c:\\").Match<decimal>(size =>
+            DiskSpace.GetFreeDiskSpaceInGigaBytes("c:\\").Match<decimal>(size =>
             {
                 Assert.IsTrue(size > 0M);
                 Assert.IsTrue(size < 10000M);
@@ -124,7 +124,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.UnitTests)]
         public void TryGetFilesTest()
         {
-            var actual = F.TryGetFiles(new DirectoryInfo(@"c:\temp\UserTemp\msdtadmin"), "*.*");
+            var actual = DiskSpace.TryGetFiles(new DirectoryInfo(@"c:\temp\UserTemp\msdtadmin"), "*.*");
             var files = actual.Try().Match<FileInfo[]>(infos =>
                 {
                     Assert.IsTrue(false, "Not expected.");
@@ -140,7 +140,7 @@ namespace Compliance.Notifications.Common.Tests
         [Category(TestCategory.UnitTests)]
         public async Task GetFolderSizeTest()
         {
-            var actual = await F.GetFolderSize(@"c:\temp");
+            var actual = await DiskSpace.GetFolderSize(@"c:\temp");
             var actualSize = actual.Match<UDecimal>(size =>
             {
                 Assert.IsTrue(true);
@@ -159,7 +159,7 @@ namespace Compliance.Notifications.Common.Tests
         {
             var expected = new DiskSpaceInfo { SccmCacheSize = 12, TotalFreeDiskSpace = 123 };
             var savedResult = await F.SaveSystemComplianceItemResult<DiskSpaceInfo>(expected).ConfigureAwait(false);
-            var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
+            var actual = await DiskSpace.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(expected, actual);
         }
 
@@ -168,7 +168,7 @@ namespace Compliance.Notifications.Common.Tests
         public async Task LoadDiskSpaceResultTest_FileNotExist()
         {
             var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
-            var actual = await F.LoadDiskSpaceResult().ConfigureAwait(false);
+            var actual = await DiskSpace.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(DiskSpaceInfo.Default, actual);
         }
 

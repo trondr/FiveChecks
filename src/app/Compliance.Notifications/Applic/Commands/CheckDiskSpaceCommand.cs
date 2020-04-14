@@ -45,8 +45,8 @@ namespace Compliance.Notifications.Applic.Commands
             return await CheckDiskSpaceCommand.CheckDiskSpacePure(
                 requiredFreeDiskSpace, 
                 subtractSccmCache, 
-                F.LoadDiskSpaceResult, 
-                (requiredCleanupAmount, companyName) => F.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, tag, groupName),
+                DiskSpace.LoadDiskSpaceResult, 
+                (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName)
                 )
                 .ConfigureAwait(false);
