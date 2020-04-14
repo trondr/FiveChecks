@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public class RebootSourceJsonConverter : JsonConverter<RebootSource>
     {

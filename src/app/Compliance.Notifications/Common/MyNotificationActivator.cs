@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using Compliance.Notifications.Model;
+using Compliance.Notifications.Module;
 using GalaSoft.MvvmLight.Messaging;
 using LanguageExt;
 

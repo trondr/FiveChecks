@@ -2,7 +2,7 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public class UDoubleJsonConverter: JsonConverter<UDouble>
     {

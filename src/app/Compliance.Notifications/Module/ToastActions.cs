@@ -5,7 +5,7 @@ using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.QueryStringDotNET;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public static class ToastActions
     {

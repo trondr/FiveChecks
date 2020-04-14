@@ -1,4 +1,4 @@
-﻿namespace Compliance.Notifications.Model.PasswordExpiry
+﻿namespace Compliance.Notifications.Module.PasswordExpiry
 {
     public enum PasswordExpiryStatus
     {

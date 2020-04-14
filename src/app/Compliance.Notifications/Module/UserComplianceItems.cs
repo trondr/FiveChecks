@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Compliance.Notifications.Common;
-using Compliance.Notifications.Model.PasswordExpiry;
+using Compliance.Notifications.Module.PasswordExpiry;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public static class UserComplianceItems
     {

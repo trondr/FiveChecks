@@ -10,7 +10,7 @@ using Compliance.Notifications.Resources;
 using LanguageExt;
 using Microsoft.Win32;
 
-namespace Compliance.Notifications.Model.PasswordExpiry
+namespace Compliance.Notifications.Module.PasswordExpiry
 {
     public static class PasswordExpire
     {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using Compliance.Notifications.Common;
 using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Win32.TaskScheduler;
 using Pri.LongPath;
-using System.Linq;
-using System.Reflection;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public static class ScheduledTasks
     {

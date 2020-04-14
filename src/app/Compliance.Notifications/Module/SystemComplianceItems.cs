@@ -4,7 +4,7 @@ using Compliance.Notifications.Common;
 using LanguageExt;
 using LanguageExt.Common;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public delegate Task<Result<Unit>> MeasureCompliance();
     

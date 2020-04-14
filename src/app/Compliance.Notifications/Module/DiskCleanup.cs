@@ -8,7 +8,7 @@ using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Win32;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public static class DiskCleanup
     {

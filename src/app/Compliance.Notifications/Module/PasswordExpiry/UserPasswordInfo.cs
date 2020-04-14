@@ -1,7 +1,7 @@
 ﻿using System;
 using LanguageExt;
 
-namespace Compliance.Notifications.Model.PasswordExpiry
+namespace Compliance.Notifications.Module.PasswordExpiry
 {
     public class UserPasswordInfo: Record<UserPasswordInfo>
     {

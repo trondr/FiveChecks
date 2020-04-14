@@ -1,6 +1,6 @@
 ﻿using Compliance.Notifications.Common;
 using Compliance.Notifications.Common.Tests;
-using Compliance.Notifications.Model;
+using Compliance.Notifications.Module;
 using LanguageExt;
 using NUnit.Framework;
 

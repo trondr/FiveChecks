@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Compliance.Notifications.Commands;
 using Compliance.Notifications.Common;
-using Compliance.Notifications.Model;
+using Compliance.Notifications.Module;
 using GalaSoft.MvvmLight.Messaging;
 using LanguageExt.Common;
 using NCmdLiner.Attributes;
@@ -20,7 +20,7 @@ namespace Compliance.Notifications
             Description = "Install compliance notification utility into the task scheduler.")]
         public static async Task<Result<int>> Install()
         {
-            return await F.Install().ConfigureAwait(false);
+            return await Setup.Install().ConfigureAwait(false);
         }
 
 
@@ -28,7 +28,7 @@ namespace Compliance.Notifications
             Description = "Uninstall compliance notification utility from the task scheduler.")]
         public static async Task<Result<int>> UnInstall()
         {
-            return await F.UnInstall().ConfigureAwait(false);
+            return await Setup.UnInstall().ConfigureAwait(false);
         }
 
         [Command(Summary = "Handle activated toasts.", Description = "Handle activated toasts.")]

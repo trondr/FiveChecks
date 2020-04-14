@@ -3,7 +3,7 @@ using Compliance.Notifications.Common;
 using LanguageExt;
 using Microsoft.QueryStringDotNET;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public static class ToastGroups
     {

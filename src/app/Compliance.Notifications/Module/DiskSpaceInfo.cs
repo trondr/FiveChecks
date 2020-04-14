@@ -1,6 +1,6 @@
 ﻿using LanguageExt;
 
-namespace Compliance.Notifications.Model
+namespace Compliance.Notifications.Module
 {
     public class DiskSpaceInfo: Record<DiskSpaceInfo>
     {

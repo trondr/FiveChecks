@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Common.Tests;
-using Compliance.Notifications.Model.PasswordExpiry;
+using Compliance.Notifications.Module.PasswordExpiry;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Model.PasswordExpiry
