@@ -112,34 +112,6 @@ namespace Compliance.Notifications.Applic.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
-        
-
-
-        public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string companyName, string tag, string groupName, TimeSpan systemUptime)
-        {
-            return await ShowToastNotification(async () =>
-            {
-                var toastContentInfo = await GetCheckSystemUptimeToastContentInfo(companyName, groupName, systemUptime).ConfigureAwait(false);
-                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
-                return toastContent;
-            }, tag, groupName).ConfigureAwait(false);
-        }
-
-        private static async Task<ActionDismissToastContentInfo> GetCheckSystemUptimeToastContentInfo(
-            string companyName, string groupName, TimeSpan systemUptime)
-        {
-            var title = strings.SystemUptime_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = string.Format(CultureInfo.InvariantCulture, strings.SystemUptimeContent_F0, systemUptime.ToReadableString());
-            var content2 = strings.SystemUptimeContent2;
-            var action = ToastActions.Restart;
-            var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
-        }
-
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
         {
             if (getNow == null) throw new ArgumentNullException(nameof(getNow));
@@ -715,32 +687,5 @@ namespace Compliance.Notifications.Applic.Common
             Logging.DefaultLogger.Info("User dismissed the notification.");
             return new Result<Unit>(Unit.Default);
         }
-
-        /// <summary>
-        /// Get the system uptime
-        /// </summary>
-        /// <returns></returns>
-        public static TimeSpan GetSystemUptime()
-        {
-            var millisecondsSinceLastRestart = (long)NativeMethods.GetTickCount64();
-            var ticksSinceLastRestart = millisecondsSinceLastRestart * TimeSpan.TicksPerMillisecond;
-            return new TimeSpan(ticksSinceLastRestart);
-        }
-
-        /// <summary>
-        /// Get the time of the last restart.
-        /// </summary>
-        /// <returns></returns>
-        public static DateTime GetLastRestartTime()
-        {
-            return DateTime.Now.Add(-GetSystemUptime());
-        }
-
-        public static async Task<Result<SystemUptimeInfo>> GetSystemUptimeInfo()
-        {
-            SystemUptimeInfo systemUptimeInfo = new SystemUptimeInfo(){Uptime=F.GetSystemUptime(),LastRestart=F.GetLastRestartTime()};
-            return await Task.FromResult(new Result<SystemUptimeInfo>(systemUptimeInfo)).ConfigureAwait(false);
-        }
-       
     }
 }

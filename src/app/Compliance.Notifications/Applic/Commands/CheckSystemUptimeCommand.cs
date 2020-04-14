@@ -25,7 +25,7 @@ namespace Compliance.Notifications.Applic.Commands
         {
             var groupName = ToastGroups.CheckSystemUptime;
             var tag = ToastGroups.CheckSystemUptime;
-            return await CheckSystemUptimePure(maxUpTimeDays, F.LoadSystemUptimeInfo, (uptime,companyName) => F.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            return await CheckSystemUptimePure(maxUpTimeDays, F.LoadSystemUptimeInfo, (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
         }
     }
 }

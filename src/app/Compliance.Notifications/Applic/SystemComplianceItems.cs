@@ -17,7 +17,7 @@ namespace Compliance.Notifications.Applic
             await F.RunSystemComplianceItem(F.GetPendingRebootInfo).ConfigureAwait(false);
 
         private static readonly MeasureCompliance SystemUptimeMeasurement = async () =>
-            await F.RunSystemComplianceItem(F.GetSystemUptimeInfo).ConfigureAwait(false);
+            await F.RunSystemComplianceItem(SystemUptime.GetSystemUptimeInfo).ConfigureAwait(false);
 
         /// <summary>
         /// List of all system compliance items.

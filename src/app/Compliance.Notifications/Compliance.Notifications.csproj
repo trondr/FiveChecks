@@ -66,6 +66,7 @@
     <Compile Include="Applic\Common\DiskSpace.cs" />
     <Compile Include="Applic\Common\RegistryOperations.cs" />
     <Compile Include="Applic\Common\Setup.cs" />
+    <Compile Include="Applic\Common\SystemUptime.cs" />
     <Compile Include="Applic\Common\SystemUptimeInfo.cs" />
     <Compile Include="Applic\Common\TemporaryFile.cs" />
     <Compile Include="Applic\Common\TemporaryRegistryValue.cs" />
