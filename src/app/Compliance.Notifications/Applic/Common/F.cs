@@ -43,14 +43,7 @@ namespace Compliance.Notifications.Applic.Common
                     Path.GetExtension(fileName)
                     );
         }
-
-        public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()
-        {
-            var userPasswordExpiryInfo = await PasswordExpire.GetPasswordExpiryStatus(Environment.UserName).ConfigureAwait(false);
-            var passwordExpiryInfo = new PasswordExpiryInfo(userPasswordExpiryInfo.UserPasswordInfo.PasswordExpirationDate, userPasswordExpiryInfo.PasswordExpiryStatus,userPasswordExpiryInfo.IsRemoteSession);
-            return new Result<PasswordExpiryInfo>(passwordExpiryInfo);
-        }
-
+        
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
         {
             return await LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
@@ -119,32 +112,7 @@ namespace Compliance.Notifications.Applic.Common
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
-            string companyName, string tag,
-            string groupName)
-        {
-            return await ShowToastNotification(async () =>
-            {
-                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate,companyName, groupName).ConfigureAwait(false);
-                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
-                return toastContent;
-            }, tag, groupName).ConfigureAwait(false);
-        }
-
-        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(
-            DateTime passwordExpirationDate, string companyName, string groupName)
-        {
-            var title = strings.PasswordExpiryNotification_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
-            var content = string.Format(CultureInfo.InvariantCulture, strings.PasswordExpiryNotification_Content_F0_F1, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture));
-            var content2 = strings.PasswordExpiryNotification_Content2;
-            var action = ToastActions.ChangePassword;
-            var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
-        }
+        
 
 
         public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string companyName, string tag, string groupName, TimeSpan systemUptime)

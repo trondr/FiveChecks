@@ -6,8 +6,11 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.ToastTemplates;
 using Compliance.Notifications.Resources;
 using LanguageExt;
+using LanguageExt.Common;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 
 namespace Compliance.Notifications.Applic.PasswordExpiry
@@ -110,6 +113,40 @@ namespace Compliance.Notifications.Applic.PasswordExpiry
                     strings.ChangePasswordMessageBoxCaption, MessageBoxButton.OK, MessageBoxImage.Information,
                     MessageBoxResult.OK, MessageBoxOptions.None);
             }
+        }
+
+        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
+            string companyName, string tag,
+            string groupName)
+        {
+            return await F.ShowToastNotification(async () =>
+            {
+                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate, companyName, groupName).ConfigureAwait(false);
+                var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
+                return toastContent;
+            }, tag, groupName).ConfigureAwait(false);
+        }
+
+        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(
+            DateTime passwordExpirationDate, string companyName, string groupName)
+        {
+            var title = strings.PasswordExpiryNotification_Title;
+            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
+            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
+            var content = string.Format(CultureInfo.InvariantCulture, strings.PasswordExpiryNotification_Content_F0_F1, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture));
+            var content2 = strings.PasswordExpiryNotification_Content2;
+            var action = ToastActions.ChangePassword;
+            var actionActivationType = ToastActivationType.Foreground;
+            var greeting = await F.GetGreeting().ConfigureAwait(false);
+            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
+        }
+
+        public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()
+        {
+            var userPasswordExpiryInfo = await PasswordExpire.GetPasswordExpiryStatus(Environment.UserName).ConfigureAwait(false);
+            var passwordExpiryInfo = new PasswordExpiryInfo(userPasswordExpiryInfo.UserPasswordInfo.PasswordExpirationDate, userPasswordExpiryInfo.PasswordExpiryStatus, userPasswordExpiryInfo.IsRemoteSession);
+            return new Result<PasswordExpiryInfo>(passwordExpiryInfo);
         }
     }
 }
