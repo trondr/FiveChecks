@@ -21,8 +21,8 @@ namespace Compliance.Notifications.Applic
                 .Where(info => !info.Name.EndsWith("desktop.ini", StringComparison.InvariantCulture))
                 .ToArray();
             var numberOfAllNonShortcutFiles = allNonShortcutFiles.Length;
-            var sizeofAllNonShortcutFilesInMegaBytes = allNonShortcutFiles.Sum(info => info.Length);
-            return Task.FromResult(new Result<DesktopDataInfo>(new DesktopDataInfo {HasDesktopData = numberOfAllNonShortcutFiles > 0, NumberOfFiles = numberOfAllNonShortcutFiles, TotalSizeInBytes = sizeofAllNonShortcutFilesInMegaBytes}));
+            var sizeofAllNonShortcutFilesInBytes = allNonShortcutFiles.Sum(info => info.Length);
+            return Task.FromResult(new Result<DesktopDataInfo>(new DesktopDataInfo {HasDesktopData = numberOfAllNonShortcutFiles > 0, NumberOfFiles = numberOfAllNonShortcutFiles, TotalSizeInBytes = sizeofAllNonShortcutFilesInBytes}));
         }
     }
 }
