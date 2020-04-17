@@ -73,6 +73,8 @@
     <Compile Include="Applic\Common\TemporaryRegistryValue.cs" />
     <Compile Include="Applic\Common\ToastHelper.cs" />
     <Compile Include="Applic\Common\ToastNotificationVisibility.cs" />
+    <Compile Include="Applic\DesktopData.cs" />
+    <Compile Include="Applic\DesktopDataInfo.cs" />
     <Compile Include="Applic\DiskCleanup.cs" />
     <Compile Include="Applic\ExitApplicationMessage.cs" />
     <Compile Include="Applic\PasswordExpiry\PasswordExpiryInfo.cs" />
