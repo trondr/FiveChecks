@@ -63,9 +63,27 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _string.
         /// </summary>
+        internal static string _String10 {
+            get {
+                return ResourceManager.GetString("_String10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
         internal static string _String101 {
             get {
                 return ResourceManager.GetString("_String101", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _string.
+        /// </summary>
+        internal static string _String102 {
+            get {
+                return ResourceManager.GetString("_String102", resourceCulture);
             }
         }
         
@@ -84,33 +102,6 @@ namespace Compliance.Notifications.Resources {
         internal static string _String105 {
             get {
                 return ResourceManager.GetString("_String105", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String106 {
-            get {
-                return ResourceManager.GetString("_String106", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String107 {
-            get {
-                return ResourceManager.GetString("_String107", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String108 {
-            get {
-                return ResourceManager.GetString("_String108", resourceCulture);
             }
         }
         
@@ -138,6 +129,42 @@ namespace Compliance.Notifications.Resources {
         internal static string Days {
             get {
                 return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cleanup....
+        /// </summary>
+        internal static string Desktop_Action_Button_Content {
+            get {
+                return ResourceManager.GetString("Desktop_Action_Button_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get organized and save your documents and files in &apos;My Documents&apos; or on OneDrive or other suitable  place where backup routines are in place. Remember, documents on the desktop can be blown out the window and be gone forever..
+        /// </summary>
+        internal static string DesktopData_Content {
+            get {
+                return ResourceManager.GetString("DesktopData_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only shortcuts to applications and data folders should be located on the Desktop. Click the &apos;Cleanup...&apos; button to create a shortcut to &apos;My Documents&apos; and then open &apos;My Documents&apos; so that you can start manually moving your documents..
+        /// </summary>
+        internal static string DesktopData_Content2 {
+            get {
+                return ResourceManager.GetString("DesktopData_Content2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have {0} of data on the desktop!.
+        /// </summary>
+        internal static string DesktopData_Title_F0 {
+            get {
+                return ResourceManager.GetString("DesktopData_Title_F0", resourceCulture);
             }
         }
         
@@ -205,11 +232,65 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Desktop Folder.
+        /// </summary>
+        internal static string MyDesktopFolderDescription {
+            get {
+                return ResourceManager.GetString("MyDesktopFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Desktop Folder.
+        /// </summary>
+        internal static string MyDesktopFolderName {
+            get {
+                return ResourceManager.GetString("MyDesktopFolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Documents.
+        /// </summary>
+        internal static string MyDocumentsFolderDescription {
+            get {
+                return ResourceManager.GetString("MyDocumentsFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Documents.
+        /// </summary>
+        internal static string MyDocumentsFolderName {
+            get {
+                return ResourceManager.GetString("MyDocumentsFolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not now.
         /// </summary>
         internal static string NotNowActionButtonContent {
             get {
                 return ResourceManager.GetString("NotNowActionButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My OneDrive.
+        /// </summary>
+        internal static string OneDriveFolderDescription {
+            get {
+                return ResourceManager.GetString("OneDriveFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My OneDrive.
+        /// </summary>
+        internal static string OneDriveFolderName {
+            get {
+                return ResourceManager.GetString("OneDriveFolderName", resourceCulture);
             }
         }
         

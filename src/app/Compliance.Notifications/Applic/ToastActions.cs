@@ -14,7 +14,8 @@ namespace Compliance.Notifications.Applic
         public const string DiskAutoCleanup = "diskautocleanup";
         public const string ChangePassword = "changepassword";
         public const string Dismiss = "dismiss";
-
+        public const string CreateMyDocumentsShortcut = "createmydocumentsshortcut";
+        
         public static Dictionary<string, Func<Result<Unit>>> Actions { get; } =
             new Dictionary<string, Func<Result<Unit>>>
             {
@@ -23,7 +24,10 @@ namespace Compliance.Notifications.Applic
                 {ToastActions.DiskAutoCleanup, () => F.TryFunc<Unit>(() => F.DiskAutoCleanup())},
                 {ToastActions.ChangePassword, () => F.TryFunc<Unit>(() => F.ChangePassword())},
                 {ToastActions.Dismiss, () => F.TryFunc<Unit>(() => F.DismissNotification())},
+                {ToastActions.CreateMyDocumentsShortcut, () => F.TryFunc<Unit>(() => F.CreateMyDocumentsShortcut())},
             };
+
+        
 
         public static Option<Func<Result<Unit>>> ParseToastActionArguments(string arguments)
         {

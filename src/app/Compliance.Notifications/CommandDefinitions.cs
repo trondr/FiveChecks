@@ -84,18 +84,16 @@ namespace Compliance.Notifications
             bool subtractSccmCache,
             [OptionalCommandParameter(Description = "Maximum system uptime in hours before user gets notified about recommended reboot. Default is 168 hours (7 days).", DefaultValue = 168.0,AlternativeName = "mutd",ExampleValue = 168.0)]
             double maxUptimeHours,
-            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",
-                ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc", ExampleValue = false, DefaultValue = false)]
             bool disableDiskSpaceCheck,
-            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc",
-                ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc", ExampleValue = false, DefaultValue = false)]
             bool disablePendingRebootCheck,
-            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec",
-                ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec", ExampleValue = false, DefaultValue = false)]
             bool disablePasswordExpiryCheck,
-            [OptionalCommandParameter(Description = "Disable system uptime check.", AlternativeName = "dsuc",
-                ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable system uptime check.", AlternativeName = "dsuc", ExampleValue = false, DefaultValue = false)]
             bool disableSystemUptimeCheck,
+            [OptionalCommandParameter(Description = "Disable desktop data check.", AlternativeName = "dddc", ExampleValue = false, DefaultValue = false)]
+            bool disableDesktopDataCheck,
             [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.",AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
@@ -108,6 +106,7 @@ namespace Compliance.Notifications
             var pendingRebootResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var passwordExpiryResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var systemUptimeResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+            var desktopDataResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
                 if(!disableDiskSpaceCheck)
@@ -118,9 +117,12 @@ namespace Compliance.Notifications
                     passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
                 if (!disableSystemUptimeCheck)
                     systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(maxUptimeHours).ConfigureAwait(false);
+                if (!disableDesktopDataCheck)
+                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData().ConfigureAwait(false);
+
             });
             var result = 
-                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult }
+                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult, desktopDataResult }
                 .ToResult()
                 .Match(
                     list =>

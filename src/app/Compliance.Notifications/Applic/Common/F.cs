@@ -9,11 +9,13 @@ using System.Linq;
 using System.Management;
 using System.Management.Automation;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml.Controls.Primitives;
 using Compliance.Notifications.Applic.PasswordExpiry;
 using Compliance.Notifications.Applic.ToastTemplates;
 using Compliance.Notifications.Resources;
@@ -82,6 +84,33 @@ namespace Compliance.Notifications.Applic.Common
         public static string InPeriodFromNow(this DateTime dateTime)
         {
             return InPeriodFromNowPure(dateTime, () => DateTime.Now);
+        }
+
+        public const double Kb = 1024;
+        public const double Mb = 1024L*1024L;
+        public const double Gb = 1024L*1024L*1024L;
+        public const double Tb = 1024L * 1024L * 1024L * 1024L;
+
+
+        public static string BytesToReadableString(this long bytes)
+        {
+            if (bytes < Kb)
+                return $"{bytes} B";
+            if(bytes < Mb)
+                return $"{(bytes/ Kb).FormatDouble(false)} KB";
+            if (bytes < Gb)
+                return $"{(bytes / Mb).FormatDouble(true)} MB";
+            if (bytes < Tb)
+                return $"{(bytes / Gb).FormatDouble(true)} GB";
+            return $"{(bytes / Tb).FormatDouble(true)} TB";
+        }
+
+        public static string FormatDouble(this double d, bool useTwoDecimalPlaces)
+        {
+            return 
+                useTwoDecimalPlaces ? 
+                    string.Format(CultureInfo.InvariantCulture,"{0:0.0#}", d):
+                    string.Format(CultureInfo.InvariantCulture, "{0:0}", d);
         }
 
         public static string ToReadableString(this TimeSpan timeSpan)
@@ -565,6 +594,57 @@ namespace Compliance.Notifications.Applic.Common
         {
             Logging.DefaultLogger.Info("User dismissed the notification.");
             return new Result<Unit>(Unit.Default);
+        }
+
+        public static Result<Unit> CreateMyDocumentsShortcut()
+        {
+            var explorerExe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe");
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            
+            //Create my OneDrive folder shortcut.
+            var oneDriveShortcutPath = Path.Combine(desktopPath, $"{strings.OneDriveFolderName}.lnk");
+            Option<string> oneDriveFolder = Environment.GetEnvironmentVariable("OneDrive");
+            oneDriveFolder
+                .IfSome(path =>
+                {
+                    F.CreateShortcut(oneDriveShortcutPath, $"\"{explorerExe}\"", $"/root,\"{path}\"", strings.OneDriveFolderDescription, true)
+                        .IfSome(s => Process.Start(new ProcessStartInfo() { FileName = s }));
+                });
+
+            //Create my documents shortcut
+            var myDocumentsShortcutPath = Path.Combine(desktopPath, $"{strings.MyDocumentsFolderName}.lnk");
+            var myDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            F.CreateShortcut(myDocumentsShortcutPath, $"\"{explorerExe}\"", $"/root,\"{myDocumentsFolder}\"", strings.MyDocumentsFolderDescription, true)
+                .IfSome(s => Process.Start(new ProcessStartInfo() { FileName = s }));
+
+            //Create my desktop shortcut
+            var myDesktopShortcutPath = Path.Combine(desktopPath, $"{strings.MyDesktopFolderName}.lnk");
+            var myDesktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            F.CreateShortcut(myDesktopShortcutPath, $"\"{explorerExe}\"", $"/root,\"{myDesktopFolder}\"", strings.MyDesktopFolderDescription, true)
+                .IfSome(s => Process.Start(new ProcessStartInfo() { FileName = s }));
+
+            return new Result<Unit>(Unit.Default);
+        }
+
+        public static Option<string> CreateShortcut(Some<string> shortcutPath, Some<string> path,
+            Option<string> arguments, Some<string> description, bool force)
+        {
+            if(File.Exists(shortcutPath.Value) && !force)
+                return new Option<string>(shortcutPath);
+            if (File.Exists(shortcutPath.Value))
+                File.Delete(shortcutPath.Value);
+
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            var link = new ShellLink() as IShellLink;
+            // setup shortcut information
+            link?.SetDescription(description.Value);
+            link?.SetPath(path.Value);
+            arguments.IfSome(a => link?.SetArguments(a));
+            // save it
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            var file = link as IPersistFile;
+            file?.Save(shortcutPath, false);
+            return !File.Exists(shortcutPath.Value) ? Option<string>.None : new Option<string>(shortcutPath);
         }
     }
 }

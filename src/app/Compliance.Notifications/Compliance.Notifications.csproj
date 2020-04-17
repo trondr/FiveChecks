@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Applic\Commands\CheckDesktopDataCommand.cs" />
     <Compile Include="Applic\Commands\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\Commands\CheckSystemUptimeCommand.cs" />
     <Compile Include="Applic\Common\DiskSpace.cs" />

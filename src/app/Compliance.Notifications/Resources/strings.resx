@@ -200,28 +200,55 @@
   <data name="SystemUptimeContent_F0" xml:space="preserve">
     <value>Your computer has been up for {0}.</value>
   </data>
-  <data name="_String101" xml:space="preserve">
-    <value>_string</value>
+  <data name="DesktopData_Title_F0" xml:space="preserve">
+    <value>You have {0} of data on the desktop!</value>
   </data>
   <data name="SystemUptimeContent2" xml:space="preserve">
     <value>Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!</value>
   </data>
-  <data name="_String103" xml:space="preserve">
-    <value>_string</value>
+  <data name="DesktopData_Content" xml:space="preserve">
+    <value>Get organized and save your documents and files in 'My Documents' or on OneDrive or other suitable  place where backup routines are in place. Remember, documents on the desktop can be blown out the window and be gone forever.</value>
   </data>
   <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
     <value>Restart...</value>
   </data>
+  <data name="DesktopData_Content2" xml:space="preserve">
+    <value>Only shortcuts to applications and data folders should be located on the Desktop. Click the 'Cleanup...' button to create a shortcut to 'My Documents' and then open 'My Documents' so that you can start manually moving your documents.</value>
+  </data>
+  <data name="Desktop_Action_Button_Content" xml:space="preserve">
+    <value>Cleanup...</value>
+  </data>
+  <data name="MyDocumentsFolderName" xml:space="preserve">
+    <value>My Documents</value>
+  </data>
+  <data name="MyDocumentsFolderDescription" xml:space="preserve">
+    <value>My Documents</value>
+  </data>
+  <data name="OneDriveFolderName" xml:space="preserve">
+    <value>My OneDrive</value>
+  </data>
+  <data name="MyDesktopFolderDescription" xml:space="preserve">
+    <value>My Desktop Folder</value>
+  </data>
+  <data name="MyDesktopFolderName" xml:space="preserve">
+    <value>My Desktop Folder</value>
+  </data>
+  <data name="_String10" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String101" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String102" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_String103" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="OneDriveFolderDescription" xml:space="preserve">
+    <value>My OneDrive</value>
+  </data>
   <data name="_String105" xml:space="preserve">
-    <value>_string</value>
-  </data>
-  <data name="_String106" xml:space="preserve">
-    <value>_string</value>
-  </data>
-  <data name="_String107" xml:space="preserve">
-    <value>_string</value>
-  </data>
-  <data name="_String108" xml:space="preserve">
     <value>_string</value>
   </data>
 </root>

@@ -198,28 +198,55 @@
   <data name="SystemUptimeContent_F0" xml:space="preserve">
     <value>Datamaskinen din har ikke vært restartet på {0}.</value>
   </data>
-  <data name="_String101" xml:space="preserve">
-    <value>_string</value>
+  <data name="DesktopData_Title_F0" xml:space="preserve">
+    <value>Du har {0} med data lagret på skrivbordet!</value>
   </data>
   <data name="SystemUptimeContent2" xml:space="preserve">
     <value>Gjevnlig omstart av datamaskinen øker sikkerheten og stabiliteten til Windows. På forhånd takk!</value>
   </data>
-  <data name="_String103" xml:space="preserve">
-    <value>_string</value>
+  <data name="DesktopData_Content" xml:space="preserve">
+    <value>Rydd opp og lagre dokumenter i 'Mine Dokumenter', i OneDrive mappen eller ett annet passende sted hvor det er etablert rutiner for sikkerhetskopi. Husk, dokumenter på skrivbordet kan bli tatt av vinden og blåse ut av vinduet og bli borte for alltid.</value>
   </data>
   <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
     <value>Omstart...</value>
   </data>
+  <data name="DesktopData_Content2" xml:space="preserve">
+    <value>Kun snarveier til applikasjoner og data mapper skal lagres på skrivbordet. Klikk "Rydd..." knappen for å lage snarvei til 'Mine Dokumenter' og åpne 'Mine Dokumenter' for å starte manuell rydding av skrivebordet.</value>
+  </data>
+  <data name="MyDocumentsFolderName" xml:space="preserve">
+    <value>Mine Dokumenter</value>
+  </data>
+  <data name="Desktop_Action_Button_Content" xml:space="preserve">
+    <value>Rydd...</value>
+  </data>
+  <data name="MyDocumentsFolderDescription" xml:space="preserve">
+    <value>Mine Dokumenter</value>
+  </data>
+  <data name="_String10" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="OneDriveFolderName" xml:space="preserve">
+    <value>Min OneDrive</value>
+  </data>
+  <data name="OneDriveFolderDescription" xml:space="preserve">
+    <value>Min OneDrive</value>
+  </data>
+  <data name="MyDesktopFolderName" xml:space="preserve">
+    <value>Min skrivebordsmappe</value>
+  </data>
+  <data name="MyDesktopFolderDescription" xml:space="preserve">
+    <value>Min skrivebordsmappe</value>
+  </data>
   <data name="_String105" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String107" xml:space="preserve">
+  <data name="_String103" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String106" xml:space="preserve">
+  <data name="_String102" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String108" xml:space="preserve">
+  <data name="_String101" xml:space="preserve">
     <value>_string</value>
   </data>
 </root>
