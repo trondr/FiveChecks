@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applic\Common\FTests.cs" />
+    <Compile Include="Applic\Common\ScheduledTasksTests.cs" />
     <Compile Include="Commands\CheckPasswordExpiryCommandTests.cs" />
     <Compile Include="Commands\CheckPendingRebootCommandTests.cs" />
     <Compile Include="Commands\CheckDiskSpaceCommandTests.cs" />

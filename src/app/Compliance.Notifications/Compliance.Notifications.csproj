@@ -61,6 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Applic\Common\ScheduledTaskInfo.cs" />
+    <Compile Include="Applic\Common\WindowsEventLog.cs" />
     <Compile Include="Applic\DesktopDataCheck\CheckDesktopDataCommand.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\SystemUptimeCheck\CheckSystemUptimeCommand.cs" />

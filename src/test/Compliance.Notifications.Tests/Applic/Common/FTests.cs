@@ -1,8 +1,98 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Tests.Common;
+using LanguageExt.Common;
 using NUnit.Framework;
 using Pri.LongPath;
+
+namespace Compliance.Notifications.Applic.Common.Tests
+{
+    [TestFixture]
+    public class FTests
+    {
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        public void TryFuncTest_Expect_Exception()
+        {
+            var actual = F.TryFunc(() =>
+            {
+                throw new Exception("Test");
+                return new Result<int>(0);
+            });
+            actual.Match(Succ: i =>
+                {
+                    Assert.IsFalse(true, "Success not expected.");
+                    return 0;
+                },
+                exception =>
+                {
+                    Console.WriteLine(exception.ToExceptionMessage());
+                    Assert.IsTrue(true, "N/A");
+                    return 1;
+                });
+        }
+
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        public void TryFuncTest_Expect_Success()
+        {
+            var actual = F.TryFunc(() => new Result<int>(0));
+            actual.Match(Succ: i =>
+                {
+                    Assert.IsTrue(true, "N/A.");
+                    return 0;
+                },
+                exception =>
+                {
+                    Console.WriteLine(exception.ToExceptionMessage());
+                    Assert.IsTrue(true, "Failure not expected");
+                    return 1;
+                });
+        }
+
+        [Test()]
+        public async Task AsyncTryFuncTest_Expect_Exception()
+        {
+            var actual = await F.AsyncTryFunc(async () =>
+            {
+                throw new Exception("Test");
+                return await Task.FromResult(new Result<int>(0));
+            });
+            actual.Match(Succ: i =>
+                {
+                    Assert.IsFalse(true, "Success not expected.");
+                    return 0;
+                },
+                exception =>
+                {
+                    Console.WriteLine(exception.ToExceptionMessage());
+                    Assert.IsTrue(true, "N/A");
+                    return 1;
+                });
+        }
+
+        [Test()]
+        public async Task AsyncTryFuncTest_Expect_Success()
+        {
+            var actual = await F.AsyncTryFunc(async () =>
+            {
+                return await Task.FromResult(new Result<int>(0));
+            });
+            actual.Match(Succ: i =>
+                {
+                    Assert.IsTrue(true, "N/A");
+                    return 0;
+                },
+                exception =>
+                {
+                    Console.WriteLine(exception.ToExceptionMessage());
+                    Assert.IsFalse(true, "Failure not expected.");
+                    return 1;
+                });
+        }
+    }
+}
 
 namespace Compliance.Notifications.Tests.Applic.Common
 {
@@ -24,6 +114,7 @@ namespace Compliance.Notifications.Tests.Applic.Common
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public void CreateShortcutTest()
         {
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);

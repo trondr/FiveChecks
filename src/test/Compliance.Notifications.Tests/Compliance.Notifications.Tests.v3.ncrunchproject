@@ -76,6 +76,24 @@
       <FixtureTestSelector>
         <FixtureName>Compliance.Notifications.Tests.Model.DiskCleanupTests</FixtureName>
       </FixtureTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Model.DiskCleanupTests.ResetCleanupManagerStateFlagsTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Model.DiskCleanupTests.RunFullDiskCleanupTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Model.DiskCleanupTests.SetCleanupManagerStateFlagsTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Common.FTests.UnInstallTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Common.FTests.OpenRestartDialogTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Common.FTests.InstallTest</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

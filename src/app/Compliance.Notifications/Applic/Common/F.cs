@@ -15,10 +15,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-using Windows.UI.Xaml.Controls.Primitives;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
-using Compliance.Notifications.Applic.ToastTemplates;
 using Compliance.Notifications.Resources;
 using GalaSoft.MvvmLight.Messaging;
 using LanguageExt;
@@ -517,8 +515,8 @@ namespace Compliance.Notifications.Applic.Common
 
         public static async Task<Result<T>> AsyncTryFunc<T>(Func<Task<Result<T>>> func)
         {
-            TryAsync<T> TryRestart() => () => func();
-            return await TryRestart().Try().ConfigureAwait(false);
+            TryAsync<T> TryFun() => async () => await func().ConfigureAwait(false);
+            return await TryFun().Try().ConfigureAwait(false);
         }
 
         public static Result<T> TryFinally<T>(Func<Result<T>> tryFunc, System.Action finallyAction)
