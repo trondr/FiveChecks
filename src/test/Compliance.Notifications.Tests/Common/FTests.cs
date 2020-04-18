@@ -1,15 +1,15 @@
-﻿using Compliance.Notifications.Common;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Compliance.Notifications.Applic;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Applic.SystemUptimeCheck;
 using LanguageExt;
 using NUnit.Framework;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 using FileInfo = Pri.LongPath.FileInfo;
 
-namespace Compliance.Notifications.Common.Tests
+namespace Compliance.Notifications.Tests.Common
 {
     [TestFixture()]
     public class FTests

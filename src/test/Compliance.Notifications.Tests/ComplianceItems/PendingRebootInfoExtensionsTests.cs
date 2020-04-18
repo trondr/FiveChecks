@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Compliance.Notifications.Applic;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Common;
-using Compliance.Notifications.Common.Tests;
+using Compliance.Notifications.Applic.PendingRebootCheck;
+using Compliance.Notifications.Tests.Common;
 using LanguageExt;
 using NUnit.Framework;
 

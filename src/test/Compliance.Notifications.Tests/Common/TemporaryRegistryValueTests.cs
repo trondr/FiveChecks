@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Compliance.Notifications.Applic.Common;
-using NUnit.Framework;
 using LanguageExt;
 using Microsoft.Win32;
+using NUnit.Framework;
 
-namespace Compliance.Notifications.Common.Tests
+namespace Compliance.Notifications.Tests.Common
 {
     [TestFixture]
     public class TemporaryRegistryValueTests

@@ -61,33 +61,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Applic\Commands\CheckDesktopDataCommand.cs" />
-    <Compile Include="Applic\Commands\CheckPasswordExpiryCommand.cs" />
-    <Compile Include="Applic\Commands\CheckSystemUptimeCommand.cs" />
-    <Compile Include="Applic\Common\DiskSpace.cs" />
-    <Compile Include="Applic\Common\PendingReboot.cs" />
+    <Compile Include="Applic\DesktopDataCheck\CheckDesktopDataCommand.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />
+    <Compile Include="Applic\SystemUptimeCheck\CheckSystemUptimeCommand.cs" />
+    <Compile Include="Applic\DiskspaceCheck\DiskSpace.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingReboot.cs" />
     <Compile Include="Applic\Common\RegistryOperations.cs" />
     <Compile Include="Applic\Common\Setup.cs" />
-    <Compile Include="Applic\Common\SystemUptime.cs" />
-    <Compile Include="Applic\Common\SystemUptimeInfo.cs" />
+    <Compile Include="Applic\SystemUptimeCheck\SystemUptime.cs" />
+    <Compile Include="Applic\SystemUptimeCheck\SystemUptimeInfo.cs" />
     <Compile Include="Applic\Common\TemporaryFile.cs" />
     <Compile Include="Applic\Common\TemporaryRegistryValue.cs" />
     <Compile Include="Applic\Common\ToastHelper.cs" />
     <Compile Include="Applic\Common\ToastNotificationVisibility.cs" />
-    <Compile Include="Applic\DesktopData.cs" />
-    <Compile Include="Applic\DesktopDataInfo.cs" />
-    <Compile Include="Applic\DiskCleanup.cs" />
-    <Compile Include="Applic\ExitApplicationMessage.cs" />
-    <Compile Include="Applic\PasswordExpiry\PasswordExpiryInfo.cs" />
-    <Compile Include="Applic\PasswordExpiry\PasswordExpire.cs" />
-    <Compile Include="Applic\PasswordExpiry\PasswordExpiryStatus.cs" />
-    <Compile Include="Applic\PasswordExpiry\UserPasswordExpiryStatusInfo.cs" />
-    <Compile Include="Applic\PasswordExpiry\UserPasswordInfo.cs" />
-    <Compile Include="Applic\RebootSource.cs" />
-    <Compile Include="Applic\RebootSourceJsonConverter.cs" />
-    <Compile Include="Applic\ToastActions.cs" />
-    <Compile Include="Applic\RegisterToastNotificationMessage.cs" />
-    <Compile Include="Applic\ToastGroups.cs" />
+    <Compile Include="Applic\DesktopDataCheck\DesktopData.cs" />
+    <Compile Include="Applic\DesktopDataCheck\DesktopDataInfo.cs" />
+    <Compile Include="Applic\DiskspaceCheck\DiskCleanup.cs" />
+    <Compile Include="Applic\Common\ExitApplicationMessage.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\PasswordExpiryInfo.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\PasswordExpire.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\PasswordExpiryStatus.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\UserPasswordExpiryStatusInfo.cs" />
+    <Compile Include="Applic\PasswordExpiryCheck\UserPasswordInfo.cs" />
+    <Compile Include="Applic\PendingRebootCheck\RebootSource.cs" />
+    <Compile Include="Applic\PendingRebootCheck\RebootSourceJsonConverter.cs" />
+    <Compile Include="Applic\Common\ToastActions.cs" />
+    <Compile Include="Applic\Common\RegisterToastNotificationMessage.cs" />
+    <Compile Include="Applic\Common\ToastGroups.cs" />
     <Compile Include="Applic\UserComplianceItems.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\strings.Designer.cs">
@@ -123,8 +123,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandDefinitions.cs" />
-    <Compile Include="Applic\Commands\CheckDiskSpaceCommand.cs" />
-    <Compile Include="Applic\Commands\CheckPendingRebootCommand.cs" />
+    <Compile Include="Applic\DiskspaceCheck\CheckDiskSpaceCommand.cs" />
+    <Compile Include="Applic\PendingRebootCheck\CheckPendingRebootCommand.cs" />
     <Compile Include="Applic\Common\ApplicationInfo.cs" />
     <Compile Include="Applic\Common\DesktopNotificationManagerCompat.cs" />
     <Compile Include="Applic\Common\F.cs" />
@@ -135,13 +135,13 @@
     <Compile Include="Applic\Common\NativeMethods.cs" />
     <Compile Include="Applic\Common\NotepadMessenger.cs" />
     <Compile Include="Applic\Common\NotificationUserInputData.cs" />
-    <Compile Include="Applic\ScheduledTasks.cs" />
-    <Compile Include="Applic\UDecimal.cs" />
-    <Compile Include="Applic\UDecimalJsonConverter.cs" />
-    <Compile Include="Applic\UDouble.cs" />
-    <Compile Include="Applic\UDoubleJsonConverter.cs" />
-    <Compile Include="Applic\DiskSpaceInfo.cs" />
-    <Compile Include="Applic\PendingRebootInfo.cs" />
+    <Compile Include="Applic\Common\ScheduledTasks.cs" />
+    <Compile Include="Applic\Common\UDecimal.cs" />
+    <Compile Include="Applic\Common\UDecimalJsonConverter.cs" />
+    <Compile Include="Applic\Common\UDouble.cs" />
+    <Compile Include="Applic\Common\UDoubleJsonConverter.cs" />
+    <Compile Include="Applic\DiskspaceCheck\DiskSpaceInfo.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingRebootInfo.cs" />
     <Compile Include="Applic\SystemComplianceItems.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -280,5 +280,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

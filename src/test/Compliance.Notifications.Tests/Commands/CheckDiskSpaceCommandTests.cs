@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Compliance.Notifications.Applic;
-using Compliance.Notifications.Applic.Commands;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Common;
-using Compliance.Notifications.Common.Tests;
+using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Tests.Common;
 using LanguageExt.Common;
 using NUnit.Framework;
 

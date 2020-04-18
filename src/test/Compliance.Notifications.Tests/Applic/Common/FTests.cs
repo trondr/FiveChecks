@@ -1,11 +1,10 @@
 ﻿using System;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Common.Tests;
-using LanguageExt;
+using Compliance.Notifications.Tests.Common;
 using NUnit.Framework;
 using Pri.LongPath;
 
-namespace Compliance.Notifications.Applic.Common.Tests
+namespace Compliance.Notifications.Tests.Applic.Common
 {
     [TestFixture()]
     public class FTests

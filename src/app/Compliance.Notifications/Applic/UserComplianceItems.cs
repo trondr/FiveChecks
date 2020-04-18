@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Applic.PasswordExpiry;
+using Compliance.Notifications.Applic.DesktopDataCheck;
+using Compliance.Notifications.Applic.PasswordExpiryCheck;
 
 namespace Compliance.Notifications.Applic
 {

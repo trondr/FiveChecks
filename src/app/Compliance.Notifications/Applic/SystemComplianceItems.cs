@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Applic.PendingRebootCheck;
+using Compliance.Notifications.Applic.SystemUptimeCheck;
 using LanguageExt;
 using LanguageExt.Common;
 
