@@ -13,7 +13,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
         {
             var info = await loadInfo().ConfigureAwait(false);
-            if (info.HasDesktopData)
+            if (IsNonCompliant(info))
             {
                 return await showToastNotification(info, "My Company AS").ConfigureAwait(false);
             }
@@ -21,12 +21,20 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             return result;
         }
 
-
+        internal static bool IsNonCompliant(DesktopDataInfo desktopDataInfo)
+        {
+            return desktopDataInfo.HasDesktopData;
+        }
+        
         public static async Task<Result<ToastNotificationVisibility>> CheckDesktopData()
         {
             var groupName = ToastGroups.CheckDesktopData;
             var tag = ToastGroups.CheckDesktopData;
-            return await CheckDesktopDataPure(DesktopData.LoadDesktopDataInfo, (desktopDataInfo, companyName) => DesktopData.ShowDesktopDataToastNotification(desktopDataInfo, companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            return await CheckDesktopDataPure(
+                () => F.LoadInfo(DesktopData.LoadDesktopDataInfo,info => info.HasDesktopData,ScheduledTasks.ComplianceUserMeasurements,true), 
+                (desktopDataInfo, companyName) => DesktopData.ShowDesktopDataToastNotification(desktopDataInfo, companyName, tag, groupName),
+                () => ToastHelper.RemoveToastNotification(groupName)
+                ).ConfigureAwait(false);
         }
     }
 }

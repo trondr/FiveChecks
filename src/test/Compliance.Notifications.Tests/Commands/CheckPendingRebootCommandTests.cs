@@ -37,9 +37,9 @@ namespace Compliance.Notifications.Tests.Commands
         }
 
         [Test]
-        [TestCase(PendingReboot.True, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.One, RemovePendingRebootToastNotificationCallCount.Zero, Description = "Pending reboot is true")]
-        [TestCase(PendingReboot.False, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.Zero, RemovePendingRebootToastNotificationCallCount.One, Description = "Pending reboot is false")]
-        public void CheckPendingRebootTest(bool isPendingReboot,int expectedLoadPendingRebootCallCount, int expectedShowPendingRebootToastNotificationCount, int expectedRemovePendingRebootToastNotificationCallCount)
+        [TestCase(PendingReboot.True, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.One, RemovePendingRebootToastNotificationCallCount.Zero,true, Description = "Pending reboot is true")]
+        [TestCase(PendingReboot.False, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.Zero, RemovePendingRebootToastNotificationCallCount.One,false, Description = "Pending reboot is false")]
+        public void CheckPendingRebootTest(bool isPendingReboot,int expectedLoadPendingRebootCallCount, int expectedShowPendingRebootToastNotificationCount, int expectedRemovePendingRebootToastNotificationCallCount, bool isNonCompliant)
         {
             var actualLoadPendingRebootCallCount = 0;
             var actualShowPendingRebootToastNotificationCount = 0;
@@ -51,7 +51,8 @@ namespace Compliance.Notifications.Tests.Commands
                             actualLoadPendingRebootCallCount++;
                             await Task.CompletedTask;
                             return new PendingRebootInfo {RebootIsPending = isPendingReboot,Source=new List<RebootSource>()};
-                        },
+                        },info => isNonCompliant
+                        ,
                         (s) => { 
                             actualShowPendingRebootToastNotificationCount++;
                             return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));

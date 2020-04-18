@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.ToastTemplates;
 using Compliance.Notifications.Resources;
+using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Toolkit.Uwp.Notifications;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;

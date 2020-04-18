@@ -43,9 +43,11 @@
   <ItemGroup>
     <Compile Include="Applic\Common\FTests.cs" />
     <Compile Include="Applic\Common\ScheduledTasksTests.cs" />
+    <Compile Include="Commands\CheckDesktopDataCommandTests.cs" />
     <Compile Include="Commands\CheckPasswordExpiryCommandTests.cs" />
     <Compile Include="Commands\CheckPendingRebootCommandTests.cs" />
     <Compile Include="Commands\CheckDiskSpaceCommandTests.cs" />
+    <Compile Include="Commands\CheckSystemUptimeCommandTests.cs" />
     <Compile Include="Commands\CommandDefinitionsTests.cs" />
     <Compile Include="Common\FTests.cs" />
     <Compile Include="Common\TemporaryRegistryValueTests.cs" />

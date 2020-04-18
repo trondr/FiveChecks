@@ -7,10 +7,10 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 {
     public static class CheckPendingRebootCommand
     {
-        internal static async Task<Result<ToastNotificationVisibility>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadPendingRebootInfo, Func<string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
+        internal static async Task<Result<ToastNotificationVisibility>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadInfo, Func<PendingRebootInfo, bool> isNonCompliant, Func<string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
         {
-            var diskSpaceInfo = await loadPendingRebootInfo().ConfigureAwait(false);
-            if (diskSpaceInfo.RebootIsPending)
+            var info = await loadInfo().ConfigureAwait(false);
+            if (isNonCompliant(info))
             {
                 return await showToastNotification("My Company AS").ConfigureAwait(false);
             }
@@ -22,7 +22,13 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
-            return await CheckPendingRebootPure(PendingReboot.LoadPendingRebootInfo, companyName => PendingReboot.ShowPendingRebootToastNotification(companyName, tag, groupName),() => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            bool IsNonCompliant(PendingRebootInfo info) => info.RebootIsPending;
+            return await CheckPendingRebootPure(
+                () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
+                IsNonCompliant,
+                companyName => PendingReboot.ShowPendingRebootToastNotification(companyName, tag, groupName),
+                () => ToastHelper.RemoveToastNotification(groupName)
+                ).ConfigureAwait(false);
         }
     }
 }

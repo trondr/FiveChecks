@@ -30,12 +30,12 @@ namespace Compliance.Notifications.Tests.Commands
         }
 
         [Test]
-        [TestCase(40,true,30.0,10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, Description = "Less than required and subtract sccm cache, do not show notification")]
-        [TestCase(40, true, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, Description = "More than required and subtract sccm cache, do not show notification")]
-        [TestCase(40, false, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, Description = "More than required and subtract sccm cache, do not show notification")]
-        [TestCase(40, false, 30.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.One, RemoveDiskSpaceToastNotificationCallCount.Zero, Description = "Less than required, do not subtract sccm cache, show notification")]
-        [TestCase(40, true, 20.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.One, RemoveDiskSpaceToastNotificationCallCount.Zero, Description = "Less than required and subtract sccm cache, show notification")]
-        public void CheckDiskSpaceTest(decimal requiredFreeDiskSpace, bool subtractSccmCache, decimal totalFreeDiskSpace, decimal sccmCacheSize, int expectedLoadDiskSpaceCallCount, int expectedShowDiskSpaceToastNotificationCount, int expectedRemoveDiskSpaceToastNotificationCallCount)
+        [TestCase(40,true,30.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false, Description = "Less than required and subtract sccm cache, do not show notification")]
+        [TestCase(40, true, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false, Description = "More than required and subtract sccm cache, do not show notification")]
+        [TestCase(40, false, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false, Description = "More than required and subtract sccm cache, do not show notification")]
+        [TestCase(40, false, 30.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.One, RemoveDiskSpaceToastNotificationCallCount.Zero, true, Description = "Less than required, do not subtract sccm cache, show notification")]
+        [TestCase(40, true, 20.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.One, RemoveDiskSpaceToastNotificationCallCount.Zero,true, Description = "Less than required and subtract sccm cache, show notification")]
+        public void CheckDiskSpaceTest(decimal requiredFreeDiskSpace, bool subtractSccmCache, decimal totalFreeDiskSpace, decimal sccmCacheSize, int expectedLoadDiskSpaceCallCount, int expectedShowDiskSpaceToastNotificationCount, int expectedRemoveDiskSpaceToastNotificationCallCount, bool isNonCompliant)
         {
             var actualLoadDiskSpaceCallCount = 0;
             var actualShowDiskSpaceToastNotificationCount = 0;
@@ -50,6 +50,7 @@ namespace Compliance.Notifications.Tests.Commands
                             await Task.CompletedTask;
                             return new DiskSpaceInfo {TotalFreeDiskSpace = totalFreeDiskSpace, SccmCacheSize = sccmCacheSize};
                         },
+                        (info => isNonCompliant),
                         (reqFreeDiskSpace, s) => { 
                             actualShowDiskSpaceToastNotificationCount++;
                             return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));

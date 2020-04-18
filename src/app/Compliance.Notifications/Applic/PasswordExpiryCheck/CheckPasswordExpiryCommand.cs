@@ -7,10 +7,10 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
 {
     public static class CheckPasswordExpiryCommand
     {
-        internal static async Task<Result<ToastNotificationVisibility>> CheckPasswordExpiryPure(Func<Task<PasswordExpiryInfo>> loadPasswordExpiryInfo, Func<DateTime,string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
+        internal static async Task<Result<ToastNotificationVisibility>> CheckPasswordExpiryPure(Func<Task<PasswordExpiryInfo>> loadInfo, Func<PasswordExpiryInfo, bool> isNonCompliant, Func<DateTime,string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
         {
-            var info = await loadPasswordExpiryInfo().ConfigureAwait(false);
-            if (info.PasswordExpiryStatus == PasswordExpiryStatus.ExpiringSoon)
+            var info = await loadInfo().ConfigureAwait(false);
+            if (isNonCompliant(info))
             {
                 return await showToastNotification(info.PasswordExpiryDate,"My Company AS").ConfigureAwait(false);
             }
@@ -22,7 +22,13 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
         {
             var groupName = ToastGroups.CheckPasswordExpiry;
             var tag = ToastGroups.CheckPasswordExpiry;
-            return await CheckPasswordExpiryPure(PasswordExpire.LoadPasswordExpiryInfo, (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, companyName, tag, groupName), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            bool IsNonCompliant(PasswordExpiryInfo info) => info.PasswordExpiryStatus == PasswordExpiryStatus.ExpiringSoon;
+            return await CheckPasswordExpiryPure(
+                () => F.LoadInfo<PasswordExpiryInfo>(PasswordExpire.LoadPasswordExpiryInfo, IsNonCompliant, ScheduledTasks.ComplianceUserMeasurements, true),
+                IsNonCompliant, 
+                (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, companyName, tag, groupName), 
+                () => ToastHelper.RemoveToastNotification(groupName)
+                ).ConfigureAwait(false);
         }
     }
 }

@@ -7,13 +7,14 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
 {
     public static class CheckSystemUptimeCommand
     {
-        internal static async Task<Result<ToastNotificationVisibility>> CheckSystemUptimePure(double maxUpTimeHours,
+        internal static async Task<Result<ToastNotificationVisibility>> CheckSystemUptimePure(
             Func<Task<SystemUptimeInfo>> loadInfo,
+            Func<SystemUptimeInfo,bool> isNonCompliant,
             Func<TimeSpan,string, Task<Result<ToastNotificationVisibility>>> showToastNotification,
             Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
         {
             var info = await loadInfo().ConfigureAwait(false);
-            if (info.Uptime.TotalHours > maxUpTimeHours)
+            if (isNonCompliant(info))
             {
                 return await showToastNotification(info.Uptime,"My Company AS").ConfigureAwait(false);
             }
@@ -21,11 +22,16 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             return result;
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(double maxUpTimeDays)
+        public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(double maxUpTimeHours)
         {
             var groupName = ToastGroups.CheckSystemUptime;
             var tag = ToastGroups.CheckSystemUptime;
-            return await CheckSystemUptimePure(maxUpTimeDays, SystemUptime.LoadSystemUptimeInfo, (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), () => ToastHelper.RemoveToastNotification(groupName)).ConfigureAwait(false);
+            bool IsNonCompliant(SystemUptimeInfo info) => info.Uptime.TotalHours > maxUpTimeHours;
+            return await CheckSystemUptimePure(() => F.LoadInfo<SystemUptimeInfo>(SystemUptime.LoadSystemUptimeInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
+                IsNonCompliant,
+                (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), 
+                () => ToastHelper.RemoveToastNotification(groupName)
+                ).ConfigureAwait(false);
         }
     }
 }
