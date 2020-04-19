@@ -55,6 +55,6 @@ namespace Compliance.Notifications.Applic.DiskspaceCheck
                 .ConfigureAwait(false);
         }
 
-        private static UDecimal RequiredCleanupAmount(DiskSpaceInfo spaceInfo, UDecimal requiredFreeDiskSpace, bool subtractSccmCache) => requiredFreeDiskSpace - (spaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? spaceInfo.SccmCacheSize : 0));
+        private static decimal RequiredCleanupAmount(DiskSpaceInfo spaceInfo, UDecimal requiredFreeDiskSpace, bool subtractSccmCache) => requiredFreeDiskSpace - (spaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? spaceInfo.SccmCacheSize : 0));
     }
 }
