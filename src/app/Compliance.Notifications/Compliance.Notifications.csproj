@@ -66,7 +66,7 @@
     <Compile Include="Applic\DesktopDataCheck\CheckDesktopDataCommand.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\SystemUptimeCheck\CheckSystemUptimeCommand.cs" />
-    <Compile Include="Applic\DiskspaceCheck\DiskSpace.cs" />
+    <Compile Include="Applic\DiskSpaceCheck\DiskSpace.cs" />
     <Compile Include="Applic\PendingRebootCheck\PendingReboot.cs" />
     <Compile Include="Applic\Common\RegistryOperations.cs" />
     <Compile Include="Applic\Common\Setup.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Applic\Common\ToastNotificationVisibility.cs" />
     <Compile Include="Applic\DesktopDataCheck\DesktopData.cs" />
     <Compile Include="Applic\DesktopDataCheck\DesktopDataInfo.cs" />
-    <Compile Include="Applic\DiskspaceCheck\DiskCleanup.cs" />
+    <Compile Include="Applic\DiskSpaceCheck\DiskCleanup.cs" />
     <Compile Include="Applic\Common\ExitApplicationMessage.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\PasswordExpiryInfo.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\PasswordExpire.cs" />
@@ -125,7 +125,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandDefinitions.cs" />
-    <Compile Include="Applic\DiskspaceCheck\CheckDiskSpaceCommand.cs" />
+    <Compile Include="Applic\DiskSpaceCheck\CheckDiskSpaceCommand.cs" />
     <Compile Include="Applic\PendingRebootCheck\CheckPendingRebootCommand.cs" />
     <Compile Include="Applic\Common\ApplicationInfo.cs" />
     <Compile Include="Applic\Common\DesktopNotificationManagerCompat.cs" />
@@ -142,7 +142,7 @@
     <Compile Include="Applic\Common\UDecimalJsonConverter.cs" />
     <Compile Include="Applic\Common\UDouble.cs" />
     <Compile Include="Applic\Common\UDoubleJsonConverter.cs" />
-    <Compile Include="Applic\DiskspaceCheck\DiskSpaceInfo.cs" />
+    <Compile Include="Applic\DiskSpaceCheck\DiskSpaceInfo.cs" />
     <Compile Include="Applic\PendingRebootCheck\PendingRebootInfo.cs" />
     <Compile Include="Applic\SystemComplianceItems.cs" />
     <Compile Include="MainWindow.xaml.cs">

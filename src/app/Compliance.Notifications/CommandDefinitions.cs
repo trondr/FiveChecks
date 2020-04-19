@@ -8,7 +8,7 @@ using Windows.ApplicationModel;
 using Compliance.Notifications.Applic;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.DesktopDataCheck;
-using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Applic.DiskSpaceCheck;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Applic.SystemUptimeCheck;

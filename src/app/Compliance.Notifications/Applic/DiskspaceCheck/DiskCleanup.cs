@@ -8,7 +8,7 @@ using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Win32;
 
-namespace Compliance.Notifications.Applic.DiskspaceCheck
+namespace Compliance.Notifications.Applic.DiskSpaceCheck
 {
     public static class DiskCleanup
     {

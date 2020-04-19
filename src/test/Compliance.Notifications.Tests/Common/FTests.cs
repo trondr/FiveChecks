@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Applic.DiskSpaceCheck;
 using Compliance.Notifications.Applic.SystemUptimeCheck;
 using LanguageExt;
 using NUnit.Framework;

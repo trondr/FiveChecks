@@ -1,7 +1,7 @@
 ﻿using Compliance.Notifications.Applic.Common;
 using LanguageExt;
 
-namespace Compliance.Notifications.Applic.DiskspaceCheck
+namespace Compliance.Notifications.Applic.DiskSpaceCheck
 {
     public class DiskSpaceInfo: Record<DiskSpaceInfo>
     {

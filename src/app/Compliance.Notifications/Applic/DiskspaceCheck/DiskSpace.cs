@@ -14,7 +14,7 @@ using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 using FileInfo = Pri.LongPath.FileInfo;
 using Path = Pri.LongPath.Path;
 
-namespace Compliance.Notifications.Applic.DiskspaceCheck
+namespace Compliance.Notifications.Applic.DiskSpaceCheck
 {
     public static class DiskSpace
     {

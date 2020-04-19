@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using LanguageExt.Common;
 
-namespace Compliance.Notifications.Applic.DiskspaceCheck
+namespace Compliance.Notifications.Applic.DiskSpaceCheck
 {
     public static class CheckDiskSpaceCommand
     {

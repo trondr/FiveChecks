@@ -1,5 +1,5 @@
 ﻿using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Applic.DiskspaceCheck;
+using Compliance.Notifications.Applic.DiskSpaceCheck;
 using Compliance.Notifications.Tests.Common;
 using LanguageExt;
 using NUnit.Framework;
