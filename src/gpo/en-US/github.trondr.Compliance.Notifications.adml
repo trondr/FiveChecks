@@ -1,0 +1,28 @@
+<policyDefinitionResources revision="1.0" schemaVersion="1.0">
+  <displayName>
+  </displayName>
+  <description>
+  </description>
+  <resources>
+    <stringTable>
+      <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">Compliance Notifications</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disabled disk space check</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled compliance disk space check will be skipped.</string>
+      <string id="SUPPORTED_Windows_10_0">At least Windows Server 2016 or Windows 10</string>
+      <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738">Disk Space</string>
+      <string id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">Required free disk space</string>
+      <string id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help">Required free disk space in giga bytes. If system disk has less than this value the machine is non compliant.</string>
+      <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C">Subtract sccm cache</string>
+      <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C_Help">Subtract sccm cache is set to true, free disk space should be greater than required disks space minus current size of the sccm cache. If subtract sccm cache is set to false, free disk space should be greater than required disks space.
+</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
+        <decimalTextBox refId="DXT_0111451D_AE4A_4327_988E_0E67F1030953" defaultValue="40">Required free disk space in giga bytes.</decimalTextBox>
+      </presentation>
+      <presentation id="POL_315AEE27_3D8D_4679_A63F_47792344858C">
+        <checkBox refId="CHK_05F05809_3570_4862_9371_7115F07604F1" defaultChecked="true">Subtract sccm cache</checkBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

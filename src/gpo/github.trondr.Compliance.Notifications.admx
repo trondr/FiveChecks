@@ -1,0 +1,48 @@
+<policyDefinitions revision="1.0" schemaVersion="1.0">
+  <policyNamespaces>
+    <target prefix="fullarmor" namespace="FullArmor.Policies.1B62A5BD_F8AA_490F_9E14_CE2D5B23FA7C" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <supersededAdm fileName="" />
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_Windows_10_0" displayName="$(string.SUPPORTED_Windows_10_0)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" displayName="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B)" />
+    <category name="CAT_7936670B_8E03_454A_A995_1379FF4D4738" displayName="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738)">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+    </category>
+  </categories>
+  <policies>
+    <policy name="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0" class="User" displayName="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0)" explainText="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help)" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="Disabled">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15" class="User" displayName="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" explainText="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help)" presentation="$(presentation.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace">
+      <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+      <elements>
+        <decimal id="DXT_0111451D_AE4A_4327_988E_0E67F1030953" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace" minValue="5" />
+      </elements>
+    </policy>
+    <policy name="POL_315AEE27_3D8D_4679_A63F_47792344858C" class="User" displayName="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C)" explainText="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C_Help)" presentation="$(presentation.POL_315AEE27_3D8D_4679_A63F_47792344858C)" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
+      <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+      <enabledValue />
+      <disabledValue />
+      <elements>
+        <boolean id="CHK_05F05809_3570_4862_9371_7115F07604F1" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>
