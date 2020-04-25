@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.394007E7_D730_4E6A_AF71_F9511FB8078E" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.ADFBCD50_61C6_4B77_95B3_3E25D0F5338B" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -126,7 +126,7 @@
     </policy>
     <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
-      <supportedOn ref="windows:SUPPORTED_WindowsVista" />      
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
       <elements>
         <boolean id="CHK_1F62C124_E46A_4785_826C_B7DB7746FEC3" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
           <trueValue>

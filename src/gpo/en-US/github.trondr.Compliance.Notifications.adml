@@ -7,13 +7,13 @@
     <stringTable>
       <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">Compliance Notifications</string>
       <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disable disk space check</string>
-      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled compliance disk space check will be skipped.</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled disk space check will be skipped.</string>
       <string id="SUPPORTED_Windows_10_0">At least Windows Server 2016 or Windows 10</string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738">Disk Space Check</string>
       <string id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">Required free disk space</string>
       <string id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help">Required free disk space in giga bytes. If system disk has less than this value the machine is non compliant.</string>
       <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C">Subtract sccm cache</string>
-      <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C_Help">Subtract sccm cache is set to true, free disk space should be greater than required disks space minus current size of the sccm cache. If subtract sccm cache is set to false, free disk space should be greater than required disks space.
+      <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C_Help">If subtract sccm cache is set to true, free disk space should be greater than required disks space minus current size of the sccm cache. If subtract sccm cache is set to false, free disk space should be greater than or equal to required disks space.
 </string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help">Configure check of free system disk space. If free disk space is less than the configured required disk space the machine is non compliant. Required disk space is default 40 GB and the current size of the sccm cache is default subtracted from this value.</string>
       <string id="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E">Pending Reboot Check</string>
@@ -31,7 +31,7 @@
       <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58">Enable compliance check toast notifications</string>
       <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58_Help">If enabled, compliance check toast notifications will be shown to the user. The user will not be able to turn of notifications permanently for the compliance check notification source.
 If disabled, compliance check toast notifications will not be shown to the user. Compliance checks will still run but the result of the compliance check will not be show to the user as a toast notification.</string>
-      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">When this setting is enabled compliance pending reboot check will be skipped.</string>
+      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">When this setting is enabled pending reboot check will be skipped.</string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">Enable toast notifcations</string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help">Enable toast notifications. This is the main switch for toast notifactions from all applications and senders. If set to disable toast notifications will be disabled for all applications and senders.</string>
       <string id="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8">Password Expiry Check</string>
@@ -44,9 +44,9 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help">Number of hours the system can be up before notification about recommended reboot is shown to the users.</string>
       <string id="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E">Desktop Data Check</string>
       <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA">Disable desktop data check</string>
-      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled compliance desktop data check will be skipped.</string>
-      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help">When this setting is enabled compliance password expiry warning check will be skipped.</string>
-      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help">When this setting is enabled compliance system update check will be skipped.</string>
+      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled desktop data check will be skipped.</string>
+      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help">When this setting is enabled password expiry warning check will be skipped.</string>
+      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help">When this setting is enabled system update check will be skipped.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
