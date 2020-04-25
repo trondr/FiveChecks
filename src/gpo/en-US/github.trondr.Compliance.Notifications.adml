@@ -41,7 +41,7 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5">Disable password expiry check</string>
       <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621">Password expiry warning days</string>
       <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help">Show password expiry warning this number of days before password expires.</string>
-      <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help">Number of hours the system can be up before notification about recommended reboot is shown to the users.</string>
+      <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help">Number of hours the system can be up before notification about recommended reboot is shown to the user. Default value is 168 hours (7 days)</string>
       <string id="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E">Desktop Data Check</string>
       <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA">Disable desktop data check</string>
       <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled desktop data check will be skipped.</string>
