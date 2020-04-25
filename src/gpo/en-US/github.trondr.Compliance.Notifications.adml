@@ -16,6 +16,18 @@
       <string id="POL_315AEE27_3D8D_4679_A63F_47792344858C_Help">Subtract sccm cache is set to true, free disk space should be greater than required disks space minus current size of the sccm cache. If subtract sccm cache is set to false, free disk space should be greater than required disks space.
 </string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help">Configure check of free system disk space. If free disk space is less than the configured required disk space the machine is non compliant. Required disk space is default 40 GB and the current size of the sccm cache is default subtracted from this value.</string>
+      <string id="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E">Pending Reboot Check</string>
+      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9">Disable pending reboot check</string>
+      <string id="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E_Help">
+      </string>
+      <string id="POL_2F12BF2B_F5F7_43D5_8165_765D40195887">Disable reboot source: PendingFileRenameOperations</string>
+      <string id="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F">Disable reboot source: Sccm Client</string>
+      <string id="POL_31B89071_802C_4D69_A419_37FECD659AF5">Disable reboot source: Windows Update</string>
+      <string id="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A">Disable reboot source: Component Based Servicing</string>
+      <string id="POL_2F12BF2B_F5F7_43D5_8165_765D40195887_Help">Disable pending file rename operations as source of pending reboot.</string>
+      <string id="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F_Help">Disable sccm client as source of pending reboot.</string>
+      <string id="POL_31B89071_802C_4D69_A419_37FECD659AF5_Help">Disable Window Update as source of pending reboot.</string>
+      <string id="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help">Disable component based servicing as source of pending reboot.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">

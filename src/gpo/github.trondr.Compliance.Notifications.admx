@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.13A44240_8C7A_47D1_9AC9_185EF2C228A1" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.2D03E795_10A5_4CBE_BC4B_3E4F1B0089BF" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -13,6 +13,9 @@
   <categories>
     <category name="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" displayName="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B)" />
     <category name="CAT_7936670B_8E03_454A_A995_1379FF4D4738" displayName="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738)" explainText="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help)">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+    </category>
+    <category name="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" displayName="$(string.CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E)" explainText="$(string.CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
   </categories>
@@ -41,6 +44,26 @@
           </falseValue>
         </boolean>
       </elements>
+    </policy>
+    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="User" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disable">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
+    </policy>
+    <policy name="POL_2F12BF2B_F5F7_43D5_8165_765D40195887" class="User" displayName="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887)" explainText="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourcePendingFileRenameOperations">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F" class="User" displayName="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F)" explainText="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceSccmClient">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_31B89071_802C_4D69_A419_37FECD659AF5" class="User" displayName="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5)" explainText="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceWindowsUpdate">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A" class="User" displayName="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A)" explainText="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceComponentBasedServicing">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
   </policies>
 </policyDefinitions>
