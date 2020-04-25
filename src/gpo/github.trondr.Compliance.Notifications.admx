@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.635CBB2D_03DA_4488_B1B1_0C51606B71AD" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.287EEAE4_9B41_40B0_BA22_74020647E54E" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -102,8 +102,6 @@
     <policy name="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0" class="Machine" displayName="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" explainText="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help)" presentation="$(presentation.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours">
       <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
-      <enabledValue />
-      <disabledValue />
       <elements>
         <decimal id="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours" minValue="1" />
       </elements>
@@ -119,8 +117,6 @@
     <policy name="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621" class="Machine" displayName="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" explainText="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help)" presentation="$(presentation.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="PasswordExpiryWarning">
       <parentCategory ref="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
-      <enabledValue />
-      <disabledValue />
       <elements>
         <decimal id="DXT_BBF3BAE7_CAE9_4E6A_9477_CAC01A61018F" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="PasswordExpiryWarning" />
       </elements>
