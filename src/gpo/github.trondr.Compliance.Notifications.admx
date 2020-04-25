@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.24617F23_59F0_431F_A054_A2E681586E1B" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.014F66D1_DD16_4415_B36E_CE602A34E8AA" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -124,19 +124,15 @@
         <decimal id="DXT_BBF3BAE7_CAE9_4E6A_9477_CAC01A61018F" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="PasswordExpiryWarning" />
       </elements>
     </policy>
-    <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
+    <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
-      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
-      <elements>
-        <boolean id="CHK_1F62C124_E46A_4785_826C_B7DB7746FEC3" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
-          <trueValue>
-            <decimal value="1" />
-          </trueValue>
-          <falseValue>
-            <decimal value="0" />
-          </falseValue>
-        </boolean>
-      </elements>
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
     </policy>
     <policy name="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3" class="User" displayName="$(string.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3)" explainText="$(string.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3_Help)" presentation="$(presentation.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3)" key="Software\Policies\github.trondr\Compliance.Notifications">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
