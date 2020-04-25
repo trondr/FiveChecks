@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.76BE8FB4_46DF_4790_BBAD_9DA6F17312A6" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.13A44240_8C7A_47D1_9AC9_185EF2C228A1" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -12,7 +12,7 @@
   </supportedOn>
   <categories>
     <category name="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" displayName="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B)" />
-    <category name="CAT_7936670B_8E03_454A_A995_1379FF4D4738" displayName="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738)">
+    <category name="CAT_7936670B_8E03_454A_A995_1379FF4D4738" displayName="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738)" explainText="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
   </categories>
