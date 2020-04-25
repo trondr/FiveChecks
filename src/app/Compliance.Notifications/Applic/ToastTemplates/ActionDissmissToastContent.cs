@@ -115,6 +115,28 @@ namespace Compliance.Notifications.Applic.ToastTemplates
                             }
                 }
             };
+            contentInfo.ContentSection3.IfSome(
+                c3 =>
+                {
+                    toastContent.Visual.BindingGeneric.Children.Add(new AdaptiveGroup
+                    {
+                        Children =
+                        {
+                            new AdaptiveSubgroup
+                            {
+                                Children =
+                                {
+                                    new AdaptiveText
+                                    {
+                                        Text = c3,
+                                        HintWrap = true
+                                    }
+                                }
+                            }
+
+                        }
+                    });
+                });
             return toastContent;
         }
     }

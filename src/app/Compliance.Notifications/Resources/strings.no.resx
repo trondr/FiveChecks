@@ -237,8 +237,8 @@
   <data name="MyDesktopFolderDescription" xml:space="preserve">
     <value>Min skrivebordsmappe</value>
   </data>
-  <data name="_String105" xml:space="preserve">
-    <value>_string</value>
+  <data name="PendingRebootNotification_Source_F0" xml:space="preserve">
+    <value>Omstartskilde: {0}</value>
   </data>
   <data name="_String103" xml:space="preserve">
     <value>_string</value>

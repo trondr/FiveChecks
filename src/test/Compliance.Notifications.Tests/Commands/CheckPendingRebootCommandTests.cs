@@ -50,10 +50,10 @@ namespace Compliance.Notifications.Tests.Commands
                         {
                             actualLoadPendingRebootCallCount++;
                             await Task.CompletedTask;
-                            return new PendingRebootInfo {RebootIsPending = isPendingReboot,Source=new List<RebootSource>()};
+                            return new PendingRebootInfo {RebootIsPending = isPendingReboot,Sources=new List<RebootSource>()};
                         },info => isNonCompliant
                         ,
-                        (s) => { 
+                        (info,s) => { 
                             actualShowPendingRebootToastNotificationCount++;
                             return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));
                         }, () =>

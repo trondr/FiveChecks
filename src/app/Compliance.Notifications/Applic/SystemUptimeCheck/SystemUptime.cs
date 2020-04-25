@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.ToastTemplates;
 using Compliance.Notifications.Resources;
+using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -59,7 +60,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
         }
 
         public static async Task<SystemUptimeInfo> LoadSystemUptimeInfo()

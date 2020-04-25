@@ -97,15 +97,6 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String105 {
-            get {
-                return ResourceManager.GetString("_String105", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         internal static string ChangePasswordMessageBoxCaption {
@@ -354,6 +345,15 @@ namespace Compliance.Notifications.Resources {
         internal static string PendingRebootNotification_Content2 {
             get {
                 return ResourceManager.GetString("PendingRebootNotification_Content2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reboot source: {0}.
+        /// </summary>
+        internal static string PendingRebootNotification_Source_F0 {
+            get {
+                return ResourceManager.GetString("PendingRebootNotification_Source_F0", resourceCulture);
             }
         }
         

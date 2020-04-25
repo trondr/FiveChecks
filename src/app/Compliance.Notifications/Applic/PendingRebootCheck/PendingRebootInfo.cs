@@ -9,9 +9,14 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
     {
         public bool RebootIsPending { get; set; }
 
-        public List<RebootSource> Source { get; internal set; } = new List<RebootSource>();
+        public List<RebootSource> Sources { get; internal set; } = new List<RebootSource>();
 
         public static PendingRebootInfo Default => new PendingRebootInfo() { RebootIsPending = false};
+
+        public string ToSourceDescription()
+        {
+            return string.Join(",", Sources);
+        }
     }
 
     public static class PendingRebootInfoExtensions
@@ -24,12 +29,12 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 return new PendingRebootInfo
                 {
                     RebootIsPending = org.RebootIsPending, 
-                    Source = new List<RebootSource>(org.RebootIsPending? org.Source : new List<RebootSource>())
+                    Sources = new List<RebootSource>(org.RebootIsPending? org.Sources : new List<RebootSource>())
                 };
             return new PendingRebootInfo
             {
                 RebootIsPending = true, 
-                Source = new List<RebootSource>(org.RebootIsPending? org.Source.Concat(add.Source): add.Source)
+                Sources = new List<RebootSource>(org.RebootIsPending? org.Sources.Concat(add.Sources): add.Sources)
             };
         }
     }

@@ -5,15 +5,20 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 {
     public class RebootSource: Record<RebootSource>
     {
-        private RebootSource(string value) { Value = value; }
+        private RebootSource(string value, string description)
+        {
+            Value = value;
+            Description = description;
+        }
         public string Value { get; set; }
-        public static RebootSource Cbs => new RebootSource("Cbs");
-        public static RebootSource Wuau => new RebootSource("Wuau");
-        public static RebootSource PendingFileRename => new RebootSource("PendingFileRename");
-        public static RebootSource SccmClient => new RebootSource("SccmClient");
-        public static RebootSource JoinDomain => new RebootSource("JoinDomain");
-        public static RebootSource ComputerNameRename => new RebootSource("ComputerNameRename");
-        public static RebootSource RunOnce => new RebootSource("RunOnce");
+        public string Description { get; set; }
+        public static RebootSource Cbs => new RebootSource("Cbs", "Component Based Servicing");
+        public static RebootSource Wuau => new RebootSource("Wuau", "Windows Update");
+        public static RebootSource PendingFileRename => new RebootSource("PendingFileRename", "Pending File Rename Operations");
+        public static RebootSource SccmClient => new RebootSource("SccmClient", "SCCM Client");
+        public static RebootSource JoinDomain => new RebootSource("JoinDomain", "Join Domain");
+        public static RebootSource ComputerNameRename => new RebootSource("ComputerNameRename", "Computer Rename");
+        public static RebootSource RunOnce => new RebootSource("RunOnce", "Run Once");
 
         public static RebootSource StringToRebootSource(string value)
         {
@@ -29,6 +34,11 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 default:
                     throw new ArgumentException($"Invalid reboot source: {value}");
             }
+        }
+
+        public override string ToString()
+        {
+            return this.Description;
         }
     }
 }

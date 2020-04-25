@@ -52,7 +52,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None);
         }
 
         public static async Task<DesktopDataInfo> LoadDesktopDataInfo()

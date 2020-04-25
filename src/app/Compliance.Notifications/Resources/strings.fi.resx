@@ -234,8 +234,8 @@
   <data name="_String102" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String105" xml:space="preserve">
-    <value>_string</value>
+  <data name="PendingRebootNotification_Source_F0" xml:space="preserve">
+    <value>Reboot source: {0}</value>
   </data>
   <data name="MyDesktopFolderDescription" xml:space="preserve">
     <value>My Desktop Folder</value>
