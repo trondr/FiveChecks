@@ -6,7 +6,7 @@
   <resources>
     <stringTable>
       <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">Compliance Notifications</string>
-      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disabled disk space check</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disable disk space check</string>
       <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled compliance disk space check will be skipped.</string>
       <string id="SUPPORTED_Windows_10_0">At least Windows Server 2016 or Windows 10</string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738">Disk Space</string>
