@@ -35,6 +35,14 @@ If disabled, compliance check toast notifications will not be shown to the user.
       </string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">Enable toast notifcations</string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help">Enable toast notifications. This is the main switch for toast notifactions from all applications and senders. If set to disable toast notifications will be disabled for all applications and senders.</string>
+      <string id="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8">Password Expiry Check</string>
+      <string id="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE">System Uptime Check</string>
+      <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0">Maximum uptime in hours</string>
+      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE">Disable system uptime check</string>
+      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5">Disable password expiry check</string>
+      <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621">Password expiry warning days</string>
+      <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help">Show password expiry warning this number of days before password expires.</string>
+      <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help">Number of hours the system can be up before notification about recommended reboot is shown to the users.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
@@ -48,6 +56,14 @@ If disabled, compliance check toast notifications will not be shown to the user.
       </presentation>
       <presentation id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">
         <checkBox refId="CHK_0F3A0CD7_C829_46B4_A4E0_4ADE7C849E66">Enable toast notifications</checkBox>
+      </presentation>
+      <presentation id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0">
+        <decimalTextBox refId="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" defaultValue="168">
+        </decimalTextBox>
+      </presentation>
+      <presentation id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621">
+        <decimalTextBox refId="DXT_BBF3BAE7_CAE9_4E6A_9477_CAC01A61018F" defaultValue="5">
+        </decimalTextBox>
       </presentation>
     </presentationTable>
   </resources>
