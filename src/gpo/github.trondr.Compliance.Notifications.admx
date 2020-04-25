@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.F2B87FD0_EB14_447C_8D5E_AA6EFDBD0339" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.B7559EE3_73EF_4562_B5DB_86902BCCFD0C" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -49,16 +49,12 @@
     <policy name="POL_315AEE27_3D8D_4679_A63F_47792344858C" class="Machine" displayName="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C)" explainText="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C_Help)" presentation="$(presentation.POL_315AEE27_3D8D_4679_A63F_47792344858C)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
-      <elements>
-        <boolean id="CHK_05F05809_3570_4862_9371_7115F07604F1" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
-          <trueValue>
-            <decimal value="1" />
-          </trueValue>
-          <falseValue>
-            <decimal value="0" />
-          </falseValue>
-        </boolean>
-      </elements>
+      <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
     </policy>
     <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
