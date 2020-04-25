@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.89114E13_0860_425E_B036_7876B1217B61" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.EB5DE963_FD93_4003_8885_15E57C69CC79" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -45,7 +45,7 @@
         </boolean>
       </elements>
     </policy>
-    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="User" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disable">
+    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="User" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="windows:SUPPORTED_WindowsVista" />
     </policy>
@@ -65,7 +65,7 @@
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enable">
+    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
