@@ -657,6 +657,7 @@ namespace Compliance.Notifications.Applic.Common
         /// <returns></returns>
         public static async Task<T> LoadInfo<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
         {
+            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
             var info = await loadInfo().ConfigureAwait(false);
             if (doubleCheck && isNonCompliant(info))
             {

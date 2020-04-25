@@ -18,7 +18,9 @@ namespace Compliance.Notifications.Applic.Common.Tests
             var actual = F.TryFunc(() =>
             {
                 throw new Exception("Test");
+#pragma warning disable 162
                 return new Result<int>(0);
+#pragma warning restore 162
             });
             actual.Match(Succ: i =>
                 {
@@ -57,7 +59,9 @@ namespace Compliance.Notifications.Applic.Common.Tests
             var actual = await F.AsyncTryFunc(async () =>
             {
                 throw new Exception("Test");
+#pragma warning disable 162
                 return await Task.FromResult(new Result<int>(0));
+#pragma warning restore 162
             });
             actual.Match(Succ: i =>
                 {
