@@ -106,7 +106,7 @@
       <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
-        <decimal id="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours" minValue="1" />
+        <decimal id="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" valueName="MaxUptimeHours" minValue="1" />
       </elements>
     </policy>
     <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" explainText="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="Disabled">
