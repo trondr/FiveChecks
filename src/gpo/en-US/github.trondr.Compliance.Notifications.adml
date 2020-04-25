@@ -41,6 +41,9 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <presentation id="POL_315AEE27_3D8D_4679_A63F_47792344858C">
         <checkBox refId="CHK_05F05809_3570_4862_9371_7115F07604F1" defaultChecked="true">Subtract sccm cache</checkBox>
       </presentation>
+      <presentation id="POL_F421E489_0680_4967_8C07_7763DEED6C58">
+        <checkBox refId="CHK_48AE66EF_F8E0_44E8_92C0_01220551FD37" defaultChecked="true">Enable compliance check toast notifications</checkBox>
+      </presentation>
     </presentationTable>
   </resources>
 </policyDefinitionResources>

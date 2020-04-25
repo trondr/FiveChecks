@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.EB5DE963_FD93_4003_8885_15E57C69CC79" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.B609A0F0_9E7D_45C8_9DDF_C01B500ACBD8" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -65,9 +65,19 @@
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
+    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" presentation="$(presentation.POL_F421E489_0680_4967_8C07_7763DEED6C58)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
+      <elements>
+        <boolean id="CHK_48AE66EF_F8E0_44E8_92C0_01220551FD37" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
+      </elements>
     </policy>
   </policies>
 </policyDefinitions>
