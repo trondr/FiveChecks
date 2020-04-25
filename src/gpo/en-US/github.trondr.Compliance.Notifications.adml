@@ -33,6 +33,8 @@
 If disabled, compliance check toast notifications will not be shown to the user. Compliance checks will still run but the result of the compliance check will not be show to the user as a toast notification.</string>
       <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">
       </string>
+      <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">Enable toast notifcations</string>
+      <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help">Enable toast notifications. This is the main switch for toast notifactions from all applications and senders. If set to disable toast notifications will be disabled for all applications and senders.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
@@ -43,6 +45,9 @@ If disabled, compliance check toast notifications will not be shown to the user.
       </presentation>
       <presentation id="POL_F421E489_0680_4967_8C07_7763DEED6C58">
         <checkBox refId="CHK_48AE66EF_F8E0_44E8_92C0_01220551FD37" defaultChecked="true">Enable compliance check toast notifications</checkBox>
+      </presentation>
+      <presentation id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">
+        <checkBox refId="CHK_0F3A0CD7_C829_46B4_A4E0_4ADE7C849E66">Enable toast notifications</checkBox>
       </presentation>
     </presentationTable>
   </resources>

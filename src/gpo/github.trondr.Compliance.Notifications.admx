@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.B609A0F0_9E7D_45C8_9DDF_C01B500ACBD8" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.12E0AFEE_26F5_4BF2_A0DF_E81655C546C4" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -70,6 +70,20 @@
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
         <boolean id="CHK_48AE66EF_F8E0_44E8_92C0_01220551FD37" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
+      </elements>
+    </policy>
+    <policy name="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D" class="User" displayName="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D)" explainText="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help)" presentation="$(presentation.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D)" key="Software\Microsoft\Windows\CurrentVersion\PushNotifications" valueName="ToastEnabled">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
+      <elements>
+        <boolean id="CHK_0F3A0CD7_C829_46B4_A4E0_4ADE7C849E66" key="Software\Microsoft\Windows\CurrentVersion\PushNotifications" valueName="ToastEnabled">
           <trueValue>
             <decimal value="1" />
           </trueValue>
