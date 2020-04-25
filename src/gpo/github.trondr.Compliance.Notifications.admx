@@ -43,7 +43,7 @@
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
-        <decimal id="DXT_0111451D_AE4A_4327_988E_0E67F1030953" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace" minValue="5" />
+        <decimal id="DXT_0111451D_AE4A_4327_988E_0E67F1030953" valueName="RequiredFreeDiskSpace" minValue="5" />
       </elements>
     </policy>
     <policy name="POL_315AEE27_3D8D_4679_A63F_47792344858C" class="Machine" displayName="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C)" explainText="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C_Help)" presentation="$(presentation.POL_315AEE27_3D8D_4679_A63F_47792344858C)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
