@@ -28,9 +28,9 @@
       <string id="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F_Help">Disable sccm client as source of pending reboot.</string>
       <string id="POL_31B89071_802C_4D69_A419_37FECD659AF5_Help">Disable Window Update as source of pending reboot.</string>
       <string id="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help">Disable component based servicing as source of pending reboot.</string>
-      <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58">Disable compliance check toast notifications</string>
-      <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58_Help">If enabled, compliance check toast notifications will not be shown to the user. Compliance checks will still run but the result of the compliance check will not be show to the user as a toast notification.
-If disabled, compliance check toast notifications will be shown to the user. The user will not be able to turn of notifications permanently for the compliance check notification source.</string>
+      <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58">Enable compliance check toast notifications</string>
+      <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58_Help">If enabled, compliance check toast notifications will be shown to the user. The user will not be able to turn of notifications permanently for the compliance check notification source.
+If disabled, compliance check toast notifications will not be shown to the user. Compliance checks will still run but the result of the compliance check will not be show to the user as a toast notification.</string>
       <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">
       </string>
     </stringTable>

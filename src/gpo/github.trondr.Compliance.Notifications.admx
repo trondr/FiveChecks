@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.1F689700_264D_4BFF_9DC8_42F3E96E07A2" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.89114E13_0860_425E_B036_7876B1217B61" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
