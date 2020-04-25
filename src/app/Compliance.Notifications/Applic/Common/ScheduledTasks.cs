@@ -18,7 +18,7 @@ namespace Compliance.Notifications.Applic.Common
     {
         public static FileInfo ExeFile { get; } = new FileInfo(Assembly.GetExecutingAssembly().Location);
 
-        public static ScheduledTaskInfo ComplianceCheck => new ScheduledTaskInfo("Compliance Notification Check", "Compliance Notification Check at workstation unlock", ExeFile, "CheckCompliance /requiredFreeDiskSpace=\"40\" /subtractSccmCache=\"True\" /maxUptimeHours=\"168\" /disableDiskSpaceCheck=\"False\" /disablePendingRebootCheck=\"False\" /disableSystemUptimeCheck=\"False\" /userInterfaceCulture=\"nb-NO\"",10);
+        public static ScheduledTaskInfo ComplianceCheck => new ScheduledTaskInfo("Compliance Notification Check", "Compliance Notification Check at workstation unlock", ExeFile, "CheckCompliance",10);
 
         public static ScheduledTaskInfo ComplianceSystemMeasurements => new ScheduledTaskInfo("Compliance System Measurement", "Measurement system compliance hourly", ExeFile, "MeasureSystemComplianceItems",11);
 
