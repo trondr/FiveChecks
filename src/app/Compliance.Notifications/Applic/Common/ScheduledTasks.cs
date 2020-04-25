@@ -49,6 +49,7 @@ namespace Compliance.Notifications.Applic.Common
             using (var td = ts.NewTask())
             {
                 td.RegistrationInfo.Description = taskDescription.Value;
+                td.Settings.MultipleInstances = TaskInstancesPolicy.StopExisting;
                 td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                 foreach (var trigger in triggers.Value)
                 {
@@ -72,6 +73,7 @@ namespace Compliance.Notifications.Applic.Common
                     using (var td = ts.NewTask())
                     {
                         td.RegistrationInfo.Description = taskDescription.Value;
+                        td.Settings.MultipleInstances = TaskInstancesPolicy.StopExisting;
                         td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                         foreach (var trigger in triggers.Value)
                         {
@@ -95,6 +97,7 @@ namespace Compliance.Notifications.Applic.Common
                     using (var td = ts.NewTask())
                     {
                         td.RegistrationInfo.Description = taskDescription.Value;
+                        td.Settings.MultipleInstances = TaskInstancesPolicy.StopExisting;
                         td.Actions.Add(new ExecAction($"\"{exeFile.Value.FullName}\"", arguments.Value, exeFile.Value.Directory.FullName));
                         foreach (var trigger in triggers.Value)
                         {
