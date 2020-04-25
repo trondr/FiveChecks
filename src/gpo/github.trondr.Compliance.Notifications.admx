@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.A7004A97_80A3_44B1_AEAE_521739CB34BB" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.394007E7_D730_4E6A_AF71_F9511FB8078E" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -22,6 +22,9 @@
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
     <category name="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" displayName="$(string.CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE)">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+    </category>
+    <category name="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" displayName="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
   </categories>
@@ -106,11 +109,11 @@
         <decimal id="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours" minValue="1" />
       </elements>
     </policy>
-    <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="Disabled">
+    <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" explainText="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help)" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="windows:SUPPORTED_WindowsVista" />
     </policy>
-    <policy name="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5" class="Machine" displayName="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5)" key="Software\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="Disabled">
+    <policy name="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5" class="Machine" displayName="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5)" explainText="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help)" key="Software\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="Disabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="windows:SUPPORTED_WindowsVista" />
     </policy>
@@ -119,6 +122,20 @@
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
         <decimal id="DXT_BBF3BAE7_CAE9_4E6A_9477_CAC01A61018F" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="PasswordExpiryWarning" />
+      </elements>
+    </policy>
+    <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />      
+      <elements>
+        <boolean id="CHK_1F62C124_E46A_4785_826C_B7DB7746FEC3" key="Software\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
       </elements>
     </policy>
   </policies>
