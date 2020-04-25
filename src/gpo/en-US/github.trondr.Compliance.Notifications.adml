@@ -47,6 +47,12 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled desktop data check will be skipped.</string>
       <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help">When this setting is enabled password expiry warning check will be skipped.</string>
       <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help">When this setting is enabled system update check will be skipped.</string>
+      <string id="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3">User interface culture</string>
+      <string id="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3_Help">Override default user interface culture.</string>
+      <string id="ITM_AB57B729_6578_43C4_8BAA_E8C223D57420">Norwegian (Bokmal)</string>
+      <string id="ITM_235D1690_D3ED_42EA_9B12_A2F51780359D">Swedish</string>
+      <string id="ITM_E0D20E35_E023_4F31_BBEF_0667CFB0C420">Finnish</string>
+      <string id="ITM_017B71F3_E68B_4945_9DDC_28E990291EAE">English (United States)</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
@@ -71,6 +77,9 @@ If disabled, compliance check toast notifications will not be shown to the user.
       </presentation>
       <presentation id="POL_74553E7F_F584_4420_AD33_E058561EF1BA">
         <checkBox refId="CHK_1F62C124_E46A_4785_826C_B7DB7746FEC3">Disable desktop data check</checkBox>
+      </presentation>
+      <presentation id="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3">
+        <dropdownList refId="DST_421420F1_A191_4262_BE39_73C6CB9C6DF4" defaultItem="0">User interface culture</dropdownList>
       </presentation>
     </presentationTable>
   </resources>

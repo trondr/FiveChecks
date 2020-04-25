@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.ADFBCD50_61C6_4B77_95B3_3E25D0F5338B" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.9A4C23A4_BC27_450C_A880_015D96A77DFC" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -136,6 +136,34 @@
             <decimal value="0" />
           </falseValue>
         </boolean>
+      </elements>
+    </policy>
+    <policy name="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3" class="User" displayName="$(string.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3)" explainText="$(string.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3_Help)" presentation="$(presentation.POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3)" key="Software\github.trondr\Compliance.Notifications" valueName="UserInterfaceCulture">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
+      <elements>
+        <enum id="DST_421420F1_A191_4262_BE39_73C6CB9C6DF4" key="Software\github.trondr\Compliance.Notifications" valueName="UserInterfaceCulture">
+          <item displayName="$(string.ITM_AB57B729_6578_43C4_8BAA_E8C223D57420)">
+            <value>
+              <string>nb-NO</string>
+            </value>
+          </item>
+          <item displayName="$(string.ITM_235D1690_D3ED_42EA_9B12_A2F51780359D)">
+            <value>
+              <string>sv-SE</string>
+            </value>
+          </item>
+          <item displayName="$(string.ITM_E0D20E35_E023_4F31_BBEF_0667CFB0C420)">
+            <value>
+              <string>fi-FI</string>
+            </value>
+          </item>
+          <item displayName="$(string.ITM_017B71F3_E68B_4945_9DDC_28E990291EAE)">
+            <value>
+              <string>en-US</string>
+            </value>
+          </item>
+        </enum>
       </elements>
     </policy>
   </policies>
