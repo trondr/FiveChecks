@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.B7559EE3_73EF_4562_B5DB_86902BCCFD0C" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.CC2CA0AB_4621_4207_84A3_534CD2B31377" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -11,20 +11,20 @@
     </definitions>
   </supportedOn>
   <categories>
-    <category name="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" displayName="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B)" />
+    <category name="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" displayName="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B)" explainText="$(string.CAT_427FDEB4_0BE3_47C9_897A_F074E016758B_Help)" />
     <category name="CAT_7936670B_8E03_454A_A995_1379FF4D4738" displayName="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738)" explainText="$(string.CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
     <category name="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" displayName="$(string.CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E)" explainText="$(string.CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
-    <category name="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" displayName="$(string.CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8)">
+    <category name="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" displayName="$(string.CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8)" explainText="$(string.CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
-    <category name="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" displayName="$(string.CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE)">
+    <category name="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" displayName="$(string.CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE)" explainText="$(string.CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
-    <category name="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" displayName="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E)">
+    <category name="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" displayName="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E)" explainText="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E_Help)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
   </categories>
@@ -39,7 +39,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15" class="Machine" displayName="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" explainText="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help)" presentation="$(presentation.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" >
+    <policy name="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15" class="Machine" displayName="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" explainText="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help)" presentation="$(presentation.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
@@ -92,7 +92,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D" class="User" displayName="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D)" explainText="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help)" key="Software\Microsoft\Windows\CurrentVersion\PushNotifications" valueName="ToastEnabled" >
+    <policy name="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D" class="User" displayName="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D)" explainText="$(string.POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help)" key="Software\Microsoft\Windows\CurrentVersion\PushNotifications" valueName="ToastEnabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
@@ -102,7 +102,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0" class="Machine" displayName="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" explainText="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help)" presentation="$(presentation.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" >
+    <policy name="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0" class="Machine" displayName="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" explainText="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help)" presentation="$(presentation.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck">
       <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
@@ -129,7 +129,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621" class="Machine" displayName="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" explainText="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help)" presentation="$(presentation.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" >
+    <policy name="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621" class="Machine" displayName="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" explainText="$(string.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help)" presentation="$(presentation.POL_80BCDF65_3981_4EE7_AD8D_D61034F05621)" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon">
       <parentCategory ref="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
