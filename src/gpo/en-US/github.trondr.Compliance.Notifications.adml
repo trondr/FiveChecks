@@ -59,12 +59,6 @@ If disabled, compliance check toast notifications will not be shown to the user.
         <decimalTextBox refId="DXT_0111451D_AE4A_4327_988E_0E67F1030953" defaultValue="40">Required free disk space in giga bytes.</decimalTextBox>
       </presentation>
       <presentation id="POL_315AEE27_3D8D_4679_A63F_47792344858C" />
-      <presentation id="POL_F421E489_0680_4967_8C07_7763DEED6C58">
-        <checkBox refId="CHK_48AE66EF_F8E0_44E8_92C0_01220551FD37" defaultChecked="true">Enable compliance check toast notifications</checkBox>
-      </presentation>
-      <presentation id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">
-        <checkBox refId="CHK_0F3A0CD7_C829_46B4_A4E0_4ADE7C849E66">Enable toast notifications</checkBox>
-      </presentation>
       <presentation id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0">
         <decimalTextBox refId="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" defaultValue="168">
         </decimalTextBox>
