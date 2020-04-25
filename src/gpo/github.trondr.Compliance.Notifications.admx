@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.2D03E795_10A5_4CBE_BC4B_3E4F1B0089BF" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.1F689700_264D_4BFF_9DC8_42F3E96E07A2" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -45,7 +45,7 @@
         </boolean>
       </elements>
     </policy>
-    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="User" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disable">
+    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="User" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disable">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="windows:SUPPORTED_WindowsVista" />
     </policy>
@@ -63,6 +63,10 @@
     </policy>
     <policy name="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A" class="User" displayName="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A)" explainText="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceComponentBasedServicing">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enable">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
   </policies>
