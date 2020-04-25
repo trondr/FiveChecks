@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.50A37102_FD16_4379_BB4C_447670BE6E47" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.F2B87FD0_EB14_447C_8D5E_AA6EFDBD0339" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -39,14 +39,14 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15" class="Machine" displayName="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" explainText="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help)" presentation="$(presentation.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace">
+    <policy name="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15" class="Machine" displayName="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" explainText="$(string.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15_Help)" presentation="$(presentation.POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
         <decimal id="DXT_0111451D_AE4A_4327_988E_0E67F1030953" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="RequiredFreeDiskSpace" minValue="5" />
       </elements>
     </policy>
-    <policy name="POL_315AEE27_3D8D_4679_A63F_47792344858C" class="Machine" displayName="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C)" explainText="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C_Help)" presentation="$(presentation.POL_315AEE27_3D8D_4679_A63F_47792344858C)" key="Software\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
+    <policy name="POL_315AEE27_3D8D_4679_A63F_47792344858C" class="Machine" displayName="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C)" explainText="$(string.POL_315AEE27_3D8D_4679_A63F_47792344858C_Help)" presentation="$(presentation.POL_315AEE27_3D8D_4679_A63F_47792344858C)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="SubtractSccmCache">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
@@ -70,19 +70,19 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_2F12BF2B_F5F7_43D5_8165_765D40195887" class="Machine" displayName="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887)" explainText="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourcePendingFileRenameOperations">
+    <policy name="POL_2F12BF2B_F5F7_43D5_8165_765D40195887" class="Machine" displayName="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887)" explainText="$(string.POL_2F12BF2B_F5F7_43D5_8165_765D40195887_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourcePendingFileRenameOperations">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F" class="Machine" displayName="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F)" explainText="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceSccmClient">
+    <policy name="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F" class="Machine" displayName="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F)" explainText="$(string.POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceSccmClient">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_31B89071_802C_4D69_A419_37FECD659AF5" class="Machine" displayName="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5)" explainText="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceWindowsUpdate">
+    <policy name="POL_31B89071_802C_4D69_A419_37FECD659AF5" class="Machine" displayName="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5)" explainText="$(string.POL_31B89071_802C_4D69_A419_37FECD659AF5_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceWindowsUpdate">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A" class="Machine" displayName="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A)" explainText="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help)" key="Software\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceComponentBasedServicing">
+    <policy name="POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A" class="Machine" displayName="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A)" explainText="$(string.POL_2686D083_0D4D_49CC_9E01_0410F8AAD16A_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableRebootSourceComponentBasedServicing">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
@@ -114,7 +114,7 @@
         </boolean>
       </elements>
     </policy>
-    <policy name="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0" class="Machine" displayName="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" explainText="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help)" presentation="$(presentation.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" key="Software\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours">
+    <policy name="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0" class="Machine" displayName="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" explainText="$(string.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help)" presentation="$(presentation.POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="MaxUptimeHours">
       <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
