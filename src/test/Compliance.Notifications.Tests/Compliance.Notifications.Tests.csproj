@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applic\FTests.cs" />
+    <Compile Include="Applic\RebootSourceExtensionsTests.cs" />
     <Compile Include="Applic\ScheduledTasksTests.cs" />
     <Compile Include="Applic\CheckDesktopDataCommandTests.cs" />
     <Compile Include="Applic\CheckDiskSpaceCommandTests.cs" />
@@ -87,6 +88,8 @@
       <Name>Compliance.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Applic\PendingRebootCheck\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -93,7 +93,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             var rebootPendingRegistryValueName = "PendingFileRenameOperations";
             var rebootIsPending = RegistryOperations.MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
                 rebootPendingRegistryValueName);
-            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRename } : new List<RebootSource>();
+            var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRenameOperations } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Sources = rebootSource };
             Logging.DefaultLogger.Info($@"Pending file rename operation pending reboot check result: {pendingRebootInfo.ObjectToString()}");
             return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using LanguageExt.Common;
@@ -22,7 +23,13 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
-            bool IsNonCompliant(PendingRebootInfo info) => info.RebootIsPending;
+
+            bool IsNonCompliant(PendingRebootInfo info)
+            {
+                var newInfo = info.RemoveRebootSources(RebootSource.AllSources.Where(source => source.IsDisabled()));
+                return newInfo.RebootIsPending;
+            }
+
             return await CheckPendingRebootPure(
                 () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,

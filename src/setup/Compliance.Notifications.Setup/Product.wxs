@@ -140,10 +140,6 @@
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Value="[#ProductExe]" Type="string" Action="write" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExeBaseName).exe" Name="path" Value="[TargetFolder]" Type="string" Action="write" />
 			</Component>
-      <Component Id="LanguageExt_Core" Guid="*">
-        <File Id="LanguageExt_Core_Dll" Name="LanguageExt.Core.dll" Source="$(var.ProductExeReleaseFolder)\LanguageExt.Core.dll" KeyPath="yes"/>
-      </Component>
-      
       <Component Id="CommonServiceLocator" Guid="*">
         <File Id="CommonServiceLocatorDll" Name="CommonServiceLocator.dll" Source="$(var.ProductExeReleaseFolder)\CommonServiceLocator.dll" KeyPath="yes"/>
       </Component>
@@ -158,6 +154,9 @@
       <Component Id="GalaSoft_MvvmLight_Platform" Guid="*">
         <File Id="GalaSoft_MvvmLight_Platform_Dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Platform.dll" KeyPath="yes"/>
         <File Id="GalaSoft_MvvmLight_Platform_Pdb" Name="GalaSoft.MvvmLight.Platform.pdb" Source="$(var.ProductExeReleaseFolder)\GalaSoft.MvvmLight.Platform.pdb" KeyPath="no"/>
+      </Component>
+      <Component Id="LanguageExt_Core" Guid="*">
+        <File Id="LanguageExt_Core_Dll" Name="LanguageExt.Core.dll" Source="$(var.ProductExeReleaseFolder)\LanguageExt.Core.dll" KeyPath="yes"/>
       </Component>
       <Component Id="log4Net" Guid="*">
         <File Id="log4Net_Dll" Name="log4Net.dll" Source="$(var.ProductExeReleaseFolder)\log4Net.dll" KeyPath="yes"/>
@@ -184,6 +183,9 @@
       </Component>
       <Component Id="System_Buffers" Guid="*">
         <File Id="System_Buffers_Dll" Name="System.Buffers.dll" Source="$(var.ProductExeReleaseFolder)\System.Buffers.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="System_Collections_Immutable" Guid="*">
+        <File Id="System_Collections_Immutable_Dll" Name="System.Collections.Immutable.dll" Source="$(var.ProductExeReleaseFolder)\System.Collections.Immutable.dll" KeyPath="yes"/>
       </Component>
       <Component Id="System_Management_Automation" Guid="*">
         <File Id="System_Management_Automation_Dll" Name="System.Management.Automation.dll" Source="$(var.ProductExeReleaseFolder)\System.Management.Automation.dll" KeyPath="yes"/>

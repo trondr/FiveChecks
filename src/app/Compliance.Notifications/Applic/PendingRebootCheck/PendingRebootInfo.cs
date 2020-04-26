@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using LanguageExt;
 
 namespace Compliance.Notifications.Applic.PendingRebootCheck
@@ -36,6 +38,22 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 RebootIsPending = true, 
                 Sources = new List<RebootSource>(org.RebootIsPending? org.Sources.Concat(add.Sources): add.Sources)
             };
+        }
+
+        public static PendingRebootInfo RemoveSource(this PendingRebootInfo org, RebootSource rebootSource)
+        {
+            if (org == null) throw new ArgumentNullException(nameof(org));
+            var sources = org.Sources.Where(source => source.Value != rebootSource.Value).ToList();
+            return new PendingRebootInfo {RebootIsPending = sources.Count > 0,Sources = sources};
+        }
+
+        public static PendingRebootInfo RemoveRebootSources(this PendingRebootInfo org, IEnumerable<RebootSource> rebootSources)
+        {
+            if (rebootSources == null) throw new ArgumentNullException(nameof(rebootSources));
+            var rebootSourceList = rebootSources.ToList();
+            var firstRebootSource = rebootSourceList.FirstOrDefault();
+            var remainingRebootSources = rebootSourceList.Tail();
+            return firstRebootSource != null ? org.RemoveSource(firstRebootSource).RemoveRebootSources(remainingRebootSources) : org;
         }
     }
 }

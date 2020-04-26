@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.PendingRebootCheck;
@@ -28,8 +29,8 @@ namespace Compliance.Notifications.Tests.ComplianceItems
         {
             var r1 = new PendingRebootInfo {RebootIsPending = true, Sources = new List<RebootSource> {RebootSource.Cbs}};
             var r2 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Wuau } };
-            var r3 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRename } };
-            var expected  = new PendingRebootInfo {RebootIsPending = true,Sources=new List<RebootSource> {RebootSource.Cbs, RebootSource.Wuau, RebootSource.PendingFileRename } };
+            var r3 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
+            var expected  = new PendingRebootInfo {RebootIsPending = true,Sources=new List<RebootSource> {RebootSource.Cbs, RebootSource.Wuau, RebootSource.PendingFileRenameOperations } };
             var actual = r1.Update(r2).Update(r3);
             AssertAreEqual(expected, actual);
         }
@@ -40,8 +41,8 @@ namespace Compliance.Notifications.Tests.ComplianceItems
         {
             var r1 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Cbs } };
             var r2 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { RebootSource.Wuau } };
-            var r3 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRename } };
-            var expected = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Cbs, RebootSource.PendingFileRename } };
+            var r3 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
+            var expected = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Cbs, RebootSource.PendingFileRenameOperations } };
             var actual = r1.Update(r2).Update(r3);
             AssertAreEqual(expected, actual);
         }
@@ -52,13 +53,13 @@ namespace Compliance.Notifications.Tests.ComplianceItems
         {
             var r1 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { RebootSource.Cbs } };
             var r2 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { RebootSource.Wuau } };
-            var r3 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { RebootSource.PendingFileRename } };
+            var r3 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
             var expected = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { } };
             var actual = r1.Update(r2).Update(r3);
             AssertAreEqual(expected, actual);
         }
 
-        [Test()]
+        [Test]
         [Category(TestCategory.UnitTests)]
         public async Task SaveLoadSystemComplianceItemResult_PendingRebootInfo_Test_Success()
         {
@@ -75,6 +76,53 @@ namespace Compliance.Notifications.Tests.ComplianceItems
                 return Unit.Default;
             });
 
+        }
+
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        public void RemoveSourceTest()
+        {
+            var r1 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Cbs } };
+            var r1bk = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Cbs } };
+            var r2 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Wuau } };
+            var r2bk = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Wuau } };
+            var r3 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
+            var r3bk = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
+            var expected1 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Wuau , RebootSource.PendingFileRenameOperations} };
+            var actual1 = r1.Update(r2).Update(r3).RemoveSource(RebootSource.Cbs);
+            AssertAreEqual(expected1, actual1);
+            var expected2 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.PendingFileRenameOperations } };
+            var actual2 = actual1.RemoveSource(RebootSource.Wuau);
+            AssertAreEqual(expected2, actual2);
+            var expected3 = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource> { } };
+            var actual3 = actual2.RemoveSource(RebootSource.PendingFileRenameOperations);
+            AssertAreEqual(expected3, actual3);
+            AssertAreEqual(r1, r1bk);//Verify that no mutation has occured.
+            AssertAreEqual(r2, r2bk);
+            AssertAreEqual(r3, r3bk);
+
+        }
+        
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        public void RemoveRebootSourcesTest1()
+        {
+            var r1 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource>(RebootSource.AllSources) };
+            Assert.AreEqual(RebootSource.AllSources.Count,r1.Sources.Count);
+            var expected = new PendingRebootInfo { RebootIsPending = false, Sources = new List<RebootSource>() };
+            var actual = r1.RemoveRebootSources(RebootSource.AllSources);
+            AssertAreEqual(expected, actual);
+        }
+
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        public void RemoveRebootSourcesTest2()
+        {
+            var r1 = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource>(RebootSource.AllSources) };
+            Assert.AreEqual(RebootSource.AllSources.Count, r1.Sources.Count);
+            var expected = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource> { RebootSource.Wuau, RebootSource.PendingFileRenameOperations, RebootSource.SccmClient, RebootSource.JoinDomain, RebootSource.RunOnce}};
+            var actual = r1.RemoveRebootSources(RebootSource.AllSources.Where(source => source.Value.StartsWith("C")));
+            AssertAreEqual(expected, actual);
         }
     }
 }
