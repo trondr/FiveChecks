@@ -205,13 +205,13 @@
     <value>Gjevnlig omstart av datamaskinen øker sikkerheten og stabiliteten til Windows. På forhånd takk!</value>
   </data>
   <data name="DesktopData_Content" xml:space="preserve">
-    <value>Rydd opp og lagre dokumenter i 'Mine Dokumenter', i OneDrive mappen eller ett annet passende sted hvor det er etablert rutiner for sikkerhetskopi. Husk, dokumenter på skrivbordet kan bli tatt av vinden og blåse ut av vinduet og bli borte for alltid.</value>
+    <value>Lagre dokumenter i "Mine Dokumenter", i OneDrive mappen eller ett annet passende sted hvor det er etablert rutiner for sikkerhetskopi. Husk, dokumenter på skrivbordet kan bli tatt av vinden og blåse ut av vinduet og bli borte for alltid.</value>
   </data>
   <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
     <value>Omstart...</value>
   </data>
   <data name="DesktopData_Content2" xml:space="preserve">
-    <value>Kun snarveier til applikasjoner og data mapper skal lagres på skrivbordet. Klikk "Rydd..." knappen for å lage snarvei til 'Mine Dokumenter' og åpne 'Mine Dokumenter' for å starte manuell rydding av skrivebordet.</value>
+    <value>Kun snarveier til applikasjoner, dokumenter og datamapper skal lagres på skrivbordet. Klikk "Rydd..." knappen for å lage snarvei til "Mine Dokumenter" og starte manuell rydding av skrivebordet.</value>
   </data>
   <data name="MyDocumentsFolderName" xml:space="preserve">
     <value>Mine Dokumenter</value>

@@ -133,7 +133,7 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get organized and save your documents and files in &apos;My Documents&apos; or on OneDrive or other suitable  place where backup routines are in place. Remember, documents on the desktop can be blown out the window and be gone forever..
+        ///   Looks up a localized string similar to Save your documents and files in &quot;My Documents&quot; or on OneDrive or other suitable  place where backup routines are in place. Remember, documents on the desktop can blow out the window and be gone forever..
         /// </summary>
         internal static string DesktopData_Content {
             get {
@@ -142,7 +142,7 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only shortcuts to applications and data folders should be located on the Desktop. Click the &apos;Cleanup...&apos; button to create a shortcut to &apos;My Documents&apos; and then open &apos;My Documents&apos; so that you can start manually moving your documents..
+        ///   Looks up a localized string similar to Only shortcuts to applications, documents and data folders should be located on the Desktop. Click the &apos;Cleanup...&apos; button to create a shortcut to &quot;My Documents&quot; and start manually moving your documents..
         /// </summary>
         internal static string DesktopData_Content2 {
             get {
