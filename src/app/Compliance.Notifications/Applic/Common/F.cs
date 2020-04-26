@@ -656,5 +656,102 @@ namespace Compliance.Notifications.Applic.Common
             }
             return info;
         }
+
+        public static object GetPolicyValue(Context context,Option<string> category, string valueName, object defaultValue)
+        {
+            var hive = context.ContextToRegistryHive();
+            var policySubKeyPath = GetPolicySubKeyPath(category);
+            using (var key = hive.OpenSubKey(policySubKeyPath))
+            {
+                var value = key?.GetValue(valueName, defaultValue);
+                return value ?? defaultValue;
+            }
+        }
+
+        public static string GetPolicySubKeyPath(Option<string> category)
+        {
+            return category.Match(
+                cat => $"Software\\Policies\\{ApplicationInfo.ApplicationCompanyName}\\{ApplicationInfo.ApplicationProductName}\\{cat}",
+                () => $"Software\\Policies\\{ApplicationInfo.ApplicationCompanyName}\\{ApplicationInfo.ApplicationProductName}");
+        }
+        
+        public static bool GetBooleanPolicyValue(Context context, Option<string> category, string valueName, bool defaultValue)
+        {
+            var value = GetPolicyValue(context, category, valueName, defaultValue);
+            return ObjectToBoolean(value,defaultValue);
+        }
+
+        public static int GetIntegerPolicyValue(Context context, Option<string> category, string valueName, int defaultValue)
+        {
+            var value = GetPolicyValue(context, category, valueName, defaultValue);
+            return ObjectToInteger(value, defaultValue);
+        }
+
+        private static int ObjectToInteger(object value, int defaultValue)
+        {
+            try
+            {
+                var intValue = value != null ? Convert.ToInt32(value, CultureInfo.InvariantCulture) : defaultValue;
+                return intValue;
+            }
+            catch (Exception e)
+            {
+                Logging.DefaultLogger.Debug($"Failed to convert object value {value} to integer. {e.ToExceptionMessage()}");
+                return defaultValue;
+            }
+        }
+
+        public static bool ObjectToBoolean(object value, bool defaultValue)
+        {
+            try
+            {
+                var booleanValue = value != null ? Convert.ToBoolean(value,CultureInfo.InvariantCulture) : defaultValue;
+                return booleanValue;
+            }
+            catch (Exception e)
+            {
+                Logging.DefaultLogger.Debug($"Failed to convert object value {value} to boolean. {e.ToExceptionMessage()}");
+                return defaultValue;
+            }
+        }
+
+        public static bool ToBoolean(this int i)
+        {
+            return i != 0;
+        }
+
+        public static Option<string> GetPolicyCategory(this Type type)
+        {
+            if (type == null) return Option<string>.None;
+            if (type.Namespace == null) return Option<string>.None;
+            var segments = type.Namespace.Split('.');
+            return segments[segments.Length - 1];
+        }
+
+        public static RegistryKey ContextToRegistryHive(this Context context)
+        {
+            switch (context)
+            {
+                case Context.Machine:
+                    return Registry.LocalMachine;
+                case Context.User:
+                    return Registry.CurrentUser;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(context), context, null);
+            }
+        }
+
+        public static bool PolicyCategoryIsDisabled(Option<string> policyCategory, bool defaultValue)
+        {
+            var isDisabled = F.GetBooleanPolicyValue(Context.Machine, policyCategory, "Disabled", defaultValue);
+            if (isDisabled) Logging.DefaultLogger.Debug($"{policyCategory} is disabled.");
+            return isDisabled;
+        }
+    }
+
+    public enum Context
+    {
+        Machine,
+        User
     }
 }

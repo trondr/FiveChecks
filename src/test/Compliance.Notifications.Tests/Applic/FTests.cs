@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Tests.Common;
 using LanguageExt.Common;
 using NUnit.Framework;
 using Pri.LongPath;
 
-namespace Compliance.Notifications.Applic.Common.Tests
+namespace Compliance.Notifications.Tests.Applic
 {
     [TestFixture]
     public class FTests
@@ -95,14 +96,7 @@ namespace Compliance.Notifications.Applic.Common.Tests
                     return 1;
                 });
         }
-    }
-}
 
-namespace Compliance.Notifications.Tests.Applic.Common
-{
-    [TestFixture()]
-    public class FTests
-    {
         [Test()]
         [TestCase(1024L, "1 KB")]
         [TestCase(1000000L, "977 KB")]
@@ -125,12 +119,21 @@ namespace Compliance.Notifications.Tests.Applic.Common
             var shortCutPath = Path.Combine(desktopPath, "Miiine Dokumenter.lnk");
             var myDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var explorerExe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe");
-            var actual = F.CreateShortcut(shortCutPath,$"\"{explorerExe}\"",$"/root,\"{myDocumentsFolder}\"","Miiine dokumeeenter", true);
+            var actual = F.CreateShortcut(shortCutPath, $"\"{explorerExe}\"", $"/root,\"{myDocumentsFolder}\"", "Miiine dokumeeenter", true);
 
             var shortCutPath2 = Path.Combine(desktopPath, "Miiine Desktop.lnk");
             var myDesktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             var actual2 = F.CreateShortcut(shortCutPath2, $"\"{explorerExe}\"", $"/root,\"{myDesktopFolder}\"", "Miiin Desktop", true);
 
+        }
+
+        [Test()]
+        public void GetPolicyCategoryTest_SomeType()
+        {
+            var actual = typeof(CheckPendingRebootCommand).GetPolicyCategory();
+            actual.IfNone(() => Assert.Fail("Did not expect None as result."));
+            var expected = "PendingRebootCheck";
+            actual.IfSome(s => Assert.AreEqual(expected, s));
         }
     }
 }
