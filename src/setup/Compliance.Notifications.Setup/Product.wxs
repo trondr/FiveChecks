@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?define CompanyName="github.com.trondr" ?>
+<?define CompanyName="github.trondr" ?>
 <?define ProductName="Compliance.Notifications" ?>
 <?define ProductExeBaseName="Compliance.Notifications" ?>
 <?define ProductExeReleaseFolder="..\..\..\build\app" ?>
@@ -116,7 +116,7 @@
       <Component Id="ApplicationShortcut" Guid="*">
         <Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.ProductName)" Description="$(var.ProductName)" Target="[TargetFolder]$(var.ProductExeBaseName).exe" WorkingDirectory="TargetFolder">
           <!--AUMID-->
-          <ShortcutProperty Key="System.AppUserModel.ID" Value="github.com.trondr.Compliance.Notifications"/>
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="$(var.CompanyName).$(var.ProductName)"/>
           <!--COM CLSID, specifying which CLSID to activate when toast clicked-->
           <ShortcutProperty Key="System.AppUserModel.ToastActivatorCLSID" Value="{2DE9CA80-6322-4AE2-8FB5-3435F6976711}"/>
         </Shortcut>
