@@ -119,7 +119,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             string companyName, string tag,
             string groupName)
         {
-            return await F.ShowToastNotification(async () =>
+            return await ToastHelper.ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate, companyName, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);

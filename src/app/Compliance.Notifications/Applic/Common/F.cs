@@ -13,15 +13,11 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Data.Xml.Dom;
-using Windows.UI.Notifications;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Resources;
-using GalaSoft.MvvmLight.Messaging;
 using LanguageExt;
 using LanguageExt.Common;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Directory = Pri.LongPath.Directory;
@@ -47,21 +43,7 @@ namespace Compliance.Notifications.Applic.Common
                     );
         }
         
-        public static async Task<Result<ToastNotificationVisibility>> ShowToastNotification(Func<Task<ToastContent>> buildToastContent,string tag, string groupName)
-        {
-            if (buildToastContent == null) throw new ArgumentNullException(nameof(buildToastContent));
-            DesktopNotificationManagerCompat.RegisterAumidAndComServer<MyNotificationActivator>("github.com.trondr.Compliance.Notifications");
-            DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
-            var toastContent = await buildToastContent().ConfigureAwait(false);
-            var doc = new XmlDocument();
-            var toastXmlContent = toastContent.GetContent();
-            Logging.DefaultLogger.Debug(toastXmlContent);
-            doc.LoadXml(toastContent.GetContent());
-            var toast = new ToastNotification(doc){Tag = tag, Group = groupName};
-            DesktopNotificationManagerCompat.CreateToastNotifier().Show(toast);
-            Messenger.Default.Send(new RegisterToastNotificationMessage(groupName));
-            return new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show);
-        }
+        
 
         public static async Task<string> GetGreeting()
         {

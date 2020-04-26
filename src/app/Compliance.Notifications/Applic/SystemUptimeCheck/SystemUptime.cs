@@ -10,7 +10,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Compliance.Notifications.Applic.SystemUptimeCheck
 {
-    public static class SystemUptime
+    public static class SystemUptime 
     {
         /// <summary>
         /// Get the system uptime
@@ -40,7 +40,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
 
         public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string companyName, string tag, string groupName, TimeSpan systemUptime)
         {
-            return await F.ShowToastNotification(async () =>
+            return await ToastHelper.ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckSystemUptimeToastContentInfo(companyName, groupName, systemUptime).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);

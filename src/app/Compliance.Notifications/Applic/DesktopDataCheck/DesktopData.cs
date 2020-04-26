@@ -33,7 +33,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
 
         public static async Task<Result<ToastNotificationVisibility>> ShowDesktopDataToastNotification(DesktopDataInfo desktopDataInfo, string companyName,string tag, string groupName)
         {
-            return await F.ShowToastNotification(async () =>
+            return await ToastHelper.ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckDesktopDataToastContentInfo(companyName, groupName, desktopDataInfo).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);

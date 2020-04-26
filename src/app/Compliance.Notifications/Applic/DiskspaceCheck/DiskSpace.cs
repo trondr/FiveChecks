@@ -93,7 +93,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         public static async Task<Result<ToastNotificationVisibility>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount,
             string companyName, string tag, string groupName)
         {
-            return await F.ShowToastNotification(async () =>
+            return await ToastHelper.ShowToastNotification(async () =>
             {
                 var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
