@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Tests.Common;
+using NUnit.Framework;
 
-namespace Compliance.Notifications.Applic.Common.Tests
+namespace Compliance.Notifications.Tests.Applic
 {
     [TestFixture]
     public class ScheduledTasksTests
