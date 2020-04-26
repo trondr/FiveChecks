@@ -82,7 +82,7 @@
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
     </policy>
-    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.com.trondr.Compliance.Notifications" valueName="Enabled">
+    <policy name="POL_F421E489_0680_4967_8C07_7763DEED6C58" class="User" displayName="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58)" explainText="$(string.POL_F421E489_0680_4967_8C07_7763DEED6C58_Help)" key="Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\github.trondr.Compliance.Notifications" valueName="Enabled">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
