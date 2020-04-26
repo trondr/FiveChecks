@@ -13,6 +13,7 @@ using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Applic.SystemUptimeCheck;
 using GalaSoft.MvvmLight.Messaging;
+using LanguageExt;
 using LanguageExt.Common;
 using NCmdLiner.Attributes;
 
@@ -156,7 +157,17 @@ namespace Compliance.Notifications
                     exception => new Result<int>(exception));
             return await Task.FromResult(result).ConfigureAwait(false);
         }
-    }
 
-    
+#if DEBUG
+        [Command(Description = "Download images so the images.")]
+        public static async Task<Result<int>> DownloadImages(
+            //[RequiredCommandParameter(Description = "Image cache directory",ExampleValue = @"c:\temp\ImageCache",AlternativeName = "dd")]
+            //string imageCacheDirectory
+            )
+        {
+            await F.DownloadImages(Enumerable.Range(0, 1000)).ConfigureAwait(false);
+            return new Result<int>();
+        }
+#endif
+    }
 }

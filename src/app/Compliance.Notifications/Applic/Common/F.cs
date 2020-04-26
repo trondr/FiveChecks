@@ -747,6 +747,29 @@ namespace Compliance.Notifications.Applic.Common
             if (isDisabled) policyCategory.IfSome(c => Logging.DefaultLogger.Debug($"{c} is disabled."));
             return isDisabled;
         }
+
+        public static async Task DownloadImages(IEnumerable<int> range)
+        {
+            var remaining = range.Select(async i =>
+                {
+                    var imageUri = new Uri($"https://picsum.photos/364/202?image={i}");
+                    var downloaded = await F.DownloadImageToDisk(imageUri).ConfigureAwait(false);
+                    var optionalImageIndex = downloaded.Match(uri =>
+                    {
+                        Logging.DefaultLogger.Info($"{i:0000}:{uri.LocalPath}");
+                        return Option<int>.None;
+                    }, () =>
+                    {
+                        Logging.DefaultLogger.Info($"{i:0000}: None");
+                        return new Some<int>(i);
+                    });
+                    return optionalImageIndex;
+                }).Select(task => task.Result)
+                .Where(ints => ints.IsSome)
+                .Select(ints => ints.Match(i => i,() => -1)).ToArray();
+            if(remaining.Length > 0)
+                await DownloadImages(remaining).ConfigureAwait(false);
+        }
     }
 
     public enum Context
