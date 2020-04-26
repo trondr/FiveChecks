@@ -113,17 +113,30 @@ namespace Compliance.Notifications
             var desktopDataResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
-                if(!disableDiskSpaceCheck)
+                if (!CheckDiskSpaceCommand.IsDisabled(disableDiskSpaceCheck))
+                {
                     diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
-                if (!disablePendingRebootCheck)
-                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
-                if (!disablePasswordExpiryCheck)
-                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
-                if (!disableSystemUptimeCheck)
-                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(maxUptimeHours).ConfigureAwait(false);
-                if (!disableDesktopDataCheck)
-                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData().ConfigureAwait(false);
+                }
 
+                if (!CheckPendingRebootCommand.IsDisabled(disablePendingRebootCheck))
+                {
+                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+                }
+
+                if (!CheckPasswordExpiryCommand.IsDisabled(disablePasswordExpiryCheck))
+                {
+                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
+                }
+
+                if (!CheckSystemUptimeCommand.IsDisabled(disableSystemUptimeCheck))
+                {
+                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(maxUptimeHours).ConfigureAwait(false);
+                }
+
+                if (!CheckDesktopDataCommand.IsDisabled(disableDesktopDataCheck))
+                {
+                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData().ConfigureAwait(false);
+                }
             });
             var result = 
                 new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult, desktopDataResult }

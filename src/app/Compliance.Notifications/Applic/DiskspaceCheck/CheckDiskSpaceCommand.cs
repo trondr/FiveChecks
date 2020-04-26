@@ -42,12 +42,16 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         /// <returns></returns>
         public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
+            var category = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
+            var policyRequiredFreeDiskSpace = F.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
+            var policySubtractSccmCache = F.GetBooleanPolicyValue(Context.Machine, category, "SubtractSccmCache", subtractSccmCache);
+
             var groupName = ToastGroups.CheckDiskSpace;
             var tag = ToastGroups.CheckDiskSpace;
-            bool IsNonCompliant(DiskSpaceInfo spaceInfo) => RequiredCleanupAmount(spaceInfo,requiredFreeDiskSpace,subtractSccmCache) > 0;
+            bool IsNonCompliant(DiskSpaceInfo spaceInfo) => RequiredCleanupAmount(spaceInfo, policyRequiredFreeDiskSpace, policySubtractSccmCache) > 0;
             return await CheckDiskSpaceCommand.CheckDiskSpacePure(
-                    requiredFreeDiskSpace,
-                    subtractSccmCache,
+                    policyRequiredFreeDiskSpace,
+                    policySubtractSccmCache,
                     () => F.LoadInfo<DiskSpaceInfo>(DiskSpace.LoadDiskSpaceResult, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                     IsNonCompliant,
                     (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, tag, groupName),
@@ -56,5 +60,11 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         }
 
         private static decimal RequiredCleanupAmount(DiskSpaceInfo spaceInfo, UDecimal requiredFreeDiskSpace, bool subtractSccmCache) => requiredFreeDiskSpace - (spaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? spaceInfo.SccmCacheSize : 0));
+
+        public static bool IsDisabled(bool defaultValue)
+        {
+            var policyCategory = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
+            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
+        }
     }
 }
