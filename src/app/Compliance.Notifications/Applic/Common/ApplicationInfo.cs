@@ -141,6 +141,52 @@ namespace Compliance.Notifications.Applic.Common
             }
         }
         private static string _applicationDescription;
+        
+
+        public static string ApplicationCompanyName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_applicationCompanyName))
+                {
+                    var attribute = AppAssembly.GetCustomAttributeEx(typeof(AssemblyCompanyAttribute));
+                    if (attribute != null)
+                    {
+                        var companyAttribute = (AssemblyCompanyAttribute)attribute;
+                        _applicationCompanyName = companyAttribute.Company;
+                    }
+                    else
+                    {
+                        _applicationCompanyName = string.Empty;
+                    }
+                }
+                return _applicationCompanyName;
+            }
+        }
+        private static string _applicationCompanyName;
+
+
+        public static string ApplicationProductName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_applicationProductName))
+                {
+                    var attribute = AppAssembly.GetCustomAttributeEx(typeof(AssemblyProductAttribute));
+                    if (attribute != null)
+                    {
+                        var attr = (AssemblyProductAttribute)attribute;
+                        _applicationProductName = attr.Product;
+                    }
+                    else
+                    {
+                        _applicationProductName = string.Empty;
+                    }
+                }
+                return _applicationProductName;
+            }
+        }
+        private static string _applicationProductName;
 
         public static Attribute GetCustomAttributeEx(this Assembly assembly, Type attributeType)
         {
