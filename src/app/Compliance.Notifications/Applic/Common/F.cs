@@ -744,7 +744,7 @@ namespace Compliance.Notifications.Applic.Common
         public static bool PolicyCategoryIsDisabled(Option<string> policyCategory, bool defaultValue)
         {
             var isDisabled = F.GetBooleanPolicyValue(Context.Machine, policyCategory, "Disabled", defaultValue);
-            if (isDisabled) Logging.DefaultLogger.Debug($"{policyCategory} is disabled.");
+            if (isDisabled) policyCategory.IfSome(c => Logging.DefaultLogger.Debug($"{c} is disabled."));
             return isDisabled;
         }
     }
