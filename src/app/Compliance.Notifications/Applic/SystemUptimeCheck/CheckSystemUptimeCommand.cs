@@ -24,9 +24,11 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
 
         public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(double maxUpTimeHours)
         {
+            var category = typeof(CheckSystemUptimeCommand).GetPolicyCategory();
+            var policyMaxUptimeHours = F.GetIntegerPolicyValue(Context.Machine, category, "MaxUptimeHours", (int)maxUpTimeHours);
             var groupName = ToastGroups.CheckSystemUptime;
             var tag = ToastGroups.CheckSystemUptime;
-            bool IsNonCompliant(SystemUptimeInfo info) => info.Uptime.TotalHours > maxUpTimeHours;
+            bool IsNonCompliant(SystemUptimeInfo info) => info.Uptime.TotalHours > (double)policyMaxUptimeHours;
             return await CheckSystemUptimePure(() => F.LoadInfo<SystemUptimeInfo>(SystemUptime.LoadSystemUptimeInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
                 (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), 
