@@ -78,8 +78,8 @@ namespace Compliance.Notifications
 
         [Command(Summary = "Run all compliance checks.", Description = "Run all compliance checks.")]
         public static async Task<Result<int>> CheckCompliance(
-            [RequiredCommandParameter(Description = "Free disk space requirement in GB", AlternativeName = "fr",
-                ExampleValue = 40)]
+            [OptionalCommandParameter(Description = "Free disk space requirement in GB", AlternativeName = "fr",
+                ExampleValue = 40, DefaultValue = 40)]
             decimal requiredFreeDiskSpace,
             [OptionalCommandParameter(
                 Description =
@@ -98,7 +98,7 @@ namespace Compliance.Notifications
             bool disableSystemUptimeCheck,
             [OptionalCommandParameter(Description = "Disable desktop data check.", AlternativeName = "dddc", ExampleValue = false, DefaultValue = false)]
             bool disableDesktopDataCheck,
-            [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.",AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
+            [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
             if (!string.IsNullOrEmpty(userInterfaceCulture))
