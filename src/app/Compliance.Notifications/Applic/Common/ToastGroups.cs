@@ -8,7 +8,7 @@ namespace Compliance.Notifications.Applic.Common
     {
         public const string CheckDiskSpace = "CheckDiskSpace";
         public const string CheckPendingReboot = "CheckPendingReboot";
-        public const string CheckPasswordExpiry = "CheckPasswordExpiryReboot";
+        public const string CheckPasswordExpiry = "CheckPasswordExpiry";
         public const string CheckSystemUptime = "CheckSystemUptime";
         public const string CheckDesktopData = "CheckDesktopData";
         
