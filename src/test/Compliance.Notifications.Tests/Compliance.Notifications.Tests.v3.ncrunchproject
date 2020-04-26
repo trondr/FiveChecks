@@ -94,6 +94,27 @@
       <NamedTestSelector>
         <TestName>Compliance.Notifications.Tests.Common.FTests.InstallTest</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.DiskSpaceCheck.CheckDiskSpaceCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.ScheduledTasksTests</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.CheckSystemUptimeCommandTests</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.CheckPendingRebootCommandTests</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.CheckPasswordExpiryCommandTests</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.CheckDiskSpaceCommandTests</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>Compliance.Notifications.Tests.Applic.CheckDesktopDataCommandTests</FixtureName>
+      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>
