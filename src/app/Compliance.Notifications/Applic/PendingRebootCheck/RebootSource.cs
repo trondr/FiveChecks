@@ -30,7 +30,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 case "SccmClient": return RebootSource.SccmClient;
                 case "JoinDomain": return RebootSource.JoinDomain;
                 case "ComputerNameRename": return RebootSource.ComputerNameRename;
-                case "RunOne": return RebootSource.RunOnce;
+                case "RunOnce": return RebootSource.RunOnce;
                 default:
                     throw new ArgumentException($"Invalid reboot source: {value}");
             }
