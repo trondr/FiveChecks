@@ -285,6 +285,11 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="License\06. picsum-photos License.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Credits\06. picsum-photos Credit.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
