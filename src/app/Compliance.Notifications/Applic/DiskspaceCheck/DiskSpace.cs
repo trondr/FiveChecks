@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.ToastTemplates;
@@ -30,18 +32,24 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         public static async Task<Result<DiskSpaceInfo>> GetDiskSpaceInfo()
         {
             var totalFreeDiskSpace = GetFreeDiskSpaceInGigaBytes(@"c:\");
-            Logging.DefaultLogger.Warn("TODO: Calculate path to Sccm Cache");
-            var sccmCacheFolderSize = await GetFolderSize(@"c:\windows\ccmcache").ConfigureAwait(false);
-            return totalFreeDiskSpace.Match(tfd =>
-            {
-                return sccmCacheFolderSize.Match(
-                    sccmCacheSize => new Result<DiskSpaceInfo>(new DiskSpaceInfo
+            var diskSpaceInfo = TryGetSccmCacheLocation()
+                .Try()
+                .Match(async option =>
                     {
-                        TotalFreeDiskSpace = tfd,
-                        SccmCacheSize = sccmCacheSize
-                    }),
-                    exception => new Result<DiskSpaceInfo>(exception));
-            }, exception => new Result<DiskSpaceInfo>(exception));
+                        var di = option.Match(async cacheFolder =>
+                        {
+                            var sccmCacheFolderSize = await GetFolderSize(cacheFolder).ConfigureAwait(false);
+                            return totalFreeDiskSpace.Match(tfd =>
+                            {
+                                return sccmCacheFolderSize.Match(
+                                    sccmCacheSize => new Result<DiskSpaceInfo>(new DiskSpaceInfo { TotalFreeDiskSpace = tfd, SccmCacheSize = sccmCacheSize}),
+                                    exception => new Result<DiskSpaceInfo>(exception));
+                            }, exception => new Result<DiskSpaceInfo>(exception));
+                        }, async () => await Task.FromResult(new Result<DiskSpaceInfo>(DiskSpaceInfo.Default)).ConfigureAwait(false));
+                        return await di.ConfigureAwait(false);
+                    },
+                async exception => await Task.FromResult(new Result<DiskSpaceInfo>(exception)).ConfigureAwait(false));
+            return await diskSpaceInfo.ConfigureAwait(false);
         }
 
         public static Try<FileInfo[]> TryGetFiles(Some<DirectoryInfo> directoryInfo, Some<string> searchPattern) => () =>
@@ -115,6 +123,21 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
         }
+
+        private static Try<Option<string>> TryGetSccmCacheLocation() => () =>
+        {
+            dynamic sccmCacheConfig =
+                F.RunPowerShell(new Some<Func<PowerShell, Collection<PSObject>>>(powerShell =>
+                    powerShell
+                        .AddCommand("Get-WmiObject")
+                        .AddParameter("NameSpace", @"ROOT\CCM\SoftMgmtAgent")
+                        .AddParameter("Class", "CacheConfig")
+                        .Invoke())
+                ).FirstOrDefault();
+            var sccmCacheLocation = sccmCacheConfig?.Location;
+            Logging.DefaultLogger.Debug($@"Sccm cache location: {sccmCacheLocation}");
+            return new Result<Option<string>>(sccmCacheLocation);
+        };
     }
 }
 
