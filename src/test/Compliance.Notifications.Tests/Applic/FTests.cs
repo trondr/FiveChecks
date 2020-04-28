@@ -54,7 +54,8 @@ namespace Compliance.Notifications.Tests.Applic
                 });
         }
 
-        [Test()]
+        [Test]
+        [Category(TestCategory.UnitTests)]
         public async Task AsyncTryFuncTest_Expect_Exception()
         {
             var actual = await F.AsyncTryFunc(async () =>
@@ -77,7 +78,8 @@ namespace Compliance.Notifications.Tests.Applic
                 });
         }
 
-        [Test()]
+        [Test]
+        [Category(TestCategory.UnitTests)]
         public async Task AsyncTryFuncTest_Expect_Success()
         {
             var actual = await F.AsyncTryFunc(async () =>

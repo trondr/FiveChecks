@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Compliance.Notifications.Applic.PendingRebootCheck;
+using Compliance.Notifications.Tests.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Applic
@@ -8,6 +9,7 @@ namespace Compliance.Notifications.Tests.Applic
     public class RebootSourceExtensionsTests
     {
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void GetDisabledValueNameTest()
         {
             var actual = RebootSource.AllSources.Select(source => source.GetDisabledValueName());
