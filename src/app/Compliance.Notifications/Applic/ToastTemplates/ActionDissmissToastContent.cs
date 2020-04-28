@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using LanguageExt;
+using log4net.Core;
 using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -18,6 +20,12 @@ namespace Compliance.Notifications.Applic.ToastTemplates
 
             var notNowAction = new QueryString {{"action", contentInfo.NotNowAction}, {"group", contentInfo.GroupName}}.ToString();
 
+            var heroImage = (await F.CacheFolder
+                                .Match(async cacheFolder => await F.GetRandomImageFromCache(cacheFolder).ConfigureAwait(false),
+                                       async () => await Task.FromResult(Option<string>.None).ConfigureAwait(false)
+                            ).ConfigureAwait(false))
+                            .Match(s => s,() => string.Empty);
+            
             var toastContent = new ToastContent
             {
 
@@ -29,7 +37,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
                     {
                         HeroImage = new ToastGenericHeroImage
                         {
-                            Source = await F.DownloadImage(contentInfo.ImageUri).ConfigureAwait(false)
+                            Source = heroImage
                         },
                         AppLogoOverride = new ToastGenericAppLogo
                         {

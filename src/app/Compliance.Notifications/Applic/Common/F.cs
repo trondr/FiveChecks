@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Management;
 using System.Management.Automation;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Principal;
 using System.Text;
@@ -332,6 +334,34 @@ namespace Compliance.Notifications.Applic.Common
             var image = await DownloadImageToDisk(httpImage).ConfigureAwait(false);
             return image.Match(uri => uri.LocalPath, () => "");
         }
+
+        private static Option<string> _cacheFolder = Option<string>.None;
+        public static Option<string> CacheFolder
+        {
+            get
+            {
+                _cacheFolder = _cacheFolder.Match(cacheFolder => cacheFolder, () =>
+                {
+                    var assembly = Assembly.GetEntryAssembly();
+                    var exeDirectory = assembly != null ? new FileInfo(assembly.Location).Directory : Option<DirectoryInfo>.None;
+                    return exeDirectory.Match(info => Path.Combine(info.FullName, "HeroImages"),() => Option<string>.None);
+                });
+                return _cacheFolder;
+            }
+        }
+
+        public static async Task<Option<string>> GetRandomImageFromCache(Some<string> cacheFolder)
+        {
+            var rand = new Random();
+            return await Task.Run(() =>
+            {
+                if(!Directory.Exists(cacheFolder.Value)) return  Option<string>.None;
+                var imageFiles = Directory.GetFiles(cacheFolder.Value, "*.jpg");
+                var imageFile = imageFiles.ElementAt(rand.Next(imageFiles.Length)); ;
+                return $"file://{imageFile}";
+            }).ConfigureAwait(false);
+        }
+
         
         public static Try<Option<string>> TryGetGivenName() => () =>
         {

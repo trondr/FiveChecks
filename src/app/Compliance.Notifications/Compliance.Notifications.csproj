@@ -292,4 +292,9 @@
     <EmbeddedResource Include="Credits\06. picsum-photos Credit.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)heroimages"
+xcopy "$(SolutionDir)src\heroimages\*.jpg" "$(TargetDir)heroimages\*.jpg" /y /q
+exit 0</PostBuildEvent>
+  </PropertyGroup>
 </Project>

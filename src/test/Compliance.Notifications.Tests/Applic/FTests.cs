@@ -127,13 +127,24 @@ namespace Compliance.Notifications.Tests.Applic
 
         }
 
-        [Test()]
+        [Test]
+        [Category(TestCategory.UnitTests)]
         public void GetPolicyCategoryTest_SomeType()
         {
             var actual = typeof(CheckPendingRebootCommand).GetPolicyCategory();
             actual.IfNone(() => Assert.Fail("Did not expect None as result."));
             var expected = "PendingRebootCheck";
             actual.IfSome(s => Assert.AreEqual(expected, s));
+        }
+
+
+        [Test]
+        [Category(TestCategory.ManualTests)]
+        public async Task GetRandomImageFromCacheTest()
+        {
+            var actual = await F.GetRandomImageFromCache(@"E:\Dev\github.trondr\Compliance.Notifications\src\heroimages").ConfigureAwait(false);
+            actual.IfSome(uri => Assert.IsTrue(File.Exists(uri)));
+            actual.IfNone(() => Assert.Fail("Did not expect None."));
         }
     }
 }
