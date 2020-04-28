@@ -143,7 +143,7 @@ namespace Compliance.Notifications.Tests.Applic
         public async Task GetRandomImageFromCacheTest()
         {
             var actual = await F.GetRandomImageFromCache(@"E:\Dev\github.trondr\Compliance.Notifications\src\heroimages").ConfigureAwait(false);
-            actual.IfSome(uri => Assert.IsTrue(File.Exists(uri)));
+            actual.Match(uri => { Assert.IsTrue(File.Exists(new Uri(uri).LocalPath),$"image file does not exist: {uri}"); return "";}, () => { Assert.Fail();return "";});
             actual.IfNone(() => Assert.Fail("Did not expect None."));
         }
     }
