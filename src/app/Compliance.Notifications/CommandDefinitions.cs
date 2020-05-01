@@ -50,7 +50,7 @@ namespace Compliance.Notifications
             var result = await SystemComplianceItems.Measurements.ExecuteComplianceMeasurements().ConfigureAwait(false);
             return result.Match(unit => new Result<int>(0), exception =>
             {
-                Logging.DefaultLogger.Error($"Failed to measure system compliance items. {exception.ToExceptionMessage()}");
+                Logging.DefaultLogger.Error($"Failed to measure system compliance items. {exception.ToString()}");
                 return new Result<int>(1);
             });
         }
@@ -61,7 +61,7 @@ namespace Compliance.Notifications
             var result = await UserComplianceItems.Measurements.ExecuteComplianceMeasurements().ConfigureAwait(false);
             return result.Match(unit => new Result<int>(0), exception =>
             {
-                Logging.DefaultLogger.Error($"Failed to measure user compliance items. {exception.ToExceptionMessage()}");
+                Logging.DefaultLogger.Error($"Failed to measure user compliance items. {exception.ToString()}");
                 return new Result<int>(1);
             });
         }
