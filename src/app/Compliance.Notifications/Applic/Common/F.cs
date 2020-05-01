@@ -730,7 +730,7 @@ namespace Compliance.Notifications.Applic.Common
                 var intValue = value != null ? Convert.ToString(value, CultureInfo.InvariantCulture) : defaultValue;
                 return intValue;
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 Logging.DefaultLogger.Debug($"Failed to convert object value {value} to string. {e.ToExceptionMessage()}");
                 return defaultValue;
@@ -744,10 +744,14 @@ namespace Compliance.Notifications.Applic.Common
                 var intValue = value != null ? Convert.ToInt32(value, CultureInfo.InvariantCulture) : defaultValue;
                 return intValue;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logging.DefaultLogger.Debug($"Failed to convert object value {value} to integer. {e.ToExceptionMessage()}");
-                return defaultValue;
+                if (ex is FormatException || ex is InvalidCastException || ex is OverflowException)
+                {
+                    Logging.DefaultLogger.Debug($"Failed to convert object value {value} to integer. {ex.ToExceptionMessage()}");
+                    return defaultValue;
+                }
+                throw;
             }
         }
 
@@ -758,10 +762,14 @@ namespace Compliance.Notifications.Applic.Common
                 var booleanValue = value != null ? Convert.ToBoolean(value,CultureInfo.InvariantCulture) : defaultValue;
                 return booleanValue;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logging.DefaultLogger.Debug($"Failed to convert object value {value} to boolean. {e.ToExceptionMessage()}");
-                return defaultValue;
+                if (ex is FormatException || ex is InvalidCastException)
+                {
+                    Logging.DefaultLogger.Debug($"Failed to convert object value {value} to boolean. {ex.ToExceptionMessage()}");
+                    return defaultValue;
+                }
+                throw;
             }
         }
 
@@ -819,6 +827,12 @@ namespace Compliance.Notifications.Applic.Common
                 .Select(ints => ints.Match(i => i,() => -1)).ToArray();
             if(remaining.Length > 0)
                 await DownloadImages(remaining).ConfigureAwait(false);
+        }
+
+        public static string GetCompanyName()
+        {
+            var companyName = GetStringPolicyValue(Context.Machine, Option<string>.None, "CompanyName", "My Company AS");
+            return companyName;
         }
     }
 
