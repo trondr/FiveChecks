@@ -17,7 +17,7 @@
 </string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738_Help">Configure system disk space check. If free disk space is less than the configured required disk space the machine is non compliant. Required disk space is default 40 GB and the current size of the sccm cache is by default subtracted from this value.</string>
       <string id="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E">Pending Reboot Check</string>
-      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9">Disable pending reboot check</string>
+      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9">Disable pending reboot notification</string>
       <string id="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E_Help">Configure pending reboot check.</string>
       <string id="POL_2F12BF2B_F5F7_43D5_8165_765D40195887">Disable reboot source: PendingFileRenameOperations</string>
       <string id="POL_92C8866A_D9F7_47D0_8F46_2EFEB27F8C8F">Disable reboot source: Sccm Client</string>
@@ -30,7 +30,7 @@
       <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58">Enable compliance check toast notifications</string>
       <string id="POL_F421E489_0680_4967_8C07_7763DEED6C58_Help">If enabled, compliance check toast notifications will be shown to the user. The user will not be able to turn of notifications permanently for the compliance check notification source.
 If disabled, compliance check toast notifications will not be shown to the user. Compliance checks will still run but the result of the compliance check will not be show to the user as a toast notification.</string>
-      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">When this setting is enabled pending reboot check will be skipped.</string>
+      <string id="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help">When this setting is enabled pending reboot notification will be skipped.</string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D">Enable toast notifcations</string>
       <string id="POL_D839704A_13AC_4A28_BB3D_5E1CDF702D3D_Help">Enable toast notifications. This is the main switch for toast notifactions from all applications and senders. If set to disable toast notifications will be disabled for all applications and senders.</string>
       <string id="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8">Password Expiry Check</string>
@@ -60,6 +60,7 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help">Company name displayed in the toast notifications</string>
       <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A">Disable disk space measurement</string>
       <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help">When this setting is enabled disk space measurement will be skipped. Measurement is a prerequisite for the corresponding notification</string>
+      <string id="POL_53E7A67B_2659_421F_83D8_392958C9206E">Disable pending reboot measurement</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
