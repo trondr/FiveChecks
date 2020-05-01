@@ -133,7 +133,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
                         .AddParameter("Class", "CacheConfig")
                         .Invoke())
                 ).FirstOrDefault();
-            var sccmCacheLocation = sccmCacheConfig?.Location;
+            var sccmCacheLocation = sccmCacheConfig?.Location as string;
             Logging.DefaultLogger.Debug($@"Sccm cache location: {sccmCacheLocation}");
             return new Result<Option<string>>(sccmCacheLocation);
         };
