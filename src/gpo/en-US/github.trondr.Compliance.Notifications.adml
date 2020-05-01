@@ -6,8 +6,8 @@
   <resources>
     <stringTable>
       <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">Compliance Notifications</string>
-      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disable disk space check</string>
-      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled disk space check will be skipped.</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disable disk space notification</string>
+      <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled disk space notification will be skipped.</string>
       <string id="SUPPORTED_Windows_10_0">At least Windows Server 2016 or Windows 10</string>
       <string id="CAT_7936670B_8E03_454A_A995_1379FF4D4738">Disk Space Check</string>
       <string id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">Required free disk space</string>
@@ -58,6 +58,8 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E_Help">Configure desktop data check</string>
       <string id="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF">Company Name</string>
       <string id="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help">Company name displayed in the toast notifications</string>
+      <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A">Disable disk space measurement</string>
+      <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help">When this setting is enabled disk space measurement will be skipped. Measurement is a prerequisite for the corresponding notification</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
