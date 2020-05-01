@@ -9,21 +9,22 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 {
     public static class CheckPendingRebootCommand
     {
-        internal static async Task<Result<ToastNotificationVisibility>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadInfo, Func<PendingRebootInfo, bool> isNonCompliant, Func<PendingRebootInfo,string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
+        internal static async Task<Result<ToastNotificationVisibility>> CheckPendingRebootPure(Func<Task<PendingRebootInfo>> loadInfo, Func<PendingRebootInfo, bool> isNonCompliant, Func<PendingRebootInfo,string, Task<Result<ToastNotificationVisibility>>> showToastNotification, Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification, bool isDisabled)
         {
+            if(isDisabled) return await removeToastNotification().ConfigureAwait(false);
             var info = await loadInfo().ConfigureAwait(false);
             if (isNonCompliant(info))
             {
                 return await showToastNotification(info,"My Company AS").ConfigureAwait(false);
             }
-            var result = await removeToastNotification().ConfigureAwait(false);
-            return result;
+            return await removeToastNotification().ConfigureAwait(false);
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> CheckPendingReboot(Some<NotificationProfile> userProfile)
+        public static async Task<Result<ToastNotificationVisibility>> CheckPendingReboot(Some<NotificationProfile> userProfile, bool isDisabled)
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
+            var isPendingRebootCheckDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckPendingRebootCommand));
 
             bool IsNonCompliant(PendingRebootInfo info)
             {
@@ -35,7 +36,8 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
                 (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(userProfile, info, tag, groupName),
-                () => ToastHelper.RemoveToastNotification(groupName)
+                () => ToastHelper.RemoveToastNotification(groupName),
+                isPendingRebootCheckDisabled
                 ).ConfigureAwait(false);
         }
     }

@@ -11,15 +11,15 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
         internal static async Task<Result<ToastNotificationVisibility>> CheckDesktopDataPure(
             Func<Task<DesktopDataInfo>> loadInfo,
             Func<DesktopDataInfo, Task<Result<ToastNotificationVisibility>>> showToastNotification,
-            Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
+            Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification, bool isDisabled)
         {
+            if(isDisabled) return await removeToastNotification().ConfigureAwait(false);
             var info = await loadInfo().ConfigureAwait(false);
             if (IsNonCompliant(info))
             {
                 return await showToastNotification(info).ConfigureAwait(false);
             }
-            var result = await removeToastNotification().ConfigureAwait(false);
-            return result;
+            return await removeToastNotification().ConfigureAwait(false);
         }
 
         internal static bool IsNonCompliant(DesktopDataInfo desktopDataInfo)
@@ -27,15 +27,16 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             return desktopDataInfo.HasDesktopData;
         }
         
-        public static async Task<Result<ToastNotificationVisibility>> CheckDesktopData(Some<NotificationProfile> userProfile)
+        public static async Task<Result<ToastNotificationVisibility>> CheckDesktopData(
+            Some<NotificationProfile> userProfile, bool isDisabled)
         {
             var groupName = ToastGroups.CheckDesktopData;
             var tag = ToastGroups.CheckDesktopData;
+            var desktopDataCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckDesktopDataCommand));
             return await CheckDesktopDataPure(
                 () => F.LoadInfo(DesktopData.LoadDesktopDataInfo,info => info.HasDesktopData,ScheduledTasks.ComplianceUserMeasurements,true), 
                 (desktopDataInfo) => DesktopData.ShowDesktopDataToastNotification(userProfile.Value, desktopDataInfo, tag, groupName),
-                () => ToastHelper.RemoveToastNotification(groupName)
-                ).ConfigureAwait(false);
+                () => ToastHelper.RemoveToastNotification(groupName), desktopDataCheckIsDisabled).ConfigureAwait(false);
         }
     }
 }

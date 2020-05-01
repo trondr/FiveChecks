@@ -113,50 +113,21 @@ namespace Compliance.Notifications
             var desktopDataResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
-                if (!F.IsCheckDisabled(disableDiskSpaceCheck, typeof(CheckDiskSpaceCommand)))
-                {
-                    diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(userProfile, requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
-                }
+                Logging.DefaultLogger.Info("Registering all toast groups");
+                ToastGroups.Groups.ForEach(group => Messenger.Default.Send(new RegisterToastNotificationMessage(group)));
 
-                if (!F.IsCheckDisabled(disablePendingRebootCheck, typeof(CheckPendingRebootCommand)))
-                {
-                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot(userProfile).ConfigureAwait(false);
-                }
+                Logging.DefaultLogger.Info("Run compliance checks...");
+                diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(userProfile, requiredFreeDiskSpace, subtractSccmCache, disableDiskSpaceCheck).ConfigureAwait(false);
+                pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot(userProfile, disablePendingRebootCheck).ConfigureAwait(false);
+                passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile, disablePasswordExpiryCheck).ConfigureAwait(false);
+                systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours, disableSystemUptimeCheck).ConfigureAwait(false);
+                desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile, disableDesktopDataCheck).ConfigureAwait(false);
 
-                if (!F.IsCheckDisabled(disablePasswordExpiryCheck, typeof(CheckPasswordExpiryCommand)))
-                {
-                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile).ConfigureAwait(false);
-                }
-
-                if (!F.IsCheckDisabled(disableSystemUptimeCheck, typeof(CheckSystemUptimeCommand)))
-                {
-                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours).ConfigureAwait(false);
-                }
-
-                if (!F.IsCheckDisabled(disableDesktopDataCheck,typeof(CheckDesktopDataCommand)))
-                {
-                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile).ConfigureAwait(false);
-                }
+                Logging.DefaultLogger.Info("Waiting for all toast groups to be handled and unregistered...");
             });
             var result = 
                 new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult, desktopDataResult }
-                .ToResult()
-                .Match(
-                    list =>
-                    {
-                        if (list.All(visibility => visibility == ToastNotificationVisibility.Hide))
-                        {
-                            Logging.DefaultLogger.Info("All checks are compliant, unregister all notification groups...");
-                            var _ = ToastGroups.Groups.Select(groupName =>
-                                {
-                                    Messenger.Default.Send(new UnRegisterToastNotificationMessage(groupName));
-                                    return groupName;
-                                }
-                            ).ToArray();
-                        }
-                        return new Result<int>(0);
-                    }, 
-                    exception => new Result<int>(exception));
+                .ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
             return await Task.FromResult(result).ConfigureAwait(false);
         }
 

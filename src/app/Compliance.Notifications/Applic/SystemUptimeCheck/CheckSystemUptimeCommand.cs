@@ -12,29 +12,30 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             Func<Task<SystemUptimeInfo>> loadInfo,
             Func<SystemUptimeInfo,bool> isNonCompliant,
             Func<TimeSpan,Task<Result<ToastNotificationVisibility>>> showToastNotification,
-            Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification)
+            Func<Task<Result<ToastNotificationVisibility>>> removeToastNotification, bool isDisabled)
         {
+            if(isDisabled) return await removeToastNotification().ConfigureAwait(false);
             var info = await loadInfo().ConfigureAwait(false);
             if (isNonCompliant(info))
             {
                 return await showToastNotification(info.Uptime).ConfigureAwait(false);
             }
-            var result = await removeToastNotification().ConfigureAwait(false);
-            return result;
+            return await removeToastNotification().ConfigureAwait(false);
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(Some<NotificationProfile> userProfile,
-            double maxUpTimeHours)
+        public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(Some<NotificationProfile> userProfile, double maxUpTimeHours, bool isDisabled)
         {
             var category = typeof(CheckSystemUptimeCommand).GetPolicyCategory();
             var policyMaxUptimeHours = F.GetIntegerPolicyValue(Context.Machine, category, "MaxUptimeHours", (int)maxUpTimeHours);
             var groupName = ToastGroups.CheckSystemUptime;
             var tag = ToastGroups.CheckSystemUptime;
+            var systemUptimeCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckSystemUptimeCommand));
             bool IsNonCompliant(SystemUptimeInfo info) => info.Uptime.TotalHours > (double)policyMaxUptimeHours;
             return await CheckSystemUptimePure(() => F.LoadInfo<SystemUptimeInfo>(SystemUptime.LoadSystemUptimeInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
                 (uptime) => SystemUptime.ShowSystemUptimeToastNotification(userProfile, tag, groupName, uptime), 
-                () => ToastHelper.RemoveToastNotification(groupName)
+                () => ToastHelper.RemoveToastNotification(groupName),
+                systemUptimeCheckIsDisabled
                 ).ConfigureAwait(false);
         }
     }

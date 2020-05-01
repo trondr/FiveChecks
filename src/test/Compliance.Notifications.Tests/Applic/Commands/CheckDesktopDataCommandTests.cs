@@ -49,7 +49,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                 {
                     hideCount++;
                     return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide));
-                });
+                }, TODO);
             Assert.AreEqual(testData.ExpectedLoadCount, loadCount, "LoadCount");
             Assert.AreEqual(testData.ExpectedShowCount, showCount, "ShowCount");
             Assert.AreEqual(testData.ExpectedHideCount, hideCount, "HideCount");

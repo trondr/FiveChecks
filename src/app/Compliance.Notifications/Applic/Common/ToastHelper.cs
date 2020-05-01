@@ -36,6 +36,7 @@ namespace Compliance.Notifications.Applic.Common
                 DesktopNotificationManagerCompat.RegisterActivator<MyNotificationActivator>();
                 Logging.DefaultLogger.Info($"Removing notification group '{groupName}'");
                 DesktopNotificationManagerCompat.History.RemoveGroup(groupName);
+                Messenger.Default.Send(new UnRegisterToastNotificationMessage(groupName));
                 return new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             }).ConfigureAwait(false);
         }
