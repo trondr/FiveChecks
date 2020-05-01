@@ -73,6 +73,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 
         private static async Task<Result<PendingRebootInfo>> GetSccmClientRebootPending()
         {
+            Logging.DefaultLogger.Debug($@"Checking if Sccm Client has a pending reboot.");
             var pendingRebootInfoResult =
                 TryGetSccmClientRebootStatus()
                     .Try()
@@ -91,6 +92,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         {
             var rebootPendingRegistryKeyPath = @"SYSTEM\CurrentControlSet\Control\Session Manager";
             var rebootPendingRegistryValueName = "PendingFileRenameOperations";
+            Logging.DefaultLogger.Debug($@"Checking if Pending File Rename Operations has a pending reboot (Check if value exists: '[{rebootPendingRegistryKeyPath}]{rebootPendingRegistryValueName}').");
             var rebootIsPending = RegistryOperations.MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
                 rebootPendingRegistryValueName);
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRenameOperations } : new List<RebootSource>();

@@ -897,22 +897,26 @@ namespace Compliance.Notifications.Applic.Common
                     return true;
                 }
             };
-            return TryOnline().Try().Match(b => b, exception => false);
+            return TryOnline().Try().Match(b => b, exception =>
+            {
+                Logging.DefaultLogger.Info($"Cannot contact active directory domain. {exception.ToExceptionMessage()}");
+                return false;
+            });
         }
 
-        public static bool IsNotificationDisabled(bool defaultValue, Type checkCommandType)
+        public static bool IsNotificationDisabled(bool defaultValue, Some<Type> checkCommandType)
         {
-            var policyCategory = checkCommandType.GetPolicyCategory();
+            var policyCategory = checkCommandType.Value.GetPolicyCategory();
             var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Notification, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Warn($"Notification for '{checkCommandType.Name}' is disabled.");
+            if(isDisabled) Logging.DefaultLogger.Info($"Notification {checkCommandType.Value.Name} is disabled.");
             return isDisabled;
         }
 
-        public static bool IsMeasurementDisabled(bool defaultValue, Type checkCommandType)
+        public static bool IsMeasurementDisabled(bool defaultValue, Some<Type> checkCommandType)
         {
-            var policyCategory = checkCommandType.GetPolicyCategory();
+            var policyCategory = checkCommandType.Value.GetPolicyCategory();
             var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Measurement, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Warn($"Measurement for '{checkCommandType.Name}' is disabled.");
+            if(isDisabled) Logging.DefaultLogger.Info($"Measurement {checkCommandType.Value.Name} is disabled.");
             return isDisabled;
         }
 
