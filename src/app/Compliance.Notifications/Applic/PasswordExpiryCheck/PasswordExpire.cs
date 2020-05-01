@@ -34,14 +34,25 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             }
         }
 
-        private static string GetDomainControllerName()
+        private static Result<string> GetDomainControllerName()
         {
-            using (var domain = Domain.GetCurrentDomain())
+            try
             {
-                using (var domainController = domain.FindDomainController())
+                using (var domain = Domain.GetCurrentDomain())
                 {
-                    return domainController.Name;
+                    using (var domainController = domain.FindDomainController())
+                    {
+                        return domainController.Name;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                if (ex is ActiveDirectoryObjectNotFoundException || ex is ActiveDirectoryOperationException || ex is ObjectDisposedException)
+                {
+                    return new Result<string>(new Exception("Failed to locate a domain controller.", ex));
+                }
+                throw;
             }
         }
 
@@ -50,11 +61,18 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             var passwordNeverExpires = GetPasswordNeverExpires(userId);
             if (passwordNeverExpires) return DateTime.MaxValue;
             var domainControllerName = GetDomainControllerName();
-            using (var userDirectoryEntry = new DirectoryEntry($"WinNT://{domainControllerName}/{userId},user"))
+            return domainControllerName.Match(dc =>
             {
-                var nativeUser = userDirectoryEntry.NativeObject as ActiveDs.IADsUser;
-                return nativeUser?.PasswordExpirationDate ?? DateTime.MaxValue;
-            }
+                using (var userDirectoryEntry = new DirectoryEntry($"WinNT://{dc}/{userId},user"))
+                {
+                    var nativeUser = userDirectoryEntry.NativeObject as ActiveDs.IADsUser;
+                    return nativeUser?.PasswordExpirationDate ?? DateTime.MaxValue;
+                }
+            }, exception =>
+            {
+                Logging.DefaultLogger.Warn(exception.Message);
+                return DateTime.MaxValue;
+            });
         }
 
         public static double GetExpiryWarningDays()
@@ -142,6 +160,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
 
         public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()
         {
+            if(!F.IsOnline()) return new Result<PasswordExpiryInfo>(new Exception("Cannot contact domain controller to check password expiry"));
             var userPasswordExpiryInfo = await PasswordExpire.GetPasswordExpiryStatus(Environment.UserName).ConfigureAwait(false);
             var passwordExpiryInfo = new PasswordExpiryInfo(userPasswordExpiryInfo.UserPasswordInfo.PasswordExpirationDate, userPasswordExpiryInfo.PasswordExpiryStatus, userPasswordExpiryInfo.IsRemoteSession);
             return new Result<PasswordExpiryInfo>(passwordExpiryInfo);

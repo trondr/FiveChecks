@@ -865,6 +865,18 @@ namespace Compliance.Notifications.Applic.Common
             var companyName = GetStringPolicyValue(Context.Machine, Option<string>.None, "CompanyName", "My Company AS");
             return companyName;
         }
+
+        public static bool IsOnline()
+        {
+            Try<bool> TryOnline() => () =>
+            {
+                using (var context = new PrincipalContext(ContextType.Domain))
+                {
+                    return true;
+                }
+            };
+            return TryOnline().Try().Match(b => b, exception => false);
+        }
     }
 
     public enum Context
