@@ -148,5 +148,18 @@ namespace Compliance.Notifications.Tests.Applic
             actual.Match(uri => { Assert.IsTrue(File.Exists(new Uri(uri).LocalPath),$"image file does not exist: {uri}"); return "";}, () => { Assert.Fail();return "";});
             actual.IfNone(() => Assert.Fail("Did not expect None."));
         }
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        [TestCase(2, 1, 1, "2 days")]
+        [TestCase(1,1,1,"1 day")]
+        [TestCase(0, 1, 1, "1 hour")]
+        [TestCase(0, 10, 1, "10 hours")]
+        [TestCase(0, 0, 1, "0 hours")]
+        public void TimeSpanToReadableStringTest(int days, int hours, int minutes,string expected)
+        {
+            var timeSpan = new TimeSpan(days,hours,minutes,0);
+            var actual = timeSpan.TimeSpanToString();
+            Assert.AreEqual(expected,actual,"Timespan text was not expected.");
+        }
     }
 }

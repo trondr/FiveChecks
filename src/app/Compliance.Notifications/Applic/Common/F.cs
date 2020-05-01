@@ -61,7 +61,7 @@ namespace Compliance.Notifications.Applic.Common
             if (getNow == null) throw new ArgumentNullException(nameof(getNow));
             var now = getNow();
             var timeSpan = dateTime - now;
-            return timeSpan.ToReadableString();
+            return timeSpan.TimeSpanToString();
         }
 
         public static string InPeriodFromNow(this DateTime dateTime)
@@ -96,12 +96,17 @@ namespace Compliance.Notifications.Applic.Common
                     string.Format(CultureInfo.InvariantCulture, "{0:0}", d);
         }
 
-        public static string ToReadableString(this TimeSpan timeSpan)
+        public static string TimeSpanToString(this TimeSpan timeSpan)
         {
-            var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
+            var totalDaysRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
             if (timeSpan.TotalDays < 1)
+            {
+                var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalHours));
+                if (totalHoursRounded == 1)
+                    return $"{timeSpan.Hours} {strings.Hour}";
                 return $"{timeSpan.Hours} {strings.Hours}";
-            if (totalHoursRounded == 1)
+            }
+            if (totalDaysRounded == 1)
                 return $"{timeSpan.Days} {strings.Day}";
             return $"{timeSpan.Days} {strings.Days}";
         }
