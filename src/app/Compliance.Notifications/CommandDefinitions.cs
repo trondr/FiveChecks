@@ -99,9 +99,10 @@ namespace Compliance.Notifications
             [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
-            if (!string.IsNullOrEmpty(userInterfaceCulture))
+            var policyUserInterfaceCulture = F.GetStringPolicyValue(Context.User, Option<string>.None, "UserInterfaceCulture", userInterfaceCulture);
+            if (!string.IsNullOrEmpty(policyUserInterfaceCulture))
             {
-                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(userInterfaceCulture);
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(policyUserInterfaceCulture);
             }
             Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
             var diskSpaceResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);

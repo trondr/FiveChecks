@@ -708,16 +708,36 @@ namespace Compliance.Notifications.Applic.Common
         public static bool GetBooleanPolicyValue(Context context, Option<string> category, string valueName, bool defaultValue)
         {
             var value = GetPolicyValue(context, category, valueName, defaultValue);
-            return ObjectToBoolean(value,defaultValue);
+            return ObjectValueToBoolean(value,defaultValue);
         }
 
         public static int GetIntegerPolicyValue(Context context, Option<string> category, string valueName, int defaultValue)
         {
             var value = GetPolicyValue(context, category, valueName, defaultValue);
-            return ObjectToInteger(value, defaultValue);
+            return ObjectValueToInteger(value, defaultValue);
         }
 
-        private static int ObjectToInteger(object value, int defaultValue)
+        public static string GetStringPolicyValue(Context context, Option<string> category, string valueName, string defaultValue)
+        {
+            var value = GetPolicyValue(context, category, valueName, defaultValue);
+            return ObjectValueToString(value, defaultValue);
+        }
+
+        private static string ObjectValueToString(object value, string defaultValue)
+        {
+            try
+            {
+                var intValue = value != null ? Convert.ToString(value, CultureInfo.InvariantCulture) : defaultValue;
+                return intValue;
+            }
+            catch (Exception e)
+            {
+                Logging.DefaultLogger.Debug($"Failed to convert object value {value} to string. {e.ToExceptionMessage()}");
+                return defaultValue;
+            }
+        }
+
+        private static int ObjectValueToInteger(object value, int defaultValue)
         {
             try
             {
@@ -731,7 +751,7 @@ namespace Compliance.Notifications.Applic.Common
             }
         }
 
-        public static bool ObjectToBoolean(object value, bool defaultValue)
+        public static bool ObjectValueToBoolean(object value, bool defaultValue)
         {
             try
             {
