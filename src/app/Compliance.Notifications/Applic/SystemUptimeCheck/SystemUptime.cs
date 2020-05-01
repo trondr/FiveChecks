@@ -38,18 +38,18 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             return await Task.FromResult(new Result<SystemUptimeInfo>(systemUptimeInfo)).ConfigureAwait(false);
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string companyName, string tag, string groupName, TimeSpan systemUptime)
+        public static async Task<Result<ToastNotificationVisibility>> ShowSystemUptimeToastNotification(string tag, string groupName, TimeSpan systemUptime)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckSystemUptimeToastContentInfo(companyName, groupName, systemUptime).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckSystemUptimeToastContentInfo(groupName, systemUptime).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckSystemUptimeToastContentInfo(
-            string companyName, string groupName, TimeSpan systemUptime)
+        private static async Task<ActionDismissToastContentInfo> GetCheckSystemUptimeToastContentInfo(string groupName,
+            TimeSpan systemUptime)
         {
             var title = strings.SystemUptime_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -59,7 +59,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             var action = ToastActions.Restart;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+            return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.SystemUptime_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
         }
 

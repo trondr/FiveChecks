@@ -115,20 +115,18 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             }
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate,
-            string companyName, string tag,
-            string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate, companyName, groupName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
         private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(
-            DateTime passwordExpirationDate, string companyName, string groupName)
+            DateTime passwordExpirationDate, string groupName)
         {
             var title = strings.PasswordExpiryNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -138,7 +136,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             var action = ToastActions.ChangePassword;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+            return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
         }
 

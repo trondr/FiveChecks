@@ -33,7 +33,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             return await CheckPendingRebootPure(
                 () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
-                (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(info, companyName, tag, groupName),
+                (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(info, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }

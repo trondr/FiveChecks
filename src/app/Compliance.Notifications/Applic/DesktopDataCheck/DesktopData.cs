@@ -31,17 +31,18 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             return Task.FromResult(new Result<DesktopDataInfo>(new DesktopDataInfo {HasDesktopData = numberOfAllNonShortcutFiles > 0, NumberOfFiles = numberOfAllNonShortcutFiles, TotalSizeInBytes = sizeofAllNonShortcutFilesInBytes}));
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowDesktopDataToastNotification(DesktopDataInfo desktopDataInfo, string companyName,string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowDesktopDataToastNotification(DesktopDataInfo desktopDataInfo, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckDesktopDataToastContentInfo(companyName, groupName, desktopDataInfo).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckDesktopDataToastContentInfo(groupName, desktopDataInfo).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckDesktopDataToastContentInfo(string companyName, string groupName, DesktopDataInfo desktopDataInfo)
+        private static async Task<ActionDismissToastContentInfo> GetCheckDesktopDataToastContentInfo(string groupName,
+            DesktopDataInfo desktopDataInfo)
         {
             var title = string.Format(CultureInfo.InvariantCulture, strings.DesktopData_Title_F0, desktopDataInfo.TotalSizeInBytes.BytesToReadableString());
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -51,7 +52,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             var action = ToastActions.CreateMyDocumentsShortcut;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+            return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None);
         }
 

@@ -32,7 +32,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             var tag = ToastGroups.CheckDesktopData;
             return await CheckDesktopDataPure(
                 () => F.LoadInfo(DesktopData.LoadDesktopDataInfo,info => info.HasDesktopData,ScheduledTasks.ComplianceUserMeasurements,true), 
-                (desktopDataInfo, companyName) => DesktopData.ShowDesktopDataToastNotification(desktopDataInfo, companyName, tag, groupName),
+                (desktopDataInfo, companyName) => DesktopData.ShowDesktopDataToastNotification(desktopDataInfo, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }

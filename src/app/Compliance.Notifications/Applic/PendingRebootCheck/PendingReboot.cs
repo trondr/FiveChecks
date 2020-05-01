@@ -100,20 +100,17 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         }
 
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(
-            PendingRebootInfo info, string companyName, string tag,
-            string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(PendingRebootInfo info, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(info, companyName, groupName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(info, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(
-            PendingRebootInfo info, string companyName, string groupName)
+        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(PendingRebootInfo info, string groupName)
         {
             var title = strings.PendingRebootNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -124,7 +121,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
             Option<string> content3 = string.Format(CultureInfo.InvariantCulture,strings.PendingRebootNotification_Source_F0,info.ToSourceDescription());
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+            return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,content3);
         }
 

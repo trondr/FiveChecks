@@ -26,7 +26,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             return await CheckPasswordExpiryPure(
                 () => F.LoadInfo<PasswordExpiryInfo>(PasswordExpire.LoadPasswordExpiryInfo, IsNonCompliant, ScheduledTasks.ComplianceUserMeasurements, true),
                 IsNonCompliant, 
-                (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, companyName, tag, groupName), 
+                (passwordExpirationDate,companyName) => PasswordExpire.ShowPasswordExpiryToastNotification(passwordExpirationDate, tag, groupName), 
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }

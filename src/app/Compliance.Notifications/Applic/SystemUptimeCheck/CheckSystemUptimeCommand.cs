@@ -31,7 +31,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
             bool IsNonCompliant(SystemUptimeInfo info) => info.Uptime.TotalHours > (double)policyMaxUptimeHours;
             return await CheckSystemUptimePure(() => F.LoadInfo<SystemUptimeInfo>(SystemUptime.LoadSystemUptimeInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
-                (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(companyName, tag, groupName, uptime), 
+                (uptime,companyName) => SystemUptime.ShowSystemUptimeToastNotification(tag, groupName, uptime), 
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }

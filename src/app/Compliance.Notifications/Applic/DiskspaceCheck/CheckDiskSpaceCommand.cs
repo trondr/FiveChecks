@@ -54,7 +54,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
                     policySubtractSccmCache,
                     () => F.LoadInfo<DiskSpaceInfo>(DiskSpace.LoadDiskSpaceResult, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                     IsNonCompliant,
-                    (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(requiredCleanupAmount, companyName, tag, groupName),
+                    (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(requiredCleanupAmount, tag, groupName),
                     () => ToastHelper.RemoveToastNotification(groupName))
                 .ConfigureAwait(false);
         }

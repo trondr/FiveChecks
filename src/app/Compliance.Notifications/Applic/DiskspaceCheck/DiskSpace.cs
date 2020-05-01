@@ -98,18 +98,17 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             return await F.LoadSystemComplianceItemResultOrDefault(DiskSpaceInfo.Default).ConfigureAwait(false);
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount,
-            string companyName, string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowDiskSpaceToastNotification(decimal requiredCleanupAmount, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, companyName, groupName).ConfigureAwait(false);
+                var toastContentInfo = await GetCheckDiskSpaceToastContentInfo(requiredCleanupAmount, groupName).ConfigureAwait(false);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckDiskSpaceToastContentInfo(decimal requiredCleanupAmount, string companyName, string groupName)
+        private static async Task<ActionDismissToastContentInfo> GetCheckDiskSpaceToastContentInfo(decimal requiredCleanupAmount, string groupName)
         {
             var title = strings.DiskSpaceIsLow_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -120,7 +119,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             var action = ToastActions.DiskCleanup;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = await F.GetGreeting().ConfigureAwait(false);
-            return new ActionDismissToastContentInfo(greeting, title, companyName, content, content2,
+            return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
         }
 
