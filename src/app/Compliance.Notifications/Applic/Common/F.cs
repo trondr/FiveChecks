@@ -639,6 +639,10 @@ namespace Compliance.Notifications.Applic.Common
             return !File.Exists(shortcutPath.Value) ? Option<string>.None : new Option<string>(shortcutPath);
         }
 
+        
+        private static Dictionary<string,DateTime> DoubleCheckTimeStamps = new Dictionary<string, DateTime>(){{ScheduledTasks.ComplianceSystemMeasurements.TaskName,DateTime.MinValue},{ScheduledTasks.ComplianceUserMeasurements.TaskName,DateTime.MinValue}};
+        public static TimeSpan DoubleCheckThreshold = new TimeSpan(0,0,60);
+
         /// <summary>
         /// Load compliance measurement and check for non-compliance. If non-compliance and double check is true, trigger a new measurement to make sure it is still non-compliant.
         /// </summary>
@@ -652,8 +656,11 @@ namespace Compliance.Notifications.Applic.Common
         {
             if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
             var info = await loadInfo().ConfigureAwait(false);
-            if (doubleCheck && isNonCompliant(info))
+            var timeSinceLastDoubleCheck = DateTime.Now - DoubleCheckTimeStamps[scheduledTask.Value.TaskName];
+            var doDoubleCheck = doubleCheck && timeSinceLastDoubleCheck > DoubleCheckThreshold;
+            if (doDoubleCheck && isNonCompliant(info))
             {
+                DoubleCheckTimeStamps[scheduledTask.Value.TaskName] = DateTime.Now;
                 var doubleCheckResult = await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false);
                 return await doubleCheckResult.Match(async unit =>
                 {
