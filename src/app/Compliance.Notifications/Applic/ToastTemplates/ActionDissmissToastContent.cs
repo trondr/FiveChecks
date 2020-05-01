@@ -10,6 +10,18 @@ namespace Compliance.Notifications.Applic.ToastTemplates
 {
     public static class ActionDismissToastContent
     {
+        private static async Task<string> GetHeroImage()
+        {
+            return (await 
+                    F.CacheFolder
+                        .Match(
+                        async cacheFolder => await F.GetRandomImageFromCache(cacheFolder).ConfigureAwait(false),
+                        async () => await Task.FromResult(Option<string>.None).ConfigureAwait(false)
+                     ).ConfigureAwait(false))
+                .Match(imagePath => imagePath, () => string.Empty);
+        }
+
+
         public static async Task<ToastContent> CreateToastContent(ActionDismissToastContentInfo contentInfo)
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
@@ -20,11 +32,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
 
             var notNowAction = new QueryString {{"action", contentInfo.NotNowAction}, {"group", contentInfo.GroupName}}.ToString();
 
-            var heroImage = (await F.CacheFolder
-                                .Match(async cacheFolder => await F.GetRandomImageFromCache(cacheFolder).ConfigureAwait(false),
-                                       async () => await Task.FromResult(Option<string>.None).ConfigureAwait(false)
-                            ).ConfigureAwait(false))
-                            .Match(s => s,() => string.Empty);
+            var heroImage = await GetHeroImage().ConfigureAwait(false);
             
             var toastContent = new ToastContent
             {
