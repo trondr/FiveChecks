@@ -266,7 +266,7 @@ namespace Compliance.Notifications.Applic.Common
 
         private static bool UserComplianceItemIsActive<T>()
         {
-            Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
+            Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a user compliance item.");
             return true;
         }
 
