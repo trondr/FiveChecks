@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.667345ED_1824_4924_8DA1_A6A27A378B75" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.D6A8F8D6_B929_4A11_95FD_14D6C004F5F6" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -56,7 +56,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisabledNotification">
+    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableNotification">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
@@ -109,17 +109,17 @@
         <decimal id="DXT_39C7B0E6_5540_44A3_9B84_6D4DFE951AC8" valueName="MaxUptimeHours" minValue="1" />
       </elements>
     </policy>
-    <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" explainText="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="Disabled">
+    <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" explainText="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="DisableNotification">
       <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
-      <enabledValue>
+	  <enabledValue>
         <decimal value="1" />
       </enabledValue>
       <disabledValue>
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5" class="Machine" displayName="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5)" explainText="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="Disabled">
+    <policy name="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5" class="Machine" displayName="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5)" explainText="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="DisableNotification">
       <parentCategory ref="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
@@ -136,10 +136,10 @@
         <decimal id="DXT_BBF3BAE7_CAE9_4E6A_9477_CAC01A61018F" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="PasswordExpiryWarning" />
       </elements>
     </policy>
-    <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
+    <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="DisableNotification">
       <parentCategory ref="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
-      <enabledValue>
+	  <enabledValue>
         <decimal value="1" />
       </enabledValue>
       <disabledValue>
@@ -190,10 +190,20 @@
       <disabledValue>
         <decimal value="0" />
       </disabledValue>
-    </policy>
-    <policy name="POL_53E7A67B_2659_421F_83D8_392958C9206E" class="Machine" displayName="$(string.POL_53E7A67B_2659_421F_83D8_392958C9206E)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableMeasurement">
+	  </policy>
+    <policy name="POL_53E7A67B_2659_421F_83D8_392958C9206E" class="Machine" displayName="$(string.POL_53E7A67B_2659_421F_83D8_392958C9206E)" explainText="$(string.POL_53E7A67B_2659_421F_83D8_392958C9206E_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableMeasurement">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
-      <supportedOn ref="windows:SUPPORTED_Windows_10_0" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+	  </policy>
+    <policy name="POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD" class="Machine" displayName="$(string.POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD)" explainText="$(string.POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" />
+      <supportedOn ref="windows:SUPPORTED_WindowsVista" />
 	  <enabledValue>
         <decimal value="1" />
       </enabledValue>
@@ -201,5 +211,25 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
+    <policy name="POL_58E088BB_8068_49E2_9CD8_A6C2E49D137A" class="Machine" displayName="$(string.POL_58E088BB_8068_49E2_9CD8_A6C2E49D137A)" explainText="$(string.POL_58E088BB_8068_49E2_9CD8_A6C2E49D137A_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
+    <policy name="POL_938DF655_F3A5_496D_A84F_A533460D8968" class="Machine" displayName="$(string.POL_938DF655_F3A5_496D_A84F_A533460D8968)" explainText="$(string.POL_938DF655_F3A5_496D_A84F_A533460D8968_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+	  </policy>
   </policies>
 </policyDefinitions>

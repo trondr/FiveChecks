@@ -36,16 +36,16 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8">Password Expiry Check</string>
       <string id="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE">System Uptime Check</string>
       <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0">Maximum uptime in hours</string>
-      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE">Disable system uptime check</string>
-      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5">Disable password expiry check</string>
+      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE">Disable system uptime notification</string>
+      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5">Disable password expiry notification</string>
       <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621">Password expiry warning days</string>
       <string id="POL_80BCDF65_3981_4EE7_AD8D_D61034F05621_Help">Show password expiry warning this number of days before password expires.</string>
       <string id="POL_E6813C56_4BBA_4F60_8955_462EFF5FB2C0_Help">Number of hours the system can be up before notification about recommended reboot is shown to the user. Default value is 168 hours (7 days)</string>
       <string id="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E">Desktop Data Check</string>
-      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA">Disable desktop data check</string>
-      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled desktop data check will be skipped.</string>
-      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help">When this setting is enabled password expiry warning check will be skipped.</string>
-      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help">When this setting is enabled system update check will be skipped.</string>
+      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA">Disable desktop data notification</string>
+      <string id="POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help">When this setting is enabled desktop data notification will be skipped.</string>
+      <string id="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help">When this setting is enabled password expiry warning notification will be skipped.</string>
+      <string id="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help">When this setting is enabled system uptime notification will be skipped.</string>
       <string id="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3">User interface culture</string>
       <string id="POL_3BC0976A_0DAD_464B_A0CE_8B6AB6D439B3_Help">Override default user interface culture.</string>
       <string id="ITM_AB57B729_6578_43C4_8BAA_E8C223D57420">Norwegian (Bokmal)</string>
@@ -59,8 +59,15 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF">Company Name</string>
       <string id="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help">Company name displayed in the toast notifications</string>
       <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A">Disable disk space measurement</string>
-      <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help">When this setting is enabled disk space measurement will be skipped. Measurement is a prerequisite for the corresponding notification</string>
+      <string id="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help">When this setting is enabled disk space measurement will be skipped. As measurement is a prequisite for notification, disabling measurement will effectively also disable notification.</string>
       <string id="POL_53E7A67B_2659_421F_83D8_392958C9206E">Disable pending reboot measurement</string>
+      <string id="POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD">Disable password expiry measurement</string>
+      <string id="POL_58E088BB_8068_49E2_9CD8_A6C2E49D137A">Disable system uptime measurement</string>
+      <string id="POL_58E088BB_8068_49E2_9CD8_A6C2E49D137A_Help">When this setting is enabled system uptime measurement will be skipped.</string>
+      <string id="POL_938DF655_F3A5_496D_A84F_A533460D8968">Disable desktop data measurement</string>
+      <string id="POL_938DF655_F3A5_496D_A84F_A533460D8968_Help">When this setting is enabled desktop data measurement will be skipped.</string>
+      <string id="POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD_Help">When this setting is enabled password expiry warning measurement will be skipped. As measurement is a prequisite for notification disabling measurement will effectively also disable notification.</string>
+      <string id="POL_53E7A67B_2659_421F_83D8_392958C9206E_Help">When this setting is enabled pending reboot measurement will be skipped. As measurement is a prequisite for notification, disabling measurement will effectively also disable notification.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
