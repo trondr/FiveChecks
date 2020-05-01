@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.1353EA3F_B2B2_48CF_B516_0EF49DEA44A7" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.A80D782F_C64D_4DBF_A998_FA8586243FB5" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -29,7 +29,7 @@
     </category>
   </categories>
   <policies>
-    <policy name="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0" class="Machine" displayName="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0)" explainText="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="Disabled">
+    <policy name="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0" class="Machine" displayName="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0)" explainText="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="DisableNotification">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
@@ -180,6 +180,16 @@
       <elements>
         <text id="TXT_9A5D411E_A0D1_4193_A3FC_5941036FD95C" key="Software\Policies\github.trondr\Compliance.Notifications" valueName="CompanyName" />
       </elements>
+    </policy>
+    <policy name="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A" class="Machine" displayName="$(string.POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A)" explainText="$(string.POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
     </policy>
   </policies>
 </policyDefinitions>
