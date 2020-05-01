@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.A80D782F_C64D_4DBF_A998_FA8586243FB5" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.667345ED_1824_4924_8DA1_A6A27A378B75" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -56,7 +56,7 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disabled">
+    <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisabledNotification">
       <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
@@ -184,6 +184,16 @@
     <policy name="POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A" class="Machine" displayName="$(string.POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A)" explainText="$(string.POL_E094D0DE_142D_4E0F_8C05_BC446FBB3E3A_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="DisableMeasurement">
       <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
+    <policy name="POL_53E7A67B_2659_421F_83D8_392958C9206E" class="Machine" displayName="$(string.POL_53E7A67B_2659_421F_83D8_392958C9206E)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
+      <supportedOn ref="windows:SUPPORTED_Windows_10_0" />
 	  <enabledValue>
         <decimal value="1" />
       </enabledValue>
