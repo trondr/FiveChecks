@@ -38,11 +38,5 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }
-
-        public static bool IsDisabled(bool defaultValue)
-        {
-            var policyCategory = typeof(CheckPendingRebootCommand).GetPolicyCategory();
-            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
-        }
     }
 }

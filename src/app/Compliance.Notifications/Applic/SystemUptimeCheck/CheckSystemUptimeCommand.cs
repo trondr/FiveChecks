@@ -37,11 +37,5 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }
-
-        public static bool IsDisabled(bool defaultValue)
-        {
-            var policyCategory = typeof(CheckSystemUptimeCommand).GetPolicyCategory();
-            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
-        }
     }
 }

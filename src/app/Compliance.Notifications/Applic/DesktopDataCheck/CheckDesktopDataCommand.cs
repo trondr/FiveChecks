@@ -37,11 +37,5 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }
-
-        public static bool IsDisabled(bool defaultValue)
-        {
-            var policyCategory = typeof(CheckDesktopDataCommand).GetPolicyCategory();
-            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
-        }
     }
 }

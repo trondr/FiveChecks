@@ -187,6 +187,7 @@ namespace Compliance.Notifications.Applic.Common
             using (var sw = new StreamWriter(fileName))
             {
                 var json = JsonConvert.SerializeObject(complianceItem.Value, new UDecimalJsonConverter(), new RebootSourceJsonConverter());
+                Logging.DefaultLogger.Info($"Saving {typeof(T).Name}: {json}");
                 await sw.WriteAsync(json).ConfigureAwait(false);
                 return new Result<Unit>(Unit.Default);
             }
@@ -201,6 +202,7 @@ namespace Compliance.Notifications.Applic.Common
             using (var sr = new StreamReader(fileName))
             {
                 var json = await sr.ReadToEndAsync().ConfigureAwait(false);
+                Logging.DefaultLogger.Info($"Loading {typeof(T).Name}: {json}");
                 var item = JsonConvert.DeserializeObject<T>(json,new UDecimalJsonConverter(),new RebootSourceJsonConverter());
                 return new Result<T>(item);
             }
@@ -236,14 +238,14 @@ namespace Compliance.Notifications.Applic.Common
                 processTasks.Remove(firstFinishedTask);
                 await firstFinishedTask.ConfigureAwait(false);
             }
-            var results = tasks.Select(task => task.Result);
+            var results = processTasks.Select(task => task.Result);
             return results.ToResult().Match(units => new Result<Unit>(Unit.Default), exception => new Result<Unit>(exception));
         }
 
         public static async Task<Result<Unit>> RunSystemComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
         {
             if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
-            if (!SystemComplianceItemIsActive<T>()) return new Result<Unit>();
+            if (!SystemComplianceItemIsActive<T>()) return new Result<Unit>(Unit.Default);
             var info = await measureCompliance().ConfigureAwait(false);
             var res = await info.Match(dsi => F.SaveSystemComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
             return res;
@@ -252,7 +254,7 @@ namespace Compliance.Notifications.Applic.Common
         public static async Task<Result<Unit>> RunUserComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
         {
             if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
-            if (!UserComplianceItemIsActive<T>()) return new Result<Unit>();
+            if (!UserComplianceItemIsActive<T>()) return new Result<Unit>(Unit.Default);
             var info = await measureCompliance().ConfigureAwait(false);
             var res = await info.Match(dsi => F.SaveUserComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
             return res;
@@ -260,14 +262,14 @@ namespace Compliance.Notifications.Applic.Common
 
         private static bool SystemComplianceItemIsActive<T>()
         {
-            Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
-            return true;
+            //Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
+            return !F.IsMeasurementDisabled(false,typeof(T));
         }
 
         private static bool UserComplianceItemIsActive<T>()
         {
-            Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a user compliance item.");
-            return true;
+            //Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a user compliance item.");
+            return !F.IsMeasurementDisabled(false, typeof(T));
         }
 
         public static string ToExceptionMessage(this Exception ex)
@@ -829,12 +831,26 @@ namespace Compliance.Notifications.Applic.Common
                     throw new ArgumentOutOfRangeException(nameof(context), context, null);
             }
         }
-
-        public static bool PolicyCategoryIsDisabled(Option<string> policyCategory, bool defaultValue)
+        
+        public static bool PolicyCategoryIsDisabled(Option<string> policyCategory, ComplianceAction complianceAction, bool defaultValue)
         {
-            var isDisabled = F.GetBooleanPolicyValue(Context.Machine, policyCategory, "Disabled", defaultValue);
+            var valueName = ComplianceActionToDisabledValueName(complianceAction);
+            var isDisabled = F.GetBooleanPolicyValue(Context.Machine, policyCategory, valueName, defaultValue);
             if (isDisabled) policyCategory.IfSome(c => Logging.DefaultLogger.Debug($"{c} is disabled."));
             return isDisabled;
+        }
+
+        private static string ComplianceActionToDisabledValueName(ComplianceAction complianceAction)
+        {
+            switch (complianceAction)
+            {
+                case ComplianceAction.Notification:
+                    return "DisableNotification";
+                case ComplianceAction.Measurement:
+                    return "DisableMeasurement";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(complianceAction), complianceAction, null);
+            }
         }
 
         public static async Task DownloadImages(IEnumerable<int> range)
@@ -877,11 +893,38 @@ namespace Compliance.Notifications.Applic.Common
             };
             return TryOnline().Try().Match(b => b, exception => false);
         }
+
+        public static bool IsNotificationDisabled(bool defaultValue, Type checkCommandType)
+        {
+            var policyCategory = checkCommandType.GetPolicyCategory();
+            var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Notification, defaultValue);
+            if(isDisabled) Logging.DefaultLogger.Warn($"Notification '{checkCommandType.Name}' is disabled.");
+            return isDisabled;
+        }
+
+        public static bool IsMeasurementDisabled(bool defaultValue, Type checkCommandType)
+        {
+            var policyCategory = checkCommandType.GetPolicyCategory();
+            var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Measurement, defaultValue);
+            if(isDisabled) Logging.DefaultLogger.Warn($"Measurement '{checkCommandType.Name}' is disabled.");
+            return isDisabled;
+        }
+
+        public static bool IsCheckDisabled(bool defaultValue, Type checkCommandType)
+        {
+            return IsMeasurementDisabled(defaultValue, checkCommandType) || IsNotificationDisabled(defaultValue, checkCommandType);
+        }
     }
 
     public enum Context
     {
         Machine,
         User
+    }
+
+    public enum ComplianceAction
+    {
+        Notification,
+        Measurement
     }
 }

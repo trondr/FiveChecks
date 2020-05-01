@@ -113,27 +113,27 @@ namespace Compliance.Notifications
             var desktopDataResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             App.RunApplicationOnStart(async (sender, args) =>
             {
-                if (!CheckDiskSpaceCommand.IsDisabled(disableDiskSpaceCheck))
+                if (!F.IsCheckDisabled(disableDiskSpaceCheck, typeof(CheckDiskSpaceCommand)))
                 {
                     diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(userProfile, requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
                 }
 
-                if (!CheckPendingRebootCommand.IsDisabled(disablePendingRebootCheck))
+                if (!F.IsCheckDisabled(disablePendingRebootCheck, typeof(CheckPendingRebootCommand)))
                 {
                     pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot(userProfile).ConfigureAwait(false);
                 }
 
-                if (!CheckPasswordExpiryCommand.IsDisabled(disablePasswordExpiryCheck))
+                if (!F.IsCheckDisabled(disablePasswordExpiryCheck, typeof(CheckPasswordExpiryCommand)))
                 {
                     passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile).ConfigureAwait(false);
                 }
 
-                if (!CheckSystemUptimeCommand.IsDisabled(disableSystemUptimeCheck))
+                if (!F.IsCheckDisabled(disableSystemUptimeCheck, typeof(CheckSystemUptimeCommand)))
                 {
                     systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours).ConfigureAwait(false);
                 }
 
-                if (!CheckDesktopDataCommand.IsDisabled(disableDesktopDataCheck))
+                if (!F.IsCheckDisabled(disableDesktopDataCheck,typeof(CheckDesktopDataCommand)))
                 {
                     desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile).ConfigureAwait(false);
                 }

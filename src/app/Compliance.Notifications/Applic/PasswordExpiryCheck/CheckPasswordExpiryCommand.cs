@@ -31,11 +31,5 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }
-
-        public static bool IsDisabled(bool defaultValue)
-        {
-            var policyCategory = typeof(CheckPasswordExpiryCommand).GetPolicyCategory();
-            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
-        }
     }
 }

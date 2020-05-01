@@ -11,7 +11,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.ManualTests)]
         public void IsDisabledTest()
         {
-            var actual = CheckDiskSpaceCommand.IsDisabled(false);
+            var actual = CheckDiskSpaceCommand.IsNotificationDisabled(false);
             Assert.AreEqual(true,actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck]Disabled=1");
         }
     }
@@ -23,7 +23,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.ManualTests)]
         public void IsDisabledTest()
         {
-            var actual = CheckPendingRebootCommand.IsDisabled(false);
+            var actual = CheckPendingRebootCommand.IsNotificationDisabled(false);
             Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck]Disabled=1");
         }
     }

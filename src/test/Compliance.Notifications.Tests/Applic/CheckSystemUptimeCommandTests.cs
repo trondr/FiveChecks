@@ -10,7 +10,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.ManualTests)]
         public void IsDisabledTest()
         {
-            var actual = CheckSystemUptimeCommand.IsDisabled(false);
+            var actual = CheckSystemUptimeCommand.IsNotificationDisabled(false);
             Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck]Disabled=1");
         }
     }

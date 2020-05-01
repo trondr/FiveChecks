@@ -42,8 +42,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         /// <param name="requiredFreeDiskSpace">Required free disk space in GB.</param>
         /// <param name="subtractSccmCache">When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0</param>
         /// <returns></returns>
-        public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(Some<NotificationProfile> notificationProfile,
-            UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
+        public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(Some<NotificationProfile> notificationProfile, UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
             var category = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
             var policyRequiredFreeDiskSpace = F.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
@@ -63,11 +62,5 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         }
 
         private static decimal RequiredCleanupAmount(DiskSpaceInfo spaceInfo, UDecimal requiredFreeDiskSpace, bool subtractSccmCache) => requiredFreeDiskSpace - (spaceInfo.TotalFreeDiskSpace + (subtractSccmCache ? spaceInfo.SccmCacheSize : 0));
-
-        public static bool IsDisabled(bool defaultValue)
-        {
-            var policyCategory = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
-            return F.PolicyCategoryIsDisabled(policyCategory, defaultValue);
-        }
     }
 }

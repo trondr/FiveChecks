@@ -1,4 +1,5 @@
-﻿using Compliance.Notifications.Applic.DesktopDataCheck;
+﻿using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.DesktopDataCheck;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Applic
@@ -10,7 +11,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.ManualTests)]
         public void IsDisabledTest()
         {
-            var actual = CheckDesktopDataCommand.IsDisabled(false);
+            var actual = F.IsNotificationDisabled(false, typeof(CheckDesktopDataCommand));
             Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck]Disabled=1");
         }
     }
