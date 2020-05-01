@@ -88,15 +88,6 @@ namespace Compliance.Notifications.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String103 {
-            get {
-                return ResourceManager.GetString("_String103", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         internal static string ChangePasswordMessageBoxCaption {
@@ -210,6 +201,15 @@ namespace Compliance.Notifications.Resources {
         internal static string GoodMorning {
             get {
                 return ResourceManager.GetString("GoodMorning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hour.
+        /// </summary>
+        internal static string Hour {
+            get {
+                return ResourceManager.GetString("Hour", resourceCulture);
             }
         }
         

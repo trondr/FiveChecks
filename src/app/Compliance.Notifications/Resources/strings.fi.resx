@@ -228,8 +228,8 @@
   <data name="_String101" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String103" xml:space="preserve">
-    <value>_string</value>
+  <data name="Hour" xml:space="preserve">
+    <value>hour</value>
   </data>
   <data name="_String102" xml:space="preserve">
     <value>_string</value>

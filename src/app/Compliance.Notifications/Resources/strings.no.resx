@@ -240,8 +240,8 @@
   <data name="PendingRebootNotification_Source_F0" xml:space="preserve">
     <value>Omstartskilde: {0}</value>
   </data>
-  <data name="_String103" xml:space="preserve">
-    <value>_string</value>
+  <data name="Hour" xml:space="preserve">
+    <value>time</value>
   </data>
   <data name="_String102" xml:space="preserve">
     <value>_string</value>
