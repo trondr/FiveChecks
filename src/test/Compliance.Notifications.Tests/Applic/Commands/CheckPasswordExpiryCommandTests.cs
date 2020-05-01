@@ -20,13 +20,14 @@ namespace Compliance.Notifications.Tests.Applic.Commands
             public int ExpectedShowCount { get; set; }
             public int ExpectedHideCount { get; set; }
             public bool IsNonCompliant { get; set; }
+            public bool IsDisabled { get; set; }
         }
 
         private static DateTime expiryDate = new DateTime(2020, 01, 13, 14, 49, 05);
         public static object[] TestDataSource =
         {
-            new object[] {".", new TestData {IsNonCompliant = false,ExpectedLoadCount = 1,ExpectedShowCount = 0,ExpectedHideCount = 1,IsRemoteSession = false,PasswordExpiryStatus = PasswordExpiryStatus.NotExpiring, PasswordExpiryDate = expiryDate}},
-            new object[] {".", new TestData { IsNonCompliant = true, ExpectedLoadCount = 1,ExpectedShowCount = 1,ExpectedHideCount = 0,IsRemoteSession = false,PasswordExpiryStatus = PasswordExpiryStatus.ExpiringSoon, PasswordExpiryDate = expiryDate}},
+            new object[] {"Not Expiring", new TestData {IsNonCompliant = false,ExpectedLoadCount = 1,ExpectedShowCount = 0,ExpectedHideCount = 1,IsRemoteSession = false,PasswordExpiryStatus = PasswordExpiryStatus.NotExpiring, PasswordExpiryDate = expiryDate, IsDisabled = false}},
+            new object[] {"Expiring Soon", new TestData { IsNonCompliant = true, ExpectedLoadCount = 1,ExpectedShowCount = 1,ExpectedHideCount = 0,IsRemoteSession = false,PasswordExpiryStatus = PasswordExpiryStatus.ExpiringSoon, PasswordExpiryDate = expiryDate, IsDisabled = false}},
         };
         
         [Test]
@@ -54,10 +55,18 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                 {
                     hideCount++;
                     return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide));
-                });
+                }, testData.IsDisabled);
             Assert.AreEqual(testData.ExpectedLoadCount, loadCount, "LoadCount");
             Assert.AreEqual(testData.ExpectedShowCount, showCount, "ShowCount");
             Assert.AreEqual(testData.ExpectedHideCount, hideCount, "HideCount");
+        }
+
+        [Test]
+        [Category(TestCategory.ManualTests)]
+        public void IsDisabledTest()
+        {
+            var actual = F.IsNotificationDisabled(false, typeof(CheckPasswordExpiryCommand));
+            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck]Disabled=1");
         }
     }
 }

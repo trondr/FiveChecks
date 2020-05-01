@@ -44,10 +44,6 @@
     <Compile Include="Applic\FTests.cs" />
     <Compile Include="Applic\RebootSourceExtensionsTests.cs" />
     <Compile Include="Applic\ScheduledTasksTests.cs" />
-    <Compile Include="Applic\CheckDesktopDataCommandTests.cs" />
-    <Compile Include="Applic\CheckDiskSpaceCommandTests.cs" />
-    <Compile Include="Applic\CheckPasswordExpiryCommandTests.cs" />
-    <Compile Include="Applic\CheckSystemUptimeCommandTests.cs" />
     <Compile Include="Applic\Commands\CheckDesktopDataCommandTests.cs" />
     <Compile Include="Applic\Commands\CheckPasswordExpiryCommandTests.cs" />
     <Compile Include="Applic\Commands\CheckPendingRebootCommandTests.cs" />

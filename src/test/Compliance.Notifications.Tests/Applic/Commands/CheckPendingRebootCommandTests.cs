@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Applic.DiskSpaceCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using LanguageExt.Common;
 using NUnit.Framework;
@@ -36,9 +37,11 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         }
 
         [Test]
-        [TestCase(PendingReboot.True, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.One, RemovePendingRebootToastNotificationCallCount.Zero,true, Description = "Pending reboot is true")]
-        [TestCase(PendingReboot.False, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.Zero, RemovePendingRebootToastNotificationCallCount.One,false, Description = "Pending reboot is false")]
-        public void CheckPendingRebootTest(bool isPendingReboot,int expectedLoadPendingRebootCallCount, int expectedShowPendingRebootToastNotificationCount, int expectedRemovePendingRebootToastNotificationCallCount, bool isNonCompliant)
+        [TestCase(PendingReboot.True, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.One, RemovePendingRebootToastNotificationCallCount.Zero,true,false, Description = "Pending reboot is true")]
+        [TestCase(PendingReboot.False, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.Zero, RemovePendingRebootToastNotificationCallCount.One,false,false, Description = "Pending reboot is false")]
+        public void CheckPendingRebootTest(bool isPendingReboot, int expectedLoadPendingRebootCallCount,
+            int expectedShowPendingRebootToastNotificationCount,
+            int expectedRemovePendingRebootToastNotificationCallCount, bool isNonCompliant, bool isDisabled)
         {
             var actualLoadPendingRebootCallCount = 0;
             var actualShowPendingRebootToastNotificationCount = 0;
@@ -59,11 +62,19 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                         {
                             actualRemovePendingRebootToastNotificationCount++;
                             return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide));
-                        });
+                        },isDisabled);
 
             Assert.AreEqual(expectedLoadPendingRebootCallCount, actualLoadPendingRebootCallCount, "LoadPendingRebootResult");
             Assert.AreEqual(expectedShowPendingRebootToastNotificationCount, actualShowPendingRebootToastNotificationCount,"ShowPendingRebootToastNotification");
             Assert.AreEqual(expectedRemovePendingRebootToastNotificationCallCount, actualRemovePendingRebootToastNotificationCount, "RemovePendingRebootToastNotification");
+        }
+
+        [Test]
+        [Category(TestCategory.ManualTests)]
+        public void IsDisabledTest()
+        {
+            var actual = F.IsNotificationDisabled(false, typeof(CheckDiskSpaceCommand));
+            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck]Disabled=1");
         }
     }
 }

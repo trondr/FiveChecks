@@ -843,7 +843,6 @@ namespace Compliance.Notifications.Applic.Common
         {
             var valueName = ComplianceActionToDisabledValueName(complianceAction);
             var isDisabled = F.GetBooleanPolicyValue(Context.Machine, policyCategory, valueName, defaultValue);
-            if (isDisabled) policyCategory.IfSome(c => Logging.DefaultLogger.Debug($"{c} is disabled."));
             return isDisabled;
         }
 
@@ -905,7 +904,7 @@ namespace Compliance.Notifications.Applic.Common
         {
             var policyCategory = checkCommandType.GetPolicyCategory();
             var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Notification, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Warn($"Notification '{checkCommandType.Name}' is disabled.");
+            if(isDisabled) Logging.DefaultLogger.Warn($"Notification for '{checkCommandType.Name}' is disabled.");
             return isDisabled;
         }
 
@@ -913,7 +912,7 @@ namespace Compliance.Notifications.Applic.Common
         {
             var policyCategory = checkCommandType.GetPolicyCategory();
             var isDisabled = F.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Measurement, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Warn($"Measurement '{checkCommandType.Name}' is disabled.");
+            if(isDisabled) Logging.DefaultLogger.Warn($"Measurement for '{checkCommandType.Name}' is disabled.");
             return isDisabled;
         }
 
