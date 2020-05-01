@@ -1,4 +1,4 @@
-﻿namespace Compliance.Notifications.Tests.Common
+﻿namespace Compliance.Notifications.Tests.Applic
 {
     public static class TestCategory
     {

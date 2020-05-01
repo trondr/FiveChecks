@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
-using Compliance.Notifications.Tests.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Applic

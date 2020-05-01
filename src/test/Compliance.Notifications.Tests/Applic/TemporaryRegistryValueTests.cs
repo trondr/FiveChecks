@@ -5,7 +5,7 @@ using LanguageExt;
 using Microsoft.Win32;
 using NUnit.Framework;
 
-namespace Compliance.Notifications.Tests.Common
+namespace Compliance.Notifications.Tests.Applic
 {
     [TestFixture]
     public class TemporaryRegistryValueTests

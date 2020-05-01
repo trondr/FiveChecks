@@ -115,6 +115,36 @@
       <FixtureTestSelector>
         <FixtureName>Compliance.Notifications.Tests.Applic.CheckDesktopDataCommandTests</FixtureName>
       </FixtureTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.ScheduledTasksTests.RunScheduledTaskTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.CheckSystemUptimeCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.CheckPendingRebootCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.CheckPasswordExpiryCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.FTests.InstallTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.FTests.OpenRestartDialogTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.FTests.UnInstallTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.CheckDiskSpaceCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.CheckDesktopDataCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.FTests.GetRandomImageFromCacheTest</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

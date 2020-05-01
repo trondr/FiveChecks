@@ -1,5 +1,4 @@
 ﻿using Compliance.Notifications.Applic.SystemUptimeCheck;
-using Compliance.Notifications.Tests.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Applic

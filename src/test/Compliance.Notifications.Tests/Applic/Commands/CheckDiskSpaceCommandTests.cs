@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.DiskSpaceCheck;
-using Compliance.Notifications.Tests.Common;
 using LanguageExt.Common;
 using NUnit.Framework;
 
-namespace Compliance.Notifications.Tests.Commands
+namespace Compliance.Notifications.Tests.Applic.Commands
 {
     [TestFixture()]
     [Category(TestCategory.UnitTests)]

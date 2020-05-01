@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.PendingRebootCheck;
-using Compliance.Notifications.Tests.Common;
+using Compliance.Notifications.Tests.Applic;
 using LanguageExt;
 using NUnit.Framework;
 

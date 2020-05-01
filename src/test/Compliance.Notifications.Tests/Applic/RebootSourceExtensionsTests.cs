@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Compliance.Notifications.Applic.PendingRebootCheck;
-using Compliance.Notifications.Tests.Common;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Applic
