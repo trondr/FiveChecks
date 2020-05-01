@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.28A21C86_99A1_4903_93BF_99EE5A987492" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.1353EA3F_B2B2_48CF_B516_0EF49DEA44A7" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -30,7 +30,7 @@
   </categories>
   <policies>
     <policy name="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0" class="Machine" displayName="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0)" explainText="$(string.POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck" valueName="Disabled">
-      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <parentCategory ref="CAT_7936670B_8E03_454A_A995_1379FF4D4738" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
         <decimal value="1" />
@@ -57,7 +57,7 @@
       </disabledValue>
     </policy>
     <policy name="POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9" class="Machine" displayName="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9)" explainText="$(string.POL_383F49BE_67B7_4E8C_83F6_67DE411CC4F9_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck" valueName="Disabled">
-      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
         <decimal value="1" />
@@ -110,7 +110,7 @@
       </elements>
     </policy>
     <policy name="POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE" class="Machine" displayName="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE)" explainText="$(string.POL_5B57A76A_7539_4155_A7DC_44F9ADFB54CE_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\SystemUptimeCheck" valueName="Disabled">
-      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <parentCategory ref="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
         <decimal value="1" />
@@ -120,7 +120,7 @@
       </disabledValue>
     </policy>
     <policy name="POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5" class="Machine" displayName="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5)" explainText="$(string.POL_EF1E8D3E_4D0A_4B4F_B51B_43558D143AD5_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck" valueName="Disabled">
-      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <parentCategory ref="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
         <decimal value="1" />
@@ -137,7 +137,7 @@
       </elements>
     </policy>
     <policy name="POL_74553E7F_F584_4420_AD33_E058561EF1BA" class="Machine" displayName="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" explainText="$(string.POL_74553E7F_F584_4420_AD33_E058561EF1BA_Help)" presentation="$(presentation.POL_74553E7F_F584_4420_AD33_E058561EF1BA)" key="Software\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck" valueName="Disabled">
-      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+      <parentCategory ref="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <enabledValue>
         <decimal value="1" />
@@ -174,7 +174,7 @@
         </enum>
       </elements>
     </policy>
-    <policy name="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF" class="Machine" displayName="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" explainText="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help)" presentation="$(presentation.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" key="Software\Policies\github.trondr\Compliance.Notifications" >
+    <policy name="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF" class="Machine" displayName="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" explainText="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help)" presentation="$(presentation.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" key="Software\Policies\github.trondr\Compliance.Notifications">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
       <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
