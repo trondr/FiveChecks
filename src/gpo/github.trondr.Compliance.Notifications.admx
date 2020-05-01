@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.E1157BB5_B05B_44D2_B3B3_A110EAF4C302" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.28A21C86_99A1_4903_93BF_99EE5A987492" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -174,9 +174,12 @@
         </enum>
       </elements>
     </policy>
-    <policy name="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF" class="Machine" displayName="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" explainText="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help)" key="Software\Policies\github.trondr\Compliance.Notifications" valueName="CompanyName">
+    <policy name="POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF" class="Machine" displayName="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" explainText="$(string.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF_Help)" presentation="$(presentation.POL_D318B824_4DC0_4A35_B702_EDC43C02D5FF)" key="Software\Policies\github.trondr\Compliance.Notifications" >
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
-      <supportedOn ref="SUPPORTED_Windows_10_0" />      
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+      <elements>
+        <text id="TXT_9A5D411E_A0D1_4193_A3FC_5941036FD95C" key="Software\Policies\github.trondr\Compliance.Notifications" valueName="CompanyName" />
+      </elements>
     </policy>
   </policies>
 </policyDefinitions>
