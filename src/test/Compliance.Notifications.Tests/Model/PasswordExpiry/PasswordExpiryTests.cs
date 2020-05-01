@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Tests.Applic;
+using LanguageExt;
 using NUnit.Framework;
 
 namespace Compliance.Notifications.Tests.Model.PasswordExpiry
@@ -32,11 +33,14 @@ namespace Compliance.Notifications.Tests.Model.PasswordExpiry
         private static readonly DateTime nowBeforeExpirationDate = new DateTime(2020, 3, 10, 10, 33, 44);
         private static readonly DateTime nowAfterExpirationDate = new DateTime(2020, 3, 12, 10, 33, 44);
         private static readonly UserPasswordInfo userPasswordInfo = new UserPasswordInfo("someUser", passwordExpirationDate);
+
+        public static readonly UserPasswordInfo userPasswordInfo2 = new UserPasswordInfo("someUser", new DateTime(2020, 07, 13, 10, 20, 08));
         public static object[] TestDataSource =
         {
             new object[] {"Password has expired.", new TestData(userPasswordInfo, false,nowAfterExpirationDate,11, new UserPasswordExpiryStatusInfo(userPasswordInfo,false,PasswordExpiryStatus.HasExpired) )},
             new object[] {"Password has not expired, but is expiring soon.", new TestData(userPasswordInfo, false,nowBeforeExpirationDate,11, new UserPasswordExpiryStatusInfo(userPasswordInfo,false,PasswordExpiryStatus.ExpiringSoon) )},
-            new object[] {"Password has not expired.", new TestData(userPasswordInfo, false,nowLongBeforeExpirationDate,11, new UserPasswordExpiryStatusInfo(userPasswordInfo,false,PasswordExpiryStatus.NotExpiring) )}
+            new object[] {"Password has not expired.", new TestData(userPasswordInfo, false,nowLongBeforeExpirationDate,11, new UserPasswordExpiryStatusInfo(userPasswordInfo,false,PasswordExpiryStatus.NotExpiring) )},
+            new object[] {"Password expires 2020-07-13.", new TestData(userPasswordInfo2, false,new DateTime(2020,05,01), 75, new UserPasswordExpiryStatusInfo(userPasswordInfo2, false,PasswordExpiryStatus.ExpiringSoon) )}
         };
 
         [Test]

@@ -98,8 +98,8 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
                     var userPasswordInfo = getUserPasswordInfo(userId);
                     if (userPasswordInfo.PasswordExpirationDate == DateTime.MaxValue)
                         return new UserPasswordExpiryStatusInfo(userPasswordInfo, getIsRemoteSession(), PasswordExpiryStatus.NotExpiring);
-
-                    var passwordExpiryTimeSpan = userPasswordInfo.PasswordExpirationDate - getNow();
+                    var now = getNow();
+                    var passwordExpiryTimeSpan = userPasswordInfo.PasswordExpirationDate - now;
                     if (passwordExpiryTimeSpan.TotalDays < 0)
                         return new UserPasswordExpiryStatusInfo(userPasswordInfo, getIsRemoteSession(), PasswordExpiryStatus.HasExpired);
 
