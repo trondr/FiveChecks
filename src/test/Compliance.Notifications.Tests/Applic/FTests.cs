@@ -376,7 +376,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.UnitTests)]
         public async Task GetGivenNameTest()
         {
-            var actual = await F.GetGivenName();
+            var actual = await UserProfileOperations.GetGivenName();
             actual.Match(s =>
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(s));

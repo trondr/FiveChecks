@@ -100,17 +100,17 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         }
 
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(PendingRebootInfo info, string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowPendingRebootToastNotification(Some<NotificationProfile> notificationProfile, PendingRebootInfo info, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPendingRebootToastContentInfo(info, groupName).ConfigureAwait(false);
+                var toastContentInfo = GetCheckPendingRebootToastContentInfo(notificationProfile, info, groupName);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckPendingRebootToastContentInfo(PendingRebootInfo info, string groupName)
+        private static ActionDismissToastContentInfo GetCheckPendingRebootToastContentInfo(Some<NotificationProfile> notificationProfile, PendingRebootInfo info, string groupName)
         {
             var title = strings.PendingRebootNotification_Title;
             var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
@@ -119,10 +119,10 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             var content2 = strings.PendingRebootNotification_Content2;
             var action = ToastActions.Restart;
             var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await F.GetGreeting().ConfigureAwait(false);
-            Option<string> content3 = string.Format(CultureInfo.InvariantCulture,strings.PendingRebootNotification_Source_F0,info.ToSourceDescription());
+            var greeting = F.GetGreeting(notificationProfile);
+            Option<string> content3 = string.Format(CultureInfo.InvariantCulture,strings.PendingRebootNotification_Source_F0, info.ToSourceDescription());
             return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,content3);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, content3, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()

@@ -105,6 +105,7 @@ namespace Compliance.Notifications
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(policyUserInterfaceCulture);
             }
             Process.GetCurrentProcess().CloseOtherProcessWithSameCommandLine();
+            var userProfile = await UserProfileOperations.LoadAndSetUserProfile().ConfigureAwait(false);
             var diskSpaceResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var pendingRebootResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var passwordExpiryResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
@@ -114,27 +115,27 @@ namespace Compliance.Notifications
             {
                 if (!CheckDiskSpaceCommand.IsDisabled(disableDiskSpaceCheck))
                 {
-                    diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
+                    diskSpaceResult = await CheckDiskSpaceCommand.CheckDiskSpace(userProfile, requiredFreeDiskSpace, subtractSccmCache).ConfigureAwait(false);
                 }
 
                 if (!CheckPendingRebootCommand.IsDisabled(disablePendingRebootCheck))
                 {
-                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot().ConfigureAwait(false);
+                    pendingRebootResult = await CheckPendingRebootCommand.CheckPendingReboot(userProfile).ConfigureAwait(false);
                 }
 
                 if (!CheckPasswordExpiryCommand.IsDisabled(disablePasswordExpiryCheck))
                 {
-                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry().ConfigureAwait(false);
+                    passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile).ConfigureAwait(false);
                 }
 
                 if (!CheckSystemUptimeCommand.IsDisabled(disableSystemUptimeCheck))
                 {
-                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(maxUptimeHours).ConfigureAwait(false);
+                    systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours).ConfigureAwait(false);
                 }
 
                 if (!CheckDesktopDataCommand.IsDisabled(disableDesktopDataCheck))
                 {
-                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData().ConfigureAwait(false);
+                    desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile).ConfigureAwait(false);
                 }
             });
             var result = 

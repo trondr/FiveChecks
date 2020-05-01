@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Applic\Common\ScheduledTaskInfo.cs" />
+    <Compile Include="Applic\Common\NotificationProfile.cs" />
     <Compile Include="Applic\Common\WindowsEventLog.cs" />
     <Compile Include="Applic\DesktopDataCheck\CheckDesktopDataCommand.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using LanguageExt;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Applic.PendingRebootCheck
@@ -19,7 +20,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             return result;
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> CheckPendingReboot()
+        public static async Task<Result<ToastNotificationVisibility>> CheckPendingReboot(Some<NotificationProfile> userProfile)
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
@@ -33,7 +34,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             return await CheckPendingRebootPure(
                 () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
-                (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(info, tag, groupName),
+                (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(userProfile, info, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName)
                 ).ConfigureAwait(false);
         }

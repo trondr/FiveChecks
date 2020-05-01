@@ -43,9 +43,8 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                         loadCount++;
                         return Task.FromResult(new SystemUptimeInfo(){LastRestart = testData.LastRestart,Uptime = testData.UpTime});
                     }, info => testData.IsNonCompliant
-                    , (time, s) =>
+                    , (info) =>
                     {
-
                         showCount++;
                         return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));
                     }, () =>

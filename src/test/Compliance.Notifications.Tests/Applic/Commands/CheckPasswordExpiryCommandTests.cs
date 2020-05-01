@@ -45,7 +45,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                     loadCount++;
                     return Task.FromResult(new PasswordExpiryInfo(testData.PasswordExpiryDate,testData.PasswordExpiryStatus,testData.IsRemoteSession));
                 }, info => testData.IsNonCompliant
-                    ,(time, s) =>
+                    ,(info) =>
                 {
                             
                     showCount++;

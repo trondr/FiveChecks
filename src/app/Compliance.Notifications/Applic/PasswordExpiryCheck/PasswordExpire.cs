@@ -115,17 +115,17 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             }
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(DateTime passwordExpirationDate, string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(Some<NotificationProfile> userProfile, DateTime passwordExpirationDate, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckPasswordExpiryToastContentInfo(passwordExpirationDate, groupName).ConfigureAwait(false);
+                var toastContentInfo = GetCheckPasswordExpiryToastContentInfo(userProfile, passwordExpirationDate, groupName);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckPasswordExpiryToastContentInfo(
+        private static ActionDismissToastContentInfo GetCheckPasswordExpiryToastContentInfo(Some<NotificationProfile> notificationProfile,
             DateTime passwordExpirationDate, string groupName)
         {
             var title = strings.PasswordExpiryNotification_Title;
@@ -135,9 +135,9 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             var content2 = strings.PasswordExpiryNotification_Content2;
             var action = ToastActions.ChangePassword;
             var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await F.GetGreeting().ConfigureAwait(false);
+            var greeting = F.GetGreeting(notificationProfile);
             return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()

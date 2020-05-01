@@ -12,6 +12,7 @@ using System.Management.Automation;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
+using System.Security;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,16 +45,10 @@ namespace Compliance.Notifications.Applic.Common
                     Path.GetExtension(fileName)
                     );
         }
-        
-        
 
-        public static async Task<string> GetGreeting()
+        public static string GetGreeting(Some<NotificationProfile> userProfile)
         {
-            var givenNameResult = await F.GetGivenName().ConfigureAwait(false);
-            return givenNameResult.Match(
-                    givenName => $"{F.GetGreeting(DateTime.Now)} {givenName}",
-                    () => F.GetGreeting(DateTime.Now)
-                );
+            return $"{F.GetGreeting(DateTime.Now)} {userProfile.Value.GivenName}";
         }
         
         public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
@@ -366,28 +361,7 @@ namespace Compliance.Notifications.Applic.Common
                 return $"file://{imageFile}";
             }).ConfigureAwait(false);
         }
-
         
-        public static Try<Option<string>> TryGetGivenName() => () =>
-        {
-            var currentWindowsPrincipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            using (var pc = new PrincipalContext(ContextType.Domain))
-            {
-                var up = UserPrincipal.FindByIdentity(pc, currentWindowsPrincipal.Identity.Name);
-                return up != null ? up.GivenName : Option<string>.None;
-            }
-        };
-
-        public static async Task<Option<string>> GetGivenName()
-        {
-            var result = await Task.Run(() => TryGetGivenName().Try()).ConfigureAwait(false);
-            return result.Match(option => option, exception =>
-            {
-                Logging.DefaultLogger.Error($"Failed to get user given name. {exception.ToExceptionMessage()}");
-                return Option<string>.None;
-            });
-        }
-
         public static string GetGreeting(DateTime now)
         {
             var hourOfDay = now.Hour;
@@ -690,6 +664,58 @@ namespace Compliance.Notifications.Applic.Common
                 }).ConfigureAwait(false);
             }
             return info;
+        }
+
+        public static object GetProfileValue(Context context, Option<string> category, string valueName, object defaultValue)
+        {
+            var hive = context.ContextToRegistryHive();
+            var policySubKeyPath = GetProfileSubKeyPath(category);
+            using (var key = hive.OpenSubKey(policySubKeyPath))
+            {
+                var value = key?.GetValue(valueName, defaultValue);
+                return value ?? defaultValue;
+            }
+        }
+
+        public static string GetStringProfileValue(Context context, Option<string> category, string valueName, string defaultValue)
+        {
+            var value = GetProfileValue(context, category, valueName, defaultValue);
+            return ObjectValueToString(value, defaultValue);
+        }
+
+        public static Result<Unit> SetStringProfileValue(Context context, Option<string> category, string valueName, string value)
+        {
+            return SetProfileValue(context, category, valueName, ObjectValueToString(value, value));
+        }
+
+        public static Result<Unit> SetProfileValue(Context context, Option<string> category, string valueName, object value)
+        {
+            try
+            {
+                var hive = context.ContextToRegistryHive();
+                var policySubKeyPath = GetProfileSubKeyPath(category);
+                using (var key = hive.CreateSubKey(policySubKeyPath))
+                {
+                    key?.SetValue(valueName, value);
+                }
+                return new Result<Unit>(Unit.Default);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ArgumentException || ex is ObjectDisposedException ||
+                    ex is UnauthorizedAccessException || ex is SecurityException || ex is IOException)
+                {
+                    return new Result<Unit>(new Exception($"Failed to set profile value '{valueName}'='{value}'", ex));
+                }
+                throw;
+            }
+        }
+
+        public static string GetProfileSubKeyPath(Option<string> category)
+        {
+            return category.Match(
+                cat => $"Software\\{ApplicationInfo.ApplicationCompanyName}\\{ApplicationInfo.ApplicationProductName}\\{cat}",
+                () => $"Software\\{ApplicationInfo.ApplicationCompanyName}\\{ApplicationInfo.ApplicationProductName}");
         }
 
         public static object GetPolicyValue(Context context,Option<string> category, string valueName, object defaultValue)

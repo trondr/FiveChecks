@@ -41,7 +41,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
                 {
                     loadCount++;
                     return Task.FromResult(new DesktopDataInfo(){HasDesktopData = testData.HasDesktopData,NumberOfFiles = 1,TotalSizeInBytes = 1});
-                }, (time, s) =>
+                }, (info) =>
                 {
                     showCount++;
                     return Task.FromResult(new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Show));

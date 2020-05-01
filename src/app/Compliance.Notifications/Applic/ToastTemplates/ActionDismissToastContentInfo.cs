@@ -7,20 +7,9 @@ namespace Compliance.Notifications.Applic.ToastTemplates
 {
     public class ActionDismissToastContentInfo : Record<ActionDismissToastContentInfo>
     {
-        
         public BindableString Greeting { get; }
         public string Title { get; }
-
-        private string _companyName;
-        public string CompanyName
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_companyName))
-                    _companyName = F.GetCompanyName();
-                return _companyName;
-            }
-        }
+        public string CompanyName { get; }
         public string ContentSection1 { get; }
         public string ContentSection2 { get; }
         public Option<string> ContentSection3 { get; }
@@ -36,7 +25,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
         public ActionDismissToastContentInfo(BindableString greeting, string title,
             string contentSection1, string contentSection2, Uri imageUri, Uri appLogoImageUri, string action,
             ToastActivationType actionActivationType, string actionButtonContent, string notNowButtonContent,
-            string notNowAction, string groupName, Option<string> contentSection3)
+            string notNowAction, string groupName, Option<string> contentSection3, string companyName)
         {
             Greeting = greeting;
             Title = title;
@@ -50,6 +39,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
             NotNowAction = notNowAction;
             GroupName = groupName;
             ContentSection3 = contentSection3;
+            CompanyName = companyName;
             ActionActivationType = actionActivationType;
         }
     }

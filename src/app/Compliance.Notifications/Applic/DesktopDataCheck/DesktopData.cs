@@ -31,17 +31,17 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             return Task.FromResult(new Result<DesktopDataInfo>(new DesktopDataInfo {HasDesktopData = numberOfAllNonShortcutFiles > 0, NumberOfFiles = numberOfAllNonShortcutFiles, TotalSizeInBytes = sizeofAllNonShortcutFilesInBytes}));
         }
 
-        public static async Task<Result<ToastNotificationVisibility>> ShowDesktopDataToastNotification(DesktopDataInfo desktopDataInfo, string tag, string groupName)
+        public static async Task<Result<ToastNotificationVisibility>> ShowDesktopDataToastNotification(Some<NotificationProfile> userProfile, DesktopDataInfo desktopDataInfo, string tag, string groupName)
         {
             return await ToastHelper.ShowToastNotification(async () =>
             {
-                var toastContentInfo = await GetCheckDesktopDataToastContentInfo(groupName, desktopDataInfo).ConfigureAwait(false);
+                var toastContentInfo = GetCheckDesktopDataToastContentInfo(userProfile, groupName, desktopDataInfo);
                 var toastContent = await ActionDismissToastContent.CreateToastContent(toastContentInfo).ConfigureAwait(true);
                 return toastContent;
             }, tag, groupName).ConfigureAwait(false);
         }
 
-        private static async Task<ActionDismissToastContentInfo> GetCheckDesktopDataToastContentInfo(string groupName,
+        private static ActionDismissToastContentInfo GetCheckDesktopDataToastContentInfo(Some<NotificationProfile> notificationProfile, string groupName,
             DesktopDataInfo desktopDataInfo)
         {
             var title = string.Format(CultureInfo.InvariantCulture, strings.DesktopData_Title_F0, desktopDataInfo.TotalSizeInBytes.BytesToReadableString());
@@ -51,9 +51,9 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             var content2 = strings.DesktopData_Content2;
             var action = ToastActions.CreateMyDocumentsShortcut;
             var actionActivationType = ToastActivationType.Foreground;
-            var greeting = await F.GetGreeting().ConfigureAwait(false);
+            var greeting = F.GetGreeting(notificationProfile);
             return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None);
+                imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<DesktopDataInfo> LoadDesktopDataInfo()

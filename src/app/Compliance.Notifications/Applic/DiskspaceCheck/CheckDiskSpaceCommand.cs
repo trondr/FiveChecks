@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
+using LanguageExt;
 using LanguageExt.Common;
 
 namespace Compliance.Notifications.Applic.DiskSpaceCheck
@@ -37,10 +38,12 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         /// <summary>
         /// Check disk space compliance.
         /// </summary>
+        /// <param name="notificationProfile"></param>
         /// <param name="requiredFreeDiskSpace">Required free disk space in GB.</param>
         /// <param name="subtractSccmCache">When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0</param>
         /// <returns></returns>
-        public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
+        public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(Some<NotificationProfile> notificationProfile,
+            UDecimal requiredFreeDiskSpace, bool subtractSccmCache)
         {
             var category = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
             var policyRequiredFreeDiskSpace = F.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
@@ -54,7 +57,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
                     policySubtractSccmCache,
                     () => F.LoadInfo<DiskSpaceInfo>(DiskSpace.LoadDiskSpaceResult, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                     IsNonCompliant,
-                    (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(requiredCleanupAmount, tag, groupName),
+                    (requiredCleanupAmount, companyName) => DiskSpace.ShowDiskSpaceToastNotification(notificationProfile, requiredCleanupAmount, tag, groupName),
                     () => ToastHelper.RemoveToastNotification(groupName))
                 .ConfigureAwait(false);
         }
