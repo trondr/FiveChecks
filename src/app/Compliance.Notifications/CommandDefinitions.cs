@@ -99,7 +99,7 @@ namespace Compliance.Notifications
             [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
-            var policyUserInterfaceCulture = F.GetStringPolicyValue(Context.User, Option<string>.None, "UserInterfaceCulture", userInterfaceCulture);
+            var policyUserInterfaceCulture = Profile.GetStringPolicyValue(Context.User, Option<string>.None, "UserInterfaceCulture", userInterfaceCulture);
             if (!string.IsNullOrEmpty(policyUserInterfaceCulture))
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(policyUserInterfaceCulture);

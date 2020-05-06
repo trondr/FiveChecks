@@ -23,11 +23,11 @@ namespace Compliance.Notifications.Applic.Common
         {
             var givenName = 
                 (await GetGivenName().ConfigureAwait(false))
-                .Match(gName => gName, () => F.GetStringProfileValue(Context.User, Option<string>.None, "GiveName", Environment.UserName));
-            var companyName = F.GetCompanyName();
+                .Match(gName => gName, () => Profile.GetStringProfileValue(Context.User, Option<string>.None, "GiveName", Environment.UserName));
+            var companyName = Profile.GetCompanyName();
             var userProfile = new NotificationProfile(givenName, companyName);
-            return 
-                F.SetStringProfileValue(Context.User, Option<string>.None, "GiveName", givenName)
+            return
+                Profile.SetStringProfileValue(Context.User, Option<string>.None, "GiveName", givenName)
                     .Match(unit => userProfile,exception =>
                     {
                         Logging.DefaultLogger.Warn(exception.ToExceptionMessage());

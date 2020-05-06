@@ -60,7 +60,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         {
             var category = typeof(CheckPendingRebootCommand).GetPolicyCategory();
             var disabledValueName = rebootSource.GetDisabledValueName();
-            var isDisabled = F.GetBooleanPolicyValue(Context.Machine, category, disabledValueName, false);
+            var isDisabled = Profile.GetBooleanPolicyValue(Context.Machine, category, disabledValueName, false);
             if(isDisabled) Logging.DefaultLogger.Debug($"Reboot source '{rebootSource}' is disabled");
             return isDisabled;
         }

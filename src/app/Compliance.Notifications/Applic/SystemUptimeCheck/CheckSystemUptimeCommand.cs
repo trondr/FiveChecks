@@ -26,7 +26,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
         public static async Task<Result<ToastNotificationVisibility>> CheckSystemUptime(Some<NotificationProfile> userProfile, double maxUpTimeHours, bool isDisabled)
         {
             var category = typeof(CheckSystemUptimeCommand).GetPolicyCategory();
-            var policyMaxUptimeHours = F.GetIntegerPolicyValue(Context.Machine, category, "MaxUptimeHours", (int)maxUpTimeHours);
+            var policyMaxUptimeHours = Profile.GetIntegerPolicyValue(Context.Machine, category, "MaxUptimeHours", (int)maxUpTimeHours);
             var groupName = ToastGroups.CheckSystemUptime;
             var tag = ToastGroups.CheckSystemUptime;
             var systemUptimeCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckSystemUptimeCommand));

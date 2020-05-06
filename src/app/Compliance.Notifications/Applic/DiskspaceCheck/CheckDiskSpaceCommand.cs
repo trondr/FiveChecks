@@ -47,8 +47,8 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         public static async Task<Result<ToastNotificationVisibility>> CheckDiskSpace(Some<NotificationProfile> notificationProfile, UDecimal requiredFreeDiskSpace, bool subtractSccmCache, bool isDisabled)
         {
             var category = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
-            var policyRequiredFreeDiskSpace = F.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
-            var policySubtractSccmCache = F.GetBooleanPolicyValue(Context.Machine, category, "SubtractSccmCache", subtractSccmCache);
+            var policyRequiredFreeDiskSpace = Profile.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
+            var policySubtractSccmCache = Profile.GetBooleanPolicyValue(Context.Machine, category, "SubtractSccmCache", subtractSccmCache);
             var diskSpaceCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckDiskSpaceCommand));
 
             var groupName = ToastGroups.CheckDiskSpace;
