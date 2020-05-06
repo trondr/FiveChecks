@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using LanguageExt;
 
 namespace Compliance.Notifications.Applic.Common
@@ -12,12 +12,17 @@ namespace Compliance.Notifications.Applic.Common
 
         public static bool ShouldRunDoubleCheckAction(Some<string> actionName)
         {
-            if (!DoubleCheckTimeStamps.ContainsKey(actionName.Value))
+            return ShouldRunDoubleCheckPure(actionName,DoubleCheckTimeStamps.ToImmutableDictionary(),DateTime.Now, DoubleCheckThreshold);
+        }
+
+        public static bool ShouldRunDoubleCheckPure(Some<string> actionName, Some<ImmutableDictionary<string, DateTime>> doubleCheckTimeStamps, DateTime now, TimeSpan threshold)
+        {
+            if (!doubleCheckTimeStamps.Value.ContainsKey(actionName.Value))
             {
-                DoubleCheckTimeStamps.AddOrUpdate(actionName.Value,DateTime.MinValue,(s, time) => DateTime.MinValue);
+                return true;
             }
-            var timeSinceLastDoubleCheck = DateTime.Now - DoubleCheckTimeStamps[actionName.Value];
-            var doDoubleCheck = timeSinceLastDoubleCheck > DoubleCheckThreshold;
+            var timeSinceLastDoubleCheck = now - doubleCheckTimeStamps.Value[actionName.Value];
+            var doDoubleCheck = timeSinceLastDoubleCheck > threshold;
             return doDoubleCheck;
         }
 

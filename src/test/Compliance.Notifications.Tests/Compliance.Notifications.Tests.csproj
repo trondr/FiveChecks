@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applic\Common\DoubleCheckTests.cs" />
     <Compile Include="Applic\Common\FTests.cs" />
     <Compile Include="Applic\RebootSourceExtensionsTests.cs" />
     <Compile Include="Applic\ScheduledTasksTests.cs" />
