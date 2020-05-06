@@ -7,7 +7,6 @@ using NUnit.Framework;
 namespace Compliance.Notifications.Tests.Applic.Commands
 {
     [TestFixture()]
-    [Category(TestCategory.UnitTests)]
     public class CheckDiskSpaceCommandTests
     {
         public static class ShowDiskSpaceToastNotificationCallCount
@@ -29,6 +28,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         [TestCase(40,true,30.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false,false, Description = "Less than required and subtract sccm cache, do not show notification")]
         [TestCase(40, true, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false, false, Description = "More than required and subtract sccm cache, do not show notification")]
         [TestCase(40, false, 50.0, 10.0, LoadDiskSpaceCallCount.One, ShowDiskSpaceToastNotificationCallCount.Zero, RemoveDiskSpaceToastNotificationCallCount.One, false, false, Description = "More than required and subtract sccm cache, do not show notification")]

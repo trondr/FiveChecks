@@ -9,7 +9,6 @@ using NUnit.Framework;
 namespace Compliance.Notifications.Tests.Applic.Commands
 {
     [TestFixture()]
-    [Category(TestCategory.UnitTests)]
     public class CheckPendingRebootCommandTests
     {
         public static class ShowPendingRebootToastNotificationCallCount
@@ -37,6 +36,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         [TestCase(PendingReboot.True, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.One, RemovePendingRebootToastNotificationCallCount.Zero,true,false, Description = "Pending reboot is true")]
         [TestCase(PendingReboot.False, LoadPendingRebootCallCount.One, ShowPendingRebootToastNotificationCallCount.Zero, RemovePendingRebootToastNotificationCallCount.One,false,false, Description = "Pending reboot is false")]
         public void CheckPendingRebootTest(bool isPendingReboot, int expectedLoadPendingRebootCallCount,

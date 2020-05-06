@@ -8,7 +8,6 @@ using NUnit.Framework;
 namespace Compliance.Notifications.Tests.Applic.Commands
 {
     [TestFixture]
-    [Category(TestCategory.UnitTests)]
     public class CheckSystemUptimeCommandTests
     {
         public class TestData
