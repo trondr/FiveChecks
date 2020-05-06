@@ -640,42 +640,6 @@ namespace Compliance.Notifications.Applic.Common
             return !File.Exists(shortcutPath.Value) ? Option<string>.None : new Option<string>(shortcutPath);
         }
 
-        
-        private static Dictionary<string,DateTime> DoubleCheckTimeStamps = new Dictionary<string, DateTime>(){{ScheduledTasks.ComplianceSystemMeasurements.TaskName,DateTime.MinValue},{ScheduledTasks.ComplianceUserMeasurements.TaskName,DateTime.MinValue}};
-        public static TimeSpan DoubleCheckThreshold = new TimeSpan(0,0,60);
-
-        /// <summary>
-        /// Load compliance measurement and check for non-compliance. If non-compliance and double check is true, trigger a new measurement to make sure it is still non-compliant.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="loadInfo"></param>
-        /// <param name="isNonCompliant"></param>
-        /// <param name="scheduledTask"></param>
-        /// <param name="doubleCheck"></param>
-        /// <returns></returns>
-        public static async Task<T> LoadInfoOld<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
-        {
-            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
-            var info = await loadInfo().ConfigureAwait(false);
-            var timeSinceLastDoubleCheck = DateTime.Now - DoubleCheckTimeStamps[scheduledTask.Value.TaskName];
-            var doDoubleCheck = doubleCheck && timeSinceLastDoubleCheck > DoubleCheckThreshold;
-            if (doDoubleCheck && isNonCompliant(info))
-            {
-                DoubleCheckTimeStamps[scheduledTask.Value.TaskName] = DateTime.Now;
-                var doubleCheckResult = await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false);
-                return await doubleCheckResult.Match(async unit =>
-                {
-                    var info2 = await loadInfo().ConfigureAwait(false);
-                    return await Task.FromResult(info2).ConfigureAwait(false);
-                }, async exception =>
-                {
-                    Logging.DefaultLogger.Error($"Failed to run a double check of '{typeof(T)}' non-compliance result. {exception.ToExceptionMessage()}");
-                    return await Task.FromResult(info).ConfigureAwait(false);
-                }).ConfigureAwait(false);
-            }
-            return info;
-        }
-
         /// <summary>
         /// Load compliance measurement and check for non-compliance. If non-compliance and double check is true, trigger a new measurement to make sure it is still non-compliant.
         /// </summary>
@@ -689,15 +653,10 @@ namespace Compliance.Notifications.Applic.Common
         {
             if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
             
-            Func<bool> checkIfDoubleCheckShouldBeRun= () =>
-            {
-                var timeSinceLastDoubleCheck = DateTime.Now - DoubleCheckTimeStamps[scheduledTask.Value.TaskName];
-                var doDoubleCheck = doubleCheck && timeSinceLastDoubleCheck > DoubleCheckThreshold;
-                return doDoubleCheck;
-            };
+            Func<bool> checkIfDoubleCheckShouldBeRun= () => DoubleCheck.ShouldRunDoubleCheckAction(scheduledTask.Value.TaskName);
             Func<Task<Result<Unit>>> doubleCheckAction= async () =>
             {
-                DoubleCheckTimeStamps[scheduledTask.Value.TaskName] = DateTime.Now;
+                DoubleCheck.TimeStampDoubleCheckAction(scheduledTask.Value.TaskName);
                 var doubleCheckResult = await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false);
                 return doubleCheckResult;
             };

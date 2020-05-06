@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Applic\Common\DoubleCheck.cs" />
     <Compile Include="Applic\Common\ScheduledTaskInfo.cs" />
     <Compile Include="Applic\Common\NotificationProfile.cs" />
     <Compile Include="Applic\Common\WindowsEventLog.cs" />
