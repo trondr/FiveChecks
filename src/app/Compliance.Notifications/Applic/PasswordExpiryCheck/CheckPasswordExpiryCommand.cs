@@ -23,10 +23,10 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
         {
             var groupName = ToastGroups.CheckPasswordExpiry;
             var tag = ToastGroups.CheckPasswordExpiry;
-            var passwordExpiryCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckPasswordExpiryCommand));
+            var passwordExpiryCheckIsDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckPasswordExpiryCommand));
             bool IsNonCompliant(PasswordExpiryInfo info) => info.PasswordExpiryStatus == PasswordExpiryStatus.ExpiringSoon;
             return await CheckPasswordExpiryPure(
-                () => F.LoadInfo<PasswordExpiryInfo>(PasswordExpire.LoadPasswordExpiryInfo, IsNonCompliant, ScheduledTasks.ComplianceUserMeasurements, true),
+                () => ComplianceInfo.LoadInfo<PasswordExpiryInfo>(PasswordExpire.LoadPasswordExpiryInfo, IsNonCompliant, ScheduledTasks.ComplianceUserMeasurements, true),
                 IsNonCompliant, 
                 (passwordExpirationDate) => PasswordExpire.ShowPasswordExpiryToastNotification(userProfile,passwordExpirationDate, tag, groupName), 
                 () => ToastHelper.RemoveToastNotification(groupName),

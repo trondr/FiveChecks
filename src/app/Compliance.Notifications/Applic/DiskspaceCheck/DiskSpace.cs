@@ -95,7 +95,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
 
         public static async Task<DiskSpaceInfo> LoadDiskSpaceResult()
         {
-            return await F.LoadSystemComplianceItemResultOrDefault(DiskSpaceInfo.Default).ConfigureAwait(false);
+            return await ComplianceInfo.LoadSystemComplianceItemResultOrDefault(DiskSpaceInfo.Default).ConfigureAwait(false);
         }
 
         public static async Task<Result<ToastNotificationVisibility>> ShowDiskSpaceToastNotification(Some<NotificationProfile> userProfile, decimal requiredCleanupAmount, string tag, string groupName)

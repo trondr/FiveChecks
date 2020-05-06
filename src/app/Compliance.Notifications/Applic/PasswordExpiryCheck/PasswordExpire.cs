@@ -168,7 +168,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
 
         public static async Task<PasswordExpiryInfo> LoadPasswordExpiryInfo()
         {
-            return await F.LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
+            return await ComplianceInfo.LoadUserComplianceItemResultOrDefault(PasswordExpiryInfo.Default).ConfigureAwait(false);
         }
     }
 }

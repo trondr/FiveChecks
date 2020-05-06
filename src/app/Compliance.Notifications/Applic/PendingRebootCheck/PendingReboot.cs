@@ -129,7 +129,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
         {
-            return await F.LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
+            return await ComplianceInfo.LoadSystemComplianceItemResultOrDefault(PendingRebootInfo.Default).ConfigureAwait(false);
         }
     }
 }

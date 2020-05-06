@@ -32,9 +32,9 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
         {
             var groupName = ToastGroups.CheckDesktopData;
             var tag = ToastGroups.CheckDesktopData;
-            var desktopDataCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckDesktopDataCommand));
+            var desktopDataCheckIsDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckDesktopDataCommand));
             return await CheckDesktopDataPure(
-                () => F.LoadInfo(DesktopData.LoadDesktopDataInfo,info => info.HasDesktopData,ScheduledTasks.ComplianceUserMeasurements,true), 
+                () => ComplianceInfo.LoadInfo(DesktopData.LoadDesktopDataInfo,info => info.HasDesktopData,ScheduledTasks.ComplianceUserMeasurements,true), 
                 (desktopDataInfo) => DesktopData.ShowDesktopDataToastNotification(userProfile.Value, desktopDataInfo, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName), desktopDataCheckIsDisabled).ConfigureAwait(false);
         }

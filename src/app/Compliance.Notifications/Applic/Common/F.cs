@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
@@ -13,12 +11,9 @@ using System.Management.Automation;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
-using System.Security;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
-using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Resources;
 using LanguageExt;
 using LanguageExt.Common;
@@ -37,40 +32,16 @@ namespace Compliance.Notifications.Applic.Common
     {
         public static readonly Random Rnd = new Random();
 
-        public static string AppendNameToFileName(this string fileName, string name)
-        {
-            return string.Concat(
-                    Path.GetFileNameWithoutExtension(fileName),
-                    ".", 
-                    name, 
-                    Path.GetExtension(fileName)
-                    );
-        }
-
         public static string GetGreeting(Some<NotificationProfile> userProfile)
         {
             return $"{F.GetGreeting(DateTime.Now)} {userProfile.Value.GivenName}";
         }
         
-        public static string InPeriodFromNowPure(this DateTime dateTime, Func<DateTime> getNow)
-        {
-            if (getNow == null) throw new ArgumentNullException(nameof(getNow));
-            var now = getNow();
-            var timeSpan = dateTime - now;
-            return timeSpan.TimeSpanToString();
-        }
-
-        public static string InPeriodFromNow(this DateTime dateTime)
-        {
-            return InPeriodFromNowPure(dateTime, () => DateTime.Now);
-        }
-
         public const double Kb = 1024;
         public const double Mb = 1024L*1024L;
         public const double Gb = 1024L*1024L*1024L;
         public const double Tb = 1024L * 1024L * 1024L * 1024L;
-
-
+        
         public static string BytesToReadableString(this long bytes)
         {
             if (bytes < Kb)
@@ -91,54 +62,7 @@ namespace Compliance.Notifications.Applic.Common
                     string.Format(CultureInfo.InvariantCulture,"{0:0.0#}", d):
                     string.Format(CultureInfo.InvariantCulture, "{0:0}", d);
         }
-
-        public static string TimeSpanToString(this TimeSpan timeSpan)
-        {
-            var totalDaysRounded = Convert.ToInt32(Math.Round(timeSpan.TotalDays));
-            if (timeSpan.TotalDays < 1)
-            {
-                var totalHoursRounded = Convert.ToInt32(Math.Round(timeSpan.TotalHours));
-                if (totalHoursRounded == 1)
-                    return $"{timeSpan.Hours} {strings.Hour}";
-                return $"{timeSpan.Hours} {strings.Hours}";
-            }
-            if (totalDaysRounded == 1)
-                return $"{timeSpan.Days} {strings.Day}";
-            return $"{timeSpan.Days} {strings.Days}";
-        }
         
-        public static string GetUserComplianceItemResultFileName<T>()
-        {
-            var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),ApplicationInfo.ApplicationName);
-            Directory.CreateDirectory(folder);
-            return System.IO.Path.Combine(folder, $@"User-{typeof(T).Name}.json");
-        }
-
-        public static async Task<Result<Unit>> SaveUserComplianceItemResult<T>(Some<T> complianceItem)
-        {
-            var fileName = GetUserComplianceItemResultFileName<T>();
-            return await SaveComplianceItemResult(complianceItem, fileName).ConfigureAwait(false);
-        }
-
-        public static async Task<Result<T>> LoadUserComplianceItemResult<T>()
-        {
-            var fileName = GetUserComplianceItemResultFileName<T>();
-            return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
-        }
-
-        public static string GetSystemComplianceItemResultFileName<T>()
-        {
-            var folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ApplicationInfo.ApplicationName);
-            Directory.CreateDirectory(folder);
-            return System.IO.Path.Combine(folder, $@"System-{typeof(T).Name}.json");
-        }
-
-        public static async Task<Result<Unit>> SaveSystemComplianceItemResult<T>(Some<T> complianceItem)
-        {
-            var fileName = GetSystemComplianceItemResultFileName<T>();
-            return await SaveComplianceItemResult(complianceItem, fileName).ConfigureAwait(false);
-        }
-
         public static Try<Unit> DeleteFile(Some<string> fileName) => () =>
         {
             if (File.Exists(fileName))
@@ -146,68 +70,6 @@ namespace Compliance.Notifications.Applic.Common
             return Unit.Default;
         };
 
-        public static Result<Unit> ClearSystemComplianceItemResult<T>()
-        {
-            var fileName = GetSystemComplianceItemResultFileName<T>();
-            return  DeleteFile(fileName).Try();
-        }
-
-        public static async Task<Result<T>> LoadSystemComplianceItemResult<T>()
-        {
-            var fileName = GetSystemComplianceItemResultFileName<T>();
-            return await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false);
-        }
-
-        public static async Task<T> LoadSystemComplianceItemResultOrDefault<T>(T defaultValue)
-        {
-            var fileName = GetSystemComplianceItemResultFileName<T>();
-            return (await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false)).Match(arg => arg, exception =>
-            {
-                Logging.DefaultLogger.Warn($"Could not load '{typeof(T)}' so returning default value. Load error: {exception.ToExceptionMessage()}");
-                return defaultValue;
-            });
-        }
-
-        public static async Task<T> LoadUserComplianceItemResultOrDefault<T>(T defaultValue)
-        {
-            var fileName = GetUserComplianceItemResultFileName<T>();
-            return (await LoadComplianceItemResult<T>(fileName).ConfigureAwait(false)).Match(arg => arg, exception =>
-            {
-                Logging.DefaultLogger.Warn($"Could not load '{typeof(T)}' so returning default value. Load error: {exception.ToExceptionMessage()}");
-                return defaultValue;
-            });
-        }
-
-        public static async Task<Result<Unit>> SaveComplianceItemResult<T>(Some<T> complianceItem, Some<string> fileName)
-        {
-            return await TrySave(complianceItem, fileName).Try().ConfigureAwait(false);
-        }
-
-        private static TryAsync<Unit> TrySave<T>(Some<T> complianceItem, Some<string> fileName) => async () =>
-        {
-            using (var sw = new StreamWriter(fileName))
-            {
-                var json = JsonConvert.SerializeObject(complianceItem.Value, new UDecimalJsonConverter(), new RebootSourceJsonConverter());
-                Logging.DefaultLogger.Info($"Saving {typeof(T).Name}: {json}");
-                await sw.WriteAsync(json).ConfigureAwait(false);
-                return new Result<Unit>(Unit.Default);
-            }
-        };
-        
-        public static async Task<Result<T>> LoadComplianceItemResult<T>(Some<string> fileName)
-        {
-            return await TryLoad<T>(fileName).Try().ConfigureAwait(false);
-        }
-        private static TryAsync<T> TryLoad<T>(Some<string> fileName) => async () =>
-        {
-            using (var sr = new StreamReader(fileName))
-            {
-                var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-                Logging.DefaultLogger.Info($"Loading {typeof(T).Name}: {json}");
-                var item = JsonConvert.DeserializeObject<T>(json,new UDecimalJsonConverter(),new RebootSourceJsonConverter());
-                return new Result<T>(item);
-            }
-        };
 
         public static Result<IEnumerable<T>> ToResult<T>(this IEnumerable<Result<T>> results)
         {
@@ -227,62 +89,6 @@ namespace Compliance.Notifications.Applic.Common
             return exceptions.Length == 0
                 ? new Result<IEnumerable<T>>(values)
                 : new Result<IEnumerable<T>>(new AggregateException(exceptions));
-        }
-
-        public static async Task<Result<Unit>> ExecuteComplianceMeasurements(this List<MeasureCompliance> measurements)
-        {
-            var tasks = measurements.Select(async compliance => await compliance.Invoke().ConfigureAwait(false)).ToList();
-            var processTasks = tasks.ToList();
-            while (processTasks.Count > 0)
-            {
-                var firstFinishedTask = await Task.WhenAny(processTasks.ToArray()).ConfigureAwait(false);
-                processTasks.Remove(firstFinishedTask);
-                await firstFinishedTask.ConfigureAwait(false);
-            }
-            var results = processTasks.Select(task => task.Result);
-            return results.ToResult().Match(units => new Result<Unit>(Unit.Default), exception => new Result<Unit>(exception));
-        }
-
-        public static async Task<Result<Unit>> RunSystemComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
-        {
-            if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
-            if (!SystemComplianceItemIsActive<T>()) return new Result<Unit>(Unit.Default);
-            var info = await measureCompliance().ConfigureAwait(false);
-            var res = await info.Match(dsi => F.SaveSystemComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
-            return res;
-        }
-
-        public static async Task<Result<Unit>> RunUserComplianceItem<T>(Func<Task<Result<T>>> measureCompliance)
-        {
-            if (measureCompliance == null) throw new ArgumentNullException(nameof(measureCompliance));
-            if (!UserComplianceItemIsActive<T>()) return new Result<Unit>(Unit.Default);
-            var info = await measureCompliance().ConfigureAwait(false);
-            var res = await info.Match(dsi => F.SaveUserComplianceItemResult<T>(dsi), exception => Task.FromResult(new Result<Unit>(exception))).ConfigureAwait(false);
-            return res;
-        }
-
-        private static bool SystemComplianceItemIsActive<T>()
-        {
-            //Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a system compliance item.");
-            return !F.IsMeasurementDisabled(false,typeof(T));
-        }
-
-        private static bool UserComplianceItemIsActive<T>()
-        {
-            //Logging.DefaultLogger.Warn($"TODO: Implement Check if compliance item '{typeof(T)}' is activated. Default is true. When implemented this enables support for disabling a user compliance item.");
-            return !F.IsMeasurementDisabled(false, typeof(T));
-        }
-
-        public static string ToExceptionMessage(this Exception ex)
-        {
-            if (ex == null) throw new ArgumentNullException(nameof(ex));
-            if (ex is AggregateException aggregateException)
-            {
-                return $"{aggregateException.GetType().Name}: {aggregateException.Message}" + Environment.NewLine + string.Join(Environment.NewLine,aggregateException.InnerExceptions.Select(exception => exception.ToExceptionMessage()).ToArray());
-            }
-            return ex.InnerException != null
-                    ? $"{ex.GetType().Name}: {ex.Message}" + Environment.NewLine + ex.InnerException.ToExceptionMessage()
-                    : $"{ex.GetType().Name}: {ex.Message}";
         }
 
         //Source: https://github.com/WindowsNotifications/desktop-toasts
@@ -640,49 +446,7 @@ namespace Compliance.Notifications.Applic.Common
             return !File.Exists(shortcutPath.Value) ? Option<string>.None : new Option<string>(shortcutPath);
         }
 
-        /// <summary>
-        /// Load compliance measurement and check for non-compliance. If non-compliance and double check is true, trigger a new measurement to make sure it is still non-compliant.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="loadInfo"></param>
-        /// <param name="isNonCompliant"></param>
-        /// <param name="scheduledTask"></param>
-        /// <param name="doubleCheck"></param>
-        /// <returns></returns>
-        public static async Task<T> LoadInfo<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
-        {
-            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
-            
-            Func<bool> checkIfDoubleCheckShouldBeRun= () => DoubleCheck.ShouldRunDoubleCheckAction(scheduledTask.Value.TaskName);
-            Func<Task<Result<Unit>>> doubleCheckAction= async () =>
-            {
-                return await DoubleCheck.RunDoubleCheck(scheduledTask.Value.TaskName,async () => await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false), doubleCheck).ConfigureAwait(false);
-            };
-            return await LoadInfoPure(loadInfo, isNonCompliant, checkIfDoubleCheckShouldBeRun, doubleCheckAction).ConfigureAwait(false);
-        }
-
-        public static async Task<T> LoadInfoPure<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Func<bool> doDoubleCheck, Func<Task<Result<Unit>>> doubleCheckAction)
-        {
-            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
-            var info = await loadInfo().ConfigureAwait(false);
-            var doubleCheck = doDoubleCheck();
-            var isNotCompliant = isNonCompliant(info);
-            if (!isNotCompliant || !doubleCheck) return info;
-            var doubleCheckResult = await doubleCheckAction().ConfigureAwait(false);
-            return
-                await doubleCheckResult.Match(
-                        async unit =>
-                        {
-                            var doubleCheckedInfo = await loadInfo().ConfigureAwait(false);
-                            return doubleCheckedInfo;
-                        },
-                        async exception =>
-                        {
-                            Logging.DefaultLogger.Error($"Failed to run a double check of '{typeof(T)}' non-compliance result. {exception.ToExceptionMessage()}");
-                            return await Task.FromResult(info).ConfigureAwait(false);
-                        })
-                    .ConfigureAwait(false);
-        }
+        
         
         public static async Task DownloadImages(IEnumerable<int> range)
         {
@@ -721,27 +485,6 @@ namespace Compliance.Notifications.Applic.Common
                 Logging.DefaultLogger.Info($"Cannot contact active directory domain. {exception.ToExceptionMessage()}");
                 return false;
             });
-        }
-
-        public static bool IsNotificationDisabled(bool defaultValue, Some<Type> checkCommandType)
-        {
-            var policyCategory = checkCommandType.Value.GetPolicyCategory();
-            var isDisabled = Profile.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Notification, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Info($"Notification {checkCommandType.Value.Name} is disabled.");
-            return isDisabled;
-        }
-
-        public static bool IsMeasurementDisabled(bool defaultValue, Some<Type> checkCommandType)
-        {
-            var policyCategory = checkCommandType.Value.GetPolicyCategory();
-            var isDisabled = Profile.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Measurement, defaultValue);
-            if(isDisabled) Logging.DefaultLogger.Info($"Measurement {checkCommandType.Value.Name} is disabled.");
-            return isDisabled;
-        }
-
-        public static bool IsCheckDisabled(bool defaultValue, Type checkCommandType)
-        {
-            return IsMeasurementDisabled(defaultValue, checkCommandType) || IsNotificationDisabled(defaultValue, checkCommandType);
         }
     }
     

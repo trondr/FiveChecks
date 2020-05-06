@@ -205,5 +205,26 @@ namespace Compliance.Notifications.Applic.Common
             var companyName = Profile.GetStringPolicyValue(Context.Machine, Option<string>.None, "CompanyName", "My Company AS");
             return companyName;
         }
+
+        public static bool IsNotificationDisabled(bool defaultValue, Some<Type> checkCommandType)
+        {
+            var policyCategory = checkCommandType.Value.GetPolicyCategory();
+            var isDisabled = Profile.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Notification, defaultValue);
+            if (isDisabled) Logging.DefaultLogger.Info($"Notification {checkCommandType.Value.Name} is disabled.");
+            return isDisabled;
+        }
+
+        public static bool IsMeasurementDisabled(bool defaultValue, Some<Type> checkCommandType)
+        {
+            var policyCategory = checkCommandType.Value.GetPolicyCategory();
+            var isDisabled = Profile.PolicyCategoryIsDisabled(policyCategory, ComplianceAction.Measurement, defaultValue);
+            if (isDisabled) Logging.DefaultLogger.Info($"Measurement {checkCommandType.Value.Name} is disabled.");
+            return isDisabled;
+        }
+
+        public static bool IsCheckDisabled(bool defaultValue, Type checkCommandType)
+        {
+            return IsMeasurementDisabled(defaultValue, checkCommandType) || IsNotificationDisabled(defaultValue, checkCommandType);
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         [Category(TestCategory.ManualTests)]
         public void IsDisabledTest()
         {
-            var actual = F.IsNotificationDisabled(false, typeof(CheckDiskSpaceCommand));
+            var actual = Profile.IsNotificationDisabled(false, typeof(CheckDiskSpaceCommand));
             Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\DiskSpaceCheck]Disabled=1");
         }
     }

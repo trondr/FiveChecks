@@ -49,7 +49,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             var category = typeof(CheckDiskSpaceCommand).GetPolicyCategory();
             var policyRequiredFreeDiskSpace = Profile.GetIntegerPolicyValue(Context.Machine, category, "RequiredFreeDiskSpace", (int)requiredFreeDiskSpace);
             var policySubtractSccmCache = Profile.GetBooleanPolicyValue(Context.Machine, category, "SubtractSccmCache", subtractSccmCache);
-            var diskSpaceCheckIsDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckDiskSpaceCommand));
+            var diskSpaceCheckIsDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckDiskSpaceCommand));
 
             var groupName = ToastGroups.CheckDiskSpace;
             var tag = ToastGroups.CheckDiskSpace;
@@ -57,7 +57,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             return await CheckDiskSpaceCommand.CheckDiskSpacePure(
                     policyRequiredFreeDiskSpace,
                     policySubtractSccmCache,
-                    () => F.LoadInfo<DiskSpaceInfo>(DiskSpace.LoadDiskSpaceResult, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
+                    () => ComplianceInfo.LoadInfo<DiskSpaceInfo>(DiskSpace.LoadDiskSpaceResult, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                     IsNonCompliant,
                     (requiredCleanupAmount) => DiskSpace.ShowDiskSpaceToastNotification(notificationProfile, requiredCleanupAmount, tag, groupName),
                     () => ToastHelper.RemoveToastNotification(groupName), diskSpaceCheckIsDisabled)

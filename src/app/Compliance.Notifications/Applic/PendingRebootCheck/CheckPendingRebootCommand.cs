@@ -24,7 +24,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         {
             var groupName = ToastGroups.CheckPendingReboot;
             var tag = ToastGroups.CheckPendingReboot;
-            var isPendingRebootCheckDisabled = F.IsCheckDisabled(isDisabled, typeof(CheckPendingRebootCommand));
+            var isPendingRebootCheckDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckPendingRebootCommand));
 
             bool IsNonCompliant(PendingRebootInfo info)
             {
@@ -33,7 +33,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             }
 
             return await CheckPendingRebootPure(
-                () => F.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
+                () => ComplianceInfo.LoadInfo<PendingRebootInfo>(PendingReboot.LoadPendingRebootInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
                 (info,companyName) => PendingReboot.ShowPendingRebootToastNotification(userProfile, info, tag, groupName),
                 () => ToastHelper.RemoveToastNotification(groupName),

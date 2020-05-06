@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using LanguageExt;
 using LanguageExt.Common;
 using log4net;
@@ -58,6 +59,28 @@ namespace Compliance.Notifications.Applic.Common
                 return exitCode;
             });
             return exitCode;
+        }
+
+        public static string AppendNameToFileName(this string fileName, string name)
+        {
+            return string.Concat(
+                Path.GetFileNameWithoutExtension(fileName),
+                ".",
+                name,
+                Path.GetExtension(fileName)
+            );
+        }
+
+        public static string ToExceptionMessage(this Exception ex)
+        {
+            if (ex == null) throw new ArgumentNullException(nameof(ex));
+            if (ex is AggregateException aggregateException)
+            {
+                return $"{aggregateException.GetType().Name}: {aggregateException.Message}" + Environment.NewLine + string.Join(Environment.NewLine, aggregateException.InnerExceptions.Select(exception => exception.ToExceptionMessage()).ToArray());
+            }
+            return ex.InnerException != null
+                ? $"{ex.GetType().Name}: {ex.Message}" + Environment.NewLine + ex.InnerException.ToExceptionMessage()
+                : $"{ex.GetType().Name}: {ex.Message}";
         }
     }
 }

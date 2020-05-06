@@ -58,7 +58,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
 
         public static async Task<DesktopDataInfo> LoadDesktopDataInfo()
         {
-            return await F.LoadUserComplianceItemResultOrDefault(DesktopDataInfo.Default).ConfigureAwait(false);
+            return await ComplianceInfo.LoadUserComplianceItemResultOrDefault(DesktopDataInfo.Default).ConfigureAwait(false);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
 
         public static async Task<SystemUptimeInfo> LoadSystemUptimeInfo()
         {
-            return await F.LoadSystemComplianceItemResultOrDefault(SystemUptimeInfo.Default).ConfigureAwait(false);
+            return await ComplianceInfo.LoadSystemComplianceItemResultOrDefault(SystemUptimeInfo.Default).ConfigureAwait(false);
         }
         
     }

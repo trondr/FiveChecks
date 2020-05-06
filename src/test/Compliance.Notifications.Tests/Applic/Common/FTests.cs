@@ -209,7 +209,7 @@ namespace Compliance.Notifications.Tests.Applic
         [TestCase(@"test.txt", "somename1", @"test.somename1.txt")]
         public void AppendToFileNameTest(string fileName, string name, string expected)
         {
-            var actual = F.AppendNameToFileName(fileName, name);
+            var actual = Logging.AppendNameToFileName(fileName, name);
             Assert.AreEqual(expected, actual);
         }
 
@@ -235,7 +235,7 @@ namespace Compliance.Notifications.Tests.Applic
         {
             var testData = new SaveAndLoadTestData("A Name", "A description", 81.3452m);
             Some<string> fileName = $@"c:\temp\{typeof(SaveAndLoadTestData).Name}.json";
-            var result = await F.SaveComplianceItemResult<SaveAndLoadTestData>(testData, fileName);
+            var result = await ComplianceInfo.SaveComplianceItemResult<SaveAndLoadTestData>(testData, fileName);
             result.Match<Unit>(unit =>
             {
                 Assert.IsTrue(true);
@@ -245,7 +245,7 @@ namespace Compliance.Notifications.Tests.Applic
                 Assert.Fail();
                 return Unit.Default;
             });
-            var loadedTestData = await F.LoadComplianceItemResult<SaveAndLoadTestData>(fileName);
+            var loadedTestData = await ComplianceInfo.LoadComplianceItemResult<SaveAndLoadTestData>(fileName);
             var ignore = loadedTestData.Match<SaveAndLoadTestData>(
                 data =>
                 {
@@ -299,7 +299,7 @@ namespace Compliance.Notifications.Tests.Applic
         public async Task SaveLoadDiskSpaceResultTest_Success()
         {
             var expected = new DiskSpaceInfo { SccmCacheSize = 12, TotalFreeDiskSpace = 123 };
-            var savedResult = await F.SaveSystemComplianceItemResult<DiskSpaceInfo>(expected).ConfigureAwait(false);
+            var savedResult = await ComplianceInfo.SaveSystemComplianceItemResult<DiskSpaceInfo>(expected).ConfigureAwait(false);
             var actual = await DiskSpace.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(expected, actual);
         }
@@ -308,7 +308,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.UnitTests)]
         public async Task LoadDiskSpaceResultTest_FileNotExist()
         {
-            var savedResult = F.ClearSystemComplianceItemResult<DiskSpaceInfo>();
+            var savedResult = ComplianceInfo.ClearSystemComplianceItemResult<DiskSpaceInfo>();
             var actual = await DiskSpace.LoadDiskSpaceResult().ConfigureAwait(false);
             Assert.AreEqual(DiskSpaceInfo.Default, actual);
         }
@@ -517,7 +517,7 @@ namespace Compliance.Notifications.Tests.Applic
                     return new Result<Unit>(new Exception("Double Check Failed"));
                 return await Task.FromResult(new Result<Unit>(Unit.Default));
             };
-            var actual = await F.LoadInfoPure(loadInfo, isNonCompliant, doDoubleCheck, doubleCheckAction);
+            var actual = await ComplianceInfo.LoadInfoPure(loadInfo, isNonCompliant, doDoubleCheck, doubleCheckAction);
             Assert.AreEqual(testData.ExpectedInfo.Action, actual.Action, "InfoAction");
             Assert.AreEqual(testData.ExpectedInfo.IsCompliant,actual.IsCompliant,"IsCompliant");
             Assert.AreEqual(testData.LoadInfoCount,loadInfoCount,"Load info count");

@@ -64,8 +64,8 @@ namespace Compliance.Notifications.Tests.ComplianceItems
         public async Task SaveLoadSystemComplianceItemResult_PendingRebootInfo_Test_Success()
         {
             var expected = new PendingRebootInfo { RebootIsPending = true, Sources = new List<RebootSource>() { RebootSource.Cbs, RebootSource.Wuau } };
-            var savedResult = await F.SaveSystemComplianceItemResult<PendingRebootInfo>(expected).ConfigureAwait(false);
-            var actual = await F.LoadSystemComplianceItemResult<PendingRebootInfo>().ConfigureAwait(false);
+            var savedResult = await ComplianceInfo.SaveSystemComplianceItemResult<PendingRebootInfo>(expected).ConfigureAwait(false);
+            var actual = await ComplianceInfo.LoadSystemComplianceItemResult<PendingRebootInfo>().ConfigureAwait(false);
             actual.Match(act =>
             {
                 AssertAreEqual(expected, act);

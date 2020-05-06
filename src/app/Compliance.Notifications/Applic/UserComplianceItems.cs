@@ -8,10 +8,10 @@ namespace Compliance.Notifications.Applic
     public static class UserComplianceItems
     {
         private static readonly MeasureCompliance PasswordExpiryMeasurement = async () =>
-            await F.RunUserComplianceItem<PasswordExpiryInfo>(PasswordExpire.GetPasswordExpiryInfo).ConfigureAwait(false);
+            await ComplianceInfo.RunUserComplianceItem<PasswordExpiryInfo>(PasswordExpire.GetPasswordExpiryInfo).ConfigureAwait(false);
 
         private static readonly MeasureCompliance DesktopDataMeasurement = async () =>
-            await F.RunUserComplianceItem<DesktopDataInfo>(DesktopData.GetDesktopDataInfo).ConfigureAwait(false);
+            await ComplianceInfo.RunUserComplianceItem<DesktopDataInfo>(DesktopData.GetDesktopDataInfo).ConfigureAwait(false);
 
         /// <summary>
         /// List of all system compliance items.
