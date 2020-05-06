@@ -145,6 +145,21 @@
       <NamedTestSelector>
         <TestName>Compliance.Notifications.Tests.Applic.FTests.GetRandomImageFromCacheTest</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckSystemUptimeCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckPendingRebootCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckPasswordExpiryCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckDiskSpaceCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckDesktopDataCommandTests.IsDisabledTest</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

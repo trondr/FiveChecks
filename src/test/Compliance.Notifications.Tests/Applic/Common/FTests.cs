@@ -213,9 +213,9 @@ namespace Compliance.Notifications.Tests.Applic
             Assert.AreEqual(expected, actual);
         }
 
-        public class TestData : Record<TestData>
+        public class SaveAndLoadTestData : Record<SaveAndLoadTestData>
         {
-            public TestData(Some<string> name, Some<string> description, UDecimal someNumber)
+            public SaveAndLoadTestData(Some<string> name, Some<string> description, UDecimal someNumber)
             {
                 Description = description;
                 SomeNumber = someNumber;
@@ -233,9 +233,9 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.UnitTests)]
         public async Task SaveAndLoadComplianceItemResultTest()
         {
-            var testData = new TestData("A Name", "A description", 81.3452m);
-            Some<string> fileName = $@"c:\temp\{typeof(TestData).Name}.json";
-            var result = await F.SaveComplianceItemResult<TestData>(testData, fileName);
+            var testData = new SaveAndLoadTestData("A Name", "A description", 81.3452m);
+            Some<string> fileName = $@"c:\temp\{typeof(SaveAndLoadTestData).Name}.json";
+            var result = await F.SaveComplianceItemResult<SaveAndLoadTestData>(testData, fileName);
             result.Match<Unit>(unit =>
             {
                 Assert.IsTrue(true);
@@ -245,8 +245,8 @@ namespace Compliance.Notifications.Tests.Applic
                 Assert.Fail();
                 return Unit.Default;
             });
-            var loadedTestData = await F.LoadComplianceItemResult<TestData>(fileName);
-            var ignore = loadedTestData.Match<TestData>(
+            var loadedTestData = await F.LoadComplianceItemResult<SaveAndLoadTestData>(fileName);
+            var ignore = loadedTestData.Match<SaveAndLoadTestData>(
                 data =>
                 {
                     Assert.AreEqual("A Name", data.Name);
@@ -438,6 +438,90 @@ namespace Compliance.Notifications.Tests.Applic
             var timeSpan = new TimeSpan(days,hours,minutes,0);
             var actual = timeSpan.TimeSpanToString();
             Assert.AreEqual(expected,actual,"Timespan text was not expected.");
+        }
+
+
+        public enum InfoAction
+        {
+            Check,
+            DoubleCheck
+        }
+
+        public class TestInfo
+        {
+            public bool IsCompliant { get; set; }
+            public InfoAction Action { get; set; }
+        }
+
+        public class LoadInfoTestData
+        {
+            public TestInfo Info { get; set; }
+            public TestInfo DoubleCheckInfo { get; set; }
+            public TestInfo ExpectedInfo { get; set; }
+            public bool DoDoubleCheck { get; set; }
+            public int LoadInfoCount { get; set; }
+            public int DoubleCheckActionCount { get; set; }
+            public bool DoubleCheckFailed { get; set; }
+        }
+
+        public static TestInfo CompliantInfo = new TestInfo(){IsCompliant = true, Action = InfoAction.Check};
+        public static TestInfo NonCompliantInfo = new TestInfo() { IsCompliant = false, Action = InfoAction.Check };
+        public static TestInfo CompliantDoubleCheckInfo = new TestInfo() { IsCompliant = true, Action = InfoAction.DoubleCheck };
+        public static TestInfo NonCompliantDoubleCheckInfo = new TestInfo() { IsCompliant = false, Action = InfoAction.DoubleCheck };
+
+        public static object[] LoadInfoTestDataSource =
+        {
+            new object[] {"Non-compliant with double check returns compliant.", new LoadInfoTestData {Info = NonCompliantInfo, DoubleCheckInfo = CompliantDoubleCheckInfo, DoDoubleCheck = true, LoadInfoCount = 2, DoubleCheckActionCount = 1, ExpectedInfo = CompliantDoubleCheckInfo,DoubleCheckFailed = false}},
+            new object[] {"Non-compliant without double check returns non-compliant.", new LoadInfoTestData {Info = NonCompliantInfo, DoubleCheckInfo = CompliantDoubleCheckInfo, DoDoubleCheck = false, LoadInfoCount = 1, DoubleCheckActionCount = 0, ExpectedInfo = NonCompliantInfo, DoubleCheckFailed = false } },
+
+            new object[] {"Compliant with double check returns compliant.", new LoadInfoTestData {Info = CompliantInfo, DoubleCheckInfo = CompliantDoubleCheckInfo, DoDoubleCheck = true, LoadInfoCount = 1, DoubleCheckActionCount = 0, ExpectedInfo = CompliantInfo, DoubleCheckFailed = false } },
+            new object[] { "Compliant without double check returns non-compliant.", new LoadInfoTestData {Info = CompliantInfo, DoubleCheckInfo = CompliantDoubleCheckInfo, DoDoubleCheck = false, LoadInfoCount = 1, DoubleCheckActionCount = 0, ExpectedInfo = CompliantInfo, DoubleCheckFailed = false } },
+
+            new object[] {"Non-compliant with double check returns non-compliant.", new LoadInfoTestData {Info = NonCompliantInfo, DoubleCheckInfo = NonCompliantDoubleCheckInfo, DoDoubleCheck = true, LoadInfoCount = 2, DoubleCheckActionCount = 1, ExpectedInfo = NonCompliantDoubleCheckInfo, DoubleCheckFailed = false}},
+
+            new object[] {"Non-compliant with double check returns failure result.", new LoadInfoTestData {Info = NonCompliantInfo, DoubleCheckInfo = CompliantDoubleCheckInfo, DoDoubleCheck = true, LoadInfoCount = 1, DoubleCheckActionCount = 1, ExpectedInfo = NonCompliantInfo, DoubleCheckFailed = true}},
+        };
+
+        [Test]
+        [Category(TestCategory.UnitTests)]
+        [TestCaseSource("LoadInfoTestDataSource")]
+        public async Task LoadInfoPureTest(string description, object data)
+        {
+            var testData = data as LoadInfoTestData;
+            Assert.IsNotNull(testData);
+            int loadInfoCount = 0;
+            var doubleCheckActionCount = 0;
+            Func<Task<TestInfo>> loadInfo = async () =>
+            {
+                loadInfoCount++;
+                if(loadInfoCount == 1)
+                    return await Task.FromResult(testData.Info);
+                if (loadInfoCount == 2 && testData.DoDoubleCheck)
+                {
+                    return await Task.FromResult(testData.DoubleCheckInfo);
+                }
+                throw new InvalidOperationException("Did not expect to call load info more times.");
+            };
+            Func<TestInfo,bool> isNonCompliant = info =>
+            {
+                return !info.IsCompliant;
+            };
+            Func<bool> doDoubleCheck = () =>
+            {
+                return testData.DoDoubleCheck;
+            };
+            Func<Task<Result<Unit>>> doubleCheckAction = async () =>
+            {
+                doubleCheckActionCount++;
+                if(testData.DoubleCheckFailed)
+                    return new Result<Unit>(new Exception("Double Check Failed"));
+                return await Task.FromResult(new Result<Unit>(Unit.Default));
+            };
+            var actual = await F.LoadInfoPure(loadInfo, isNonCompliant, doDoubleCheck, doubleCheckAction);
+            Assert.AreEqual(testData.ExpectedInfo.Action, actual.Action, "InfoAction");
+            Assert.AreEqual(testData.ExpectedInfo.IsCompliant,actual.IsCompliant,"IsCompliant");
+            Assert.AreEqual(testData.LoadInfoCount,loadInfoCount,"Load info count");
+            Assert.AreEqual(testData.DoubleCheckActionCount, doubleCheckActionCount, "Double check action count");
         }
     }
 }

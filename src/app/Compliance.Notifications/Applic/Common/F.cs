@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -652,7 +653,7 @@ namespace Compliance.Notifications.Applic.Common
         /// <param name="scheduledTask"></param>
         /// <param name="doubleCheck"></param>
         /// <returns></returns>
-        public static async Task<T> LoadInfo<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
+        public static async Task<T> LoadInfoOld<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
         {
             if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
             var info = await loadInfo().ConfigureAwait(false);
@@ -673,6 +674,57 @@ namespace Compliance.Notifications.Applic.Common
                 }).ConfigureAwait(false);
             }
             return info;
+        }
+
+        /// <summary>
+        /// Load compliance measurement and check for non-compliance. If non-compliance and double check is true, trigger a new measurement to make sure it is still non-compliant.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="loadInfo"></param>
+        /// <param name="isNonCompliant"></param>
+        /// <param name="scheduledTask"></param>
+        /// <param name="doubleCheck"></param>
+        /// <returns></returns>
+        public static async Task<T> LoadInfo<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Some<ScheduledTaskInfo> scheduledTask, bool doubleCheck)
+        {
+            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
+            
+            Func<bool> checkIfDoubleCheckShouldBeRun= () =>
+            {
+                var timeSinceLastDoubleCheck = DateTime.Now - DoubleCheckTimeStamps[scheduledTask.Value.TaskName];
+                var doDoubleCheck = doubleCheck && timeSinceLastDoubleCheck > DoubleCheckThreshold;
+                return doDoubleCheck;
+            };
+            Func<Task<Result<Unit>>> doubleCheckAction= async () =>
+            {
+                DoubleCheckTimeStamps[scheduledTask.Value.TaskName] = DateTime.Now;
+                var doubleCheckResult = await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false);
+                return doubleCheckResult;
+            };
+            return await LoadInfoPure(loadInfo, isNonCompliant, checkIfDoubleCheckShouldBeRun, doubleCheckAction).ConfigureAwait(false);
+        }
+
+        public static async Task<T> LoadInfoPure<T>(Func<Task<T>> loadInfo, Func<T, bool> isNonCompliant, Func<bool> doDoubleCheck, Func<Task<Result<Unit>>> doubleCheckAction)
+        {
+            if (loadInfo == null) throw new ArgumentNullException(nameof(loadInfo));
+            var info = await loadInfo().ConfigureAwait(false);
+            var doubleCheck = doDoubleCheck();
+            var isNotCompliant = isNonCompliant(info);
+            if (!isNotCompliant || !doubleCheck) return info;
+            var doubleCheckResult = await doubleCheckAction().ConfigureAwait(false);
+            return
+                await doubleCheckResult.Match(
+                        async unit =>
+                        {
+                            var doubleCheckedInfo = await loadInfo().ConfigureAwait(false);
+                            return doubleCheckedInfo;
+                        },
+                        async exception =>
+                        {
+                            Logging.DefaultLogger.Error($"Failed to run a double check of '{typeof(T)}' non-compliance result. {exception.ToExceptionMessage()}");
+                            return await Task.FromResult(info).ConfigureAwait(false);
+                        })
+                    .ConfigureAwait(false);
         }
 
         public static object GetProfileValue(Context context, Option<string> category, string valueName, object defaultValue)
