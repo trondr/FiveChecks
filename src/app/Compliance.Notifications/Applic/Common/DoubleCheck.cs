@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Threading.Tasks;
 using LanguageExt;
+using LanguageExt.Common;
 
 namespace Compliance.Notifications.Applic.Common
 {
@@ -26,7 +28,18 @@ namespace Compliance.Notifications.Applic.Common
             return doDoubleCheck;
         }
 
-        public static void TimeStampDoubleCheckAction(Some<string> actionName)
+        public static async Task<Result<Unit>> RunDoubleCheck(Some<string> actionName, Func<Task<Result<Unit>>> doubleCheckAction, bool doubleCheck)
+        {
+            if (doubleCheckAction == null) throw new ArgumentNullException(nameof(doubleCheckAction));
+            if (doubleCheck)
+            {
+                TimeStampDoubleCheckAction(actionName);
+                return await doubleCheckAction().ConfigureAwait(false);
+            }
+            return new Result<Unit>(Unit.Default);
+        }
+
+        private static void TimeStampDoubleCheckAction(Some<string> actionName)
         {
             DoubleCheckTimeStamps.AddOrUpdate(actionName.Value, DateTime.Now, (s, time) => DateTime.Now);
         }

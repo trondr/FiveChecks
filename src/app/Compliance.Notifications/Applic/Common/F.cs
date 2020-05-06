@@ -656,9 +656,7 @@ namespace Compliance.Notifications.Applic.Common
             Func<bool> checkIfDoubleCheckShouldBeRun= () => DoubleCheck.ShouldRunDoubleCheckAction(scheduledTask.Value.TaskName);
             Func<Task<Result<Unit>>> doubleCheckAction= async () =>
             {
-                DoubleCheck.TimeStampDoubleCheckAction(scheduledTask.Value.TaskName);
-                var doubleCheckResult = await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false);
-                return doubleCheckResult;
+                return await DoubleCheck.RunDoubleCheck(scheduledTask.Value.TaskName,async () => await ScheduledTasks.RunScheduledTask(scheduledTask, true).ConfigureAwait(false), doubleCheck).ConfigureAwait(false);
             };
             return await LoadInfoPure(loadInfo, isNonCompliant, checkIfDoubleCheckShouldBeRun, doubleCheckAction).ConfigureAwait(false);
         }
