@@ -69,6 +69,9 @@
     <Compile Include="Applic\Common\NotificationProfile.cs" />
     <Compile Include="Applic\Common\WindowsEventLog.cs" />
     <Compile Include="Applic\DesktopDataCheck\CheckDesktopDataCommand.cs" />
+    <Compile Include="Applic\MissingMsUpdatesCheck\CheckMissingMsUpdatesCommand.cs" />
+    <Compile Include="Applic\MissingMsUpdatesCheck\MissingMsUpdates.cs" />
+    <Compile Include="Applic\MissingMsUpdatesCheck\MissingMsUpdatesInfo.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\SystemUptimeCheck\CheckSystemUptimeCommand.cs" />
     <Compile Include="Applic\DiskSpaceCheck\DiskSpace.cs" />
@@ -296,6 +299,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Credits\06. picsum-photos Credit.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)heroimages"

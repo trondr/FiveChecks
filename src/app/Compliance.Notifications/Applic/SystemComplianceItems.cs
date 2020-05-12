@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.DiskSpaceCheck;
+using Compliance.Notifications.Applic.MissingMsUpdatesCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Applic.SystemUptimeCheck;
 using LanguageExt;
@@ -22,9 +23,12 @@ namespace Compliance.Notifications.Applic
         private static readonly MeasureCompliance SystemUptimeMeasurement = async () =>
             await ComplianceInfo.RunSystemComplianceItem(SystemUptime.GetSystemUptimeInfo).ConfigureAwait(false);
 
+        private static readonly MeasureCompliance MissingMsUpdatesMeasurement = async () =>
+            await ComplianceInfo.RunSystemComplianceItem(MissingMsUpdates.GetMissingMsUpdatesInfo).ConfigureAwait(false);
+
         /// <summary>
         /// List of all system compliance items.
         /// </summary>
-        public static List<MeasureCompliance> Measurements { get; } = new List<MeasureCompliance> {DiskSpaceMeasurement, PendingRebootMeasurement, SystemUptimeMeasurement };
+        public static List<MeasureCompliance> Measurements { get; } = new List<MeasureCompliance> {DiskSpaceMeasurement, PendingRebootMeasurement, SystemUptimeMeasurement, MissingMsUpdatesMeasurement };
     }
 }

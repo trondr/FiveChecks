@@ -486,6 +486,12 @@ namespace Compliance.Notifications.Applic.Common
                 return false;
             });
         }
+
+        public static Result<Unit> TroubleshootWindowsUpdate()
+        {
+            Process.Start(new ProcessStartInfo { FileName = "msdt.exe", Arguments = "/id WindowsUpdateDiagnostic", UseShellExecute = true });
+            return Unit.Default;
+        }
     }
     
     public enum ComplianceAction

@@ -9,6 +9,7 @@ using Compliance.Notifications.Applic;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.DesktopDataCheck;
 using Compliance.Notifications.Applic.DiskSpaceCheck;
+using Compliance.Notifications.Applic.MissingMsUpdatesCheck;
 using Compliance.Notifications.Applic.PasswordExpiryCheck;
 using Compliance.Notifications.Applic.PendingRebootCheck;
 using Compliance.Notifications.Applic.SystemUptimeCheck;
@@ -96,6 +97,8 @@ namespace Compliance.Notifications
             bool disableSystemUptimeCheck,
             [OptionalCommandParameter(Description = "Disable desktop data check.", AlternativeName = "dddc", ExampleValue = false, DefaultValue = false)]
             bool disableDesktopDataCheck,
+            [OptionalCommandParameter(Description = "Disable missing MS updates check.", AlternativeName = "mmsuc", ExampleValue = false, DefaultValue = false)]
+            bool disableMissingMsUpdatesCheck,
             [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
@@ -111,6 +114,8 @@ namespace Compliance.Notifications
             var passwordExpiryResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var systemUptimeResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
             var desktopDataResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+            var missingMsUpdatesResult = new Result<ToastNotificationVisibility>(ToastNotificationVisibility.Hide);
+
             App.RunApplicationOnStart(async (sender, args) =>
             {
                 Logging.DefaultLogger.Info("Registering all toast groups");
@@ -122,11 +127,12 @@ namespace Compliance.Notifications
                 passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile, disablePasswordExpiryCheck).ConfigureAwait(false);
                 systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours, disableSystemUptimeCheck).ConfigureAwait(false);
                 desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile, disableDesktopDataCheck).ConfigureAwait(false);
+                missingMsUpdatesResult = await CheckMissingMsUpdatesCommand.CheckMissingMsUpdates(userProfile,disableMissingMsUpdatesCheck).ConfigureAwait(false);
 
                 Logging.DefaultLogger.Info("Waiting for all toast groups to be handled and unregistered...");
             });
             var result = 
-                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult, desktopDataResult }
+                new List<Result<ToastNotificationVisibility>> {diskSpaceResult, pendingRebootResult, passwordExpiryResult, systemUptimeResult, desktopDataResult, missingMsUpdatesResult }
                 .ToResult().Match(_ => new Result<int>(0), exception => new Result<int>(exception));
             return await Task.FromResult(result).ConfigureAwait(false);
         }

@@ -222,8 +222,8 @@
   <data name="MyDocumentsFolderDescription" xml:space="preserve">
     <value>Mine Dokumenter</value>
   </data>
-  <data name="_String10" xml:space="preserve">
-    <value>_string</value>
+  <data name="MissingUpdatesContent_F0" xml:space="preserve">
+    <value>Denne datamaskinen mangler {0} oppdateringer.</value>
   </data>
   <data name="OneDriveFolderName" xml:space="preserve">
     <value>Min OneDrive</value>
@@ -243,10 +243,19 @@
   <data name="Hour" xml:space="preserve">
     <value>time</value>
   </data>
-  <data name="_String102" xml:space="preserve">
+  <data name="MissingMsUpdatesTitle" xml:space="preserve">
+    <value>Manglende oppdateringer</value>
+  </data>
+  <data name="MissingUpdatesContent2_F0" xml:space="preserve">
+    <value>Forsøk selvreparering og deretter en omstart av datamaskinen for installasjon av: {0}Dersom dette problemet vedvarer i flere dager, kontakt service desk for assistanse.</value>
+  </data>
+  <data name="MissingMsUpdates_Troubleshooting_ButtonContent" xml:space="preserve">
+    <value>Selvreparering...</value>
+  </data>
+  <data name="_string0011" xml:space="preserve">
     <value>_string</value>
   </data>
-  <data name="_String101" xml:space="preserve">
+  <data name="_string0012" xml:space="preserve">
     <value>_string</value>
   </data>
 </root>

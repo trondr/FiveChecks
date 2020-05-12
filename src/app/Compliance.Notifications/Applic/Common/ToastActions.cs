@@ -13,6 +13,7 @@ namespace Compliance.Notifications.Applic.Common
         public const string DiskAutoCleanup = "diskautocleanup";
         public const string ChangePassword = "changepassword";
         public const string Dismiss = "dismiss";
+        public const string TroubleShootWindowsUpdate = "troubleshootwindowsupdate";
         public const string CreateMyDocumentsShortcut = "createmydocumentsshortcut";
         
         public static Dictionary<string, Func<Result<Unit>>> Actions { get; } =
@@ -24,8 +25,9 @@ namespace Compliance.Notifications.Applic.Common
                 {ToastActions.ChangePassword, () => F.TryFunc<Unit>(() => F.ChangePassword())},
                 {ToastActions.Dismiss, () => F.TryFunc<Unit>(() => F.DismissNotification())},
                 {ToastActions.CreateMyDocumentsShortcut, () => F.TryFunc<Unit>(() => F.CreateMyDocumentsShortcut())},
-            };
+                {ToastActions.TroubleShootWindowsUpdate, () => F.TryFunc<Unit>(() => F.TroubleshootWindowsUpdate())},
 
+            };
         
 
         public static Option<Func<Result<Unit>>> ParseToastActionArguments(string arguments)

@@ -63,27 +63,18 @@ namespace Compliance.Notifications.Resources {
         /// <summary>
         ///   Looks up a localized string similar to _string.
         /// </summary>
-        internal static string _String10 {
+        internal static string _string0011 {
             get {
-                return ResourceManager.GetString("_String10", resourceCulture);
+                return ResourceManager.GetString("_string0011", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to _string.
         /// </summary>
-        internal static string _String101 {
+        internal static string _string0012 {
             get {
-                return ResourceManager.GetString("_String101", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _string.
-        /// </summary>
-        internal static string _String102 {
-            get {
-                return ResourceManager.GetString("_String102", resourceCulture);
+                return ResourceManager.GetString("_string0012", resourceCulture);
             }
         }
         
@@ -219,6 +210,42 @@ namespace Compliance.Notifications.Resources {
         internal static string Hours {
             get {
                 return ResourceManager.GetString("Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self Repair....
+        /// </summary>
+        internal static string MissingMsUpdates_Troubleshooting_ButtonContent {
+            get {
+                return ResourceManager.GetString("MissingMsUpdates_Troubleshooting_ButtonContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing updates.
+        /// </summary>
+        internal static string MissingMsUpdatesTitle {
+            get {
+                return ResourceManager.GetString("MissingMsUpdatesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This machine is missing {0} updates..
+        /// </summary>
+        internal static string MissingUpdatesContent_F0 {
+            get {
+                return ResourceManager.GetString("MissingUpdatesContent_F0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempt self repair and then a computer restart to install: {0}If this issue persist for several days, contact service desk for assistance..
+        /// </summary>
+        internal static string MissingUpdatesContent2_F0 {
+            get {
+                return ResourceManager.GetString("MissingUpdatesContent2_F0", resourceCulture);
             }
         }
         

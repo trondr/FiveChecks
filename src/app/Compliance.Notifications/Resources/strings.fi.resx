@@ -222,17 +222,17 @@
   <data name="DesktopData_Content2" xml:space="preserve">
     <value>Only shortcuts to applications, documents and data folders should be located on the Desktop. Click the 'Cleanup...' button to create a shortcut to "My Documents" and start manually moving your documents.</value>
   </data>
-  <data name="_String10" xml:space="preserve">
-    <value>_string</value>
+  <data name="MissingUpdatesContent_F0" xml:space="preserve">
+    <value>This machine is missing {0} updates.</value>
   </data>
-  <data name="_String101" xml:space="preserve">
-    <value>_string</value>
+  <data name="MissingUpdatesContent2_F0" xml:space="preserve">
+    <value>Attempt self repair and then a computer restart to install: {0}If this issue persist for several days, contact service desk for assistance.</value>
   </data>
   <data name="Hour" xml:space="preserve">
     <value>hour</value>
   </data>
-  <data name="_String102" xml:space="preserve">
-    <value>_string</value>
+  <data name="MissingMsUpdatesTitle" xml:space="preserve">
+    <value>Missing updates</value>
   </data>
   <data name="PendingRebootNotification_Source_F0" xml:space="preserve">
     <value>Reboot source: {0}</value>
@@ -248,5 +248,14 @@
   </data>
   <data name="OneDriveFolderName" xml:space="preserve">
     <value>My OneDrive</value>
+  </data>
+  <data name="MissingMsUpdates_Troubleshooting_ButtonContent" xml:space="preserve">
+    <value>Self Repair...</value>
+  </data>
+  <data name="_string0011" xml:space="preserve">
+    <value>_string</value>
+  </data>
+  <data name="_string0012" xml:space="preserve">
+    <value>_string</value>
   </data>
 </root>
