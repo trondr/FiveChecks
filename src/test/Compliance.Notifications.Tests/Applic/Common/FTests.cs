@@ -430,6 +430,7 @@ namespace Compliance.Notifications.Tests.Applic
         [Category(TestCategory.UnitTests)]
         [TestCase(2, 1, 1, "2 days")]
         [TestCase(1,1,1,"1 day")]
+        [TestCase(1, 12, 1, "2 days")]
         [TestCase(0, 1, 1, "1 hour")]
         [TestCase(0, 10, 1, "10 hours")]
         [TestCase(0, 0, 1, "0 hours")]

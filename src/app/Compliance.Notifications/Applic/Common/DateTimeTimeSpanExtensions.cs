@@ -29,8 +29,8 @@ namespace Compliance.Notifications.Applic.Common
                 return $"{timeSpan.Hours} {strings.Hours}";
             }
             if (totalDaysRounded == 1)
-                return $"{timeSpan.Days} {strings.Day}";
-            return $"{timeSpan.Days} {strings.Days}";
+                return $"{totalDaysRounded} {strings.Day}";
+            return $"{totalDaysRounded} {strings.Days}";
         }
     }
 }
