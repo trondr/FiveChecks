@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.D6A8F8D6_B929_4A11_95FD_14D6C004F5F6" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.EAC9B2FF_46F2_449D_8078_0EFD32C3DFB4" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -25,6 +25,9 @@
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
     <category name="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E" displayName="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E)" explainText="$(string.CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E_Help)">
+      <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+    </category>
+    <category name="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" displayName="$(string.CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
     </category>
   </categories>
@@ -231,5 +234,19 @@
         <decimal value="0" />
       </disabledValue>
 	  </policy>
+    <policy name="POL_FE876766_5A69_4999_857F_B8615D2EAF0A" class="Machine" displayName="$(string.POL_FE876766_5A69_4999_857F_B8615D2EAF0A)" explainText="$(string.POL_FE876766_5A69_4999_857F_B8615D2EAF0A_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="DisableNotification">
+      <parentCategory ref="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0" class="Machine" displayName="$(string.POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0)" explainText="$(string.POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="DisableMeasurement">
+      <parentCategory ref="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+	  <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
   </policies>
 </policyDefinitions>

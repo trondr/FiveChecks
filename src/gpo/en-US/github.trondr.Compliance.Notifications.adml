@@ -68,6 +68,11 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_938DF655_F3A5_496D_A84F_A533460D8968_Help">When this setting is enabled desktop data measurement will be skipped.</string>
       <string id="POL_DE85B9B2_52DD_44BC_AD6F_D9931CA2C5BD_Help">When this setting is enabled password expiry warning measurement will be skipped. As measurement is a prequisite for notification disabling measurement will effectively also disable notification.</string>
       <string id="POL_53E7A67B_2659_421F_83D8_392958C9206E_Help">When this setting is enabled pending reboot measurement will be skipped. As measurement is a prequisite for notification, disabling measurement will effectively also disable notification.</string>
+      <string id="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051">Missing MS Updates Check</string>
+      <string id="POL_FE876766_5A69_4999_857F_B8615D2EAF0A">Disable missing ms updates notification</string>
+      <string id="POL_FE876766_5A69_4999_857F_B8615D2EAF0A_Help">When this setting is enabled missing ms updates notification will be skipped.</string>
+      <string id="POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0">Disable missing ms updates measurement</string>
+      <string id="POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0_Help">When this setting is enabled missing ms updates measurement will be skipped. As measurement is a prequisite for notification, disabling measurement will effectively also disable notification.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
