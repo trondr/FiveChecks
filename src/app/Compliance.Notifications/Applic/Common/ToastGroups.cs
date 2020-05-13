@@ -11,14 +11,16 @@ namespace Compliance.Notifications.Applic.Common
         public const string CheckPasswordExpiry = "CheckPasswordExpiry";
         public const string CheckSystemUptime = "CheckSystemUptime";
         public const string CheckDesktopData = "CheckDesktopData";
-        
+        public const string CheckMissingMsUpdates = "CheckMissingMsUpdates";
+
         public static List<string> Groups { get; } = new List<string>
         {
             ToastGroups.CheckDiskSpace,
             ToastGroups.CheckPendingReboot,
             ToastGroups.CheckPasswordExpiry,
             ToastGroups.CheckSystemUptime,
-            ToastGroups.CheckDesktopData
+            ToastGroups.CheckDesktopData,
+            ToastGroups.CheckMissingMsUpdates
         };
 
         public static Option<string> ParseToastGroupArguments(string arguments)
