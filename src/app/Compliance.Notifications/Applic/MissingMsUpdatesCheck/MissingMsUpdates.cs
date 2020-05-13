@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
@@ -9,6 +9,7 @@ using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Linq;
+using System.Management.Automation;
 
 
 namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
@@ -17,19 +18,14 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
     {
         public static async Task<Result<MissingMsUpdatesInfo>> GetMissingMsUpdatesInfo()
         {
-            Logging.DefaultLogger.Warn("TODO: Implement missing MS updates calculation.");
-
-            var march = new DateTime(2020,03,20);
-            var firstMeasuredMissing = new DateTime(2020, 03, 29);
-            return await Task.FromResult(new Result<MissingMsUpdatesInfo>(new MissingMsUpdatesInfo {Updates = new List<MsUpdate>
+            var previousInfo = await LoadMissingMsUpdatesInfo().ConfigureAwait(false);
+            var currentInfo = TryGetMissingUpdates().Try().Match(info => info, exception =>
             {
-                new MsUpdate {ArticleId = "4538156",Name = "2020-02 Cumulative Update for .NET Framework 3.5, 4.7.2 and 4.8 for Windows 10 Version 1809 for x64 (KB4538156)", Deadline = march,FirstMeasuredMissing = firstMeasuredMissing},
-                new MsUpdate {ArticleId = "4494174",Name = "2020-01 Update for Windows 10 Version 1809 for x64-based Systems (KB4494174)",Deadline = march,FirstMeasuredMissing = firstMeasuredMissing},
-                new MsUpdate {ArticleId = "4549947",Name = "2020-04 Servicing Stack Update for Windows 10 Version 1809 for x64-based Systems (KB4549947)",Deadline = march,FirstMeasuredMissing = firstMeasuredMissing},
-                new MsUpdate {ArticleId = "4549949",Name = "2020-04 Cumulative Update for Windows 10 Version 1809 for x64-based Systems (KB4549949)",Deadline = march,FirstMeasuredMissing = firstMeasuredMissing},
-                new MsUpdate {ArticleId = "3104046",Name = "Office 365 Client Update - Semi-annual Channel Version 1908 for x64 based Edition (Build 11929.20708)",Deadline = march,FirstMeasuredMissing = firstMeasuredMissing}
-            }
-            })).ConfigureAwait(false);
+                Logging.DefaultLogger.Warn($"Failed to get missing updates from class CCM_SoftwareUpdate. {exception.ToExceptionMessage()}");
+                return MissingMsUpdatesInfo.Default;
+            });
+            var updatedInfo = previousInfo.Update(currentInfo);
+            return await Task.FromResult(updatedInfo).ConfigureAwait(false);
         }
 
         public static async Task<MissingMsUpdatesInfo> LoadMissingMsUpdatesInfo()
@@ -61,5 +57,24 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
             return new ActionDismissToastContentInfo(greeting, title, content, content2,
                 imageUri, appLogoImageUri, action, actionActivationType, strings.MissingMsUpdates_Troubleshooting_ButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
         }
+        
+        private static Try<MissingMsUpdatesInfo> TryGetMissingUpdates() => () =>
+        {
+            var missingUpdates =
+                F.RunPowerShell(new Some<Func<PowerShell, Collection<PSObject>>>(powerShell =>
+                    powerShell
+                        .AddCommand("Get-WmiObject")
+                        .AddParameter("NameSpace", @"ROOT\ccm\ClientSDK")
+                        .AddParameter("Class", "CCM_SoftwareUpdate")
+                        .Invoke())
+                );
+            var missingUpdatesInfo = new MissingMsUpdatesInfo();
+            foreach (var missingUpdate in missingUpdates)
+            {
+                dynamic mu = missingUpdate;
+                missingUpdatesInfo.Updates.Add(new MsUpdate {ArticleId = mu.ArticleID, Name = mu.Name,Deadline = mu.Deadline, FirstMeasuredMissing = DateTime.Now});
+            }
+            return new Result<MissingMsUpdatesInfo>(missingUpdatesInfo);
+        };
     }
 }
