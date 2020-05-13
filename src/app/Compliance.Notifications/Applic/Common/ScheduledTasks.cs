@@ -137,6 +137,7 @@ namespace Compliance.Notifications.Applic.Common
                 var running = true;
                 while (running)
                 {
+                    Logging.DefaultLogger.Debug($"Waiting for scheduled task: { taskName.Value}");
                     GetScheduledTask(taskName)
                         .Match(
                             st =>
