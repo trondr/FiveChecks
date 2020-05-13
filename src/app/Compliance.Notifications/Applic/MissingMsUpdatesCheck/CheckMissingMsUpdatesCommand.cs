@@ -30,8 +30,8 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
         public static async Task<Result<ToastNotificationVisibility>> CheckMissingMsUpdates(Some<NotificationProfile> userProfile, bool isDisabled)
         {
             var category = typeof(CheckMissingMsUpdatesCommand).GetPolicyCategory();
-            var groupName = ToastGroups.CheckSystemUptime;
-            var tag = ToastGroups.CheckSystemUptime;
+            var groupName = ToastGroups.CheckMissingMsUpdates;
+            var tag = ToastGroups.CheckMissingMsUpdates;
             var systemUptimeCheckIsDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckMissingMsUpdatesCommand));
             bool IsNonCompliant(MissingMsUpdatesInfo info) => info.Updates.Count > 0 && info.Updates.Any(update => (DateTime.Now - update.FirstMeasuredMissing).TotalDays > 3);
             return await CheckMissingMsUpdatesPure(() => ComplianceInfo.LoadInfo(MissingMsUpdates.LoadMissingMsUpdatesInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
