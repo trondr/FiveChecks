@@ -64,7 +64,9 @@
     <Compile Include="Applic\Common\ComplianceInfo.cs" />
     <Compile Include="Applic\Common\DateTimeTimeSpanExtensions.cs" />
     <Compile Include="Applic\Common\DoubleCheck.cs" />
+    <Compile Include="Applic\Common\EnumUtility.cs" />
     <Compile Include="Applic\Common\Profile.cs" />
+    <Compile Include="Applic\Common\SccmClient.cs" />
     <Compile Include="Applic\Common\ScheduledTaskInfo.cs" />
     <Compile Include="Applic\Common\NotificationProfile.cs" />
     <Compile Include="Applic\Common\WindowsEventLog.cs" />

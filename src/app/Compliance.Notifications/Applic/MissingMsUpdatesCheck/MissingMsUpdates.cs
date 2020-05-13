@@ -25,6 +25,11 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
                 return MissingMsUpdatesInfo.Default;
             });
             var updatedInfo = previousInfo.Update(currentInfo);
+            if (updatedInfo.Updates.Count > 0)
+            {
+                SccmClient.TriggerSchedule(SccmAction.ForceUpdateScan).Match(unit => { Logging.DefaultLogger.Info("Successfully triggered update scan.");return Unit.Default;},exception => { Logging.DefaultLogger.Warn("Failed to trigger update scan due to: " + exception.ToExceptionMessage());return Unit.Default;});
+                SccmClient.TriggerSchedule(SccmAction.SoftwareUpdatesAgentAssignmentEvaluationCycle).Match(unit => { Logging.DefaultLogger.Info("Successfully triggered update evaluation."); return Unit.Default; }, exception => { Logging.DefaultLogger.Warn("Failed to trigger update evaluation due to: " + exception.ToExceptionMessage()); return Unit.Default; });
+            }
             return await Task.FromResult(updatedInfo).ConfigureAwait(false);
         }
 

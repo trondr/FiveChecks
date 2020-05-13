@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applic\Common\DoubleCheckTests.cs" />
+    <Compile Include="Applic\Common\EnumUtilityTests.cs" />
     <Compile Include="Applic\Common\FTests.cs" />
     <Compile Include="Applic\MissingMsUpdatesCheck\MissingUpdatesInfoExtensionsTests.cs" />
     <Compile Include="Applic\RebootSourceExtensionsTests.cs" />
