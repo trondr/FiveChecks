@@ -119,8 +119,7 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
             var action = ToastActions.DiskCleanup;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
-            return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None,notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, appLogoImageUri, action, actionActivationType, strings.DiskSpaceIsLow_ActionButton_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None,notificationProfile.Value.CompanyName);
         }
 
         private static Try<Option<string>> TryGetSccmCacheLocation() => () =>

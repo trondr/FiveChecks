@@ -154,8 +154,7 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
             var action = ToastActions.ChangePassword;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
-            return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, appLogoImageUri, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()

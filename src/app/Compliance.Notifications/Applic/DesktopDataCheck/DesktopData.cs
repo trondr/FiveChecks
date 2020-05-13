@@ -52,8 +52,7 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             var action = ToastActions.CreateMyDocumentsShortcut;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
-            return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None, notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, appLogoImageUri, action, actionActivationType, strings.Desktop_Action_Button_Content, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName,Option<string>.None, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<DesktopDataInfo> LoadDesktopDataInfo()

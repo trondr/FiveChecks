@@ -123,8 +123,7 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
             Option<string> content3 = string.Format(CultureInfo.InvariantCulture,strings.PendingRebootNotification_Source_F0, info.ToSourceDescription());
-            return new ActionDismissToastContentInfo(greeting, title, content, content2,
-                imageUri, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, content3, notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, appLogoImageUri, action, actionActivationType, strings.PendingRebootNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, content3, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<PendingRebootInfo> LoadPendingRebootInfo()
