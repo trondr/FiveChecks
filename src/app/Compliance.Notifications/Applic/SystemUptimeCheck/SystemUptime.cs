@@ -51,8 +51,6 @@ namespace Compliance.Notifications.Applic.SystemUptimeCheck
         private static ActionDismissToastContentInfo GetCheckSystemUptimeToastContentInfo(Some<NotificationProfile> notificationProfile, string groupName, TimeSpan systemUptime)
         {
             var title = strings.SystemUptime_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = string.Format(CultureInfo.InvariantCulture, strings.SystemUptimeContent_F0, systemUptime.TimeSpanToString());
             var content2 = strings.SystemUptimeContent2;
             var action = ToastActions.Restart;

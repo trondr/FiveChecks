@@ -51,8 +51,6 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
         private static ActionDismissToastContentInfo GetCheckMissingMsUpdatesToastContentInfo(Some<NotificationProfile> notificationProfile, string groupName, MissingMsUpdatesInfo info)
         {
             var title = strings.MissingMsUpdatesTitle;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = string.Format(CultureInfo.InvariantCulture, strings.MissingUpdatesContent_F0, info.Updates.Count);
             var missingUpdateKbs = string.Join(Environment.NewLine, info.Updates.Select(u => "\tKB" + u.ArticleId).ToArray()) + Environment.NewLine;
             var content2 = string.Format(CultureInfo.InvariantCulture, strings.MissingUpdatesContent2_F0, Environment.NewLine + missingUpdateKbs);

@@ -115,8 +115,6 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         private static ActionDismissToastContentInfo GetCheckPendingRebootToastContentInfo(Some<NotificationProfile> notificationProfile, PendingRebootInfo info, string groupName)
         {
             var title = strings.PendingRebootNotification_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = strings.PendingRebootNotification_Content1;
             var content2 = strings.PendingRebootNotification_Content2;
             var action = ToastActions.Restart;

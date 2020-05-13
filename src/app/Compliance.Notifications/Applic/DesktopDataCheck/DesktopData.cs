@@ -45,8 +45,6 @@ namespace Compliance.Notifications.Applic.DesktopDataCheck
             DesktopDataInfo desktopDataInfo)
         {
             var title = string.Format(CultureInfo.InvariantCulture, strings.DesktopData_Title_F0, desktopDataInfo.TotalSizeInBytes.BytesToReadableString());
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = strings.DesktopData_Content;
             var content2 = strings.DesktopData_Content2;
             var action = ToastActions.CreateMyDocumentsShortcut;

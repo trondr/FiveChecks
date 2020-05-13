@@ -111,8 +111,6 @@ namespace Compliance.Notifications.Applic.DiskSpaceCheck
         private static ActionDismissToastContentInfo GetCheckDiskSpaceToastContentInfo(Some<NotificationProfile> notificationProfile, decimal requiredCleanupAmount, string groupName)
         {
             var title = strings.DiskSpaceIsLow_Title;
-            var imageUri = new Uri($"https://picsum.photos/364/202?image={F.Rnd.Next(1, 900)}");
-            var appLogoImageUri = new Uri("https://unsplash.it/64?image=1005");
             var content = strings.DiskSpaceIsLow_Description;
             var content2 = String.Format(CultureInfo.InvariantCulture, strings.Please_Cleanup_DiskSpace_Text_F0,
                 requiredCleanupAmount);
