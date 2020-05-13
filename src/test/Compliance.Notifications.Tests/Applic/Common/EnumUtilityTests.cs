@@ -7,7 +7,7 @@ namespace Compliance.Notifications.Tests
     [TestFixture()]
     public class EnumUtilityTests
     {
-        [Test()]
+        [Test]
         [Category(TestCategory.UnitTests)]
         public void StringValueOfTest_ForceUpdateScan()
         {
@@ -22,7 +22,7 @@ namespace Compliance.Notifications.Tests
             });
         }
 
-        [Test()]
+        [Test]
         [Category(TestCategory.UnitTests)]
         public void StringValueOfTest_SoftwareUpdatesAgentAssignmentEvaluationCycle()
         {
@@ -35,7 +35,6 @@ namespace Compliance.Notifications.Tests
             {
                 Assert.Fail("Did not expect None");
             });
-
         }
     }
 }
