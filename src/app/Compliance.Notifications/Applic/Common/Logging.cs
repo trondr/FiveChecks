@@ -10,8 +10,16 @@ namespace Compliance.Notifications.Applic.Common
 {
     public static class Logging
     {
+        internal static string GetCommandName()
+        {
+            var args = Environment.GetCommandLineArgs();
+            var commandName = args.Length > 1 ? args[1] : "Default";
+            return commandName;
+        }
 
-        internal static ILog DefaultLogger => GetLogger("Default");
+        internal static string CommandName { get; } = GetCommandName();
+
+        internal static ILog DefaultLogger => GetLogger(CommandName);
 
         /// <summary>
         /// Getting named logger
