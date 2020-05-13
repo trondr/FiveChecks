@@ -86,6 +86,7 @@
       <ComponentGroupRef Id="SEProductExeComponentGroup"/>
       <ComponentGroupRef Id="FIProductExeComponentGroup"/>
       <ComponentGroupRef Id="HeroImagesGroup"/>
+      <ComponentGroupRef Id="AppLogoImagesGroup"/>
     </Feature>
 
     <WixVariable Id="WixUIBannerBmp" Value="WixUIBanner.bmp"/>
@@ -104,6 +105,7 @@
               <Directory Id="svseFolder" Name="sv-se"/>
               <Directory Id="fiFolder" Name="fi"/>
               <Directory Id="HeroImagesFolder" Name="HeroImages"/>
+              <Directory Id="AppLogoImagesFolder" Name="AppLogoImages"/>
             </Directory>
           </Directory>
         </Directory>
@@ -1138,6 +1140,11 @@
         <File Id="Image_987589336_jpg" Name="987589336.jpg" Source="..\..\heroimages\987589336.jpg"/>
         <File Id="Image_990848782_jpg" Name="990848782.jpg" Source="..\..\heroimages\990848782.jpg"/>
         <File Id="Image_999780170_jpg" Name="999780170.jpg" Source="..\..\heroimages\999780170.jpg"/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="AppLogoImagesGroup" Directory="AppLogoImagesFolder">
+      <Component Id="AppLogoImagesComponent" Guid="{98296F36-C1A8-4A9B-9789-1B95A26E27AA}">
+        <File Id="Image_1926393561_jpg" Name="1926393561.jpg" Source="..\..\applogoimages\1926393561.jpg"/>
       </Component>
     </ComponentGroup>
   </Fragment>

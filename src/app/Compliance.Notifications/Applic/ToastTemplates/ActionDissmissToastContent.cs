@@ -13,7 +13,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
         private static async Task<string> GetHeroImage()
         {
             return (await 
-                    F.CacheFolder
+                    F.HeroImagesCacheFolder
                         .Match(
                         async cacheFolder => await F.GetRandomImageFromCache(cacheFolder).ConfigureAwait(false),
                         async () => await Task.FromResult(Option<string>.None).ConfigureAwait(false)
@@ -21,7 +21,17 @@ namespace Compliance.Notifications.Applic.ToastTemplates
                 .Match(imagePath => imagePath, () => string.Empty);
         }
 
-
+        private static async Task<string> GetAppLogoImage()
+        {
+            return (await
+                    F.AppLogoImagesCacheFolder
+                        .Match(
+                            async cacheFolder => await F.GetRandomImageFromCache(cacheFolder).ConfigureAwait(false),
+                            async () => await Task.FromResult(Option<string>.None).ConfigureAwait(false)
+                        ).ConfigureAwait(false))
+                .Match(imagePath => imagePath, () => string.Empty);
+        }
+        
         public static async Task<ToastContent> CreateToastContent(ActionDismissToastContentInfo contentInfo)
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
@@ -33,6 +43,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
             var notNowAction = new QueryString {{"action", contentInfo.NotNowAction}, {"group", contentInfo.GroupName}}.ToString();
 
             var heroImage = await GetHeroImage().ConfigureAwait(false);
+            var appLogoImage = await GetAppLogoImage().ConfigureAwait(false);
             
             var toastContent = new ToastContent
             {
@@ -49,7 +60,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
                         },
                         AppLogoOverride = new ToastGenericAppLogo
                         {
-                                Source = await F.DownloadImage(contentInfo.AppLogoImageUri).ConfigureAwait(false),
+                                Source = appLogoImage,
                                 HintCrop = ToastGenericAppLogoCrop.Circle
                             },
                         Attribution = new ToastGenericAttributionText { Text = contentInfo.CompanyName },

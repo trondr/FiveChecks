@@ -59,7 +59,7 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
             var action = ToastActions.TroubleShootWindowsUpdate;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
-            return new ActionDismissToastContentInfo(greeting, title, content, content2, appLogoImageUri, action, actionActivationType, strings.MissingMsUpdates_Troubleshooting_ButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, action, actionActivationType, strings.MissingMsUpdates_Troubleshooting_ButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
         }
         
         private static Try<MissingMsUpdatesInfo> TryGetMissingUpdates() => () =>

@@ -144,21 +144,36 @@ namespace Compliance.Notifications.Applic.Common
             return image.Match(uri => uri.LocalPath, () => "");
         }
 
-        private static Option<string> _cacheFolder = Option<string>.None;
-        public static Option<string> CacheFolder
+        private static Option<string> _heroImagesCacheFolder = Option<string>.None;
+        public static Option<string> HeroImagesCacheFolder
         {
             get
             {
-                _cacheFolder = _cacheFolder.Match(cacheFolder => cacheFolder, () =>
+                _heroImagesCacheFolder = _heroImagesCacheFolder.Match(cacheFolder => cacheFolder, () =>
                 {
                     var assembly = Assembly.GetEntryAssembly();
                     var exeDirectory = assembly != null ? new FileInfo(assembly.Location).Directory : Option<DirectoryInfo>.None;
                     return exeDirectory.Match(info => Path.Combine(info.FullName, "HeroImages"),() => Option<string>.None);
                 });
-                return _cacheFolder;
+                return _heroImagesCacheFolder;
             }
         }
 
+        private static Option<string> _appLogoImagesCacheFolder = Option<string>.None;
+        public static Option<string> AppLogoImagesCacheFolder
+        {
+            get
+            {
+                _appLogoImagesCacheFolder = _appLogoImagesCacheFolder.Match(cacheFolder => cacheFolder, () =>
+                {
+                    var assembly = Assembly.GetEntryAssembly();
+                    var exeDirectory = assembly != null ? new FileInfo(assembly.Location).Directory : Option<DirectoryInfo>.None;
+                    return exeDirectory.Match(info => Path.Combine(info.FullName, "AppLogoImages"), () => Option<string>.None);
+                });
+                return _appLogoImagesCacheFolder;
+            }
+        }
+        
         public static async Task<Option<string>> GetRandomImageFromCache(Some<string> cacheFolder)
         {
             var rand = new Random();

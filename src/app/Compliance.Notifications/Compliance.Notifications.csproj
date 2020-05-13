@@ -306,6 +306,8 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)heroimages"
 xcopy "$(SolutionDir)src\heroimages\*.jpg" "$(TargetDir)heroimages\*.jpg" /y /q
+mkdir "$(TargetDir)applogoimages"
+xcopy "$(SolutionDir)src\applogoimages\*.jpg" "$(TargetDir)applogoimages\*.jpg" /y /q
 exit 0</PostBuildEvent>
   </PropertyGroup>
 </Project>
