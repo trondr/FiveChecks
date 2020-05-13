@@ -37,6 +37,7 @@ namespace Compliance.Notifications.Tests.Applic.Common
         };
         
         [Test()]
+        [Category(TestCategory.UnitTests)]
         [TestCaseSource("DoubleCheckTestDataSource")]
         public void ShouldRunDoubleCheckPureTest(string description, object testDataObject)
         {

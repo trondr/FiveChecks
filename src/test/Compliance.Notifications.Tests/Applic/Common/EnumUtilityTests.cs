@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Compliance.Notifications.Applic.Common;
+using Compliance.Notifications.Tests.Applic;
 
 namespace Compliance.Notifications.Tests
 {
@@ -7,6 +8,7 @@ namespace Compliance.Notifications.Tests
     public class EnumUtilityTests
     {
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public void StringValueOfTest_ForceUpdateScan()
         {
             var actualOption = EnumUtility.StringValueOf(SccmAction.ForceUpdateScan);
@@ -21,6 +23,7 @@ namespace Compliance.Notifications.Tests
         }
 
         [Test()]
+        [Category(TestCategory.UnitTests)]
         public void StringValueOfTest_SoftwareUpdatesAgentAssignmentEvaluationCycle()
         {
             var actualOption = EnumUtility.StringValueOf(SccmAction.SoftwareUpdatesAgentAssignmentEvaluationCycle);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Compliance.Notifications.Tests.Applic;
 
 namespace Compliance.Notifications.Tests
 {
@@ -62,6 +63,7 @@ namespace Compliance.Notifications.Tests
 
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void UpdateTestPreviousInfoNonEmptyCurrentInfoEmpty()
         {
             var currentInfo = MissingMsUpdatesInfo.Default;
@@ -108,6 +110,7 @@ namespace Compliance.Notifications.Tests
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void UpdateTestPreviousInfoNonEmpty()
         {
             var currentInfo = new MissingMsUpdatesInfo()
