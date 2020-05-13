@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using LanguageExt;
 
 namespace Compliance.Notifications.Applic.PendingRebootCheck
