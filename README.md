@@ -1,5 +1,18 @@
 # Compliance-Notifications
 
+Measure compliance items (such as free disk space, pending reboot, system uptime, missing updates) and write result to file system.
+
+Show toast notification to the user when measurements are not within compliance range.
+
+## Code of conduct.
+
+Do your best to be able to answer yes to the following questions when contributing code.
+
+* Can this method or function easily be tested? (https://markheath.net/post/testable-code-with-pure-functions)
+* Is illegal states unrepresentable? (https://enterprisecraftsmanship.com/posts/c-and-f-approaches-to-illegal-state/)
+
+Any bugs have harsher living conditions and are more easily squashed when these two conditions are met.
+
 ## Minimum Build Environment
 
 * Run from an admin command line:
