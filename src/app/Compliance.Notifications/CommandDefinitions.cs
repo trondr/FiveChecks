@@ -79,27 +79,45 @@ namespace Compliance.Notifications
         }
 
         [Command(Summary = "Run all compliance checks.", Description = "Run all compliance checks.")]
-        public static async Task<Result<int>> CheckCompliance(
-            [OptionalCommandParameter(Description = "Free disk space requirement in GB", AlternativeName = "fr",
+        public static async Task<Result<int>> CheckCompliance([OptionalCommandParameter(
+                Description = "Free disk space requirement in GB", AlternativeName = "fr",
                 ExampleValue = 40, DefaultValue = 40)]
             decimal requiredFreeDiskSpace,
-            [OptionalCommandParameter(Description = "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.", AlternativeName = "ssc", ExampleValue = true, DefaultValue = false)]
+            [OptionalCommandParameter(
+                Description =
+                    "Subtract current size of Sccm cache. When set to true, disk space is compliant if: ((CurrentTotalFreeDiskSpace + CurrentSizeOfSccmCache) - requiredFreeDiskSpace) > 0. This parameter is ignored on a client without Sccm Client.",
+                AlternativeName = "ssc", ExampleValue = true, DefaultValue = false)]
             bool subtractSccmCache,
-            [OptionalCommandParameter(Description = "Maximum system uptime in hours before user gets notified about recommended reboot. Default is 168 hours (7 days).", DefaultValue = 168.0,AlternativeName = "mutd",ExampleValue = 168.0)]
+            [OptionalCommandParameter(
+                Description =
+                    "Maximum system uptime in hours before user gets notified about recommended reboot. Default is 168 hours (7 days).",
+                DefaultValue = 168.0, AlternativeName = "mutd", ExampleValue = 168.0)]
             double maxUptimeHours,
-            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Hours to wait before notifying user about missing ms updates.",
+                AlternativeName = "msuwait", ExampleValue = 48, DefaultValue = 48)]
+            int hoursToWaitBeforeNotifyUserAboutMissingUpdates,
+            [OptionalCommandParameter(Description = "Disable disk space check.", AlternativeName = "ddsc",
+                ExampleValue = false, DefaultValue = false)]
             bool disableDiskSpaceCheck,
-            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable pending reboot check.", AlternativeName = "dprc",
+                ExampleValue = false, DefaultValue = false)]
             bool disablePendingRebootCheck,
-            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable password expiry check.", AlternativeName = "dpec",
+                ExampleValue = false, DefaultValue = false)]
             bool disablePasswordExpiryCheck,
-            [OptionalCommandParameter(Description = "Disable system uptime check.", AlternativeName = "dsuc", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable system uptime check.", AlternativeName = "dsuc",
+                ExampleValue = false, DefaultValue = false)]
             bool disableSystemUptimeCheck,
-            [OptionalCommandParameter(Description = "Disable desktop data check.", AlternativeName = "dddc", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable desktop data check.", AlternativeName = "dddc",
+                ExampleValue = false, DefaultValue = false)]
             bool disableDesktopDataCheck,
-            [OptionalCommandParameter(Description = "Disable missing MS updates check.", AlternativeName = "mmsuc", ExampleValue = false, DefaultValue = false)]
+            [OptionalCommandParameter(Description = "Disable missing MS updates check.", AlternativeName = "mmsuc",
+                ExampleValue = false, DefaultValue = false)]
             bool disableMissingMsUpdatesCheck,
-            [OptionalCommandParameter(Description ="Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.", AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
+            [OptionalCommandParameter(
+                Description =
+                    "Use a specific UI culture. F.example show user interface in Norwegian regardless of operating system display language.",
+                AlternativeName = "uic", ExampleValue = "nb-NO", DefaultValue = "")]
             string userInterfaceCulture)
         {
             var policyUserInterfaceCulture = Profile.GetStringPolicyValue(Context.User, Option<string>.None, "UserInterfaceCulture", userInterfaceCulture);
@@ -127,7 +145,7 @@ namespace Compliance.Notifications
                 passwordExpiryResult = await CheckPasswordExpiryCommand.CheckPasswordExpiry(userProfile, disablePasswordExpiryCheck).ConfigureAwait(false);
                 systemUptimeResult = await CheckSystemUptimeCommand.CheckSystemUptime(userProfile, maxUptimeHours, disableSystemUptimeCheck).ConfigureAwait(false);
                 desktopDataResult = await CheckDesktopDataCommand.CheckDesktopData(userProfile, disableDesktopDataCheck).ConfigureAwait(false);
-                missingMsUpdatesResult = await CheckMissingMsUpdatesCommand.CheckMissingMsUpdates(userProfile,disableMissingMsUpdatesCheck).ConfigureAwait(false);
+                missingMsUpdatesResult = await CheckMissingMsUpdatesCommand.CheckMissingMsUpdates(userProfile, hoursToWaitBeforeNotifyUserAboutMissingUpdates, disableMissingMsUpdatesCheck).ConfigureAwait(false);
 
                 Logging.DefaultLogger.Info("Waiting for all toast groups to be handled and unregistered...");
             });
@@ -139,10 +157,7 @@ namespace Compliance.Notifications
 
 #if DEBUG
         [Command(Description = "Download images so the images.")]
-        public static async Task<Result<int>> DownloadImages(
-            //[RequiredCommandParameter(Description = "Image cache directory",ExampleValue = @"c:\temp\ImageCache",AlternativeName = "dd")]
-            //string imageCacheDirectory
-            )
+        public static async Task<Result<int>> DownloadImages()
         {
             await F.DownloadImages(Enumerable.Range(0, 1000)).ConfigureAwait(false);
             return new Result<int>();

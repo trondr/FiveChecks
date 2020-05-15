@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.EAC9B2FF_46F2_449D_8078_0EFD32C3DFB4" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.3CC212A4_7345_4341_AE28_BD77FD00A544" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -247,6 +247,15 @@
       <disabledValue>
         <decimal value="0" />
       </disabledValue>
+    </policy>
+    <policy name="POL_6C99C431_B8A1_48BC_A412_E032539C2D5D" class="Machine" displayName="$(string.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D)" explainText="$(string.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D_Help)" presentation="$(presentation.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D)" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="HoursToWaitBeforeNotifyingUser">
+      <parentCategory ref="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+      <enabledValue />
+      <disabledValue />
+      <elements>
+        <decimal id="DXT_34ABA2AC_0A08_49B6_8658_4CCA22B782A1" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="HoursToWaitBeforeNotifyingUser" minValue="1" />
+      </elements>
     </policy>
   </policies>
 </policyDefinitions>

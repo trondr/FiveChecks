@@ -27,13 +27,16 @@ namespace Compliance.Notifications.Applic.MissingMsUpdatesCheck
             return await removeToastNotification().ConfigureAwait(false);
         }
         
-        public static async Task<Result<ToastNotificationVisibility>> CheckMissingMsUpdates(Some<NotificationProfile> userProfile, bool isDisabled)
+        public static async Task<Result<ToastNotificationVisibility>> CheckMissingMsUpdates(
+            Some<NotificationProfile> userProfile, int hoursToWaitBeforeNotifyUser, bool isDisabled)
         {
             var category = typeof(CheckMissingMsUpdatesCommand).GetPolicyCategory();
+            var policyHoursToWaitBeforeNotifyUser = Profile.GetIntegerPolicyValue(Context.Machine, category, "HoursToWaitBeforeNotifyingUser", (int)hoursToWaitBeforeNotifyUser);
+
             var groupName = ToastGroups.CheckMissingMsUpdates;
             var tag = ToastGroups.CheckMissingMsUpdates;
             var systemUptimeCheckIsDisabled = Profile.IsCheckDisabled(isDisabled, typeof(CheckMissingMsUpdatesCommand));
-            bool IsNonCompliant(MissingMsUpdatesInfo info) => info.Updates.Count > 0 && info.Updates.Any(update => (DateTime.Now - update.FirstMeasuredMissing).TotalDays > 3);
+            bool IsNonCompliant(MissingMsUpdatesInfo info) => info.Updates.Count > 0 && info.Updates.Any(update => (DateTime.Now - update.FirstMeasuredMissing).TotalHours >= policyHoursToWaitBeforeNotifyUser);
             return await CheckMissingMsUpdatesPure(() => ComplianceInfo.LoadInfo(MissingMsUpdates.LoadMissingMsUpdatesInfo, IsNonCompliant, ScheduledTasks.ComplianceSystemMeasurements, true),
                 IsNonCompliant,
                 (info) => MissingMsUpdates.ShowMissingUpdatesToastNotification(userProfile, tag, groupName, info),
