@@ -90,13 +90,12 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 
         private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
         {
-            var rebootPendingRegistryKeyPath = @"SYSTEM\CurrentControlSet\Control\Session Manager";
-            var rebootPendingRegistryValueName = "PendingFileRenameOperations";
-            Logging.DefaultLogger.Debug($@"Checking if Pending File Rename Operations has a pending reboot (Check if value exists: '[{rebootPendingRegistryKeyPath}]{rebootPendingRegistryValueName}').");
-            var rebootIsPending = RegistryOperations.MultiStringRegistryValueExistsAndHasStrings(Registry.LocalMachine, rebootPendingRegistryKeyPath,
-                rebootPendingRegistryValueName);
+            Logging.DefaultLogger.Debug($@"Checking if Pending File Rename Operations has a pending reboot.");
+            var pendingFileRenameOperations = PendingFileRenameOperationExtensions.GetPendingFileRenameOperations().Select(operation => operation.ToDto()).ToArray();
+            var rebootIsPending = pendingFileRenameOperations.Length > 0;
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRenameOperations } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Sources = rebootSource };
+            pendingRebootInfo.PendingFileRenameOperations.AddRange(pendingFileRenameOperations);
             Logging.DefaultLogger.Info($@"Pending file rename operation pending reboot check result: {pendingRebootInfo.ObjectToString()}");
             return await Task.FromResult(new Result<PendingRebootInfo>(pendingRebootInfo)).ConfigureAwait(false);
         }

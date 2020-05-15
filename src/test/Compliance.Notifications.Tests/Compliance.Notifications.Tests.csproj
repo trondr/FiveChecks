@@ -45,6 +45,8 @@
     <Compile Include="Applic\Common\EnumUtilityTests.cs" />
     <Compile Include="Applic\Common\FTests.cs" />
     <Compile Include="Applic\MissingMsUpdatesCheck\MissingUpdatesInfoExtensionsTests.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperationExtensionsTests.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperationTests.cs" />
     <Compile Include="Applic\RebootSourceExtensionsTests.cs" />
     <Compile Include="Applic\ScheduledTasksTests.cs" />
     <Compile Include="Applic\Commands\CheckDesktopDataCommandTests.cs" />

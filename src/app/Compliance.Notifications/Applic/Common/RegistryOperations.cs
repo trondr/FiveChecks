@@ -64,16 +64,22 @@ namespace Compliance.Notifications.Applic.Common
 
         public static bool MultiStringRegistryValueExistsAndHasStrings(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
         {
+            var stringArray = GetMultiStringRegistryValue(baseKey, subKeyPath, valueName);
+            return stringArray.Length > 0;
+        }
+
+        public static string[] GetMultiStringRegistryValue(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName)
+        {
             using (var key = baseKey.Value.OpenSubKey(subKeyPath.Value))
             {
                 var value = key?.GetValue(valueName);
-                if (value == null) return false;
+                if (value == null) return System.Array.Empty<string>();
                 if (value is string[] stringArray)
                 {
-                    return stringArray.Length > 0;
+                    return stringArray;
                 }
             }
-            return false;
+            return System.Array.Empty<string>(); ;
         }
 
         public static Option<object> GetRegistryValue(Some<RegistryKey> baseKey, Some<string> subKeyPath, Some<string> valueName, object defaultValue)

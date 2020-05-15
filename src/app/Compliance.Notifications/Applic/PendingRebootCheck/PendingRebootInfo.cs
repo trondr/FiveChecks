@@ -11,6 +11,8 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
 
         public List<RebootSource> Sources { get; internal set; } = new List<RebootSource>();
 
+        public List<PendingFileRenameOperationDto> PendingFileRenameOperations { get; internal set; } = new List<PendingFileRenameOperationDto>();
+
         public static PendingRebootInfo Default => new PendingRebootInfo() { RebootIsPending = false};
 
         public string ToSourceDescription()
