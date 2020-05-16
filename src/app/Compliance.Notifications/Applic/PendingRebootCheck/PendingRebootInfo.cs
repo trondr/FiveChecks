@@ -31,12 +31,14 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
                 return new PendingRebootInfo
                 {
                     RebootIsPending = org.RebootIsPending, 
-                    Sources = new List<RebootSource>(org.RebootIsPending? org.Sources : new List<RebootSource>())
+                    Sources = new List<RebootSource>(org.RebootIsPending? org.Sources : new List<RebootSource>()),
+                    PendingFileRenameOperations = new List<PendingFileRenameOperationDto>(org.RebootIsPending ? org.PendingFileRenameOperations : new List<PendingFileRenameOperationDto>())
                 };
             return new PendingRebootInfo
             {
                 RebootIsPending = true, 
-                Sources = new List<RebootSource>(org.RebootIsPending? org.Sources.Concat(add.Sources): add.Sources)
+                Sources = new List<RebootSource>(org.RebootIsPending? org.Sources.Concat(add.Sources): add.Sources),
+                PendingFileRenameOperations = new List<PendingFileRenameOperationDto>(org.RebootIsPending ? org.PendingFileRenameOperations.Concat(add.PendingFileRenameOperations) : add.PendingFileRenameOperations)
             };
         }
 

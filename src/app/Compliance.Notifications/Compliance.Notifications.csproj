@@ -76,6 +76,9 @@
     <Compile Include="Applic\MissingMsUpdatesCheck\MissingMsUpdatesInfo.cs" />
     <Compile Include="Applic\PasswordExpiryCheck\CheckPasswordExpiryCommand.cs" />
     <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperation.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperationAction.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperationDto.cs" />
+    <Compile Include="Applic\PendingRebootCheck\PendingFileRenameOperationExtensions.cs" />
     <Compile Include="Applic\SystemUptimeCheck\CheckSystemUptimeCommand.cs" />
     <Compile Include="Applic\DiskSpaceCheck\DiskSpace.cs" />
     <Compile Include="Applic\PendingRebootCheck\PendingReboot.cs" />

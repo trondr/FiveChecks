@@ -160,6 +160,9 @@
       <NamedTestSelector>
         <TestName>Compliance.Notifications.Tests.Applic.Commands.CheckDesktopDataCommandTests.IsDisabledTest</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Compliance.Notifications.Tests.Applic.PendingRebootCheck.PendingFileRenameOperationExtensionsTests.GetPendingFileRenameOperationsTest</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

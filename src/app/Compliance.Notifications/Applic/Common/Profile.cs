@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security;
 using LanguageExt;
 using LanguageExt.Common;
@@ -79,6 +81,21 @@ namespace Compliance.Notifications.Applic.Common
             }
         }
 
+        public static IEnumerable<KeyValuePair<string, object>> GetPolicyValueNames(Context context, Option<string> category)
+        {
+            var hive = context.ContextToRegistryHive();
+            var policySubKeyPath = GetPolicySubKeyPath(category);
+            using (var key = hive.OpenSubKey(policySubKeyPath))
+            {
+                if (key == null) yield break;
+                var valueNames = key.GetValueNames();
+                foreach (var valueName in valueNames)
+                {
+                    yield return new KeyValuePair<string, object>(valueName, key.GetValue(valueName));
+                }
+            }
+        }
+
         public static string GetPolicySubKeyPath(Option<string> category)
         {
             return category.Match(
@@ -102,6 +119,11 @@ namespace Compliance.Notifications.Applic.Common
         {
             var value = GetPolicyValue(context, category, valueName, defaultValue);
             return ObjectValueToString(value, defaultValue);
+        }
+
+        public static IEnumerable<string> GetPolicyStringValueNames(Context context, string category)
+        {
+            return GetPolicyValueNames(context, category).Select(pair => pair.Key);
         }
 
         private static string ObjectValueToString(object value, string defaultValue)

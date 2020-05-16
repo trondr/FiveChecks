@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Management.Automation;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using Compliance.Notifications.Applic.ToastTemplates;
@@ -91,7 +92,23 @@ namespace Compliance.Notifications.Applic.PendingRebootCheck
         private static async Task<Result<PendingRebootInfo>> GetPendingFileRenameRebootPending()
         {
             Logging.DefaultLogger.Debug($@"Checking if Pending File Rename Operations has a pending reboot.");
-            var pendingFileRenameOperations = PendingFileRenameOperationExtensions.GetPendingFileRenameOperations().Select(operation => operation.ToDto()).ToArray();
+            var category = Profile.GetPolicyCategory(typeof(CheckPendingRebootCommand));
+            var pendingFileRenameOperationsSubCategory = category + "\\PendingFileRenameOperations";
+            var pendingFileRenameOperationsExcludePatternsSubCategory = pendingFileRenameOperationsSubCategory + "\\PendingFileRenameOperations\\ExcludePatterns";
+
+            var excludeRenameTargets = Profile.GetBooleanPolicyValue(Context.Machine, pendingFileRenameOperationsSubCategory, "ExcludeRenameTargets", false);
+            var excludeDeleteTargets = Profile.GetBooleanPolicyValue(Context.Machine, pendingFileRenameOperationsSubCategory, "ExcludeDeleteTargets", false);
+            var excludePatterns = Profile.GetBooleanPolicyValue(Context.Machine, pendingFileRenameOperationsSubCategory, "ExcludePatterns", false);
+            var excludePatternsArray =
+                excludePatterns ? 
+                    Profile.GetPolicyStringValueNames(Context.Machine, pendingFileRenameOperationsExcludePatternsSubCategory).ToRegExPatterns().ToArray() : 
+                    Array.Empty<Regex>();
+            var pendingFileRenameOperations = 
+                    PendingFileRenameOperationExtensions.GetPendingFileRenameOperations()
+                    .Exclude(excludeRenameTargets, excludeDeleteTargets, excludePatternsArray)
+                    .Select(operation => operation.ToDto())
+                    .ToArray();
+            Logging.DefaultLogger.Debug($"#Pending File Rename Operations: {pendingFileRenameOperations.Length}");
             var rebootIsPending = pendingFileRenameOperations.Length > 0;
             var rebootSource = rebootIsPending ? new List<RebootSource> { RebootSource.PendingFileRenameOperations } : new List<RebootSource>();
             var pendingRebootInfo = new PendingRebootInfo { RebootIsPending = rebootIsPending, Sources = rebootSource };
