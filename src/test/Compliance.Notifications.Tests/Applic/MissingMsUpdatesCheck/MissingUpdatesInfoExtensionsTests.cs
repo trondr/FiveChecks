@@ -73,6 +73,7 @@ namespace Compliance.Notifications.Tests
         }
         
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void UpdateTestPreviousInfoEmpty()
         {
             var currentInfo = new MissingMsUpdatesInfo()

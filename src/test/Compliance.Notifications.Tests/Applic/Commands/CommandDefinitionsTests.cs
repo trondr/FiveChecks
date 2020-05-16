@@ -7,7 +7,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
     public class CommandDefinitionsTests
     {
         [Test()]
-        [Category(TestCategory.UnitTests)]
+        [Category(TestCategory.ManualTests)]
         public async Task MeasureUserComplianceItemsTest()
         {
             var actualResult = await CommandDefinitions.MeasureUserComplianceItems();
@@ -19,7 +19,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         }
 
         [Test()]
-        [Category(TestCategory.UnitTests)]
+        [Category(TestCategory.ManualTests)]
         public async Task MeasureSystemComplianceItemsTest()
         {
             var actualResult = await CommandDefinitions.MeasureSystemComplianceItems();

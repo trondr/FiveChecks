@@ -10,6 +10,7 @@ namespace Compliance.Notifications.Tests.Applic.PendingRebootCheck
     public class PendingFileRenameOperationExtensionsTests
     {
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void ToDtoTest_Some_Some()
         {
             var actual = new PendingFileRenameOperation("somes","somet").ToDto();
@@ -18,6 +19,7 @@ namespace Compliance.Notifications.Tests.Applic.PendingRebootCheck
         }
 
         [Test]
+        [Category(TestCategory.UnitTests)]
         public void ToDtoTest_Some_None()
         {
             var actual = new PendingFileRenameOperation("somes", Option<string>.None).ToDto();
