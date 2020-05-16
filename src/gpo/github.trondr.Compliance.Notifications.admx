@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.9B98A6B5_5849_419D_AA00_9523119BC085" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.789529BC_B90F_48B9_A75C_1D97BAC1BE47" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -268,9 +268,9 @@
     </policy>
     <policy name="POL_FE27437B_DA4D_48AB_8C11_FC545541BF12" class="Machine" displayName="$(string.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12)" explainText="$(string.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12_Help)" presentation="$(presentation.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations" valueName="ExcludePatterns">
       <parentCategory ref="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3" />
-      <supportedOn ref="SUPPORTED_Windows_10_0" />      
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
-        <list id="LST_9D1A5BEA_2BA2_42CC_9B96_E8C7196D61F9" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations\ExcludePatterns" valueName="ExcludePattern_" additive="true" />
+        <list id="LST_9D1A5BEA_2BA2_42CC_9B96_E8C7196D61F9" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations\ExcludePatterns" additive="true" />
       </elements>
     </policy>
   </policies>
