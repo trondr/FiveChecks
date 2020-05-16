@@ -1,6 +1,6 @@
 <policyDefinitions revision="1.0" schemaVersion="1.0">
   <policyNamespaces>
-    <target prefix="fullarmor" namespace="FullArmor.Policies.3CC212A4_7345_4341_AE28_BD77FD00A544" />
+    <target prefix="fullarmor" namespace="FullArmor.Policies.9B98A6B5_5849_419D_AA00_9523119BC085" />
     <using prefix="windows" namespace="Microsoft.Policies.Windows" />
   </policyNamespaces>
   <supersededAdm fileName="" />
@@ -29,6 +29,9 @@
     </category>
     <category name="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" displayName="$(string.CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051)">
       <parentCategory ref="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B" />
+    </category>
+    <category name="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3" displayName="$(string.CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3)">
+      <parentCategory ref="CAT_4F5DD077_6630_442A_9C84_80CEEFF8048E" />
     </category>
   </categories>
   <policies>
@@ -250,9 +253,24 @@
     </policy>
     <policy name="POL_6C99C431_B8A1_48BC_A412_E032539C2D5D" class="Machine" displayName="$(string.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D)" explainText="$(string.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D_Help)" presentation="$(presentation.POL_6C99C431_B8A1_48BC_A412_E032539C2D5D)" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="HoursToWaitBeforeNotifyingUser">
       <parentCategory ref="CAT_9B8D54D1_F55F_47C9_B036_FDE9C30E3051" />
-      <supportedOn ref="SUPPORTED_Windows_10_0" />      
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
       <elements>
         <decimal id="DXT_34ABA2AC_0A08_49B6_8658_4CCA22B782A1" key="Software\Policies\github.trondr\Compliance.Notifications\MissingMsUpdatesCheck" valueName="HoursToWaitBeforeNotifyingUser" minValue="1" />
+      </elements>
+    </policy>
+    <policy name="POL_23B755AC_2234_4976_B373_E82814B16B48" class="Machine" displayName="$(string.POL_23B755AC_2234_4976_B373_E82814B16B48)" explainText="$(string.POL_23B755AC_2234_4976_B373_E82814B16B48_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations" valueName="ExcludeDeleteTargets">
+      <parentCategory ref="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_961E3F54_A259_4DE0_A8A4_8C8AE8BC8B34" class="Machine" displayName="$(string.POL_961E3F54_A259_4DE0_A8A4_8C8AE8BC8B34)" explainText="$(string.POL_961E3F54_A259_4DE0_A8A4_8C8AE8BC8B34_Help)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations" valueName="ExcludeRenameTargets">
+      <parentCategory ref="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />
+    </policy>
+    <policy name="POL_FE27437B_DA4D_48AB_8C11_FC545541BF12" class="Machine" displayName="$(string.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12)" explainText="$(string.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12_Help)" presentation="$(presentation.POL_FE27437B_DA4D_48AB_8C11_FC545541BF12)" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations" valueName="ExcludePatterns">
+      <parentCategory ref="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3" />
+      <supportedOn ref="SUPPORTED_Windows_10_0" />      
+      <elements>
+        <list id="LST_9D1A5BEA_2BA2_42CC_9B96_E8C7196D61F9" key="Software\Policies\github.trondr\Compliance.Notifications\PendingRebootCheck\PendingFileRenameOperations\ExcludePatterns" valueName="ExcludePattern_" additive="true" />
       </elements>
     </policy>
   </policies>

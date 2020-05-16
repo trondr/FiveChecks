@@ -75,6 +75,13 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="POL_A93B5608_F50C_4340_B61D_F63DB2D5CFD0_Help">When this setting is enabled missing ms updates measurement will be skipped. As measurement is a prequisite for notification, disabling measurement will effectively also disable notification.</string>
       <string id="POL_6C99C431_B8A1_48BC_A412_E032539C2D5D">Hours to wait before notifying user</string>
       <string id="POL_6C99C431_B8A1_48BC_A412_E032539C2D5D_Help">Hours to wait before notifying user about missing MS updates.</string>
+      <string id="CAT_C6AF1FE2_648E_4F08_9668_E8477C3DE1F3">Pending File Rename Operations</string>
+      <string id="POL_23B755AC_2234_4976_B373_E82814B16B48">Exclude delete targets</string>
+      <string id="POL_23B755AC_2234_4976_B373_E82814B16B48_Help">Exclude pending file rename operations delete targets. In the case that only delete targets exists, pending reboot toast notification will not be show to the user if this setting is set to Enable.</string>
+      <string id="POL_961E3F54_A259_4DE0_A8A4_8C8AE8BC8B34">Exclude rename targets</string>
+      <string id="POL_961E3F54_A259_4DE0_A8A4_8C8AE8BC8B34_Help">Exclude pending file rename operations rename targets. In the case that only rename targets exists, pending reboot toast notification will not be show to the user if this setting is set to Enable.</string>
+      <string id="POL_FE27437B_DA4D_48AB_8C11_FC545541BF12">Exclude patterns</string>
+      <string id="POL_FE27437B_DA4D_48AB_8C11_FC545541BF12_Help">List of exclude patterns. If a pending file rename operation matches an exclude pattern, the pending file rename operation will be excluded from pending reboot check. If all pending file rename operations are excluded, toast notification will not be shown to the user. Each pattern must be a valid regular expression.</string>
     </stringTable>
     <presentationTable>
       <presentation id="POL_EFC3B8ED_6B12_4847_A863_C1A61513DC15">
@@ -102,6 +109,9 @@ If disabled, compliance check toast notifications will not be shown to the user.
       </presentation>
       <presentation id="POL_6C99C431_B8A1_48BC_A412_E032539C2D5D">
         <decimalTextBox refId="DXT_34ABA2AC_0A08_49B6_8658_4CCA22B782A1" defaultValue="48">Hours</decimalTextBox>
+      </presentation>
+      <presentation id="POL_FE27437B_DA4D_48AB_8C11_FC545541BF12">
+        <listBox refId="LST_9D1A5BEA_2BA2_42CC_9B96_E8C7196D61F9">Pending file rename operations exclude patterns</listBox>
       </presentation>
     </presentationTable>
   </resources>
