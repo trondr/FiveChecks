@@ -10,8 +10,8 @@ The following notifications are currently supported.
 
 |Notification|Description|Example|
 |---|---|---|
-|Pending Reboot| Checks is the machine has a pending reboot. | ![GitHub Logo](/doc/images/PendingReboot.png) |
-|Missing MS Updates| Checks MS updates waiting to be installed by the SCCM client. | ![GitHub Logo](/doc/images/MissingMsUpdates.png) |
+|Pending Reboot| Checks if the machine has a pending reboot. | ![GitHub Logo](/doc/images/PendingReboot.png) |
+|Missing MS Updates| Checks for MS updates waiting to be installed by the SCCM client. When the configured wait hours has elapsed the user is notified about missing updates. Default wait hours are 48 hours. ![GitHub Logo](/doc/images/MissingMsUpdates_Config.png) | ![GitHub Logo](/doc/images/MissingMsUpdates.png) |
 |System Uptime|   | ![GitHub Logo](/doc/images/Uptime.png) |
 |Disk space|   | ![GitHub Logo](/doc/images/DiskSpaceIsLow.png) |
 |Desktop Data| | ![GitHub Logo](/doc/images/DesktopData.png) |
