@@ -125,12 +125,6 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
                 shellAppType.InvokeMember("WindowsSecurity", System.Reflection.BindingFlags.InvokeMethod, null, shell,
                     null, CultureInfo.InvariantCulture);
             }
-            else
-            {
-                MessageBox.Show(strings.PressCtrlAltDeleteToGetToTheWindowsSecurityDialog,
-                    strings.ChangePasswordMessageBoxCaption, MessageBoxButton.OK, MessageBoxImage.Information,
-                    MessageBoxResult.OK, MessageBoxOptions.None);
-            }
         }
 
         public static async Task<Result<ToastNotificationVisibility>> ShowPasswordExpiryToastNotification(Some<NotificationProfile> userProfile, DateTime passwordExpirationDate, string tag, string groupName)
@@ -148,11 +142,12 @@ namespace Compliance.Notifications.Applic.PasswordExpiryCheck
         {
             var title = strings.PasswordExpiryNotification_Title;
             var content = string.Format(CultureInfo.InvariantCulture, strings.PasswordExpiryNotification_Content_F0_F1, passwordExpirationDate.InPeriodFromNow(), passwordExpirationDate.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture));
-            var content2 = strings.PasswordExpiryNotification_Content2;
-            var action = ToastActions.ChangePassword;
+            var isRemoteSessions = PasswordExpire.GetIsRemoteSession();
+            var content2 = isRemoteSessions? strings.PasswordExpiryNotification_Content2: strings.PasswordExpiryNotification_Content2 + Environment.NewLine + Environment.NewLine +  strings.PressCtrlAltDeleteToGetToTheWindowsSecurityDialog;
+            var action = isRemoteSessions? ToastActions.ChangePassword: string.Empty;
             var actionActivationType = ToastActivationType.Foreground;
             var greeting = F.GetGreeting(notificationProfile);
-            return new ActionDismissToastContentInfo(greeting, title, content, content2, action, actionActivationType, strings.PasswordExpiryNotification_ActionButtonContent, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
+            return new ActionDismissToastContentInfo(greeting, title, content, content2, action, actionActivationType, isRemoteSessions ? strings.PasswordExpiryNotification_ActionButtonContent:string.Empty, strings.NotNowActionButtonContent, ToastActions.Dismiss, groupName, Option<string>.None, notificationProfile.Value.CompanyName);
         }
 
         public static async Task<Result<PasswordExpiryInfo>> GetPasswordExpiryInfo()

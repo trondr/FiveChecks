@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Compliance.Notifications.Applic.Common;
 using LanguageExt;
@@ -35,7 +36,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
         public static async Task<ToastContent> CreateToastContent(ActionDismissToastContentInfo contentInfo)
         {
             if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
-            // Construct the visuals of the toast (using Notifications library)
+            
             var action = contentInfo.ActionActivationType == ToastActivationType.Protocol
                 ? contentInfo.Action
                 : new QueryString {{"action", contentInfo.Action},{"group",contentInfo.GroupName}}.ToString();
@@ -44,10 +45,27 @@ namespace Compliance.Notifications.Applic.ToastTemplates
 
             var heroImage = await GetHeroImage().ConfigureAwait(false);
             var appLogoImage = await GetAppLogoImage().ConfigureAwait(false);
-            
+
+            var customActions = 
+                string.IsNullOrWhiteSpace(contentInfo.ActionButtonContent)? 
+                new ToastActionsCustom
+                {
+                    Buttons =
+                    {
+                        new ToastButton(contentInfo.NotNowButtonContent, notNowAction) {ActivationType = ToastActivationType.Background}
+                    }
+                }:
+                new ToastActionsCustom
+                {
+                    Buttons =
+                    {
+                        new ToastButton(contentInfo.ActionButtonContent, action) { ActivationType = contentInfo.ActionActivationType }, 
+                        new ToastButton(contentInfo.NotNowButtonContent, notNowAction) { ActivationType = ToastActivationType.Background }
+                    }
+                };
+
             var toastContent = new ToastContent
             {
-
                 // Arguments when the user taps body of toast
                 Launch = action,
                 Visual = new ToastVisual
@@ -131,16 +149,7 @@ namespace Compliance.Notifications.Applic.ToastTemplates
                     }
                 },
 
-                Actions = new ToastActionsCustom
-                {
-                    Buttons =
-                            {
-                                // Note that there's no reason to specify background activation, since our COM
-                                // activator decides whether to process in background or launch foreground window
-                                new ToastButton(contentInfo.ActionButtonContent, action){ActivationType = contentInfo.ActionActivationType},
-                                new ToastButton(contentInfo.NotNowButtonContent, notNowAction){ActivationType = ToastActivationType.Background},
-                            }
-                }
+                Actions = customActions
             };
             contentInfo.ContentSection3.IfSome(
                 c3 =>
