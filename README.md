@@ -19,7 +19,7 @@ The following notifications are currently supported.
 
 ## Localization
 
-Resource files for the following languages have been added to the Compliance.Notification project and more languages can be added. Translation help is in any case needed.
+Resource files for the following languages have been added to the Compliance.Notification project and more languages can be added. Translation help is needed.
 
 |Language|Culture Code|Status|
 |---|---|---|
@@ -27,8 +27,6 @@ Resource files for the following languages have been added to the Compliance.Not
 |Norwegian|no-NB|&#x2705;|
 |Swedish|sv-SE|&#x274C;|
 |Finnish|fi-FI|&#x274C;|
-
-Resource files are translated using Visual Studio Extension ResX Resource Manager (https://github.com/dotnet/ResXResourceManager/releases)
 
 # Developement
 
@@ -40,6 +38,10 @@ Do your best to be able to answer yes to the following questions when contributi
 * Is illegal states unrepresentable? (https://enterprisecraftsmanship.com/posts/c-and-f-approaches-to-illegal-state/)
 
 Any bugs have harsher living conditions and are more easily squashed when these two conditions are met.
+
+## Translation of resource files.
+
+Resource files are translated using Visual Studio Extension ResX Resource Manager (https://github.com/dotnet/ResXResourceManager/releases)
 
 ## Minimum Build Environment
 
