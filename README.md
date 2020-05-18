@@ -4,6 +4,14 @@ Measure compliance items (such as free disk space, pending reboot, system uptime
 
 Show toast notification to the user when measurements are not within compliance range.
 
+## Pending Reboot
+
+![GitHub Logo](/doc/images/PendingReboot.png)
+
+## System Uptime
+
+![GitHub Logo](/doc/images/Uptime.png)
+
 ## Code of conduct.
 
 Do your best to be able to answer yes to the following questions when contributing code.
