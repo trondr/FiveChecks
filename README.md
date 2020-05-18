@@ -4,13 +4,20 @@ Measure compliance items (such as free disk space, pending reboot, system uptime
 
 Show toast notification to the user when measurements are not within compliance range.
 
-## Pending Reboot
+## Notifications
 
-![GitHub Logo](/doc/images/PendingReboot.png)
+The following notifications are currently supported.
 
-## System Uptime
+|Notification|Description|Example|
+|---|---|---|
+|Pending Reboot| Checks is the machine has a pending reboot. | ![GitHub Logo](/doc/images/PendingReboot.png) |
+|Missing MS Updates| Checks MS updates waiting to be installed by the SCCM client. | ![GitHub Logo](/doc/images/MissingMsUpdates.png) |
+|System Uptime|   | ![GitHub Logo](/doc/images/Uptime.png) |
+|Disk space|   | ![GitHub Logo](/doc/images/DiskSpaceIsLow.png) |
+|Desktop Data| | ![GitHub Logo](/doc/images/DesktopData.png) |
+|Password Expiry| | ![GitHub Logo](/doc/images/PasswordExpiry.png) |
 
-![GitHub Logo](/doc/images/Uptime.png)
+# Developement
 
 ## Code of conduct.
 
