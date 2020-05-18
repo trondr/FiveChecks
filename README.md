@@ -8,14 +8,14 @@ Show toast notification to the user when measurements are not within compliance 
 
 The following notifications are currently supported.
 
-|Notification|Description|Example|
+|Check|Description|Notification|
 |---|---|---|
-|Pending Reboot| Checks if the machine has a pending reboot. Four reboot sources are checked for pending reboot. Any of the reboot sources can be excluded from the check through configuration. ![GitHub Logo](/doc/images/PendingReboot_Config.png) The pending file rename operations source can be fined tuned with three different filters to exclude specific operations. ![GitHub Logo](/doc/images/PendingReboot_Config2.png) | ![GitHub Logo](/doc/images/PendingReboot.png) |
-|Missing MS Updates| Checks for MS updates waiting to be installed by the SCCM client. When the configured wait hours have elapsed the user is notified about missing updates. Default wait hours are 48 hours. ![GitHub Logo](/doc/images/MissingMsUpdates_Config.png) | ![GitHub Logo](/doc/images/MissingMsUpdates.png) |
-|System Uptime|   | ![GitHub Logo](/doc/images/Uptime.png) |
-|Disk space|   | ![GitHub Logo](/doc/images/DiskSpaceIsLow.png) |
-|Desktop Data| | ![GitHub Logo](/doc/images/DesktopData.png) |
-|Password Expiry| | ![GitHub Logo](/doc/images/PasswordExpiry.png) |
+|Pending Reboot| Notify the user if the machine has a pending reboot. Four reboot sources are checked for pending reboot. Any of the reboot sources can be excluded from the check through configuration. This notification can all together be disabled through configuration. ![GitHub Logo](/doc/images/PendingReboot_Config.png) The pending file rename operations source can be fined tuned with three different filters to exclude specific operations. ![GitHub Logo](/doc/images/PendingReboot_Config2.png) | ![GitHub Logo](/doc/images/PendingReboot.png) |
+|Missing MS Updates| Notify the user if there are MS updates waiting to be installed by the SCCM client and the configured wait hours have elapsed. Default wait hours are 48 hours. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/MissingMsUpdates_Config.png) This notification can be disabled through configuration. | ![GitHub Logo](/doc/images/MissingMsUpdates.png) |
+|System Uptime| Notify the user if the computer uptime exceeds the maximum configured uptime hours. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/Uptime_Config.png) | ![GitHub Logo](/doc/images/Uptime.png) |
+|Disk space| Notify the user if free disk space is below the configured required free disk space value. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/DiskSpaceIsLow_Config.png) | ![GitHub Logo](/doc/images/DiskSpaceIsLow.png) |
+|Desktop Data| Notify the user if files other than shortcuts are found on the Desktop. Encourage user to store documents and data in My Documents or OneDrive. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/DesktopData_Config.png) | ![GitHub Logo](/doc/images/DesktopData.png) |
+|Password Expiry| Notify the user when password is soon to expire. The password expiry warning days are configurable. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/PasswordExpiry_Config.png) | ![GitHub Logo](/doc/images/PasswordExpiry.png) |
 
 # Developement
 
