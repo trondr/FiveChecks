@@ -17,6 +17,19 @@ The following notifications are currently supported.
 |Desktop Data| Notify the user if files other than shortcuts are found on the Desktop. Encourage user to store documents and data in My Documents or OneDrive. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/DesktopData_Config.png) | ![GitHub Logo](/doc/images/DesktopData.png) |
 |Password Expiry| Notify the user when password is soon to expire. The password expiry warning days are configurable. This notification can be disabled through configuration. ![GitHub Logo](/doc/images/PasswordExpiry_Config.png) | ![GitHub Logo](/doc/images/PasswordExpiry.png) |
 
+## Localization support
+
+Resource files for the following languages have been added to the Compliance.Notification project and more languages can be added. Translation help is in any case needed.
+
+|Language|Culture Code|Status|
+|---|---|---|
+|English|en-US|&#x2705;|
+|Norwegian|no-NB|&#x2705;|
+|Swedish|sv-SE|&#x274C;|
+|Finnish|fi-FI|&#x274C;|
+
+Resource files are translated using Visual Studio Extension ResX Resource Manager (https://github.com/dotnet/ResXResourceManager/releases)
+
 # Developement
 
 ## Code of conduct.
