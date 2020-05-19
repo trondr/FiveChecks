@@ -18,11 +18,11 @@ namespace FiveChecks.Applic.Common
     {
         public static FileInfo ExeFile { get; } = new FileInfo(Assembly.GetExecutingAssembly().Location);
 
-        public static ScheduledTaskInfo ComplianceCheck => new ScheduledTaskInfo("Compliance Notification Check", "Compliance Notification Check at workstation unlock", ExeFile, "CheckCompliance",10);
+        public static ScheduledTaskInfo ComplianceCheck => new ScheduledTaskInfo("FiveChecks", "Compliance check at workstation unlock and logon", ExeFile, "CheckCompliance",10);
 
-        public static ScheduledTaskInfo ComplianceSystemMeasurements => new ScheduledTaskInfo("Compliance System Measurement", "Measurement system compliance hourly", ExeFile, "MeasureSystemComplianceItems",11);
+        public static ScheduledTaskInfo ComplianceSystemMeasurements => new ScheduledTaskInfo("FiveChecks System Measurement", "Measure system compliance hourly", ExeFile, "MeasureSystemComplianceItems",11);
 
-        public static ScheduledTaskInfo ComplianceUserMeasurements => new ScheduledTaskInfo("Compliance User Measurement", "Measurement user compliance hourly", ExeFile, "MeasureUserComplianceItems", 12);
+        public static ScheduledTaskInfo ComplianceUserMeasurements => new ScheduledTaskInfo("FiveChecks User Measurement", "Measure user compliance hourly", ExeFile, "MeasureUserComplianceItems", 12);
         
         //public static ScheduledTaskInfo FullSystemDiskCleanup => new ScheduledTaskInfo("Compliance Full System Disk Cleanup", "Compliance Full System Disk Cleanup", ExeFile, "RunFullSystemDiskCleanup", 13);
         
