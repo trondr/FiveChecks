@@ -5,7 +5,7 @@
   </description>
   <resources>
     <stringTable>
-      <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">Compliance Notifications</string>
+      <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B">FiveChecks</string>
       <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0">Disable disk space notification</string>
       <string id="POL_1971C8C5_35F5_4D75_BE91_76C75D0D77D0_Help">When this setting is enabled disk space notification will be skipped.</string>
       <string id="SUPPORTED_Windows_10_0">At least Windows Server 2016 or Windows 10</string>
@@ -52,7 +52,7 @@ If disabled, compliance check toast notifications will not be shown to the user.
       <string id="ITM_235D1690_D3ED_42EA_9B12_A2F51780359D">Swedish</string>
       <string id="ITM_E0D20E35_E023_4F31_BBEF_0667CFB0C420">Finnish</string>
       <string id="ITM_017B71F3_E68B_4945_9DDC_28E990291EAE">English (United States)</string>
-      <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B_Help">Contains settings to configure the Compliance.Notifications application. For more information see https://github.com/trondr/Compliance.Notifications</string>
+      <string id="CAT_427FDEB4_0BE3_47C9_897A_F074E016758B_Help">Contains settings to configure the FiveChecks application. For more information see https://github.com/trondr/FiveChecks</string>
       <string id="CAT_C0BDA19A_BCA9_484C_A66F_58BD6B847EE8_Help">Configure password expiry check</string>
       <string id="CAT_75FEFBCF_BB01_4E07_8453_25CFF09DAFBE_Help">Configure system uptime check</string>
       <string id="CAT_7FCD002A_89CF_450C_9BA7_F9692F4C745E_Help">Configure desktop data check</string>

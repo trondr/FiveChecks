@@ -1,3 +1,3 @@
-copy ".\FiveChecks.Compliance.Notifications.admx" "C:\Windows\PolicyDefinitions\FiveChecks.Compliance.Notifications.admx"
-copy ".\en-US\FiveChecks.Compliance.Notifications.adml" "C:\Windows\PolicyDefinitions\en-US\FiveChecks.Compliance.Notifications.adml"
+copy ".\FiveChecks.admx" "C:\Windows\PolicyDefinitions\FiveChecks.admx"
+copy ".\en-US\FiveChecks.adml" "C:\Windows\PolicyDefinitions\en-US\FiveChecks.adml"
 start gpedit.msc
