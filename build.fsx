@@ -21,7 +21,7 @@ open Fake.DotNet.Testing
 open trondr.Fake.CustomTasks.SignTool
 
 //Properties
-let appName = "Compliance.Notifications"
+let appName = "FiveChecks"
 let buildFolder = System.IO.Path.GetFullPath("./build/")
 let buildAppFolder = buildFolder + "app"
 let buildTestFolder = buildFolder + "test"

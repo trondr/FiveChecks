@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CreditInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ProductName>picsum-photos</ProductName>
+  <ProductHome>https://github.com/DMarby/picsum-photos</ProductHome>
+  <CreditText>FiveChecks uses picsum-photos (https://picsum.photos) to provide hero images.</CreditText>
+</CreditInfo>
+
