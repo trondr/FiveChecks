@@ -60,7 +60,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         public void IsDisabledTest()
         {
             var actual = Profile.IsNotificationDisabled(false, typeof(CheckDesktopDataCommand));
-            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\DesktopDataCheck]Disabled=1");
+            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\FiveChecks\Compliance.Notifications\DesktopDataCheck]Disabled=1");
         }
     }
 }

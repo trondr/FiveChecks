@@ -62,8 +62,8 @@ Target.create "BuildApp" (fun _ ->
             AssemblyInfo.Title appName
             AssemblyInfo.Description "Shows compliance notifications to the user." 
             AssemblyInfo.Product appName
-            AssemblyInfo.Company "github.trondr"
             AssemblyInfo.Copyright "Copyright \u00A9 github.trondr 2020"
+            AssemblyInfo.Company "FiveChecks"
             AssemblyInfo.Version assemblyVersion
             AssemblyInfo.FileVersion assemblyVersion                        
             AssemblyInfo.ComVisible false
@@ -84,8 +84,8 @@ Target.create "BuildTest" (fun _ ->
             AssemblyInfo.Title (appName + ".Tests")
             AssemblyInfo.Description ("Tests of " + appName) 
             AssemblyInfo.Product appName
-            AssemblyInfo.Company "github.trondr"
             AssemblyInfo.Copyright "Copyright \u00A9 github.trondr 2020"
+            AssemblyInfo.Company "FiveChecks"
             AssemblyInfo.Version assemblyVersion
             AssemblyInfo.FileVersion assemblyVersion                        
             AssemblyInfo.ComVisible false

@@ -65,7 +65,7 @@ namespace Compliance.Notifications.Tests.Applic.Commands
         public void IsDisabledTest()
         {
             var actual = Profile.IsNotificationDisabled(false, typeof(CheckPasswordExpiryCommand));
-            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\github.trondr\Compliance.Notifications\PasswordExpiryCheck]Disabled=1");
+            Assert.AreEqual(true, actual, @"Value is not set: [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\FiveChecks\Compliance.Notifications\PasswordExpiryCheck]Disabled=1");
         }
     }
 }

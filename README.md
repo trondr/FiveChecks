@@ -67,8 +67,8 @@ choco feature disable -n allowGlobalConfirmation
 ```batch
 mkdir c:\dev\github.trondr
 cd c:\dev\github.trondr
-git clone https://github.com/trondr/Compliance.Notifications.git ./Compliance.Notifications
-cd c:\dev\github.trondr\Compliance.Notifications
+git clone https://github.com/trondr/FiveChecks.git ./FiveChecks
+cd c:\dev\github.trondr\FiveChecks
 Build.cmd
 ```
 
