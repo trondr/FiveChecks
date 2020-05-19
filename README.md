@@ -1,6 +1,6 @@
 # FiveChecks
 
-FiveChecks measure compliance items (such as free disk space, pending reboot, system uptime, missing updates) at an hourly rate and write result to file system.
+FiveChecks measures compliance items (such as free disk space, pending reboot, system uptime, missing updates) at an hourly rate and writes the result to disk.
 
 The result is checked on login and unlock of workstation and toast notifications are shown to the user when measurements are not within compliance range.
 
@@ -29,7 +29,7 @@ The setup installs 3 scheduled jobs:
 |---|---|
 |FiveChecks System Measurement|Measures system compliance items such as disk space, uptime, pending reboot every hour.|
 |FiveChecks User Measurement|Measures user compliance items such as desktop data and password expiry every hour.|
-|FiveChecks|Checks the result of the measurement and notifies the user if non-compliant.|
+|FiveChecks|Checks the result of the measurements and notifies the user if a measurement is non-compliant.|
 
 ## Localization
 
