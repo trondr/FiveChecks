@@ -1,12 +1,12 @@
-# Compliance-Notifications
+# FiveChecks
 
-Measure compliance items (such as free disk space, pending reboot, system uptime, missing updates) and write result to file system.
+FiveChecks measure compliance items (such as free disk space, pending reboot, system uptime, missing updates) at an hourly rate and write result to file system.
 
-Show toast notification to the user when measurements are not within compliance range.
+The result is checked on login and unlock of workstation and toast notifications are shown to the user when measurements are not within compliance range.
 
 ## Notifications
 
-The following notifications are currently supported.
+The following notifications are implemented.
 
 |Check|Description|Notification|
 |---|---|---|
@@ -17,9 +17,23 @@ The following notifications are currently supported.
 |Desktop Data| Notify the user if files other than shortcuts are found on the Desktop. Encourage user to store documents and data in My Documents or OneDrive. The notification can be disabled. ![GitHub Logo](/doc/images/DesktopData_Config.png) | ![GitHub Logo](/doc/images/DesktopData.png) |
 |Password Expiry| Notify the user when password is soon to expire. The password expiry warning days are configurable. The notification can be disabled. ![GitHub Logo](/doc/images/PasswordExpiry_Config.png) | ![GitHub Logo](/doc/images/PasswordExpiry.png) |
 
+## Installation
+
+```batch
+msiexec.exe /i FiveChecks.msi /qn /l*v %public%\Logs\FiveChecks.msi.log
+```
+The setup installs 3 scheduled jobs:
+![GitHub Logo](/doc/images/ScheduledTasks.png)
+
+|Scheduled Task|Description|
+|---|---|
+|FiveChecks System Measurement|Measures system compliance items such as disk space, uptime, pending reboot every hour.|
+|FiveChecks User Measurement|Measures user compliance items such as desktop data and password expiry every hour.|
+|FiveChecks|Checks the result of the measurement and notifies the user if non-compliant.|
+
 ## Localization
 
-Resource files for the following languages have been added to the Compliance.Notification project and more languages can be added. Translation help is needed.
+Resource files for the following languages have been added to the FiveChecks project and more languages can be added. Translation help is needed.
 
 |Language|Culture Code|Status|
 |---|---|---|
