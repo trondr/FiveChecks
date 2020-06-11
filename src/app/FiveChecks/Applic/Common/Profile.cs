@@ -121,7 +121,7 @@ namespace FiveChecks.Applic.Common
             return ObjectValueToString(value, defaultValue);
         }
 
-        public static IEnumerable<string> GetPolicyStringValueNames(Context context, string category)
+        public static IEnumerable<string> GetPolicyStringValueNames(Context context, Option<string> category)
         {
             return GetPolicyValueNames(context, category).Select(pair => pair.Key);
         }

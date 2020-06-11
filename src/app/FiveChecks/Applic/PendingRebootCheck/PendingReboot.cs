@@ -93,8 +93,8 @@ namespace FiveChecks.Applic.PendingRebootCheck
         {
             Logging.DefaultLogger.Debug($@"Checking if Pending File Rename Operations has a pending reboot.");
             var category = Profile.GetPolicyCategory(typeof(CheckPendingRebootCommand));
-            var pendingFileRenameOperationsSubCategory = category + "\\PendingFileRenameOperations";
-            var pendingFileRenameOperationsExcludePatternsSubCategory = pendingFileRenameOperationsSubCategory + "\\PendingFileRenameOperations\\ExcludePatterns";
+            var pendingFileRenameOperationsSubCategory = category.Match(s => Option<string>.Some(s + "\\PendingFileRenameOperations"),Option<string>.None) ;
+            var pendingFileRenameOperationsExcludePatternsSubCategory = pendingFileRenameOperationsSubCategory.Match(s => Option<string>.Some(s + "\\PendingFileRenameOperations\\ExcludePatterns"), Option<string>.None);
 
             var excludeRenameTargets = Profile.GetBooleanPolicyValue(Context.Machine, pendingFileRenameOperationsSubCategory, "ExcludeRenameTargets", false);
             var excludeDeleteTargets = Profile.GetBooleanPolicyValue(Context.Machine, pendingFileRenameOperationsSubCategory, "ExcludeDeleteTargets", false);
