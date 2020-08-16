@@ -162,8 +162,31 @@ Target.create "Test" (fun _ ->
 // 7. Copy the thumbprint, it looks something like 12 34 56 78 90 ab cd ef 12 34 56 78 90 ab cd ef 12 34 56 78
 // 8. signtool /sha1 1234567890abcdef1234567890abcdef12345678 /t http://timestamp.verisign.com/scripts/timestamp.dll /d "My Signature description" "<path to file to be signed>"
 
+Target.create "SignExe" (fun _ ->
+    Trace.trace "Signing executable..."
+    //2020-03-08: Fake.Tools.SignTool is still in alpha version and causes some unresolved dependencies when trying to reference it
+    //2020-03-08: So here we need to call SignTool.exe manually
+    match codeSigningSha1Thumbprint with
+    |None ->
+        Trace.traceError "Certificate Sha1 thumbprint environent variable (CODE_SIGNING_SHA1_THUMBPRINT) has not been specified." 
+        Trace.traceError "Artifacts will not be signed." 
+    |Some sha1Thumbprint ->
+        let timeStampServers = ["http://timestamp.verisign.com/scripts/timestamp.dll"]
+        let signingResult = 
+            let filesToBeSigned = 
+                !! ("build/**/*.exe")                
+                |>Seq.toArray
+            let description = Some (appName + " " + Fake.Tools.Git.Information.getCurrentHash())
+            filesToBeSigned
+            |> trondr.Fake.CustomTasks.SignTool.runSignTool sha1Thumbprint description timeStampServers
+        match signingResult with
+        |SignResult.Success -> Trace.trace "Successfull finished signing."
+        |SignResult.Failed msg -> Trace.traceError (sprintf "Signing failed. %s" msg)
+        |SignResult.TimeServerError msg -> Trace.traceError (sprintf "Signing failed due to issue with time stamp server. %s" msg)
+        |SignResult.Uknown -> Trace.traceError "Signing failed due unknown reason."
+)
 
-Target.create "Sign" (fun _ ->
+Target.create "SignMsi" (fun _ ->
     Trace.trace "Signing assemblies and msi..."
     //2020-03-08: Fake.Tools.SignTool is still in alpha version and causes some unresolved dependencies when trying to reference it
     //2020-03-08: So here we need to call SignTool.exe manually
@@ -175,10 +198,7 @@ Target.create "Sign" (fun _ ->
         let timeStampServers = ["http://timestamp.verisign.com/scripts/timestamp.dll"]
         let signingResult = 
             let filesToBeSigned = 
-                !! ("build/**/*.exe")
-                ++ ("build/**/*.dll")
-                ++ ("build/**/*.msi")
-                ++ ("build/**/*.ps1")
+                !! ("build/**/*.msi")                
                 |>Seq.toArray
             let description = Some (appName + " " + Fake.Tools.Git.Information.getCurrentHash())
             filesToBeSigned
@@ -344,10 +364,11 @@ open Fake.Core.TargetOperators
 "Clean" 
     ==> "RestorePackages"
     ==> "BuildApp"
+    ==> "SignExe"
     ==> "BuildTest"
     ==> "BuildSetup"
     ==> "Test"
-    ==> "Sign"
+    ==> "SignMsi"
     ==> "Publish"
     ==> "CreateSccmPackage"
     ==> "Default"
