@@ -124,133 +124,133 @@
     <value>Value cannot be null or whitespace.</value>
   </data>
   <data name="DiskSpaceIsLow_Title" xml:space="preserve">
-    <value>Disk space is low!</value>
+    <value>Lite diskutrymme!</value>
   </data>
   <data name="DiskSpaceIsLow_Description" xml:space="preserve">
-    <value>Low disk space may have consequence for system stability, program installations and update of Windows.</value>
+    <value>Lite diskutrymme kan ha konsekvenser för systemets stabilitet, installationer och uppdateringar för Windows.</value>
   </data>
   <data name="Please_Cleanup_DiskSpace_Text_F0" xml:space="preserve">
-    <value>Please cleanup at least {0:0.00} GB.</value>
+    <value>Vänligen frigör minst {0:0.00} GB.</value>
   </data>
   <data name="ValueNeedsToBePositive" xml:space="preserve">
     <value>Value needs to be positive.</value>
   </data>
   <data name="DiskSpaceIsLow_ActionButton_Content" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>Rensa</value>
   </data>
   <data name="NotNowActionButtonContent" xml:space="preserve">
-    <value>Not now</value>
+    <value>Inte nu</value>
   </data>
   <data name="SnoozeButtonContent" xml:space="preserve">
-    <value>Snooze</value>
+    <value>Skjut upp</value>
   </data>
   <data name="GoodMorning" xml:space="preserve">
-    <value>Good morning</value>
+    <value>God morgon</value>
   </data>
   <data name="GoodAfterNoon" xml:space="preserve">
-    <value>Good afternoon</value>
+    <value>God eftermiddag</value>
   </data>
   <data name="GoodEvening" xml:space="preserve">
-    <value>Good evening</value>
+    <value>God kväll</value>
   </data>
   <data name="PendingRebootNotification_Content1" xml:space="preserve">
-    <value>For security and stability reasons, we kindly ask you to restart your computer as soon as possible.</value>
+    <value>Av säkerhets och stabilitetorsaker, så råder vi dig att starta om din dator snarast.</value>
   </data>
   <data name="PendingRebootNotification_Content2" xml:space="preserve">
-    <value>Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!</value>
+    <value>Starta om din dator regelbundet för att hålla Windows säkert och stabilt. Tack på förhand!</value>
   </data>
   <data name="PendingRebootNotification_ActionButtonContent" xml:space="preserve">
-    <value>Restart...</value>
+    <value>Starta om...</value>
   </data>
   <data name="PendingRebootNotification_Title" xml:space="preserve">
-    <value>This computer needs a restart!</value>
+    <value>Denna dator behöver startas om!</value>
   </data>
   <data name="PasswordExpiryNotification_Title" xml:space="preserve">
-    <value>Your password expires soon!</value>
+    <value>Ditt lösenord löper ut snart!</value>
   </data>
   <data name="PasswordExpiryNotification_Content_F0_F1" xml:space="preserve">
-    <value>Your password expires in {0} on {1}. Please change your password before it expires.</value>
+    <value>Ditt lösenord löper ut om {0} den {1}. Vänligen ändra ditt lösenord innan det löper ut.</value>
   </data>
   <data name="PasswordExpiryNotification_Content2" xml:space="preserve">
-    <value>Remember to configure all your devices (PC, VDI, mobile phone, tablet) to use the new password.</value>
+    <value>Kom ihåg att konfigurera alla dina enheter (PC, VDI, mobil, surfplatta, osv) att använda det nya lösenordet.</value>
   </data>
   <data name="PasswordExpiryNotification_ActionButtonContent" xml:space="preserve">
-    <value>Change password</value>
+    <value>Ändra lösenord</value>
   </data>
   <data name="Hours" xml:space="preserve">
-    <value>hours</value>
+    <value>timmar</value>
   </data>
   <data name="Days" xml:space="preserve">
-    <value>days</value>
+    <value>dagar</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>day</value>
+    <value>dag</value>
   </data>
   <data name="PressCtrlAltDeleteToGetToTheWindowsSecurityDialog" xml:space="preserve">
-    <value>Press Ctrl-Alt-Delete to change password.</value>
+    <value>Tryck Ctrl-Alt-Delete för att ändra lösenord.</value>
   </data>
   <data name="ChangePasswordMessageBoxCaption" xml:space="preserve">
-    <value>Change password</value>
+    <value>Byt lösenord</value>
   </data>
   <data name="SystemUptime_Title" xml:space="preserve">
-    <value>Time to restart you computer.</value>
+    <value>Dags att starta om datorn.</value>
   </data>
   <data name="SystemUptimeContent_F0" xml:space="preserve">
-    <value>Your computer has been up for {0}.</value>
+    <value>Datorn har inte blivit omstartad på {0}.</value>
   </data>
   <data name="DesktopData_Title_F0" xml:space="preserve">
-    <value>You have {0} of data on the desktop!</value>
+    <value>Du har {0} med data på skrivbordet!</value>
   </data>
   <data name="SystemUptimeContent2" xml:space="preserve">
-    <value>Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance!</value>
+    <value>Starta om din dator regelbundet för att hålla Windows säkert och stabilt. Tack på förhand!</value>
   </data>
   <data name="DesktopData_Content" xml:space="preserve">
-    <value>Save your documents and files in "My Documents" or on OneDrive or other suitable  place where backup routines are in place. Remember, documents on the desktop can blow out the window and be gone forever.</value>
+    <value>Spara dina dokument och filer i "Mina dokument", i OneDrive eller annan passande plats med etablerad backuprutin. Kom ihåg, dokument på skrivbordet kan blåsa iväg och försvinna för alltid.</value>
   </data>
   <data name="SystemUptime_Action_Button_Content" xml:space="preserve">
-    <value>Restart...</value>
+    <value>Starta om...</value>
   </data>
   <data name="DesktopData_Content2" xml:space="preserve">
-    <value>Only shortcuts to applications, documents and data folders should be located on the Desktop. Click the 'Cleanup...' button to create a shortcut to "My Documents" and start manually moving your documents.</value>
+    <value>Bara genvägar till applikationer, dokument och data mappar bör lagras på skrivbordet. Klicka på ”Rensa…” knappen för att skapa en genväg till ”Mina Dokument” och börja kopiera dina filer manuellt.</value>
   </data>
   <data name="Desktop_Action_Button_Content" xml:space="preserve">
-    <value>Cleanup...</value>
+    <value>Rensa...</value>
   </data>
   <data name="MyDocumentsFolderName" xml:space="preserve">
-    <value>My Documents</value>
+    <value>Mina Dokument</value>
   </data>
   <data name="MyDocumentsFolderDescription" xml:space="preserve">
-    <value>My Documents</value>
+    <value>Mina Dokument</value>
   </data>
   <data name="MissingUpdatesContent_F0" xml:space="preserve">
-    <value>This machine is missing {0} updates.</value>
+    <value>Denna dator saknar {0} uppdateringar.</value>
   </data>
   <data name="MissingUpdatesContent2_F0" xml:space="preserve">
-    <value>Attempt self repair and then a computer restart to install: {0}If this issue persist for several days, contact service desk for assistance.</value>
+    <value>Försök med en självreparation och sedan en omstart av datorn för att installera: {0}Om problemet kvarstår i flera dagar, vänligen kontakta Servicedesk för hjälp.</value>
   </data>
   <data name="MissingMsUpdatesTitle" xml:space="preserve">
-    <value>Missing updates</value>
+    <value>Saknade uppdateringar</value>
   </data>
   <data name="Hour" xml:space="preserve">
-    <value>hour</value>
+    <value>timma</value>
   </data>
   <data name="PendingRebootNotification_Source_F0" xml:space="preserve">
-    <value>Reboot source: {0}</value>
+    <value>Omstartskälla: {0}</value>
   </data>
   <data name="MyDesktopFolderDescription" xml:space="preserve">
-    <value>My Desktop Folder</value>
+    <value>Min skrivbordsmapp</value>
   </data>
   <data name="MyDesktopFolderName" xml:space="preserve">
-    <value>My Desktop Folder</value>
+    <value>Min skrivbordsmapp</value>
   </data>
   <data name="OneDriveFolderDescription" xml:space="preserve">
-    <value>My OneDrive</value>
+    <value>Min OneDrive</value>
   </data>
   <data name="OneDriveFolderName" xml:space="preserve">
-    <value>My OneDrive</value>
+    <value>Min OneDrive</value>
   </data>
   <data name="MissingMsUpdates_Troubleshooting_ButtonContent" xml:space="preserve">
-    <value>Self Repair...</value>
+    <value>Självreparation...</value>
   </data>
   <data name="_string0011" xml:space="preserve">
     <value>_string</value>
