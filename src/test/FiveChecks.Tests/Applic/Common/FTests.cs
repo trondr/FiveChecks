@@ -373,7 +373,7 @@ namespace FiveChecks.Tests.Applic
         }
 
         [Test()]
-        [Category(TestCategory.UnitTests)]
+        [Category(TestCategory.ManualTests)]
         public async Task GetGivenNameTest()
         {
             var actual = await UserProfileOperations.GetGivenName();
