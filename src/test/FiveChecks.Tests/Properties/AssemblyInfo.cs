@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("FiveChecks")]
 [assembly: AssemblyCopyright("Copyright © github.trondr 2020")]
 [assembly: AssemblyCompany("FiveChecks")]
-[assembly: AssemblyVersion("1.0.20163.46")]
-[assembly: AssemblyFileVersion("1.0.20163.46")]
+[assembly: AssemblyVersion("1.0.20183.46")]
+[assembly: AssemblyFileVersion("1.0.20183.46")]
 [assembly: ComVisible(false)]
 [assembly: Guid("1348CCF2-BD3E-4D55-A337-22C8E01AC47B")]
 namespace System {
@@ -19,8 +19,8 @@ namespace System {
         internal const System.String AssemblyProduct = "FiveChecks";
         internal const System.String AssemblyCopyright = "Copyright © github.trondr 2020";
         internal const System.String AssemblyCompany = "FiveChecks";
-        internal const System.String AssemblyVersion = "1.0.20163.46";
-        internal const System.String AssemblyFileVersion = "1.0.20163.46";
+        internal const System.String AssemblyVersion = "1.0.20183.46";
+        internal const System.String AssemblyFileVersion = "1.0.20183.46";
         internal const System.Boolean ComVisible = false;
         internal const System.String Guid = "1348CCF2-BD3E-4D55-A337-22C8E01AC47B";
     }
