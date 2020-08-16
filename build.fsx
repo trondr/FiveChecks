@@ -9,6 +9,7 @@ nuget Fake.IO.Zip
 nuget NUnit.Console
 nuget trondr.Fake.CustomTasks
 nuget Fake.Tools.Git
+nuget Fake.Windows.Registry
 nuget Fake.Core.Target //"
 #load "./.fake/build.fsx/intellisense.fsx"
 
@@ -19,10 +20,17 @@ open Fake.Core
 open Fake.Testing
 open Fake.DotNet.Testing
 open trondr.Fake.CustomTasks.SignTool
+open Fake.Windows
+
+//Global properties
+let companyName = "FiveChecks"
+let now = System.DateTime.Now
 
 //Properties
+let solutionName = "FiveChecks"
 let appName = "FiveChecks"
 let buildFolder = System.IO.Path.GetFullPath("./build/")
+let srcFolder = System.IO.Path.GetFullPath("./src/")
 let buildAppFolder = buildFolder + "app"
 let buildTestFolder = buildFolder + "test"
 let buildSetupFolder = buildFolder + "setup"
@@ -30,6 +38,7 @@ let buildSetupFolderEnUs = buildSetupFolder + "/en-us"
 let artifactFolder = System.IO.Path.GetFullPath("./artifact/")
 let artifactAppFolder = artifactFolder + "app"
 let codeSigningSha1Thumbprint = Fake.Core.Environment.environVarOrNone "CODE_SIGNING_SHA1_THUMBPRINT"
+let sccmPackageTemplateFolder = srcFolder + "SccmPackageTemplate"
 
 let assemblyVersion =
     let majorVersion = "1"
@@ -194,14 +203,133 @@ Target.create "Publish" (fun _ ->
     files
     |> Fake.IO.Zip.createZip buildAppFolder zipFile (sprintf "%s %s" appName assemblyVersion) 9 false
 
+    let buildSetupFile = System.IO.Path.Combine(buildSetupFolderEnUs,solutionName + ".msi")
+    let artifactSetupFile = System.IO.Path.Combine(buildSetupFolderEnUs,sprintf "%s.%s.msi" solutionName assemblyVersion)
+    System.IO.File.Copy(buildSetupFile,artifactSetupFile)
 
     let files = 
         [|
-            System.IO.Path.Combine(buildSetupFolder,"en-us", appName + ".msi")            
+            //System.IO.Path.Combine(buildSetupFolder,"en-us", appName + ".msi")            
+            artifactSetupFile
         |]
     let zipFile = System.IO.Path.Combine(artifactFolder,sprintf "%s.%s.msi.zip" appName assemblyVersion)
     files
     |> Fake.IO.Zip.createZip buildSetupFolderEnUs zipFile (sprintf "%s %s MSI" appName assemblyVersion) 9 false
+)
+
+let getUserNameFromEnvironment () =
+    (sprintf "%s\\%s" System.Environment.UserDomainName System.Environment.UserName)
+
+let getADUserName () =
+    try
+        let subKey = @"Software\Microsoft\Office\16.0\Common\Identity_NotExists"
+        let adUserNameExists = Registry.valueExistsForKey Registry.HKEYCurrentUser subKey "ADUserName"
+        match adUserNameExists with
+        | true -> Registry.getRegistryValue Registry.HKEYCurrentUser subKey "ADUserName"
+        | false -> (sprintf "%s\\%s" System.Environment.UserDomainName System.Environment.UserName)
+    with
+    |_ -> getUserNameFromEnvironment ()
+
+let getPackageDefinitionSmsContent assemblyVersion =
+    [|
+        "[PDF]";
+        "Version = 2.0";
+        "";
+        "[Package Definition]";
+        "Name = FiveChecks " + assemblyVersion;
+        "Version = " + assemblyVersion;
+        "Publisher = " + companyName;
+        "Language = EN";
+        "Comment = Run checks (free disk space, pending reboot, ++) and notify user if non-compliant.";
+        "Programs = INSTALL,UNINSTALL";
+        ""
+        "[INSTALL]";
+        "Name = INSTALL";
+        "CommandLine = Install.cmd > \"%Public%\Logs\FiveChecks_" + assemblyVersion + "_Install.cmd.log\"";
+        "CanRunWhen = AnyUserStatus";
+        "UserInputRequired = False";
+        "AdminRightsRequired = True";
+        "UseInstallAccount = True";
+        "Run = Minimized";
+        "Icon = App.ico";
+        "Comment = ";
+        ""
+        "[UNINSTALL]";
+        "Name = UNINSTALL";
+        "CommandLine = UnInstall.cmd > \"%Public%\FiveChecks_" + assemblyVersion + "_UnInstall.cmd.log\"";
+        "CanRunWhen = AnyUserStatus";
+        "UserInputRequired = False";
+        "AdminRightsRequired = True";
+        "UseInstallAccount = True";
+        "Run = Minimized";
+        "Comment = ";
+    |]
+
+let writePackageDefinition packageDefinitionSms =
+    let contentLines = getPackageDefinitionSmsContent assemblyVersion
+    let content = System.String.Join(System.Environment.NewLine,contentLines)
+    use file = new System.IO.StreamWriter(packageDefinitionSms, false)
+    file.Write(content)
+
+let getInstallScriptContent installScriptTemplateFile msiFileName userName =
+    let now = System.DateTime.Now
+    let heading = [|
+        "@echo On";
+        "@REM  ================================================================================================";
+        "@REM  *** Created           : " + (now.ToString("yyyy-MM-dd"));
+        "@REM  *** Author            : " + userName;
+        "@REM  *** Based on template : 2020-05-05";
+        "@REM  ================================================================================================";
+        "@echo.";
+        "@Set MsiFileName=" + msiFileName;        
+    |]
+    let template = (File.read installScriptTemplateFile) |> Seq.toArray
+    Array.append heading template
+
+let writeInstallScript installScriptFile installScriptTemplateFile msiFileName userName =    
+    let content = 
+        (getInstallScriptContent installScriptTemplateFile msiFileName userName)
+        |> String.concat System.Environment.NewLine    
+    use file = new System.IO.StreamWriter(installScriptFile, false)
+    file.Write(content)
+
+Target.create "CreateSccmPackage" (fun _ -> 
+    Trace.trace (sprintf "Create Sccm Package...Author: %A " (getADUserName()))
+    //Create folder: ./artifact/SccmPackage/FiveChecks <version>
+    let packageFolder = sprintf "%s/SccmPackage/FiveChecks %s" artifactFolder assemblyVersion
+    Directory.create packageFolder
+    //Create folder: ./artifact/SccmPackage/FiveChecks <version>/Documentation
+    let documentationFolder = Path.combine packageFolder "Documentation"
+    Directory.create documentationFolder
+    //Create file: ./artifact/SccmPackage/FiveChecks <version>/Documentation/Deployment.txt
+    //Create file: ./artifact/SccmPackage/FiveChecks <version>/Documentation/Packaging.txt
+    Shell.copy documentationFolder [ sccmPackageTemplateFolder + "/Deployment.txt";sccmPackageTemplateFolder + "/Packaging.txt"]
+    //Create folder: ./artifact/SccmPackage/FiveChecks <version>/Script
+    let scriptFolder = Path.combine packageFolder "Script"
+    Directory.create scriptFolder
+    
+    //Copy icon file:     ./artifact/SccmPackage/FiveChecks <version>/Script/App.ico
+    Shell.copy scriptFolder [ sccmPackageTemplateFolder + "/App.ico"]
+
+    //Create file:   ./artifact/SccmPackage/FiveChecks <version>/Script/PackageDefinition.sms
+    let packageDefinitionSms = Path.combine scriptFolder "PackageDefinition.sms"
+    writePackageDefinition packageDefinitionSms
+        
+    //Copy msi file:     ./artifact/SccmPackage/FiveChecks <version>/Script/FiveChecks.<version>.msi
+    let msiFileName = "FiveChecks." + assemblyVersion + ".msi"
+    Shell.copy scriptFolder [ buildSetupFolderEnUs + "/" + msiFileName]
+
+    //Copy install.cmd file:     ./artifact/SccmPackage/FiveChecks <version>/Script/Install.cmd
+    let installScriptTemplateFile = sccmPackageTemplateFolder + "/Install.cmd"
+    let installScriptFile = scriptFolder + "/Install.cmd"
+    writeInstallScript installScriptFile installScriptTemplateFile msiFileName (getADUserName())
+
+    //Copy uninstall.cmd file:     ./artifact/SccmPackage/FiveChecks <version>/Script/UnInstall.cmd
+    let installScriptTemplateFile = sccmPackageTemplateFolder + "/UnInstall.cmd"
+    let installScriptFile = scriptFolder + "/UnInstall.cmd"
+    writeInstallScript installScriptFile installScriptTemplateFile msiFileName (getADUserName())
+        
+    ()
 )
 
 Target.create "Default" (fun _ ->
@@ -221,6 +349,7 @@ open Fake.Core.TargetOperators
     ==> "Test"
     ==> "Sign"
     ==> "Publish"
+    ==> "CreateSccmPackage"
     ==> "Default"
 
 //Start build
