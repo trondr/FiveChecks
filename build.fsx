@@ -205,6 +205,8 @@ Target.create "Publish" (fun _ ->
 )
 
 Target.create "Default" (fun _ ->
+    Trace.trace (sprintf "##teamcity[buildNumber '%s']" assemblyVersion)    
+    Trace.trace (sprintf "##teamcity[setParameter name='sccmPackageFolderName' value='%s %s %s']" companyName appName assemblyVersion)
     Trace.trace (appName + "." + assemblyVersion)
 )
 
